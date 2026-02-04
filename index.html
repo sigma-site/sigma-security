@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigma Security Protection SRL - Bacau</title>
+    <style>
+        :root { --primary-blue: #1a1a8b; --sigma-yellow: #fff200; --dark-gray: #333; --light-gray: #f8f9fa; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; line-height: 1.6; color: var(--dark-gray); background-color: var(--light-gray); }
+        header { background-color: var(--primary-blue); color: white; padding: 20px 0; text-align: center; border-bottom: 5px solid var(--sigma-yellow); }
+        .logo-img { max-width: 150px; height: auto; border-radius: 50%; border: 3px solid var(--sigma-yellow); }
+        .container { max-width: 1100px; margin: auto; padding: 20px; }
+        .hero-sediu { background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('sediu.jpg'); background-size: cover; background-position: center; color: white; padding: 80px 20px; text-align: center; border-radius: 10px; margin-bottom: 40px; }
+        .services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 40px; }
+        .card { background: white; padding: 20px; border-radius: 8px; border-top: 4px solid var(--primary-blue); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .card h3 { color: var(--primary-blue); margin-top: 0; }
+        .form-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, textarea, select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .btn { background-color: var(--primary-blue); color: white; padding: 12px 25px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; }
+        .recrutare-box { background: var(--primary-blue); color: white; padding: 25px; border-radius: 8px; }
+        .footer { background: #222; color: white; text-align: center; padding: 40px 20px; margin-top: 50px; }
+        a { text-decoration: none; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="sigma-sigla.jpg" alt="Logo Sigma Security" class="logo-img">
+    <h1>SIGMA SECURITY PROTECTION SRL</h1>
+    <p>Monitorizare si Interventie - Bacau</p>
+</header>
+
+<div class="container">
+    <section class="hero-sediu">
+        <h2>Servicii Profesionale de Paza si Protectie</h2>
+        <p>Suntem prezenti in judetul Bacau cu solutii complete de securitate.</p>
+        <p><strong>Sediu Central: Strada 9 Mai 17, Bacau</strong></p>
+    </section>
+
+    <div class="services-grid">
+        <div class="card"><h3>Paza Obiective</h3><p>Paza umana specializata pentru banci, magazine si fabrici.</p></div>
+        <div class="card"><h3>Monitorizare 24/7</h3><p>Dispecerat avizat IGPR (Aviz 994624/2014) cu interventie rapida.</p></div>
+        <div class="card"><h3>Garda de Corp</h3><p>Protectie personala si escorta VIP.</p></div>
+        <div class="card"><h3>Sisteme Alarma</h3><p>Instalare sisteme de efractie si supraveghere video.</p></div>
+    </div>
+
+    <div class="form-section">
+        <div>
+            <h2>Solicita o Oferta</h2>
+            <form action="https://formspree.io/f/xjgonzww" method="POST">
+                <div class="form-group">
+                    <label>Nume / Firma</label>
+                    <input type="text" name="nume" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label>Serviciu</label>
+                    <select name="serviciu">
+                        <option>Paza Umana</option>
+                        <option>Monitorizare</option>
+                        <option>Alarme</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Trimite</button>
+            </form>
+        </div>
+
+        <div class="recrutare-box">
+            <h2>Recrutare Agenti</h2>
+            <p>Vrei sa lucrezi la Sigma Security?</p>
+            <p>Cerinte: Atestat, Cazier curat, Seriozitate.</p>
+            <p>Vino cu un CV la sediul din <strong>Str. 9 Mai 17, Bacau</strong>.</p>
+        </div>
+    </div>
+</div>
+
+<footer class="footer">
+    <p><strong>SIGMA SECURITY PROTECTION SRL</strong></p>
+    <p>Aviz IGPR nr. 994624 / 2014</p>
+    <p>Strada 9 Mai 17, Bacau</p>
+    <p><a href="https://www.google.com/maps/search/Strada+9+Mai+17,+Bacau" target="_blank" style="color:var(--sigma-yellow);">Deschide Locatia pe Google Maps</a></p>
+</footer>
+
+</body>
+</html>
