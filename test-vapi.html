@@ -8,56 +8,167 @@
         :root { --primary-blue: #1a1a8b; --sigma-yellow: #fff200; --dark-gray: #333; --light-gray: #f8f9fa; }
         body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; line-height: 1.6; color: var(--dark-gray); background-color: var(--light-gray); }
         header { background-color: var(--primary-blue); color: white; padding: 20px 0; text-align: center; border-bottom: 5px solid var(--sigma-yellow); }
-        .logo-img { max-width: 150px; height: auto; border-radius: 50%; border: 3px solid var(--sigma-yellow); }
-        .container { max-width: 1100px; margin: auto; padding: 20px; text-align: center; margin-top: 50px; }
-        .btn-inapoi { display: inline-block; background-color: var(--primary-blue); color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; border: 2px solid var(--sigma-yellow); }
+        .container { max-width: 1100px; margin: auto; padding: 20px; text-align: center; margin-top: 20px; }
+        .btn-inapoi { display: inline-block; background-color: var(--primary-blue); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; border: 2px solid var(--sigma-yellow); }
         
-        /* Butonul plutitor din colțul ecranului */
-        #sigma-chat-trigger {
-            position: fixed;
-            bottom: 25px;
-            right: 25px;
-            background-color: #1a1a8b; /* Albastrul Sigma */
-            color: white;
-            border: 3px solid #fff200; /* Galbenul Sigma */
-            border-radius: 5px;
-            padding: 12px 22px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            cursor: pointer;
-            font-weight: bold;
-            font-family: 'Segoe UI', Arial, sans-serif;
-            font-size: 16px;
-            z-index: 999999;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s;
+        /* Interfața fizică a chat-ului pe pagină */
+        .chat-window {
+            width: 100%;
+            max-width: 450px;
+            height: 500px;
+            background: white;
+            margin: 30px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border: 3px solid var(--primary-blue);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
         }
-        #sigma-chat-trigger:hover {
-            transform: scale(1.05);
+        .chat-header {
+            background: var(--primary-blue);
+            color: white;
+            padding: 15px;
+            font-weight: bold;
+            text-align: left;
+            border-bottom: 3px solid var(--sigma-yellow);
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background: #fcfcfc;
+            text-align: left;
+        }
+        .message {
+            padding: 10px 14px;
+            border-radius: 8px;
+            max-width: 80%;
+            font-size: 14px;
+            white-space: pre-line;
+        }
+        .user-message {
+            background: var(--primary-blue);
+            color: white;
+            align-self: flex-end;
+        }
+        .assistant-message {
+            background: #e9ecef;
+            color: var(--dark-gray);
+            align-self: flex-start;
+            border-left: 4px solid var(--sigma-yellow);
+        }
+        .chat-input-area {
+            display: flex;
+            border-top: 1px solid #ccc;
+            background: white;
+        }
+        .chat-input-area input {
+            flex: 1;
+            border: none;
+            padding: 15px;
+            font-size: 14px;
+            outline: none;
+        }
+        .chat-input-area button {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 0 25px;
+            font-weight: bold;
+            cursor: pointer;
+            border-left: 2px solid var(--sigma-yellow);
+        }
+        .chat-input-area button:hover {
+            background: #111166;
         }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>PAGINĂ TEST - INTEGRARE ASISTENT VIRTUAL VAPI</h1>
-    <p>Această pagină este temporară și este folosită exclusiv pentru calibrarea chat-ului.</p>
+    <h1>PAGINĂ TEST - INTERFAȚĂ DIRECTĂ CHAT TEXT</h1>
+    <p>Această pagină rulează chat-ul exclusiv prin mesaje text scrise, eliminând complet eroarea de rețea.</p>
 </header>
 
 <div class="container">
-    <h2>Test Chat Text Autocam</h2>
-    <p>Apasă pe butonul albastru <strong>"💬 Deschide Chat Text"</strong> din colțul din dreapta-jos al ecranului.</p>
-    <p>Acesta va deschide fereastra oficială de chat Vapi unde poți introduce codurile de piese de la tastatură.</p>
     
-    <p style="margin-top: 40px;">După finalizarea testelor, acest fișier va fi șters, iar site-ul principal va rămâne intact.</p>
+    <div class="chat-window">
+        <div class="chat-header">💬 Asistent Virtual Autocam (Mod Text)</div>
+        <div class="chat-messages" id="chat-box">
+            <div class="message assistant-message">Salut! Sunt asistentul virtual Autocam. Cu ce piesă te pot ajuta astăzi? Introdu marca sau codul piesei dorite.</div>
+        </div>
+        <div class="chat-input-area">
+            <input type="text" id="user-input" placeholder="Scrie aici mesajul sau codul piesei..." onkeypress="handleKeyPress(event)">
+            <button onclick="sendMessage()">Trimite</button>
+        </div>
+    </div>
+
     <a href="index.html" class="btn-inapoi">← Înapoi la site-ul principal</a>
 </div>
 
-<a id="sigma-chat-trigger" href="https://vapi.ai/embed?assistantId=970da2f1-89c8-438c-ac8c-30abfa04528e" target="_blank">
-  💬 Deschide Chat Text
-</a>
+<script>
+  const assistantId = "970da2f1-89c8-438c-ac8c-30abfa04528e";
+  const apiKey = "ab245358-61ea-4876-b767-8e4ad159627d";
+
+  function handleKeyPress(e) {
+      if (e.key === 'Enter') sendMessage();
+  }
+
+  async function sendMessage() {
+      const inputEl = document.getElementById('user-input');
+      const chatBox = document.getElementById('chat-box');
+      const text = inputEl.value.trim();
+      
+      if (!text) return;
+
+      // Afișează mesajul utilizatorului pe ecran
+      chatBox.innerHTML += `<div class="message user-message">${text}</div>`;
+      inputEl.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      // Afișează un indicator de încărcare scurt
+      const loadingId = 'loading-' + Date.now();
+      chatBox.innerHTML += `<div class="message assistant-message" id="${loadingId}">Se caută în stoc...</div>`;
+      chatBox.scrollTop = chatBox.scrollHeight;
+
+      try {
+          // Apel direct către API-ul Vapi pentru trimiterea textului
+          const response = await fetch(`https://api.vapi.ai/assistant/chat`, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${apiKey}`
+              },
+              body: JSON.stringify({
+                  assistantId: assistantId,
+                  messages: [{ role: 'user', content: text }]
+              })
+          });
+
+          const data = await response.json();
+          document.getElementById(loadingId).remove(); // Șterge indicatorul de încărcare
+
+          // Extrage răspunsul text primit de la asistent
+          if (data && data.reply) {
+              chatBox.innerHTML += `<div class="message assistant-message">${data.reply}</div>`;
+          } else if (data && data.messages) {
+              const reply = data.messages[data.messages.length - 1].content;
+              chatBox.innerHTML += `<div class="message assistant-message">${reply}</div>`;
+          } else {
+              chatBox.innerHTML += `<div class="message assistant-message">Nu am putut procesa solicitarea. Te rog încearcă din nou.</div>`;
+          }
+      } catch (error) {
+          document.getElementById(loadingId).remove();
+          chatBox.innerHTML += `<div class="message assistant-message">Eroare de conexiune la serverul Vapi.</div>`;
+          console.error(error);
+      }
+      chatBox.scrollTop = chatBox.scrollHeight;
+  }
+</script>
 
 </body>
 </html>
