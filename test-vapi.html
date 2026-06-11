@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TEST ASISTENT VAPI - Sigma</title>
+    <style>
+        :root { --primary-blue: #1a1a8b; --sigma-yellow: #fff200; --dark-gray: #333; --light-gray: #f8f9fa; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; line-height: 1.6; color: var(--dark-gray); background-color: var(--light-gray); }
+        header { background-color: var(--primary-blue); color: white; padding: 20px 0; text-align: center; border-bottom: 5px solid var(--sigma-yellow); }
+        .logo-img { max-width: 150px; height: auto; border-radius: 50%; border: 3px solid var(--sigma-yellow); }
+        .container { max-width: 1100px; margin: auto; padding: 20px; text-align: center; margin-top: 50px; }
+        .btn-inapoi { display: inline-block; background-color: var(--primary-blue); color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; border: 2px solid var(--sigma-yellow); }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>PAGINĂ TEST - INTEGRARE ASISTENT VIRTUAL VAPI</h1>
+    <p>Această pagină este temporară și este folosită exclusiv pentru calibrarea chat-ului.</p>
+</header>
+
+<div class="container">
+    <h2>Test Chat Autocam</h2>
+    <p>Bula de chat ar trebui să apară în colțul din dreapta-jos al ecranului.</p>
+    <p>După finalizarea testelor, acest fișier va fi șters, iar site-ul principal va rămâne intact.</p>
+    <a href="index.html" class="btn-inapoi">← Înapoi la site-ul principal</a>
+</div>
+
+<script>
+  window.vapiConfig = {
+    assistantId: "970da2f1-89c8-438c-ac8c-30abfa04528e", 
+    apiKey: "ab245358-61ea-4876-b767-8e4ad159627d", 
+    buttonConfig: {
+      position: "bottom-right",
+      theme: {
+        brandColor: "#1a1a8b",
+        primaryColor: "#1a1a8b",
+        secondaryColor: "#fff200"
+      },
+      title: "Asistent Virtual",
+      icon: "https://cdn.vapi.ai/widget/chat-icon.svg"
+    }
+  };
+
+  (function() {
+    var d = document, s = d.createElement("script");
+    s.src = "https://cdn.vapi.ai/widget.js";
+    s.async = true;
+    d.getElementsByTagName("head")[0].appendChild(s);
+  })();
+</script>
+</body>
+</html>
