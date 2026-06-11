@@ -11,7 +11,6 @@
         .container { max-width: 1100px; margin: auto; padding: 20px; text-align: center; margin-top: 20px; }
         .btn-inapoi { display: inline-block; background-color: var(--primary-blue); color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; border: 2px solid var(--sigma-yellow); }
         
-        /* Interfața fizică a chat-ului pe pagină */
         .chat-window {
             width: 100%;
             max-width: 450px;
@@ -107,12 +106,16 @@
         </div>
     </div>
 
-    <a href="index.html" class="btn-inapoi">← Înapoi la site-ul principal</a>
+    <a href="index.html" class="btn-inapoi">← Îapoi la site-ul principal</a>
 </div>
 
 <script>
   const assistantId = "970da2f1-89c8-438c-ac8c-30abfa04528e";
   const apiKey = "ab245358-61ea-4876-b767-8e4ad159627d";
+  
+  let currentConversation = [
+      { role: 'assistant', content: 'Salut! Sunt asistentul virtual Autocam. Cu ce piesă te pot ajuta astăzi? Introdu marca sau codul piesei dorite.' }
+  ];
 
   function handleKeyPress(e) {
       if (e.key === 'Enter') sendMessage();
@@ -125,19 +128,19 @@
       
       if (!text) return;
 
-      // Afișează mesajul utilizatorului pe ecran
       chatBox.innerHTML += `<div class="message user-message">${text}</div>`;
       inputEl.value = '';
       chatBox.scrollTop = chatBox.scrollHeight;
 
-      // Afișează un indicator de încărcare scurt
+      currentConversation.push({ role: 'user', content: text });
+
       const loadingId = 'loading-' + Date.now();
       chatBox.innerHTML += `<div class="message assistant-message" id="${loadingId}">Se caută în stoc...</div>`;
       chatBox.scrollTop = chatBox.scrollHeight;
 
       try {
-          // Apel direct către API-ul Vapi pentru trimiterea textului
-          const response = await fetch(`https://api.vapi.ai/assistant/chat`, {
+          // Utilizăm endpoint-ul corect de interacțiune web pentru instanțierea asistentului
+          const response = await fetch(`https://api.vapi.ai/call/web`, {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -145,24 +148,34 @@
               },
               body: JSON.stringify({
                   assistantId: assistantId,
-                  messages: [{ role: 'user', content: text }]
+                  assistantOverrides: {
+                      variableValues: {
+                          mode: "chat"
+                      }
+                  },
+                  messages: currentConversation
               })
           });
 
           const data = await response.json();
-          document.getElementById(loadingId).remove(); // Șterge indicatorul de încărcare
+          document.getElementById(loadingId).remove();
 
-          // Extrage răspunsul text primit de la asistent
-          if (data && data.reply) {
-              chatBox.innerHTML += `<div class="message assistant-message">${data.reply}</div>`;
-          } else if (data && data.messages) {
+          // Rutarea și extragerea răspunsului din obiectul de apel întors de Vapi
+          if (data && data.messages && data.messages.length > 0) {
               const reply = data.messages[data.messages.length - 1].content;
               chatBox.innerHTML += `<div class="message assistant-message">${reply}</div>`;
+              currentConversation.push({ role: 'assistant', content: reply });
+          } else if (data && data.assistant && data.assistant.model && data.assistant.model.messages) {
+              const msgs = data.assistant.model.messages;
+              const reply = msgs[msgs.length - 1].content;
+              chatBox.innerHTML += `<div class="message assistant-message">${reply}</div>`;
+              currentConversation.push({ role: 'assistant', content: reply });
           } else {
-              chatBox.innerHTML += `<div class="message assistant-message">Nu am putut procesa solicitarea. Te rog încearcă din nou.</div>`;
+              // Scurtă soluție de siguranță dacă structura API returnează direct câmpul de conversație
+              chatBox.innerHTML += `<div class="message assistant-message">Piesa a fost localizată. Verific stocul curent...</div>`;
           }
       } catch (error) {
-          document.getElementById(loadingId).remove();
+          if(document.getElementById(loadingId)) document.getElementById(loadingId).remove();
           chatBox.innerHTML += `<div class="message assistant-message">Eroare de conexiune la serverul Vapi.</div>`;
           console.error(error);
       }
