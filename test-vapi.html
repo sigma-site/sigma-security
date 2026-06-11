@@ -28,27 +28,36 @@
 </div>
 
 <script>
-  window.vapiConfig = {
-    assistantId: "970da2f1-89c8-438c-ac8c-30abfa04528e", 
-    apiKey: "ab245358-61ea-4876-b767-8e4ad159627d", 
-    buttonConfig: {
-      position: "bottom-right",
-      theme: {
-        brandColor: "#1a1a8b",
-        primaryColor: "#1a1a8b",
-        secondaryColor: "#fff200"
-      },
-      title: "Asistent Virtual",
-      icon: "https://cdn.vapi.ai/widget/chat-icon.svg"
-    }
+  const assistant = "ID_UL_ASISTENTULUI_TAU"; 
+  const apiKey = "CHEIA_TA_PUBLICA_VAPI"; 
+  
+  const buttonConfig = {
+    position: "bottom-right",
+    theme: {
+      brandColor: "#1a1a8b",
+      primaryColor: "#1a1a8b",
+      secondaryColor: "#fff200"
+    },
+    title: "Asistent Virtual Autocam"
   };
 
-  (function() {
-    var d = document, s = d.createElement("script");
-    s.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
-    s.async = true;
-    d.getElementsByTagName("head")[0].appendChild(s);
-  })();
+  (function (d, t) {
+    var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+    g.src = "https://cdn.jsdelivr.net/gh/VapiAI/html-script-tag@latest/dist/assets/index.js";
+    g.defer = true;
+    g.async = true;
+    s.parentNode.insertBefore(g, s);
+
+    g.onload = function () {
+      window.vapiSDK.run({
+        apiKey: apiKey,
+        assistant: assistant,
+        config: buttonConfig
+      });
+    };
+  })(document, "script");
 </script>
 </body>
+</html>
 </html>
