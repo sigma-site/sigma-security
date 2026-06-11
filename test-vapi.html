@@ -28,17 +28,19 @@
 </div>
 
 <script>
-  const assistant = "ID_UL_ASISTENTULUI_TAU"; 
-  const apiKey = "CHEIA_TA_PUBLICA_VAPI"; 
+  const assistant = "970da2f1-89c8-438c-ac8c-30abfa04528e"; 
+  const apiKey = "ab245358-61ea-4876-b767-8e4ad159627d"; 
   
-  const buttonConfig = {
+  const chatConfig = {
     position: "bottom-right",
     theme: {
       brandColor: "#1a1a8b",
       primaryColor: "#1a1a8b",
       secondaryColor: "#fff200"
     },
-    title: "Asistent Virtual Autocam"
+    title: "Asistent Virtual Autocam",
+    icon: "https://cdn.vapi.ai/widget/chat-icon.svg",
+    mode: "chat"
   };
 
   (function (d, t) {
@@ -53,11 +55,10 @@
       window.vapiSDK.run({
         apiKey: apiKey,
         assistant: assistant,
-        config: buttonConfig
+        config: chatConfig
       });
     };
   })(document, "script");
 </script>
 </body>
-</html>
 </html>
