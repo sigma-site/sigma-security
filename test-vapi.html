@@ -12,22 +12,30 @@
         .container { max-width: 1100px; margin: auto; padding: 20px; text-align: center; margin-top: 50px; }
         .btn-inapoi { display: inline-block; background-color: var(--primary-blue); color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; margin-top: 20px; border: 2px solid var(--sigma-yellow); }
         
-        /* Zona încapsulată pentru fereastra de chat text */
-        .chat-container {
-            width: 100%;
-            max-width: 450px;
-            height: 600px;
-            margin: 40px auto;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            border: 3px solid var(--primary-blue);
-            overflow: hidden;
-            background: white;
+        /* Butonul plutitor din colțul ecranului */
+        #sigma-chat-trigger {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background-color: #1a1a8b; /* Albastrul Sigma */
+            color: white;
+            border: 3px solid #fff200; /* Galbenul Sigma */
+            border-radius: 5px;
+            padding: 12px 22px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            font-weight: bold;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            font-size: 16px;
+            z-index: 999999;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
         }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
+        #sigma-chat-trigger:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -40,15 +48,16 @@
 
 <div class="container">
     <h2>Test Chat Text Autocam</h2>
-    <p>Interfața de chat text securizată este încărcată direct în fereastra de mai jos.</p>
+    <p>Apasă pe butonul albastru <strong>" Deschide Chat Text"</strong> din colțul din dreapta-jos al ecranului.</p>
+    <p>Acesta va deschide fereastra oficială de chat Vapi unde poți introduce codurile de piese de la tastatură.</p>
     
-    <div class="chat-container">
-        <iframe src="https://vapi.ai/embed?assistantId=970da2f1-89c8-438c-ac8c-30abfa04528e&apiKey=ab245358-61ea-4876-b767-8e4ad159627d&mode=chat"></iframe>
-    </div>
-
-    <p>După finalizarea testelor, acest fișier va fi șters, iar site-ul principal va rămâne intact.</p>
+    <p style="margin-top: 40px;">După finalizarea testelor, acest fișier va fi șters, iar site-ul principal va rămâne intact.</p>
     <a href="index.html" class="btn-inapoi">← Înapoi la site-ul principal</a>
 </div>
+
+<a id="sigma-chat-trigger" href="https://vapi.ai/embed?assistantId=970da2f1-89c8-438c-ac8c-30abfa04528e&apiKey=ab245358-61ea-4876-b767-8e4ad159627d&mode=chat" target="_blank">
+  💬 Deschide Chat Text
+</a>
 
 </body>
 </html>
