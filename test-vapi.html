@@ -1,78 +1,123 @@
 <!DOCTYPE html>
-
 <html lang="ro">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Demo Asistent AI Edric Auto</title>
+    <style>
+        :root {
+            --primary-blue: #1a1a8b;
+            --sigma-yellow: #fff200;
+            --light-gray: #f8f9fa;
+        }
 
-```
-<style>
-    :root {
-        --primary-blue: #1a1a8b;
-        --sigma-yellow: #fff200;
-        --light-gray: #f8f9fa;
-    }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: var(--light-gray);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
 
-    body {
-        margin: 0;
-        padding: 0;
-        font-family: 'Segoe UI', Arial, sans-serif;
-        background: var(--light-gray);
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
+        header {
+            background: var(--primary-blue);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 5px solid var(--sigma-yellow);
+        }
 
-    header {
-        background: var(--primary-blue);
-        color: white;
-        text-align: center;
-        padding: 20px;
-        border-bottom: 5px solid var(--sigma-yellow);
-    }
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            padding: 40px;
+            text-align: center;
+        }
 
-    .container {
-        flex: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        padding: 40px;
-        text-align: center;
-    }
+        .demo-box {
+            background: white;
+            padding: 40px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+            max-width: 700px;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-    .demo-box {
-        background: white;
-        padding: 40px;
-        border-radius: 14px;
-        box-shadow: 0 10px 30px rgba(0,0,0,0.12);
-        max-width: 700px;
-    }
+        /* STILIZARE PARAGRAF TELEFON (MAI MARE SI PE UN SINGUR RAND) */
+        .phone-info {
+            font-size: 18px; /* Font mai mare */
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 25px;
+        }
+        .nobrea-phone {
+            white-space: nowrap; /* Impiedica ruperea numarului pe doua randuri */
+            font-weight: bold;
+            color: var(--primary-blue);
+        }
 
-    .btn-inapoi {
-        display: inline-block;
-        margin-top: 30px;
-        background: var(--primary-blue);
-        color: white;
-        padding: 12px 24px;
-        text-decoration: none;
-        border-radius: 6px;
-        font-weight: bold;
-        border: 2px solid var(--sigma-yellow);
-    }
-</style>
-
-<script
-src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
-async
-type="text/javascript">
-</script>
-```
-
+        /* STILURI FORMULAR DE COMANDA */
+        .order-form {
+            margin-top: 20px;
+            padding-top: 25px;
+            border-top: 2px dashed #ddd;
+            text-align: left;
+        }
+        .order-form h3 {
+            color: var(--primary-blue);
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .field-group {
+            margin-bottom: 15px;
+        }
+        .field-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+            font-size: 14px;
+        }
+        .field-group input, .field-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .btn-submit {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px;
+            width: 100%;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 16px;
+            border: 2px solid var(--sigma-yellow);
+            transition: 0.2s;
+        }
+        .btn-submit:hover {
+            background: #111166;
+            transform: scale(1.01);
+        }
+    </style>
+    <script
+        src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
+        async
+        type="text/javascript">
+    </script>
 </head>
-
 <body>
 
 <header>
@@ -81,41 +126,57 @@ type="text/javascript">
 
 <div class="container">
 
-```
-<div class="demo-box">
+    <div class="demo-box">
+        <h1>Asistent AI pentru identificare si rezervare piese auto</h1>
+        
+        <p class="phone-info">
+            Conversatia se desfasoara exclusiv prin chat text 
+            sau telefonic la numarul <span class="nobrea-phone">+1 828 379 8248</span>
+        </p>
 
-    <h1>Asistent AI pentru identificare și rezervare piese auto</h1>
-
-    <p>
-        Conversația se desfășoară exclusiv prin chat text
-           sau telefonic la numarul +1 828 379 8248
-    </p>
-
-    <a href="index.html" class="btn-inapoi">
-        ← Înapoi la site
-    </a>
-
-</div>
-```
+        <div class="order-form">
+            <h3>Lasa aici o cerere de cautare in magazie:</h3>
+            
+            <form action="https://formspree.io/f/xjgonzww" method="POST">
+                <div class="field-group">
+                    <label>Nume si Prenume</label>
+                    <input type="text" name="nume" placeholder="Numele dumneavoastra..." required>
+                </div>
+                
+                <div class="field-group">
+                    <label>Numar Telefon</label>
+                    <input type="tel" name="telefon" placeholder="07xx xxx xxx" required>
+                </div>
+                
+                <div class="field-group">
+                    <label>Cod OEM (de preferat) / Nume Piesa</label>
+                    <input type="text" name="cod_oem_sau_piesa" placeholder="Ex: 03G130073G sau Injector 2.0 tdi..." required>
+                </div>
+                
+                <button type="submit" class="btn-submit">Trimite Cererea</button>
+            </form>
+        </div>
+    </div>
 
 </div>
 
 <vapi-widget
-public-key="ab245358-61ea-4876-b767-8e4ad159627d"
-assistant-id="970da2f1-89c8-438c-ac8c-30abfa04528e"
-mode="chat"
-theme="light"
-base-bg-color="#ffffff"
-accent-color="#1a1a8b"
-button-base-color="#1a1a8b"
-button-accent-color="#ffffff"
-border-radius="large"
-size="full"
-position="bottom-right"
-main-label="Asistent Edric Auto"
-chat-first-message="Bună ziua! Sint Alina de la Edric Auto dezmembrări. Cu ce piesă vă pot ajuta astăzi, aveti codul OEM ?"
-chat-placeholder="Scrie aici mesajul..."
-voice-show-transcript="false"> </vapi-widget>
+    public-key="ab245358-61ea-4876-b767-8e4ad159627d"
+    assistant-id="970da2f1-89c8-438c-ac8c-30abfa04528e"
+    mode="chat"
+    theme="light"
+    base-bg-color="#ffffff"
+    accent-color="#1a1a8b"
+    button-base-color="#1a1a8b"
+    button-accent-color="#ffffff"
+    border-radius="large"
+    size="full"
+    position="bottom-right"
+    main-label="Asistent Edric Auto"
+    chat-first-message="Bună ziua! Sint Alina de la Edric Auto dezmembrări. Cu ce piesă vă pot ajuta astăzi, aveti codul OEM ?"
+    chat-placeholder="Scrie aici mesajul..."
+    voice-show-transcript="false"> 
+</vapi-widget>
 
 </body>
 </html>
