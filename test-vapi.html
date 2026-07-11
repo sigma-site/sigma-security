@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Demo Asistent AI Edric Auto</title>
+    
     <style>
         :root {
             --primary-blue: #1a1a8b;
@@ -51,13 +52,14 @@
 
         /* STILIZARE PARAGRAF TELEFON */
         .phone-info {
-            font-size: 18px; 
+            font-size: 18px;
             line-height: 1.6;
             color: #333;
             margin-bottom: 25px;
         }
+
         .nobrea-phone {
-            white-space: nowrap; 
+            white-space: nowrap;
             font-weight: bold;
             color: var(--primary-blue);
         }
@@ -69,15 +71,18 @@
             border-top: 2px dashed #ddd;
             text-align: left;
         }
+
         .order-form h3 {
             color: var(--primary-blue);
             margin-top: 0;
             margin-bottom: 15px;
             text-align: center;
         }
+
         .field-group {
             margin-bottom: 15px;
         }
+
         .field-group label {
             display: block;
             font-weight: bold;
@@ -85,7 +90,9 @@
             color: #333;
             font-size: 14px;
         }
-        .field-group input, .field-group textarea {
+
+        .field-group input, 
+        .field-group textarea {
             width: 100%;
             padding: 10px;
             border: 1px solid #ccc;
@@ -93,6 +100,7 @@
             box-sizing: border-box;
             font-family: inherit;
         }
+
         .btn-submit {
             background: var(--primary-blue);
             color: white;
@@ -107,196 +115,182 @@
             border: 2px solid var(--sigma-yellow);
             transition: 0.2s;
         }
+
         .btn-submit:hover {
             background: #111166;
             transform: scale(1.01);
         }
-
-        /* FEREASTRA IMAGINE (STINGA JOS) - SIMETRICA CU CHAT-UL */
-        .image-preview-window {
+    
+        /* NOULE STILURI PENTRU PANOUL PIESEI */
+        .piesa-panel {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
-            width: 380px;
-            height: 450px;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-            border: 3px solid var(--primary-blue);
-            display: none; 
-            flex-direction: column;
+            right: 490px;
+            bottom: 24px;
+            width: 360px;
+            height: 640px;
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,.2);
+            display: none;
             overflow: hidden;
-            z-index: 9999;
+            z-index: 999998;
         }
-        .preview-header {
-            background: var(--primary-blue);
-            color: white;
-            padding: 10px 15px;
-            font-weight: bold;
+
+        .piesa-panel.show {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 14px;
+            flex-direction: column;
         }
-        .btn-close-preview {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 20px;
-            cursor: pointer;
-            line-height: 1;
+
+        .piesa-header {
+            background: #1a1a8b;
+            color: #fff;
+            text-align: center;
+            padding: 12px;
+            font-weight: bold;
         }
-        .preview-body {
+
+        .piesa-image {
             flex: 1;
-            background: #222;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 10px;
         }
-        .preview-body img {
+
+        .piesa-image img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
-            border-radius: 4px;
+        }
+
+        .piesa-info {
+            border-top: 1px solid #ddd;
+            padding: 15px;
+            line-height: 1.7;
+        }
+
+        .close-panel {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 28px;
+            height: 28px;
+            border: none;
+            border-radius: 50%;
+            background: #1a1a8b;
+            color: #fff;
+            font-size: 20px;
+            cursor: pointer;
+            line-height: 28px;
         }
     </style>
-    <script
-        src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"
-        async
-        type="text/javascript">
-    </script>
+    
+    <script async="" src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" type="text/javascript"></script>
 </head>
+
 <body>
+    <header>
+        <h2>DEMO LIVE - ASISTENT DIGITAL EDRIC AUTO</h2>
+    </header>
 
-<header>
-    <h2>DEMO LIVE - ASISTENT DIGITAL EDRIC AUTO</h2>
-</header>
+    <div class="container">
+        <div class="demo-box">
+            <h1>Asistent AI pentru identificare si rezervare piese auto</h1>
+            
+            <p class="phone-info">
+                Conversatia se desfasoara exclusiv prin chat text sau telefonic la numarul
+                <span class="nobrea-phone">+1 828 379 8248</span>
+            </p>
 
-<div class="container">
-
-    <div class="demo-box">
-        <h1>Asistent AI pentru identificare si rezervare piese auto</h1>
-         
-        <p class="phone-info">
-            Conversatia se desfasoara exclusiv prin chat text 
-            sau telefonic la numarul <span class="nobrea-phone">+1 828 379 8248</span>
-        </p>
-
-        <div class="order-form">
-            <h3>Lasa aici o cerere de cautare in magazie:</h3>
-             
-            <form action="https://formspree.io/f/mbdvnzoa" method="POST">
-                <div class="field-group">
-                    <label>Nume si Prenume</label>
-                    <input type="text" name="nume" placeholder="Numele dumneavoastra..." required>
-                </div>
-                 
-                <div class="field-group">
-                    <label>Adresa de e-mail</label>
-                    <input type="email" name="email" placeholder="nume@exemplu.com" required>
-                </div>
-                 
-                <div class="field-group">
-                    <label>Cod OEM (de preferat) / Nume Piesa</label>
-                    <input type="text" name="cod_oem_sau_piesa" placeholder="Ex: 03G130073G sau Injector 2.0 tdi..." required>
-                </div>
-                 
-                <button type="submit" class="btn-submit">Trimite Cererea</button>
-            </form>
+            <div class="order-form">
+                <h3>Lasa aici o cerere de cautare in magazie:</h3>
+                
+                <form action="https://formspree.io/f/mbdvnzoa" method="POST">
+                    <div class="field-group">
+                        <label>Nume si Prenume</label>
+                        <input name="nume" placeholder="Numele dumneavoastra..." required="" type="text"/>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label>Adresa de e-mail</label>
+                        <input name="email" placeholder="nume@exemplu.com" required="" type="email"/>
+                    </div>
+                    
+                    <div class="field-group">
+                        <label>Cod OEM (de preferat) / Nume Piesa</label>
+                        <input name="cod_oem_sau_piesa" placeholder="Ex: 03G130073G sau Injector 2.0 tdi..." required="" type="text"/>
+                    </div>
+                    
+                    <button class="btn-submit" type="submit">Trimite Cererea</button>
+                </form>
+            </div>
         </div>
     </div>
 
-</div>
-
-<!-- FEREASTRA PREVIZUALIZARE POZĂ -->
-<div id="imagePreviewWindow" class="image-preview-window">
-    <div class="preview-header">
-        <span>Previzualizare Piesa Selectata</span>
-        <button class="btn-close-preview" onclick="ascundeImaginea()">×</button>
+    <!-- PANOU DETALII PIESA -->
+    <div class="piesa-panel" id="piesaPanel">
+        <button class="close-panel" id="closePiesaPanel">×</button>
+        <div class="piesa-header">PIESA IDENTIFICATĂ</div>
+        <div class="piesa-image">
+            <img src="demo-piesa.jpg"/>
+        </div>
+        <div class="piesa-info">
+            <b>Calculator motor OPEL Vivaro</b><br/>
+            Cod OEM: 0281010633<br/>
+            Preț: 600 LEI<br/>
+            Stoc: 4 bucăți<br/>
+            Locație: RF7-ET6
+        </div>
     </div>
-    <div class="preview-body">
-        <img id="previewImageSrc" src="" alt="Piesa auto stoc">
-    </div>
-</div>
 
-<vapi-widget
-    public-key="ab245358-61ea-4876-b767-8e4ad159627d"
-    assistant-id="970da2f1-89c8-438c-ac8c-30abfa04528e"
-    mode="chat"
-    theme="light"
-    base-bg-color="#ffffff"
-    accent-color="#1a1a8b"
-    button-base-color="#1a1a8b"
-    button-accent-color="#ffffff"
-    border-radius="large"
-    size="full"
-    position="bottom-right"
-    main-label="Asistent Edric Auto"
-    chat-first-message="Bună ziua! Sint Alina de la Edric Auto dezmembrări. Cu ce piesă vă pot ajuta astăzi, aveti codul OEM ?"
-    chat-placeholder="Scrie aici mesajul..."
-    voice-show-transcript="false"> 
-</vapi-widget>
+    <!-- WIDGET VAPI -->
+    <vapi-widget 
+        accent-color="#1a1a8b" 
+        assistant-id="970da2f1-89c8-438c-ac8c-30abfa04528e" 
+        base-bg-color="#ffffff" 
+        border-radius="large" 
+        button-accent-color="#ffffff" 
+        button-base-color="#1a1a8b" 
+        chat-first-message="Bună ziua! Sint Alina de la Edric Auto dezmembrări. Cu ce piesă vă pot ajuta astăzi, aveti codul OEM ?" 
+        chat-placeholder="Scrie aici mesajul..." 
+        main-label="Asistent Edric Auto" 
+        mode="chat" 
+        position="bottom-right" 
+        public-key="ab245358-61ea-4876-b767-8e4ad159627d" 
+        size="full" 
+        theme="light" 
+        voice-show-transcript="false">
+    </vapi-widget>
 
-<!-- INTERCEPTOR SDK PENTRU REZULTATUL MULTI-TOOL SUCCESSIV -->
-<script>
-    function afiseazaImaginea(urlPoza) {
-        if (!urlPoza) return;
-        
-        let formattedUrl = urlPoza;
-        if (urlPoza.includes('drive.google.com')) {
-            formattedUrl = urlPoza.replace('file/d/', 'uc?id=').replace('/view?usp=sharing', '').replace('&usp=sharing', '');
-        }
+    <!-- SCRIPTS CONTROL PANOU INTERFAȚĂ -->
+    <script>
+        const panel = document.getElementById('piesaPanel');
 
-        document.getElementById('previewImageSrc').src = formattedUrl;
-        document.getElementById('imagePreviewWindow').style.display = 'flex';
-    }
+        // Deschide panoul când se interacționează cu widget-ul
+        document.addEventListener('click', e => {
+            if (e.target.closest('vapi-widget')) {
+                panel.classList.add('show');
+            }
+        });
 
-    function ascundeImaginea() {
-        document.getElementById('imagePreviewWindow').style.display = 'none';
-        document.getElementById('previewImageSrc').src = '';
-    }
+        // Închide panoul din butonul dedicat X
+        document.getElementById('closePiesaPanel').onclick = () => {
+            panel.classList.remove('show');
+        };
 
-    // Ascultăm mesajele direct din widget prin SDK-ul oficial instalat pe pagină
-    window.addEventListener('load', function() {
-        const widgetNode = document.querySelector('vapi-widget');
-        
-        if (widgetNode) {
-            widgetNode.addEventListener('message', function(event) {
-                const reply = event.detail;
-                
-                // Prindem momentul când asistentul execută funcția locală în browser
-                if (reply && reply.type === 'function-call') {
-                    const functionCall = reply.functionCall;
-                    
-                    if (functionCall.name === 'cautare_foto') {
-                        const argumente = functionCall.arguments;
-                        
-                        if (argumente && argumente.url) {
-                            afiseazaImaginea(argumente.url);
-                            
-                            // Îi trimitem înapoi o confirmare rapidă de succes
-                            widgetNode.vapi?.send({
-                                type: 'function-call-result',
-                                functionCallResult: {
-                                    name: 'cautare_foto',
-                                    result: { status: 'success', message: 'Imaginea se afiseaza pe ecran.' }
-                                }
-                            });
-                        }
-                    }
-                }
-            });
-        }
-    });
+        // Monitorizează starea widget-ului (închide panoul dacă widget-ul dispare sau e minimizat)
+        const obs = new MutationObserver(() => {
+            const w = document.querySelector('vapi-widget');
+            if (w && (w.offsetParent === null || w.getAttribute('data-state') === 'closed')) {
+                panel.classList.remove('show');
+            }
+        });
 
-    // Tasta T pentru siguranță vizuală locală
-    window.addEventListener('keydown', function(e) {
-        if (e.key.toLowerCase() === 't') {
-            afiseazaImaginea("https://drive.google.com/uc?id=1THZFygle03J6vnBHbXcDZwnedUqBxfV6");
-        }
-    });
-</script>
-
+        obs.observe(document.body, {
+            subtree: true,
+            attributes: true,
+            childList: true
+        });
+    </script>
 </body>
 </html>
