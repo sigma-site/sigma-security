@@ -209,7 +209,7 @@
 
 </div>
 
-<!-- FEREASTRA PENTRU PREVIZUALIZARE IMAGINE -->
+<!-- FEREASTRA PREVIZUALIZARE POZĂ -->
 <div id="imagePreviewWindow" class="image-preview-window">
     <div class="preview-header">
         <span>Previzualizare Piesa Selectata</span>
@@ -238,14 +238,13 @@
     voice-show-transcript="false"> 
 </vapi-widget>
 
-<!-- SCRIPT SECURIZAT PENTRU CITIRE MESSAGES -->
+<!-- INTERCEPTOR SDK PENTRU REZULTATUL MULTI-TOOL SUCCESSIV -->
 <script>
     function afiseazaImaginea(urlPoza) {
         if (!urlPoza) return;
         
         let formattedUrl = urlPoza;
         if (urlPoza.includes('drive.google.com')) {
-            // Conversie URL Google Drive pentru tag HTML standard <img>
             formattedUrl = urlPoza.replace('file/d/', 'uc?id=').replace('/view?usp=sharing', '').replace('&usp=sharing', '');
         }
 
@@ -258,31 +257,40 @@
         document.getElementById('previewImageSrc').src = '';
     }
 
-    // Interceptăm evenimentele de tip mesaj din rețeaua browserului
-    window.addEventListener('message', function(event) {
-        // Ignorăm mesajele care nu vin din surse sigure sau widget-uri autorizate
-        if (!event.data) return;
-
-        try {
-            // Verificăm dacă structura internă conține un URL valid, ocolind blocajele de nod
-            let strData = typeof event.data === 'string' ? event.data : JSON.stringify(event.data);
-            
-            // Căutăm link-ul de Drive
-            if (strData.includes('drive.google.com')) {
-                const driveRegex = /(https:\/\/drive\.google\.com\/[^\s"'}]+)/g;
-                const match = strData.match(driveRegex);
+    // Ascultăm mesajele direct din widget prin SDK-ul oficial instalat pe pagină
+    window.addEventListener('load', function() {
+        const widgetNode = document.querySelector('vapi-widget');
+        
+        if (widgetNode) {
+            widgetNode.addEventListener('message', function(event) {
+                const reply = event.detail;
                 
-                if (match && match[0]) {
-                    let linkCurat = match[0].replace(/\\/g, '');
-                    afiseazaImaginea(linkCurat);
+                // Prindem momentul când asistentul execută funcția locală în browser
+                if (reply && reply.type === 'function-call') {
+                    const functionCall = reply.functionCall;
+                    
+                    if (functionCall.name === 'cautare_foto') {
+                        const argumente = functionCall.arguments;
+                        
+                        if (argumente && argumente.url) {
+                            afiseazaImaginea(argumente.url);
+                            
+                            // Îi trimitem înapoi o confirmare rapidă de succes
+                            widgetNode.vapi?.send({
+                                type: 'function-call-result',
+                                functionCallResult: {
+                                    name: 'cautare_foto',
+                                    result: { status: 'success', message: 'Imaginea se afiseaza pe ecran.' }
+                                }
+                            });
+                        }
+                    }
                 }
-            }
-        } catch (err) {
-            // Pasiv la alte mesaje de sistem interne
+            });
         }
     });
 
-    // Scurtătură demo (Tasta T) pentru a verifica instant componenta grafică
+    // Tasta T pentru siguranță vizuală locală
     window.addEventListener('keydown', function(e) {
         if (e.key.toLowerCase() === 't') {
             afiseazaImaginea("https://drive.google.com/uc?id=1THZFygle03J6vnBHbXcDZwnedUqBxfV6");
