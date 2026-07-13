@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<title>Test Vapi Web SDK</title>
+</head>
+
+<body>
+
+<h2>Test Vapi Web SDK</h2>
+
+<button id="test">Conectează</button>
+
+<pre id="log"></pre>
+
+<script type="module">
+
+const log = (text) => {
+    document.getElementById("log").textContent += text + "\n";
+};
+
+try {
+
+    const { default: Vapi } =
+        await import("https://esm.sh/@vapi-ai/web");
+
+    log("SDK încărcat.");
+
+    const vapi = new Vapi(
+        "ab245358-61ea-4876-b767-8e4ad159627d"
+    );
+
+    log("Client creat.");
+
+    document
+        .getElementById("test")
+        .onclick = async () => {
+
+        log("Pornesc asistentul...");
+
+        await vapi.start(
+            "970da2f1-89c8-438c-ac8c-30abfa04528e"
+        );
+
+        log("Conectat.");
+
+    };
+
+}
+catch(err){
+
+    log("EROARE:");
+    log(err.message);
+
+    console.error(err);
+
+}
+
+</script>
+
+</body>
+</html>
