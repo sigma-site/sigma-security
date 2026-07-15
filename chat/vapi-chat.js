@@ -1,55 +1,38 @@
 /*
- * Vapi Chat Loader
+ * Universal Vapi Chat Loader
  * https://sigmasecurity.ro/chat/vapi-chat.js
- * Version 1.0
+ * Version 2.0
  */
 
 (function () {
-
     "use strict";
 
     if (!window.VAPI_CONFIG) {
-        console.error("VAPI_CONFIG is missing.");
+        console.error("VAPI_CONFIG nu este definit.");
         return;
     }
 
     if (!window.VAPI_CONFIG.publicKey) {
-        console.error("publicKey is missing.");
+        console.error("Lipsește publicKey.");
         return;
     }
 
     if (!window.VAPI_CONFIG.assistantId) {
-        console.error("assistantId is missing.");
+        console.error("Lipsește assistantId.");
         return;
     }
 
-    function loadWidgetSdk(callback) {
+    function start() {
 
-        if (customElements.get("vapi-widget")) {
-            callback();
+        // dacă există deja un widget, nu mai adăugăm altul
+        if (document.querySelector("vapi-widget")) {
             return;
         }
 
         const script = document.createElement("script");
-
         script.src = "https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js";
         script.async = true;
-
-        script.onload = callback;
-
-        script.onerror = function () {
-            console.error("Unable to load Vapi Widget SDK.");
-        };
-
         document.head.appendChild(script);
-
-    }
-
-    function createWidget() {
-
-        if (document.querySelector("vapi-widget")) {
-            return;
-        }
 
         const widget = document.createElement("vapi-widget");
 
@@ -59,12 +42,28 @@
         widget.setAttribute("mode", window.VAPI_CONFIG.mode || "chat");
         widget.setAttribute("theme", window.VAPI_CONFIG.theme || "light");
 
+        widget.setAttribute("base-bg-color", window.VAPI_CONFIG.baseBgColor || "#ffffff");
+        widget.setAttribute("accent-color", window.VAPI_CONFIG.accentColor || "#2f9e44");
+        widget.setAttribute("button-base-color", window.VAPI_CONFIG.buttonBaseColor || "#2f9e44");
+        widget.setAttribute("button-accent-color", window.VAPI_CONFIG.buttonAccentColor || "#ffffff");
+
+        widget.setAttribute("border-radius", window.VAPI_CONFIG.borderRadius || "large");
+        widget.setAttribute("size", window.VAPI_CONFIG.size || "full");
+        widget.setAttribute("position", window.VAPI_CONFIG.position || "bottom-right");
+
+        widget.setAttribute("main-label", window.VAPI_CONFIG.mainLabel || "Asistent AI");
+        widget.setAttribute("chat-first-message", window.VAPI_CONFIG.firstMessage || "Bună ziua!");
+        widget.setAttribute("chat-placeholder", window.VAPI_CONFIG.placeholder || "Scrie un mesaj...");
+
+        widget.setAttribute("voice-show-transcript", "false");
+
         document.body.appendChild(widget);
-
-        console.log("Vapi widget loaded.");
-
     }
 
-    loadWidgetSdk(createWidget);
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start);
+    } else {
+        start();
+    }
 
 })();
