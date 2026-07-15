@@ -4,31 +4,19 @@
 <meta charset="UTF-8">
 <title>Test Vapi</title>
 
-<script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" async></script>
+<script>
+window.VAPI_CONFIG = {
+    publicKey: "ab245358-61ea-4876-b767-8e4ad159627d",
+    assistantId: "31507d37-ce08-4b23-aa23-bcd25cf1c301"
+};
+</script>
+
+<script src="vapi-chat.js"></script>
 
 </head>
-
 <body>
 
 <h2>Test</h2>
-
-<vapi-widget
-public-key="ab245358-61ea-4876-b767-8e4ad159627d"
-assistant-id="31507d37-ce08-4b23-aa23-bcd25cf1c301"
-mode="chat"
-theme="light"
-base-bg-color="#ffffff"
-accent-color="#2f9e44"
-button-base-color="#2f9e44"
-button-accent-color="#ffffff"
-border-radius="large"
-size="full"
-position="bottom-right"
-main-label="Consultant AI"
-chat-first-message="Bună ziua!"
-chat-placeholder="Scrie un mesaj..."
-voice-show-transcript="false">
-</vapi-widget>
 
 </body>
 </html>
