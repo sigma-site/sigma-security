@@ -13,7 +13,7 @@
         // IDENTIFICARE ASISTENT
         // ==========================
 
-        publicKey: "AICI_PUBLIC_KEY",
+        publicKey: "ab245358-61ea-4876-b767-8e4ad159627d",
 
         assistantId: "AICI_ASSISTANT_ID",
 
