@@ -15,7 +15,7 @@
 
         publicKey: "ab245358-61ea-4876-b767-8e4ad159627d",
 
-        assistantId: "AICI_ASSISTANT_ID",
+        assistantId: "5df5fcb7-fb00-496d-b0b1-e447c8ad207a",
 
 
         // ==========================
