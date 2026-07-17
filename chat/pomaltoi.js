@@ -7,7 +7,7 @@
 
    "use strict";
 
-alert("vapi-chat.js a fost încărcat");
+alert(JSON.stringify(window.VAPI_CONFIG, null, 2));
 
     window.VAPI_CONFIG = {
 
