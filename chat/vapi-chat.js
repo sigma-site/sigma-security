@@ -1,18 +1,20 @@
-
-
 /*
  * Universal Vapi Chat Loader
- * Version 2.0
+ * Version 2.1
  */
 
 (function () {
 
     "use strict";
 
+    console.log("=== Vapi Chat Loader pornit ===");
+
     if (!window.VAPI_CONFIG) {
         console.error("VAPI_CONFIG lipsă.");
         return;
     }
+
+    console.log("VAPI_CONFIG:", window.VAPI_CONFIG);
 
     if (!window.VAPI_CONFIG.publicKey) {
         console.error("publicKey lipsă.");
@@ -25,10 +27,13 @@
     }
 
     if (document.querySelector("vapi-widget")) {
+        console.log("Widgetul există deja.");
         return;
     }
 
     function createWidget() {
+
+        console.log("createWidget() a fost apelată.");
 
         var cfg = window.VAPI_CONFIG;
 
@@ -61,18 +66,29 @@
 
         document.body.appendChild(widget);
 
+        console.log("Widget adăugat în pagină.");
+        console.log(widget);
     }
 
     var script = document.createElement("script");
 
-    script.src = "https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js";
+    script.src =
+        "https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js";
 
     script.async = true;
 
-    script.onload = createWidget;
+    script.onload = function () {
+
+        console.log("SDK Vapi încărcat.");
+
+        createWidget();
+
+    };
 
     script.onerror = function () {
+
         console.error("Nu s-a putut încărca Vapi Widget SDK.");
+
     };
 
     document.head.appendChild(script);
