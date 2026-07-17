@@ -1,14 +1,12 @@
 <!DOCTYPE html>
 <html lang="ro">
-
 <head>
 
 <meta charset="UTF-8">
 <title>Test Vapi</title>
 
 <script>
-console.log("test.html a fost încărcat");
-alert("test.html rulează");
+alert("test.html pornit");
 </script>
 
 <script src="pomaltoi.js"></script>
@@ -19,6 +17,17 @@ alert("test.html rulează");
 
 <h2>Test</h2>
 
-</body>
+<script>
+alert(typeof window.VAPI_CONFIG);
+</script>
 
+<script>
+if (window.VAPI_CONFIG) {
+    alert(window.VAPI_CONFIG.mainLabel);
+} else {
+    alert("VAPI_CONFIG NU EXISTĂ");
+}
+</script>
+
+</body>
 </html>
