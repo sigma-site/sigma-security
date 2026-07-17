@@ -1,28 +1,17 @@
 /*
  * Configurație Asistent Pomaltoi
- * Version: 1.0
+ * Test fără vapi-chat.js
  */
 
 (function () {
 
-   "use strict";
+    "use strict";
 
-alert(JSON.stringify(window.VAPI_CONFIG, null, 2));
-
-    window.VAPI_CONFIG = {
-
-        // ==========================
-        // IDENTIFICARE ASISTENT
-        // ==========================
+    const cfg = {
 
         publicKey: "ab245358-61ea-4876-b767-8e4ad159627d",
 
         assistantId: "5df5fcb7-fb00-496d-b0b1-e447c8ad207a",
-
-
-        // ==========================
-        // CONFIGURARE CHAT
-        // ==========================
 
         mode: "chat",
 
@@ -34,11 +23,6 @@ alert(JSON.stringify(window.VAPI_CONFIG, null, 2));
 
         borderRadius: "large",
 
-
-        // ==========================
-        // IDENTITATE VIZUALĂ
-        // ==========================
-
         accentColor: "#2F9E44",
 
         buttonBaseColor: "#2F9E44",
@@ -47,33 +31,51 @@ alert(JSON.stringify(window.VAPI_CONFIG, null, 2));
 
         baseBgColor: "#FFFFFF",
 
-
-        // ==========================
-        // MESAJE
-        // ==========================
-
         mainLabel: "Consultant Pomaltoi AI",
 
         firstMessage: "Bună ziua! Sunt consultantul AI Pomaltoi. Cu ce vă pot ajuta?",
 
         placeholder: "Scrieți întrebarea...",
 
-
-        // ==========================
-        // OPȚIUNI
-        // ==========================
-
         voiceShowTranscript: false
 
     };
 
+    const sdk = document.createElement("script");
 
-    var script = document.createElement("script");
+    sdk.src = "https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js";
 
-    script.src = "https://sigmasecurity.ro/chat/vapi-chat-test.js";
+    sdk.onload = function () {
 
-    script.async = true;
+        const widget = document.createElement("vapi-widget");
 
-    document.head.appendChild(script);
+        widget.setAttribute("public-key", cfg.publicKey);
+        widget.setAttribute("assistant-id", cfg.assistantId);
+
+        widget.setAttribute("mode", cfg.mode);
+        widget.setAttribute("theme", cfg.theme);
+        widget.setAttribute("position", cfg.position);
+        widget.setAttribute("size", cfg.size);
+        widget.setAttribute("border-radius", cfg.borderRadius);
+
+        widget.setAttribute("accent-color", cfg.accentColor);
+        widget.setAttribute("button-base-color", cfg.buttonBaseColor);
+        widget.setAttribute("button-accent-color", cfg.buttonAccentColor);
+        widget.setAttribute("base-bg-color", cfg.baseBgColor);
+
+        widget.setAttribute("main-label", cfg.mainLabel);
+        widget.setAttribute("chat-first-message", cfg.firstMessage);
+        widget.setAttribute("chat-placeholder", cfg.placeholder);
+
+        widget.setAttribute(
+            "voice-show-transcript",
+            String(cfg.voiceShowTranscript)
+        );
+
+        document.body.appendChild(widget);
+
+    };
+
+    document.head.appendChild(sdk);
 
 })();
