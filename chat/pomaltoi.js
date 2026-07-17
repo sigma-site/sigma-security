@@ -5,7 +5,9 @@
 
 (function () {
 
-    "use strict";
+   "use strict";
+
+alert("vapi-chat.js a fost încărcat");
 
     window.VAPI_CONFIG = {
 
