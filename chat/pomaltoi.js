@@ -70,7 +70,7 @@ alert(JSON.stringify(window.VAPI_CONFIG, null, 2));
 
     var script = document.createElement("script");
 
-    script.src = "https://sigmasecurity.ro/chat/vapi-chat.js";
+    script.src = "https://sigmasecurity.ro/chat/vapi-chat-test.js";
 
     script.async = true;
 
