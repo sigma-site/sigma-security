@@ -6,7 +6,8 @@
 (function () {
 
     "use strict";
-
+    
+alert("Sunt în vapi-chat.js");
     if (!window.VAPI_CONFIG) {
         console.error("VAPI_CONFIG lipsă.");
         return;
