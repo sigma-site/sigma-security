@@ -1,106 +1,71 @@
+
+
 /*
  * Universal Vapi Chat Loader
+ * https://sigmasecurity.ro/chat/vapi-chat.js
  * Version 2.0
  */
 
 (function () {
-
     "use strict";
 
-    alert("0 - Sunt în vapi-chat.js");
-
     if (!window.VAPI_CONFIG) {
-        alert("VAPI_CONFIG lipsește");
-        console.error("VAPI_CONFIG lipsă.");
+        console.error("VAPI_CONFIG nu este definit.");
         return;
     }
 
-    alert("1 - VAPI_CONFIG există");
+    if (!window.VAPI_CONFIG.publicKey) {
+        console.error("Lipsește publicKey.");
+        return;
+    }
 
-    const cfg = window.VAPI_CONFIG;
+    if (!window.VAPI_CONFIG.assistantId) {
+        console.error("Lipsește assistantId.");
+        return;
+    }
 
-    alert("2 - cfg creat");
+    function start() {
 
-    function createWidget() {
-
-        alert("3 - createWidget()");
-
+        // dacă există deja un widget, nu mai adăugăm altul
         if (document.querySelector("vapi-widget")) {
-            alert("4 - Widget există deja");
             return;
         }
 
-        alert("5 - Creez widget");
+        const script = document.createElement("script");
+        script.src = "https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js";
+        script.async = true;
+        document.head.appendChild(script);
 
         const widget = document.createElement("vapi-widget");
 
-        widget.setAttribute("public-key", cfg.publicKey);
-        widget.setAttribute("assistant-id", cfg.assistantId);
+        widget.setAttribute("public-key", window.VAPI_CONFIG.publicKey);
+        widget.setAttribute("assistant-id", window.VAPI_CONFIG.assistantId);
 
-        widget.setAttribute("mode", cfg.mode || "chat");
-        widget.setAttribute("theme", cfg.theme || "light");
+        widget.setAttribute("mode", window.VAPI_CONFIG.mode || "chat");
+        widget.setAttribute("theme", window.VAPI_CONFIG.theme || "light");
 
-        widget.setAttribute("position", cfg.position || "bottom-right");
-        widget.setAttribute("size", cfg.size || "full");
+        widget.setAttribute("base-bg-color", window.VAPI_CONFIG.baseBgColor || "#ffffff");
+        widget.setAttribute("accent-color", window.VAPI_CONFIG.accentColor || "#2f9e44");
+        widget.setAttribute("button-base-color", window.VAPI_CONFIG.buttonBaseColor || "#2f9e44");
+        widget.setAttribute("button-accent-color", window.VAPI_CONFIG.buttonAccentColor || "#ffffff");
 
-        widget.setAttribute("border-radius", cfg.borderRadius || "large");
+        widget.setAttribute("border-radius", window.VAPI_CONFIG.borderRadius || "large");
+        widget.setAttribute("size", window.VAPI_CONFIG.size || "full");
+        widget.setAttribute("position", window.VAPI_CONFIG.position || "bottom-right");
 
-        widget.setAttribute("accent-color", cfg.accentColor || "#2F9E44");
-        widget.setAttribute("button-base-color", cfg.buttonBaseColor || "#2F9E44");
-        widget.setAttribute("button-accent-color", cfg.buttonAccentColor || "#FFFFFF");
-        widget.setAttribute("base-bg-color", cfg.baseBgColor || "#FFFFFF");
+        widget.setAttribute("main-label", window.VAPI_CONFIG.mainLabel || "Asistent AI");
+        widget.setAttribute("chat-first-message", window.VAPI_CONFIG.firstMessage || "Bună ziua!");
+        widget.setAttribute("chat-placeholder", window.VAPI_CONFIG.placeholder || "Scrie un mesaj...");
 
-        widget.setAttribute("main-label", cfg.mainLabel || "Asistent AI");
-        widget.setAttribute("chat-first-message", cfg.firstMessage || "Bună ziua!");
-        widget.setAttribute("chat-placeholder", cfg.placeholder || "Scrie un mesaj...");
-
-        widget.setAttribute(
-            "voice-show-transcript",
-            String(cfg.voiceShowTranscript ?? false)
-        );
-
-        alert("6 - Înainte de appendChild");
+        widget.setAttribute("voice-show-transcript", "false");
 
         document.body.appendChild(widget);
-
-        alert("7 - După appendChild");
     }
 
-    alert("8 - Verific customElements");
-
-    if (customElements.get("vapi-widget")) {
-
-        alert("9 - Widget deja înregistrat");
-
-        createWidget();
-
-        return;
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", start);
+    } else {
+        start();
     }
-
-    alert("10 - Încarc SDK");
-
-    const script = document.createElement("script");
-
-    script.src = "https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js";
-
-    script.async = true;
-
-    script.onload = function () {
-
-        alert("11 - SDK încărcat");
-
-        createWidget();
-    };
-
-    script.onerror = function () {
-
-        alert("EROARE la încărcarea SDK");
-
-        console.error("Nu s-a putut încărca SDK-ul Vapi.");
-    };
-
-    document.head.appendChild(script);
-
-    alert("12 - Script adăugat în HEAD");
 
 })();
