@@ -1,13 +1,13 @@
 /*
  * Configurație Asistent Pomaltoi
- * Test fără vapi-chat.js
+ * Version 1.0
  */
 
 (function () {
 
     "use strict";
 
-    const cfg = {
+    window.VAPI_CONFIG = {
 
         publicKey: "ab245358-61ea-4876-b767-8e4ad159627d",
 
@@ -41,41 +41,12 @@
 
     };
 
-    const sdk = document.createElement("script");
+    var script = document.createElement("script");
 
-    sdk.src = "https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js";
+    script.src = "https://sigmasecurity.ro/chat/vapi-chat.js";
 
-    sdk.onload = function () {
+    script.async = true;
 
-        const widget = document.createElement("vapi-widget");
-
-        widget.setAttribute("public-key", cfg.publicKey);
-        widget.setAttribute("assistant-id", cfg.assistantId);
-
-        widget.setAttribute("mode", cfg.mode);
-        widget.setAttribute("theme", cfg.theme);
-        widget.setAttribute("position", cfg.position);
-        widget.setAttribute("size", cfg.size);
-        widget.setAttribute("border-radius", cfg.borderRadius);
-
-        widget.setAttribute("accent-color", cfg.accentColor);
-        widget.setAttribute("button-base-color", cfg.buttonBaseColor);
-        widget.setAttribute("button-accent-color", cfg.buttonAccentColor);
-        widget.setAttribute("base-bg-color", cfg.baseBgColor);
-
-        widget.setAttribute("main-label", cfg.mainLabel);
-        widget.setAttribute("chat-first-message", cfg.firstMessage);
-        widget.setAttribute("chat-placeholder", cfg.placeholder);
-
-        widget.setAttribute(
-            "voice-show-transcript",
-            String(cfg.voiceShowTranscript)
-        );
-
-        document.body.appendChild(widget);
-
-    };
-
-    document.head.appendChild(sdk);
+    document.head.appendChild(script);
 
 })();
