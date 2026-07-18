@@ -1,13 +1,13 @@
-
-
 /*
  * Universal Vapi Chat Loader
- * https://sigmasecurity.ro/chat/vapi-chat.js
- * Version 2.0
  */
 
 (function () {
+
     "use strict";
+
+    console.log("VAPI-CHAT.JS");
+    console.log(window.VAPI_CONFIG);
 
     if (!window.VAPI_CONFIG) {
         console.error("VAPI_CONFIG nu este definit.");
@@ -26,7 +26,6 @@
 
     function start() {
 
-        // dacă există deja un widget, nu mai adăugăm altul
         if (document.querySelector("vapi-widget")) {
             return;
         }
