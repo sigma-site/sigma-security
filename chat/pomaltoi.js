@@ -41,12 +41,6 @@
 
     };
 
-    var script = document.createElement("script");
-
-    script.src = "https://sigmasecurity.ro/chat/vapi-chat.js";
-
-    script.async = true;
-
-    document.head.appendChild(script);
+   
 
 })();
