@@ -1,6 +1,5 @@
 /*
  * Configurație Asistent Pomaltoi
- * Version 1.0
  */
 
 (function () {
@@ -41,6 +40,7 @@
 
     };
 
-   
+    console.log("POMALTOI.JS");
+    console.log(window.VAPI_CONFIG);
 
 })();
