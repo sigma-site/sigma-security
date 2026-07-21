@@ -12,6 +12,10 @@
             --light-gray: #f8f9fa;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -26,8 +30,13 @@
             background: var(--primary-blue);
             color: white;
             text-align: center;
-            padding: 20px;
+            padding: 20px 15px;
             border-bottom: 5px solid var(--sigma-yellow);
+        }
+
+        header h2 {
+            margin: 0;
+            font-size: 1.5rem;
         }
 
         .container {
@@ -36,23 +45,27 @@
             align-items: center;
             justify-content: center;
             flex-direction: column;
-            padding: 40px;
+            padding: 20px 15px;
             text-align: center;
         }
 
         .demo-box {
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 14px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.12);
             max-width: 700px;
             width: 100%;
-            box-sizing: border-box;
+        }
+
+        .demo-box h1 {
+            font-size: 1.6rem;
+            margin-top: 0;
         }
 
         /* STILIZARE PARAGRAF TELEFON */
         .phone-info {
-            font-size: 18px;
+            font-size: 16px;
             line-height: 1.6;
             color: #333;
             margin-bottom: 25px;
@@ -77,6 +90,7 @@
             margin-top: 0;
             margin-bottom: 15px;
             text-align: center;
+            font-size: 1.2rem;
         }
 
         .field-group {
@@ -97,7 +111,6 @@
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 6px;
-            box-sizing: border-box;
             font-family: inherit;
         }
 
@@ -121,13 +134,14 @@
             transform: scale(1.01);
         }
     
-        /* NOULE STILURI PENTRU PANOUL PIESEI */
+        /* PANOUL PIESEI - DESKTOP IMPLICIT */
         .piesa-panel {
             position: fixed;
             right: 490px;
             bottom: 24px;
             width: 360px;
             height: 640px;
+            max-height: calc(100vh - 48px);
             background: #fff;
             border-radius: 16px;
             box-shadow: 0 10px 30px rgba(0,0,0,.2);
@@ -137,7 +151,7 @@
         }
 
         .piesa-panel.show {
-            display: none;
+            display: flex;
             flex-direction: column;
         }
 
@@ -155,6 +169,7 @@
             align-items: center;
             justify-content: center;
             padding: 10px;
+            background: #fdfdfd;
         }
 
         .piesa-image img {
@@ -167,6 +182,7 @@
             border-top: 1px solid #ddd;
             padding: 15px;
             line-height: 1.7;
+            background: #fff;
         }
 
         .close-panel {
@@ -182,6 +198,49 @@
             font-size: 20px;
             cursor: pointer;
             line-height: 28px;
+            z-index: 2;
+        }
+
+        /* ========================================================= */
+        /* REGULI ADAPTATIVE (RESPONSIVE MEDIA QUERIES)             */
+        /* ========================================================= */
+
+        /* TABLETE SI ECRANE MEDII (Sub 1024px) */
+        @media (max-width: 1024px) {
+            .piesa-panel {
+                right: 20px;
+                bottom: 90px; /* Se ridică deasupra butonului de chat */
+                width: 340px;
+                height: 520px;
+            }
+        }
+
+        /* TELEFOANE IPHONE / ANDROID (Sub 768px) */
+        @media (max-width: 768px) {
+            header h2 {
+                font-size: 1.2rem;
+            }
+
+            .demo-box {
+                padding: 20px;
+            }
+
+            .demo-box h1 {
+                font-size: 1.3rem;
+            }
+
+            /* Panoul devine modal pe tot ecranul mobilului */
+            .piesa-panel {
+                left: 10px;
+                right: 10px;
+                bottom: 10px;
+                top: 10px;
+                width: auto;
+                height: auto;
+                max-height: none;
+                border-radius: 12px;
+                z-index: 999999; /* Apare peste tot pe mobil */
+            }
         }
     </style>
     
@@ -232,7 +291,7 @@
         <button class="close-panel" id="closePiesaPanel">×</button>
         <div class="piesa-header">PIESA IDENTIFICATĂ</div>
         <div class="piesa-image">
-            <img src="demo-piesa.jpg"/>
+            <img src="demo-piesa.jpg" alt="Piesa Auto"/>
         </div>
         <div class="piesa-info">
             <b>Calculator motor OPEL Vivaro</b><br/>
