@@ -1,163 +1,89 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Demo Consultant AI Fotovoltaic</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:Segoe UI,Arial,sans-serif;background:#f3f5f2;color:#333;padding:20px}
-
-header{background:#fff;padding:18px 40px;display:flex;justify-content:space-between;align-items:center;border-bottom:4px solid #2f9e44;margin-bottom:30px}
-.logo{font-size:24px;font-weight:bold;color:#2f9e44}
-nav a{text-decoration:none;color:#444;margin-left:25px;font-weight:600}
-
-.hero{height:300px;background:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),url('https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1800&q=80') center/cover;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:20px;border-radius:10px;margin-bottom:30px}
-.hero h1{font-size:40px}
-
-.layout{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:1200px;margin:0 auto}
-
-.chat-container{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.08);height:550px;position:relative}
-
-.image-container{background:#fff;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);padding:20px;height:550px;display:flex;flex-direction:column}
-.image-container h3{color:#2f9e44;margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid #f0f0f0}
-
-#image-area{flex:1;border:2px dashed #ddd;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:all 0.3s;background:#fafafa}
-#image-area.active{border-color:#2f9e44;background:#f0f8f0}
-
-#part-image{max-width:100%;max-height:350px;display:none;border-radius:8px;object-fit:contain}
-#placeholder{color:#999;text-align:center}
-#placeholder .icon{font-size:48px;display:block;margin-bottom:10px}
-
-footer{background:#1f1f1f;color:#fff;text-align:center;padding:25px;margin-top:40px;border-radius:10px}
-
-@media (max-width:768px){.layout{grid-template-columns:1fr}.chat-container,.image-container{height:400px}}
-</style>
-
-<!-- SDK Vapi -->
-<script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/sdk.umd.js"></script>
+<title>Test Vapi SDK</title>
+<!-- Încearcă aceste URL-uri pentru SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/client-sdk-react/dist/sdk.umd.js"></script>
+<!-- sau alternativ:
+<script src="https://unpkg.com/@vapi-ai/web-sdk/dist/vapi.js"></script>
+-->
 </head>
 <body>
 
-<header>
-    <div class="logo">⚡ Consultant AI Fotovoltaic</div>
-    <nav>
-        <a href="#">Acasă</a>
-        <a href="#">Panouri</a>
-        <a href="#">Invertoare</a>
-        <a href="#">Contact</a>
-    </nav>
-</header>
+<h1>Test Chat Vapi</h1>
 
-<div class="hero">
-    <div>
-        <h1>Sisteme Fotovoltaice</h1>
-        <p>Discutați cu consultantul AI despre soluții pentru energia verde.</p>
-    </div>
+<div id="chat" style="width:100%;max-width:600px;height:500px;border:1px solid #ccc;border-radius:10px;overflow:hidden;"></div>
+
+<div id="image-area" style="margin-top:20px;padding:20px;border:2px dashed #ddd;text-align:center;max-width:600px;">
+    <img id="part-image" src="" style="max-width:100%;display:none;">
+    <p id="placeholder">Așteptând chat-ul...</p>
 </div>
-
-<div class="layout">
-    <!-- Chat -->
-    <div class="chat-container" id="vapi-chat-container"></div>
-    
-    <!-- Imagine -->
-    <div class="image-container">
-        <h3>📷 Piesa selectată</h3>
-        <div id="image-area">
-            <img id="part-image" src="" alt="Imagine piesă">
-            <div id="placeholder">
-                <span class="icon">🖼️</span>
-                <span>Așteaptă să începi conversația...</span>
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer>Pagina demonstrativă pentru integrarea asistentului AI</footer>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Pagina încărcată');
+    console.log('Încărcare pagină...');
+    console.log('Vapi disponibil?', typeof Vapi);
+    console.log('window.Vapi?', window.Vapi);
     
-    // Elemente
-    const chatContainer = document.getElementById('vapi-chat-container');
-    const partImage = document.getElementById('part-image');
-    const placeholder = document.getElementById('placeholder');
-    const imageArea = document.getElementById('image-area');
-    
-    // Afișează imaginea demo
-    function showImage() {
-        console.log('🖼️ Afișez imaginea demo');
-        partImage.src = 'demo-piesa.jpg';
-        partImage.style.display = 'block';
-        placeholder.style.display = 'none';
-        imageArea.classList.add('active');
-    }
-    
-    // Ascunde imaginea
-    function hideImage() {
-        console.log('🔄 Ascund imaginea');
-        partImage.style.display = 'none';
-        placeholder.style.display = 'block';
-        imageArea.classList.remove('active');
-    }
-    
-    // Verifică dacă SDK-ul este disponibil
+    // Dacă SDK-ul nu s-a încărcat, încearcă să-l încarci dinamic
     if (typeof Vapi === 'undefined') {
-        console.error('❌ Vapi SDK nu s-a încărcat!');
-        document.getElementById('vapi-chat-container').innerHTML = 
-            '<div style="padding:20px;text-align:center;color:red;">Eroare: SDK-ul Vapi nu s-a încărcat. Verifică conexiunea la internet.</div>';
+        console.log('Încerc să încarc SDK-ul dinamic...');
+        
+        // Metoda 1: Încearcă cu script tag dinamic
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@vapi-ai/client-sdk-react/dist/sdk.umd.js';
+        script.onload = function() {
+            console.log('SDK încărcat dinamic!');
+            initVapi();
+        };
+        script.onerror = function() {
+            console.error('Nu s-a putut încărca SDK-ul.');
+            document.getElementById('chat').innerHTML = 
+                '<p style="color:red;padding:20px;">❌ Nu s-a putut încărca SDK-ul Vapi. Verifică conexiunea la internet.</p>' +
+                '<p>Încearcă să reîncarci pagina sau să folosești un VPN dacă ești în România (unpkg poate fi blocat).</p>';
+        };
+        document.head.appendChild(script);
         return;
     }
     
-    console.log('✅ Vapi SDK găsit');
-    
-    try {
-        // Inițializare Vapi
-        const vapi = new Vapi('ab245358-61ea-4876-b767-8e4ad159627d');
-        console.log('✅ Vapi instanțiat');
-        
-        // Ascultă evenimente înainte de start
-        vapi.on('status-change', function(status) {
-            console.log('📊 Status:', status);
-            if (status === 'connected' || status === 'ready') {
-                showImage();
-            }
-        });
-        
-        vapi.on('message', function(message) {
-            console.log('💬 Mesaj:', message);
-        });
-        
-        vapi.on('tool-call', function(data) {
-            console.log('🔧 Tool call:', data);
-            if (data.name === 'displayCarPartImage' && data.parameters?.imageUrl) {
-                partImage.src = data.parameters.imageUrl;
-                partImage.style.display = 'block';
-                placeholder.style.display = 'none';
-                imageArea.classList.add('active');
-            }
-        });
-        
-        // Pornește chat-ul
-        vapi.start({
-            assistantId: '31507d37-ce08-4b23-aa23-bcd25cf1c301'
-        });
-        
-        console.log('✅ Chat-ul a fost pornit!');
-        
-        // Afișează imaginea după 3 secunde (pentru test)
-        setTimeout(function() {
-            console.log('⏰ Test: afișez imaginea demo');
-            showImage();
-        }, 3000);
-        
-    } catch (error) {
-        console.error('❌ Eroare la inițializarea Vapi:', error);
-        document.getElementById('vapi-chat-container').innerHTML = 
-            '<div style="padding:20px;text-align:center;color:red;">Eroare: ' + error.message + '</div>';
-    }
+    // Dacă SDK-ul este deja încărcat, inițializează
+    initVapi();
 });
+
+function initVapi() {
+    console.log('✅ Inițializez Vapi...');
+    
+    const vapi = new Vapi('ab245358-61ea-4876-b767-8e4ad159627d');
+    
+    const img = document.getElementById('part-image');
+    const placeholder = document.getElementById('placeholder');
+    
+    function showImage() {
+        console.log('🖼️ Afișez imaginea demo');
+        img.src = 'demo-piesa.jpg';
+        img.style.display = 'block';
+        placeholder.style.display = 'none';
+    }
+    
+    // Ascultă evenimente
+    vapi.on('status-change', function(status) {
+        console.log('Status:', status);
+        if (status === 'connected' || status === 'ready') {
+            showImage();
+        }
+    });
+    
+    // Pornește chat-ul
+    vapi.start({
+        assistantId: '31507d37-ce08-4b23-aa23-bcd25cf1c301'
+    });
+    
+    // Afișează imaginea după 2 secunde (test)
+    setTimeout(showImage, 2000);
+    
+    console.log('✅ Chat pornit!');
+}
 </script>
 </body>
 </html>
