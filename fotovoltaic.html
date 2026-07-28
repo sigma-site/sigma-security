@@ -17,7 +17,7 @@ nav a{text-decoration:none;color:#444;margin-left:25px;font-weight:600}
 
 .layout{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:1200px;margin:0 auto}
 
-.chat-container{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.08);height:550px}
+.chat-container{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 14px rgba(0,0,0,.08);height:550px;position:relative}
 
 .image-container{background:#fff;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);padding:20px;height:550px;display:flex;flex-direction:column}
 .image-container h3{color:#2f9e44;margin-bottom:15px;padding-bottom:10px;border-bottom:2px solid #f0f0f0}
@@ -77,7 +77,7 @@ footer{background:#1f1f1f;color:#fff;text-align:center;padding:25px;margin-top:4
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Inițializare...');
+    console.log('🚀 Pagina încărcată');
     
     // Elemente
     const chatContainer = document.getElementById('vapi-chat-container');
@@ -102,44 +102,61 @@ document.addEventListener('DOMContentLoaded', function() {
         imageArea.classList.remove('active');
     }
     
-    // Inițializare Vapi
-    const vapi = new Vapi('ab245358-61ea-4876-b767-8e4ad159627d');
+    // Verifică dacă SDK-ul este disponibil
+    if (typeof Vapi === 'undefined') {
+        console.error('❌ Vapi SDK nu s-a încărcat!');
+        document.getElementById('vapi-chat-container').innerHTML = 
+            '<div style="padding:20px;text-align:center;color:red;">Eroare: SDK-ul Vapi nu s-a încărcat. Verifică conexiunea la internet.</div>';
+        return;
+    }
     
-    // Pornește chat-ul
-    vapi.start({
-        assistantId: '31507d37-ce08-4b23-aa23-bcd25cf1c301',
-        config: {
-            container: chatContainer
-        }
-    });
+    console.log('✅ Vapi SDK găsit');
     
-    // Ascultă evenimente
-    vapi.on('status-change', function(status) {
-        console.log('📊 Status:', status);
+    try {
+        // Inițializare Vapi
+        const vapi = new Vapi('ab245358-61ea-4876-b767-8e4ad159627d');
+        console.log('✅ Vapi instanțiat');
         
-        // Când chat-ul este deschis, afișează imaginea
-        if (status === 'connected' || status === 'ready') {
+        // Ascultă evenimente înainte de start
+        vapi.on('status-change', function(status) {
+            console.log('📊 Status:', status);
+            if (status === 'connected' || status === 'ready') {
+                showImage();
+            }
+        });
+        
+        vapi.on('message', function(message) {
+            console.log('💬 Mesaj:', message);
+        });
+        
+        vapi.on('tool-call', function(data) {
+            console.log('🔧 Tool call:', data);
+            if (data.name === 'displayCarPartImage' && data.parameters?.imageUrl) {
+                partImage.src = data.parameters.imageUrl;
+                partImage.style.display = 'block';
+                placeholder.style.display = 'none';
+                imageArea.classList.add('active');
+            }
+        });
+        
+        // Pornește chat-ul
+        vapi.start({
+            assistantId: '31507d37-ce08-4b23-aa23-bcd25cf1c301'
+        });
+        
+        console.log('✅ Chat-ul a fost pornit!');
+        
+        // Afișează imaginea după 3 secunde (pentru test)
+        setTimeout(function() {
+            console.log('⏰ Test: afișez imaginea demo');
             showImage();
-        }
-    });
-    
-    // Ascultă mesaje
-    vapi.on('message', function(message) {
-        console.log('💬 Mesaj:', message);
-    });
-    
-    // Ascultă tool-call-uri
-    vapi.on('tool-call', function(data) {
-        console.log('🔧 Tool call:', data);
-        if (data.name === 'displayCarPartImage' && data.parameters?.imageUrl) {
-            partImage.src = data.parameters.imageUrl;
-            partImage.style.display = 'block';
-            placeholder.style.display = 'none';
-            imageArea.classList.add('active');
-        }
-    });
-    
-    console.log('✅ Vapi SDK inițializat!');
+        }, 3000);
+        
+    } catch (error) {
+        console.error('❌ Eroare la inițializarea Vapi:', error);
+        document.getElementById('vapi-chat-container').innerHTML = 
+            '<div style="padding:20px;text-align:center;color:red;">Eroare: ' + error.message + '</div>';
+    }
 });
 </script>
 </body>
