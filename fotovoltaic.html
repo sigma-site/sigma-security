@@ -2,88 +2,99 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Test Vapi SDK</title>
-<!-- Încearcă aceste URL-uri pentru SDK -->
-<script src="https://cdn.jsdelivr.net/npm/@vapi-ai/client-sdk-react/dist/sdk.umd.js"></script>
-<!-- sau alternativ:
-<script src="https://unpkg.com/@vapi-ai/web-sdk/dist/vapi.js"></script>
--->
+<title>Test Vapi Widget</title>
+<style>
+body{font-family:Arial;padding:20px}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:30px;max-width:1200px;margin:20px auto}
+.chat-area{background:#fff;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);padding:20px;min-height:500px}
+.image-area{background:#fff;border-radius:12px;box-shadow:0 4px 14px rgba(0,0,0,.08);padding:20px;min-height:500px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+#part-image{max-width:100%;max-height:400px;display:none;border-radius:8px}
+#placeholder{color:#999;text-align:center}
+#placeholder .icon{font-size:48px;display:block}
+.image-area.active{border:3px solid #2f9e44;background:#f0f8f0}
+</style>
+<!-- Widget Vapi (funcționează sigur) -->
+<script src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js"></script>
 </head>
 <body>
 
-<h1>Test Chat Vapi</h1>
+<h1>⚡ Consultant AI Fotovoltaic</h1>
 
-<div id="chat" style="width:100%;max-width:600px;height:500px;border:1px solid #ccc;border-radius:10px;overflow:hidden;"></div>
-
-<div id="image-area" style="margin-top:20px;padding:20px;border:2px dashed #ddd;text-align:center;max-width:600px;">
-    <img id="part-image" src="" style="max-width:100%;display:none;">
-    <p id="placeholder">Așteptând chat-ul...</p>
+<div class="layout">
+    <div class="chat-area">
+        <h3>💬 Chat</h3>
+        <!-- Widget-ul Vapi -->
+        <vapi-widget
+            public-key="ab245358-61ea-4876-b767-8e4ad159627d"
+            assistant-id="31507d37-ce08-4b23-aa23-bcd25cf1c301"
+            mode="chat"
+            theme="light"
+            accent-color="#2f9e44"
+            button-base-color="#2f9e44"
+            button-accent-color="#ffffff"
+            main-label="Consultant Fotovoltaic AI"
+            chat-first-message="Bună ziua! Cu ce vă pot ajuta?"
+            chat-placeholder="Scrieți mesajul...">
+        </vapi-widget>
+    </div>
+    
+    <div class="image-area" id="image-area">
+        <h3>📷 Piesa selectată</h3>
+        <img id="part-image" src="" alt="Imagine piesă">
+        <div id="placeholder">
+            <span class="icon">🖼️</span>
+            <p>Așteaptă să începi conversația...</p>
+        </div>
+    </div>
 </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('Încărcare pagină...');
-    console.log('Vapi disponibil?', typeof Vapi);
-    console.log('window.Vapi?', window.Vapi);
-    
-    // Dacă SDK-ul nu s-a încărcat, încearcă să-l încarci dinamic
-    if (typeof Vapi === 'undefined') {
-        console.log('Încerc să încarc SDK-ul dinamic...');
-        
-        // Metoda 1: Încearcă cu script tag dinamic
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/@vapi-ai/client-sdk-react/dist/sdk.umd.js';
-        script.onload = function() {
-            console.log('SDK încărcat dinamic!');
-            initVapi();
-        };
-        script.onerror = function() {
-            console.error('Nu s-a putut încărca SDK-ul.');
-            document.getElementById('chat').innerHTML = 
-                '<p style="color:red;padding:20px;">❌ Nu s-a putut încărca SDK-ul Vapi. Verifică conexiunea la internet.</p>' +
-                '<p>Încearcă să reîncarci pagina sau să folosești un VPN dacă ești în România (unpkg poate fi blocat).</p>';
-        };
-        document.head.appendChild(script);
-        return;
-    }
-    
-    // Dacă SDK-ul este deja încărcat, inițializează
-    initVapi();
-});
-
-function initVapi() {
-    console.log('✅ Inițializez Vapi...');
-    
-    const vapi = new Vapi('ab245358-61ea-4876-b767-8e4ad159627d');
+    console.log('Pagina încărcată');
     
     const img = document.getElementById('part-image');
     const placeholder = document.getElementById('placeholder');
+    const imageArea = document.getElementById('image-area');
     
     function showImage() {
         console.log('🖼️ Afișez imaginea demo');
         img.src = 'demo-piesa.jpg';
         img.style.display = 'block';
         placeholder.style.display = 'none';
+        imageArea.classList.add('active');
     }
     
-    // Ascultă evenimente
-    vapi.on('status-change', function(status) {
-        console.log('Status:', status);
-        if (status === 'connected' || status === 'ready') {
+    // Ascultă evenimente de la widget prin postMessage
+    window.addEventListener('message', function(event) {
+        console.log('Mesaj primit:', event.data);
+        
+        // Dacă widget-ul trimite un eveniment de deschidere
+        if (event.data && event.data.type === 'chat-opened') {
             showImage();
         }
     });
     
-    // Pornește chat-ul
-    vapi.start({
-        assistantId: '31507d37-ce08-4b23-aa23-bcd25cf1c301'
+    // Detectează când widget-ul este încărcat în DOM
+    const observer = new MutationObserver(function() {
+        const widget = document.querySelector('vapi-widget');
+        if (widget) {
+            console.log('✅ Widget găsit!');
+            
+            // Verifică dacă chat-ul este deja deschis
+            if (widget.hasAttribute('chat-open')) {
+                showImage();
+            }
+            
+            // Ascultă modificări ale atributelor
+            observer.disconnect();
+        }
     });
     
-    // Afișează imaginea după 2 secunde (test)
-    setTimeout(showImage, 2000);
+    observer.observe(document.body, { childList: true, subtree: true });
     
-    console.log('✅ Chat pornit!');
-}
+    // Afișează imaginea după 3 secunde pentru test
+    setTimeout(showImage, 3000);
+});
 </script>
 </body>
 </html>
