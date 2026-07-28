@@ -131,34 +131,66 @@
             background: #111166;
             transform: scale(1.01);
         }
-    
-        /* PANOUL PIESEI - DESKTOP IMPLICIT */
+
+        /* ============================================ */
+        /* PANOUL PIESEI - POZITIONAT LÂNGĂ CHAT       */
+        /* ============================================ */
+
         .piesa-panel {
             position: fixed;
-            right: 490px;
+            right: 490px;          /* Lângă butonul chat (care e în dreapta) */
             bottom: 24px;
             width: 360px;
             height: 640px;
             max-height: calc(100vh - 48px);
             background: #fff;
             border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0,0,0,.2);
-            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,.25);
+            display: none;          /* Ascuns inițial */
+            flex-direction: column;
             overflow: hidden;
             z-index: 999998;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         .piesa-panel.show {
-            display: none;
-            flex-direction: column;
+            display: flex;          /* Afișat când primește date */
         }
 
         .piesa-header {
-            background: #1a1a8b;
+            background: var(--primary-blue);
             color: #fff;
             text-align: center;
-            padding: 12px;
+            padding: 12px 16px;
             font-weight: bold;
+            font-size: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .piesa-header span {
+            flex: 1;
+        }
+
+        .close-panel {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: #fff;
+            font-size: 22px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .close-panel:hover {
+            background: rgba(255,255,255,0.4);
         }
 
         .piesa-image {
@@ -166,59 +198,97 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 10px;
-            background: #fdfdfd;
+            padding: 15px;
+            background: #fafafa;
+            min-height: 200px;
         }
 
         .piesa-image img {
             max-width: 100%;
             max-height: 100%;
             object-fit: contain;
+            border-radius: 6px;
+        }
+
+        .piesa-image .placeholder-text {
+            color: #aaa;
+            font-size: 14px;
         }
 
         .piesa-info {
-            border-top: 1px solid #ddd;
-            padding: 15px;
-            line-height: 1.7;
+            border-top: 1px solid #eee;
+            padding: 14px 18px;
             background: #fff;
+            flex-shrink: 0;
+            line-height: 1.6;
+            font-size: 14px;
         }
 
-        .close-panel {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            width: 28px;
-            height: 28px;
-            border: none;
-            border-radius: 50%;
-            background: #1a1a8b;
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
-            line-height: 28px;
-            z-index: 2;
+        .piesa-info .nume {
+            font-weight: bold;
+            font-size: 16px;
+            color: var(--primary-blue);
         }
 
-        /* REGULI MOBIL PENTRU PANOUL PIESEI */
+        .piesa-info .cod {
+            color: #666;
+            font-size: 13px;
+        }
+
+        /* ============================================ */
+        /* MOBIL - Panoul sub chat                      */
+        /* ============================================ */
+
         @media (max-width: 768px) {
             header h2 { font-size: 1.2rem; }
             .demo-box { padding: 20px; }
             .demo-box h1 { font-size: 1.3rem; }
 
             .piesa-panel {
+                position: fixed;
                 left: 10px;
                 right: 10px;
                 bottom: 10px;
-                top: 10px;
+                top: auto;
                 width: auto;
-                height: auto;
-                max-height: none;
+                height: 45vh;
+                max-height: 45vh;
                 border-radius: 12px;
                 z-index: 1000000;
             }
+
+            /* Când e deschis panoul, chat-ul rămâne vizibil dedesubt */
+            .piesa-panel.show {
+                display: flex;
+            }
         }
+
+        /* ============================================ */
+        /* RESPONSIV PENTRU ECRANE MICI (sub 480px)    */
+        /* ============================================ */
+
+        @media (max-width: 480px) {
+            .piesa-panel {
+                height: 40vh;
+                max-height: 40vh;
+                bottom: 8px;
+                left: 8px;
+                right: 8px;
+            }
+
+            .piesa-info {
+                font-size: 13px;
+                padding: 10px 14px;
+            }
+
+            .piesa-info .nume {
+                font-size: 14px;
+            }
+        }
+
     </style>
     
+    <!-- Widget Vapi -->
     <script async="" src="https://unpkg.com/@vapi-ai/client-sdk-react/dist/embed/widget.umd.js" type="text/javascript"></script>
 </head>
 
@@ -261,23 +331,26 @@
         </div>
     </div>
 
-    <!-- PANOU DETALII PIESA -->
+    <!-- ============================================ -->
+    <!-- PANOU DETALII PIESA - DINAMIC                -->
+    <!-- ============================================ -->
+
     <div class="piesa-panel" id="piesaPanel">
-        <button class="close-panel" id="closePiesaPanel">×</button>
-        <div class="piesa-header">PIESA IDENTIFICATĂ</div>
-        <div class="piesa-image">
-            <img src="demo-piesa.jpg" alt="Piesa Auto"/>
+        <div class="piesa-header">
+            <span>🔧 PIESA IDENTIFICATĂ</span>
+            <button class="close-panel" id="closePiesaPanel">✕</button>
+        </div>
+        <div class="piesa-image" id="piesaImageContainer">
+            <img id="piesaImagine" src="" alt="Piesa Auto" style="display:none;"/>
+            <span class="placeholder-text" id="piesaPlaceholder">Așteptând date...</span>
         </div>
         <div class="piesa-info">
-            <b>Calculator motor OPEL Vivaro</b><br/>
-            Cod OEM: 0281010633<br/>
-            Preț: 600 LEI<br/>
-            Stoc: 4 bucăți<br/>
-            Locație: RF7-ET6
+            <div class="nume" id="piesaNume">-</div>
+            <div class="cod" id="piesaCod">Cod OEM: -</div>
         </div>
     </div>
 
-    <!-- WIDGET VAPI FĂRĂ MOBILITY OVERRIDE RIGID -->
+    <!-- Widget Vapi -->
     <vapi-widget 
         accent-color="#1a1a8b" 
         assistant-id="970da2f1-89c8-438c-ac8c-30abfa04528e" 
@@ -298,32 +371,107 @@
     </vapi-widget>
 
     <script>
+        // ============================================================
+        // 1. REFERINȚE LA ELEMENTE
+        // ============================================================
+
         const panel = document.getElementById('piesaPanel');
+        const closeBtn = document.getElementById('closePiesaPanel');
+        const img = document.getElementById('piesaImagine');
+        const placeholder = document.getElementById('piesaPlaceholder');
+        const numeEl = document.getElementById('piesaNume');
+        const codEl = document.getElementById('piesaCod');
 
-        document.addEventListener('click', e => {
-            if (e.target.closest('vapi-widget')) {
-                panel.classList.add('show');
+        // ============================================================
+        // 2. FUNCȚIE DE ACTUALIZARE A PANOULUI
+        // ============================================================
+
+        function updatePanel(data) {
+            console.log('📦 Actualizare panou:', data);
+
+            // Extrage datele din mesaj
+            const nume = data.nume_piesa || 'Piesă necunoscută';
+            const cod = data.cod_oem || '-';
+            const imageUrl = data.imagine || '';
+
+            // Actualizează textul
+            numeEl.textContent = nume;
+            codEl.textContent = 'Cod OEM: ' + cod;
+
+            // Actualizează imaginea
+            if (imageUrl && imageUrl.length > 0) {
+                img.src = imageUrl;
+                img.style.display = 'block';
+                placeholder.style.display = 'none';
+            } else {
+                img.style.display = 'none';
+                placeholder.style.display = 'block';
+                placeholder.textContent = '⚠️ Imagine indisponibilă';
             }
-        });
 
-        document.getElementById('closePiesaPanel').onclick = () => {
-            panel.classList.remove('show');
+            // Deschide panoul
+            panel.classList.add('show');
+        }
+
+        // ============================================================
+        // 3. CONEXIUNE WEBSOCKET LA PIESOCKET
+        // ============================================================
+
+        const wsUrl = 'wss://free.blr2.piesocket.com/v3/1?api_key=btYZZEMKHsT8PqeddRjA0wjSsUcmdTtWpTaPcQib&notify_self=1';
+
+        console.log('🔌 Conectare la PieSocket...');
+
+        const socket = new WebSocket(wsUrl);
+
+        socket.onopen = function() {
+            console.log('✅ WebSocket conectat!');
         };
 
-        const obs = new MutationObserver(() => {
-            const w = document.querySelector('vapi-widget');
-            if (w && (w.offsetParent === null || w.getAttribute('data-state') === 'closed')) {
-                panel.classList.remove('show');
+        socket.onmessage = function(event) {
+            console.log('📨 Mesaj primit:', event.data);
+
+            try {
+                const raw = JSON.parse(event.data);
+                // PieSocket pune datele în câmpul "message"
+                const data = raw.message || raw;
+                updatePanel(data);
+            } catch (error) {
+                console.error('❌ Eroare la procesare mesaj:', error);
+            }
+        };
+
+        socket.onerror = function(error) {
+            console.error('❌ Eroare WebSocket:', error);
+        };
+
+        socket.onclose = function() {
+            console.log('🔌 WebSocket deconectat');
+        };
+
+        // ============================================================
+        // 4. BUTON DE ÎNCHIDERE
+        // ============================================================
+
+        closeBtn.addEventListener('click', function() {
+            panel.classList.remove('show');
+        });
+
+        // ============================================================
+        // 5. DETECTARE DESCHIDERE CHAT (PENTRU A POZIȚIONA PANOUL)
+        // ============================================================
+
+        // Ascultăm evenimentele widget-ului
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('vapi-widget')) {
+                // Chat-ul a fost deschis - dacă panoul are date, rămâne vizibil
+                // Dacă nu are date, nu face nimic
             }
         });
 
-        obs.observe(document.body, {
-            subtree: true,
-            attributes: true,
-            childList: true
-        });
+        // ============================================================
+        // 6. FORCE FIX PENTRU MOBIL - SCALARE IFRAME
+        // ============================================================
 
-        // FORCE FIX PENTRU MOBIL: Rescrie dinamic stilul iframe-ului generat de Vapi
         function forceMobileVapiScale() {
             if (window.innerWidth <= 768) {
                 const observer = new MutationObserver(() => {
@@ -347,6 +495,8 @@
 
         window.addEventListener('DOMContentLoaded', forceMobileVapiScale);
         window.addEventListener('resize', forceMobileVapiScale);
+
+        console.log('🚀 Pagina pregătită!');
     </script>
 </body>
 </html>
