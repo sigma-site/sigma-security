@@ -7,8 +7,10 @@ header('Access-Control-Allow-Methods: POST, OPTIONS');
 
 
 /*
- * Răspundem la cererea CORS.
- */
+|--------------------------------------------------------------------------
+| CORS
+|--------------------------------------------------------------------------
+*/
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
@@ -17,22 +19,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 
 /*
- * =========================================================
- * CITIREA CHEII VAPI DIN .env
- * =========================================================
- *
- * PieHost a creat:
- *
- * /app/.env
- *
- * iar chat.php se află în:
- *
- * /app/strictzilier-test/chat.php
- *
- * De aceea urcăm un nivel și citim:
- *
- * /app/.env
- */
+|--------------------------------------------------------------------------
+| CITIRE VAPI PRIVATE KEY
+|--------------------------------------------------------------------------
+|
+| PieHost pune .env în:
+|
+| /app/.env
+|
+| iar acest fișier este:
+|
+| /app/strictzilier-test/chat.php
+|
+*/
 
 $apiKey = '';
 
@@ -53,22 +52,12 @@ if (file_exists($envFile)) {
 
             $line = trim($line);
 
-
-            /*
-             * Ignorăm liniile goale și comentariile.
-             */
-
             if (
                 $line === '' ||
                 str_starts_with($line, '#')
             ) {
                 continue;
             }
-
-
-            /*
-             * Căutăm exact variabila Vapi.
-             */
 
             if (
                 strpos(
@@ -77,23 +66,15 @@ if (file_exists($envFile)) {
                 ) === 0
             ) {
 
-                $apiKey =
-                    substr(
-                        $line,
-                        strlen('VAPI_PRIVATE_KEY=')
-                    );
+                $apiKey = substr(
+                    $line,
+                    strlen('VAPI_PRIVATE_KEY=')
+                );
 
-
-                /*
-                 * Eliminăm eventualele ghilimele.
-                 */
-
-                $apiKey =
-                    trim(
-                        $apiKey,
-                        " \t\n\r\0\x0B\"'"
-                    );
-
+                $apiKey = trim(
+                    $apiKey,
+                    " \t\n\r\0\x0B\"'"
+                );
 
                 break;
             }
@@ -103,8 +84,10 @@ if (file_exists($envFile)) {
 
 
 /*
- * Dacă nu găsim cheia, oprim aici.
- */
+|--------------------------------------------------------------------------
+| VERIFICARE CHEIE
+|--------------------------------------------------------------------------
+*/
 
 if ($apiKey === '') {
 
@@ -123,22 +106,20 @@ if ($apiKey === '') {
 
 
 /*
- * =========================================================
- * CITIM MESAJUL PRIMIT DE LA PAGINA WEB
- * =========================================================
- */
+|--------------------------------------------------------------------------
+| CITIRE DATE PRIMITE
+|--------------------------------------------------------------------------
+*/
 
-$rawInput =
-    file_get_contents(
-        'php://input'
-    );
+$rawInput = file_get_contents(
+    'php://input'
+);
 
 
-$input =
-    json_decode(
-        $rawInput,
-        true
-    );
+$input = json_decode(
+    $rawInput,
+    true
+);
 
 
 if (!is_array($input)) {
@@ -157,16 +138,14 @@ if (!is_array($input)) {
 }
 
 
-$message =
-    trim(
-        $input['message'] ?? ''
-    );
+$message = trim(
+    $input['message'] ?? ''
+);
 
 
-$previousChatId =
-    trim(
-        $input['previousChatId'] ?? ''
-    );
+$previousChatId = trim(
+    $input['previousChatId'] ?? ''
+);
 
 
 if ($message === '') {
@@ -186,20 +165,20 @@ if ($message === '') {
 
 
 /*
- * =========================================================
- * AGENTUL STRICTZILIER
- * =========================================================
- */
+|--------------------------------------------------------------------------
+| ASSISTANT STRICTZILIER
+|--------------------------------------------------------------------------
+*/
 
 $assistantId =
     '970da2f1-89c8-438c-ac8c-30abfa04528e';
 
 
 /*
- * =========================================================
- * PREGĂTIM CEREREA CĂTRE VAPI
- * =========================================================
- */
+|--------------------------------------------------------------------------
+| PREGĂTIRE CERERE VAPI
+|--------------------------------------------------------------------------
+*/
 
 $data = [
 
@@ -215,11 +194,6 @@ $data = [
 ];
 
 
-/*
- * Dacă există o conversație anterioară,
- * păstrăm contextul acesteia.
- */
-
 if ($previousChatId !== '') {
 
     $data['previousChatId'] =
@@ -228,15 +202,14 @@ if ($previousChatId !== '') {
 
 
 /*
- * =========================================================
- * APEL API VAPI
- * =========================================================
- */
+|--------------------------------------------------------------------------
+| APEL VAPI
+|--------------------------------------------------------------------------
+*/
 
-$ch =
-    curl_init(
-        'https://api.vapi.ai/chat'
-    );
+$ch = curl_init(
+    'https://api.vapi.ai/chat'
+);
 
 
 curl_setopt_array(
@@ -261,7 +234,8 @@ curl_setopt_array(
 
         CURLOPT_POSTFIELDS =>
             json_encode(
-                $data
+                $data,
+                JSON_UNESCAPED_UNICODE
             ),
 
         CURLOPT_TIMEOUT =>
@@ -271,29 +245,26 @@ curl_setopt_array(
 );
 
 
-$response =
-    curl_exec($ch);
+$response = curl_exec($ch);
 
 
-$httpCode =
-    curl_getinfo(
-        $ch,
-        CURLINFO_HTTP_CODE
-    );
+$httpCode = curl_getinfo(
+    $ch,
+    CURLINFO_HTTP_CODE
+);
 
 
-$curlError =
-    curl_error($ch);
+$curlError = curl_error($ch);
 
 
 curl_close($ch);
 
 
 /*
- * =========================================================
- * EROARE DE CONEXIUNE
- * =========================================================
- */
+|--------------------------------------------------------------------------
+| EROARE CONEXIUNE
+|--------------------------------------------------------------------------
+*/
 
 if ($response === false) {
 
@@ -315,23 +286,41 @@ if ($response === false) {
 
 
 /*
- * =========================================================
- * DECODĂM RĂSPUNSUL VAPI
- * =========================================================
- */
+|--------------------------------------------------------------------------
+| DECODARE RĂSPUNS VAPI
+|--------------------------------------------------------------------------
+*/
 
-$vapiResponse =
-    json_decode(
-        $response,
-        true
+$vapiResponse = json_decode(
+    $response,
+    true
+);
+
+
+if (!is_array($vapiResponse)) {
+
+    http_response_code(502);
+
+    echo json_encode(
+        [
+            'error' =>
+                'Răspuns Vapi invalid.',
+
+            'raw' =>
+                $response
+        ],
+        JSON_UNESCAPED_UNICODE
     );
+
+    exit;
+}
 
 
 /*
- * =========================================================
- * VAPI A RETURNAT O EROARE
- * =========================================================
- */
+|--------------------------------------------------------------------------
+| EROARE VAPI
+|--------------------------------------------------------------------------
+*/
 
 if (
     $httpCode < 200 ||
@@ -344,13 +333,11 @@ if (
 
     echo json_encode(
         [
-
             'error' =>
                 'Vapi a returnat o eroare.',
 
             'vapi' =>
                 $vapiResponse
-
         ],
         JSON_UNESCAPED_UNICODE
     );
@@ -360,16 +347,75 @@ if (
 
 
 /*
- * =========================================================
- * PENTRU PRIMUL TEST
- * RETURNĂM RĂSPUNSUL VAPI COMPLET
- * =========================================================
- *
- * Nu extragem încă reply-ul.
- *
- * Vrem mai întâi să vedem structura reală
- * returnată de endpoint-ul /chat.
- */
+|--------------------------------------------------------------------------
+| EXTRAGEM RĂSPUNSUL AGENTULUI
+|--------------------------------------------------------------------------
+|
+| Conform API-ului Vapi:
+|
+| output[0].role
+| output[0].content
+|
+*/
+
+$reply = '';
+
+
+if (
+    isset($vapiResponse['output']) &&
+    is_array($vapiResponse['output'])
+) {
+
+    foreach (
+        $vapiResponse['output']
+        as $outputMessage
+    ) {
+
+        if (
+            isset($outputMessage['role']) &&
+            $outputMessage['role'] === 'assistant' &&
+            isset($outputMessage['content'])
+        ) {
+
+            $reply =
+                $outputMessage['content'];
+
+            break;
+        }
+    }
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| DACĂ NU GĂSIM RĂSPUNSUL
+|--------------------------------------------------------------------------
+*/
+
+if ($reply === '') {
+
+    http_response_code(502);
+
+    echo json_encode(
+        [
+            'error' =>
+                'Agentul nu a returnat un răspuns.',
+
+            'vapi' =>
+                $vapiResponse
+        ],
+        JSON_UNESCAPED_UNICODE
+    );
+
+    exit;
+}
+
+
+/*
+|--------------------------------------------------------------------------
+| RĂSPUNS CĂTRE PAGINA WEB
+|--------------------------------------------------------------------------
+*/
 
 echo json_encode(
     [
@@ -377,8 +423,11 @@ echo json_encode(
         'ok' =>
             true,
 
-        'vapi' =>
-            $vapiResponse
+        'reply' =>
+            $reply,
+
+        'chatId' =>
+            $vapiResponse['id'] ?? null
 
     ],
     JSON_UNESCAPED_UNICODE
