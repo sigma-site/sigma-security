@@ -6,6 +6,10 @@ header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 
 
+/*
+ * Răspundem la cererea CORS.
+ */
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
@@ -13,31 +17,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 
 /*
- * Citim cheia Vapi.
+ * =========================================================
+ * CITIREA CHEII VAPI DIN .env
+ * =========================================================
  *
- * Mai întâi încercăm getenv().
- * Dacă PieHost nu expune variabila prin getenv(),
- * citim direct fișierul .env din rădăcina proiectului.
+ * PieHost a creat:
+ *
+ * /app/.env
+ *
+ * iar chat.php se află în:
+ *
+ * /app/strictzilier-test/chat.php
+ *
+ * De aceea urcăm un nivel și citim:
+ *
+ * /app/.env
  */
 
-$apiKey = getenv('VAPI_PRIVATE_KEY');
+$apiKey = '';
+
+$envFile = dirname(__DIR__) . '/.env';
 
 
-if (!$apiKey) {
+if (file_exists($envFile)) {
 
-    $envFile = dirname(__DIR__) . '/.env';
+    $lines = file(
+        $envFile,
+        FILE_IGNORE_NEW_LINES |
+        FILE_SKIP_EMPTY_LINES
+    );
 
-    if (file_exists($envFile)) {
-
-        $lines = file(
-            $envFile,
-            FILE_IGNORE_NEW_LINES |
-            FILE_SKIP_EMPTY_LINES
-        );
+    if ($lines !== false) {
 
         foreach ($lines as $line) {
 
             $line = trim($line);
+
+
+            /*
+             * Ignorăm liniile goale și comentariile.
+             */
 
             if (
                 $line === '' ||
@@ -46,8 +65,16 @@ if (!$apiKey) {
                 continue;
             }
 
+
+            /*
+             * Căutăm exact variabila Vapi.
+             */
+
             if (
-                strpos($line, 'VAPI_PRIVATE_KEY=') === 0
+                strpos(
+                    $line,
+                    'VAPI_PRIVATE_KEY='
+                ) === 0
             ) {
 
                 $apiKey =
@@ -56,11 +83,17 @@ if (!$apiKey) {
                         strlen('VAPI_PRIVATE_KEY=')
                     );
 
+
+                /*
+                 * Eliminăm eventualele ghilimele.
+                 */
+
                 $apiKey =
                     trim(
                         $apiKey,
                         " \t\n\r\0\x0B\"'"
                     );
+
 
                 break;
             }
@@ -69,14 +102,18 @@ if (!$apiKey) {
 }
 
 
-if (!$apiKey) {
+/*
+ * Dacă nu găsim cheia, oprim aici.
+ */
+
+if ($apiKey === '') {
 
     http_response_code(500);
 
     echo json_encode(
         [
             'error' =>
-                'VAPI_PRIVATE_KEY nu este configurată.'
+                'VAPI_PRIVATE_KEY nu a fost găsită în .env.'
         ],
         JSON_UNESCAPED_UNICODE
     );
@@ -86,13 +123,22 @@ if (!$apiKey) {
 
 
 /*
- * Citim mesajul primit de la pagina web.
+ * =========================================================
+ * CITIM MESAJUL PRIMIT DE LA PAGINA WEB
+ * =========================================================
  */
 
-$input = json_decode(
-    file_get_contents('php://input'),
-    true
-);
+$rawInput =
+    file_get_contents(
+        'php://input'
+    );
+
+
+$input =
+    json_decode(
+        $rawInput,
+        true
+    );
 
 
 if (!is_array($input)) {
@@ -140,7 +186,9 @@ if ($message === '') {
 
 
 /*
- * Agentul STRICTZILIER.
+ * =========================================================
+ * AGENTUL STRICTZILIER
+ * =========================================================
  */
 
 $assistantId =
@@ -148,7 +196,9 @@ $assistantId =
 
 
 /*
- * Pregătim cererea către Vapi.
+ * =========================================================
+ * PREGĂTIM CEREREA CĂTRE VAPI
+ * =========================================================
  */
 
 $data = [
@@ -165,21 +215,28 @@ $data = [
 ];
 
 
+/*
+ * Dacă există o conversație anterioară,
+ * păstrăm contextul acesteia.
+ */
+
 if ($previousChatId !== '') {
 
     $data['previousChatId'] =
         $previousChatId;
-
 }
 
 
 /*
- * Apel către Vapi.
+ * =========================================================
+ * APEL API VAPI
+ * =========================================================
  */
 
-$ch = curl_init(
-    'https://api.vapi.ai/chat'
-);
+$ch =
+    curl_init(
+        'https://api.vapi.ai/chat'
+    );
 
 
 curl_setopt_array(
@@ -233,7 +290,9 @@ curl_close($ch);
 
 
 /*
- * Eroare de conexiune.
+ * =========================================================
+ * EROARE DE CONEXIUNE
+ * =========================================================
  */
 
 if ($response === false) {
@@ -256,7 +315,9 @@ if ($response === false) {
 
 
 /*
- * Decodăm răspunsul Vapi.
+ * =========================================================
+ * DECODĂM RĂSPUNSUL VAPI
+ * =========================================================
  */
 
 $vapiResponse =
@@ -267,7 +328,9 @@ $vapiResponse =
 
 
 /*
- * Vapi a returnat o eroare.
+ * =========================================================
+ * VAPI A RETURNAT O EROARE
+ * =========================================================
  */
 
 if (
@@ -297,13 +360,20 @@ if (
 
 
 /*
- * Pentru moment returnăm răspunsul Vapi
- * aproape integral, ca să vedem exact
- * structura răspunsului real.
+ * =========================================================
+ * PENTRU PRIMUL TEST
+ * RETURNĂM RĂSPUNSUL VAPI COMPLET
+ * =========================================================
+ *
+ * Nu extragem încă reply-ul.
+ *
+ * Vrem mai întâi să vedem structura reală
+ * returnată de endpoint-ul /chat.
  */
 
 echo json_encode(
     [
+
         'ok' =>
             true,
 
