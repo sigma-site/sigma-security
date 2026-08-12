@@ -1,1 +1,1115 @@
+﻿
+<!DOCTYPE html>
+<html lang="ro">
+<head>
 
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>STRICTZILIER.ro — Simplu și Rapid</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --dark: #173b3a;
+    --dark-2: #245553;
+
+    --green: #2f7d68;
+    --green-light: #e9f4f0;
+
+    --orange: #d9873d;
+    --orange-light: #fff2e5;
+
+    --cream: #f5f7f5;
+    --white: #ffffff;
+
+    --text: #203130;
+    --muted: #71807d;
+    --border: #dce5e2;
+
+    --shadow: 0 12px 35px rgba(23,59,58,.08);
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--cream);
+    color: var(--text);
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+header {
+    height: 82px;
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 5vw;
+}
+
+.logo {
+    color: var(--dark);
+    font-size: 25px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.logo span {
+    color: var(--orange);
+}
+
+.tagline {
+    color: var(--muted);
+    font-size: 17px;
+}
+
+
+/* =========================
+   MAIN
+   ========================= */
+
+main {
+    max-width: 1400px;
+    margin: auto;
+    padding: 42px 28px 45px;
+}
+
+.intro {
+    text-align: center;
+    margin-bottom: 36px;
+}
+
+.intro h1 {
+    margin: 0 0 10px;
+
+    color: var(--dark);
+
+    font-size: clamp(30px, 4vw, 47px);
+    letter-spacing: -1.2px;
+}
+
+.intro p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 17px;
+}
+
+
+/* =========================
+   THREE MAIN BLOCKS
+   ========================= */
+
+.columns {
+    display: grid;
+
+    grid-template-columns: 1fr 1.25fr 1fr;
+
+    gap: 22px;
+
+    align-items: stretch;
+}
+
+.card {
+    min-height: 550px;
+
+    background: var(--white);
+
+    border: 1px solid var(--border);
+    border-radius: 20px;
+
+    padding: 30px;
+
+    box-shadow: var(--shadow);
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ZILIER */
+
+.worker {
+    border-top: 5px solid var(--orange);
+}
+
+
+/* ANGAJATOR */
+
+.employer {
+    border-top: 5px solid var(--orange);
+}
+
+
+/* AGENT */
+
+.agent {
+    min-height: 580px;
+
+    background: var(--dark);
+    color: white;
+
+    border: none;
+
+    text-align: center;
+    align-items: center;
+
+    box-shadow: 0 16px 40px rgba(23,59,58,.20);
+}
+
+
+/* =========================
+   TOP LINE ZILIER / ANGAJATOR
+   ========================= */
+
+.role-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 12px;
+
+    margin-bottom: 19px;
+}
+
+.role-header .badge {
+    margin-bottom: 0;
+}
+
+.top-guide {
+    flex-shrink: 0;
+
+    padding: 6px 10px;
+
+    border-radius: 7px;
+
+    border: 1px solid #e2d5c9;
+
+    background: #fffaf6;
+
+    color: #9b5d2d;
+
+    font-size: 11px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    white-space: nowrap;
+
+    transition: .15s ease;
+}
+
+.top-guide:hover {
+    background: var(--orange-light);
+    border-color: var(--orange);
+}
+
+
+/* =========================
+   BADGES
+   ========================= */
+
+.badge {
+    width: fit-content;
+
+    padding: 7px 12px;
+
+    border-radius: 30px;
+
+    background: var(--orange-light);
+
+    color: #b96b2d;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: .7px;
+}
+
+.agent .badge {
+    background: rgba(255,255,255,.10);
+    color: #cce8df;
+}
+
+
+/* =========================
+   TITLES
+   ========================= */
+
+.card h2 {
+    margin: 0 0 12px;
+
+    color: var(--dark);
+
+    font-size: 27px;
+}
+
+.agent h2 {
+    color: white;
+    font-size: 31px;
+}
+
+.description {
+    margin: 0 0 24px;
+
+    color: var(--muted);
+
+    line-height: 1.55;
+    font-size: 15px;
+}
+
+.agent .description {
+    max-width: 370px;
+    color: #c5d4d1;
+}
+
+
+/* =========================
+   QUICK REGISTRATION
+   ========================= */
+
+.quick-title {
+    margin: 3px 0 12px;
+
+    color: var(--dark);
+
+    font-size: 13px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: .5px;
+}
+
+.form-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 10px;
+}
+
+.field {
+    width: 100%;
+    height: 47px;
+
+    padding: 0 13px;
+
+    border: 1px solid var(--border);
+    border-radius: 9px;
+
+    outline: none;
+
+    color: var(--text);
+    background: #fbfcfb;
+}
+
+.field::placeholder {
+    color: #9aa7a4;
+}
+
+.field.full {
+    grid-column: 1 / -1;
+}
+
+.field:focus {
+    border-color: var(--orange);
+}
+
+
+/* =========================
+   PRIMARY BUTTON
+   ========================= */
+
+.primary-btn {
+    width: 100%;
+    height: 50px;
+
+    margin-top: 11px;
+
+    border: none;
+    border-radius: 10px;
+
+    color: white;
+    background: var(--orange);
+
+    font-size: 14px;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.primary-btn:hover {
+    opacity: .91;
+}
+
+
+/* =========================
+   LOGIN
+   ========================= */
+
+.login {
+    margin-top: 17px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.login-btn {
+    height: 36px;
+
+    padding: 0 13px;
+
+    border: 1px solid var(--orange);
+
+    border-radius: 8px;
+
+    background: var(--orange);
+
+    color: white;
+
+    font-size: 12px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: .15s ease;
+}
+
+.login-btn:hover {
+    background: var(--orange);
+    color: white;
+}
+
+
+/* =========================
+   GUIDES
+   ========================= */
+
+.guides {
+    display: none;
+}
+
+
+/* =========================
+   AGENT
+   ========================= */
+
+.agent-orb {
+    width: 126px;
+    height: 126px;
+
+    margin: 18px 0 30px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,.08);
+
+    border: 1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+        0 0 0 18px rgba(255,255,255,.025);
+
+    font-size: 48px;
+}
+
+.agent-btn {
+    width: 100%;
+    max-width: 330px;
+
+    height: 56px;
+
+    margin-top: auto;
+
+    border: none;
+    border-radius: 12px;
+
+    background: white;
+    color: var(--dark);
+
+    font-size: 16px;
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+.agent-btn:hover {
+    opacity: .92;
+}
+
+.agent-note {
+    margin-top: 15px;
+
+    color: #9fb3af;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+footer {
+    padding: 25px 5vw;
+
+    border-top: 1px solid var(--border);
+
+    background: white;
+
+    display: flex;
+    justify-content: center;
+
+    gap: 30px;
+
+    flex-wrap: wrap;
+
+    color: var(--muted);
+
+    font-size: 13px;
+}
+
+footer a {
+    color: inherit;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: var(--dark);
+}
+
+
+/* =========================
+   MODAL
+   ========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+
+    z-index: 20;
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background: rgba(15,35,34,.58);
+}
+
+.modal.show {
+    display: flex;
+}
+
+.modal-box {
+    width: min(430px, 100%);
+
+    background: white;
+
+    border-radius: 18px;
+
+    padding: 28px;
+
+    box-shadow: 0 25px 70px rgba(0,0,0,.25);
+
+    position: relative;
+}
+
+.modal-box h2 {
+    margin: 0 0 8px;
+
+    color: var(--dark);
+}
+
+.modal-box p {
+    margin: 0 0 20px;
+
+    color: var(--muted);
+
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.close {
+    position: absolute;
+
+    top: 15px;
+    right: 18px;
+
+    border: 0;
+    background: transparent;
+
+    color: var(--muted);
+
+    font-size: 24px;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 950px) {
+
+    .columns {
+        grid-template-columns: 1fr;
+
+        max-width: 650px;
+
+        margin: auto;
+    }
+
+    .agent {
+        order: -1;
+    }
+
+    .card,
+    .agent {
+        min-height: auto;
+    }
+}
+
+
+@media (max-width: 520px) {
+
+    header {
+        min-height: 72px;
+        height: auto;
+
+        padding: 15px 20px;
+    }
+
+    .logo {
+        font-size: 21px;
+    }
+
+    .tagline {
+        display: none;
+    }
+
+    main {
+        padding: 30px 15px;
+    }
+
+    .intro {
+        margin-bottom: 25px;
+    }
+
+    .intro h1 {
+        font-size: 31px;
+    }
+
+    .intro p {
+        font-size: 15px;
+    }
+
+    .card {
+        padding: 24px 19px;
+
+        border-radius: 16px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .field.full {
+        grid-column: auto;
+    }
+
+    .role-header {
+        align-items: flex-start;
+    }
+
+    .top-guide {
+        font-size: 10px;
+        padding: 6px 8px;
+    }
+
+    .login {
+        flex-wrap: wrap;
+    }
+
+    footer {
+        gap: 16px;
+
+        padding: 22px 15px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        STRICT<span>ZILIER</span>.ro
+    </div>
+
+    <div class="tagline">
+        Muncă ocazională. Simplu și rapid.
+    </div>
+
+</header>
+
+
+<main>
+
+
+<section class="intro">
+
+    <h1>
+        Găsește omul potrivit. Găsește de lucru.
+    </h1>
+
+    <p>
+        O platformă simplă pentru zilieri și angajatori.
+    </p>
+
+</section>
+
+
+<section class="columns">
+
+
+<!-- =========================
+     ZILIER
+     ========================= -->
+
+<article class="card worker">
+
+
+    <div class="role-header">
+
+        <div class="badge">
+            ZILIER
+        </div>
+
+        <button
+            class="top-guide"
+            onclick="window.location.href='ghid-zilier.html'"
+        >
+            GHID ZILIER
+        </button>
+
+    </div>
+
+
+    <h2>
+        Cauți de muncă?
+    </h2>
+
+
+    <p class="description">
+        Creează-ți rapid contul. După validarea telefonului,
+        vei putea completa treptat informațiile necesare.
+    </p>
+
+
+    <div class="quick-title">
+        Înscriere rapidă
+    </div>
+
+
+    <div class="form-grid">
+
+        <input
+            class="field"
+            type="text"
+            placeholder="Nume"
+        >
+
+        <input
+            class="field"
+            type="text"
+            placeholder="Prenume"
+        >
+
+        <input
+            class="field full"
+            type="tel"
+            placeholder="Telefon / WhatsApp"
+        >
+
+        <input
+            class="field full"
+            type="text"
+            placeholder="Zona în care lucrezi"
+        >
+
+    </div>
+
+
+    <button
+        class="primary-btn"
+        onclick="openModal('zilier')"
+    >
+        ÎNSCRIE-TE RAPID
+    </button>
+
+
+    <div class="login">
+
+        <span>
+            Ai deja cont?
+        </span>
+
+        <button
+            class="login-btn"
+            onclick="openModal('login-zilier')"
+        >
+            Autentificare
+        </button>
+
+    </div>
+
+
+</article>
+
+
+<!-- =========================
+     AGENT
+     ========================= -->
+
+<article class="card agent">
+
+
+    <div class="badge">
+        AGENT STRICTZILIER
+    </div>
+
+
+    <h2>
+        Vorbește cu Agentul
+    </h2>
+
+
+    <p class="description">
+        Spune ce cauți sau de ce ai nevoie. Agentul mediază
+        întâlnirea dintre zilieri și angajatori.
+    </p>
+
+
+    <div class="agent-orb">
+        ✦
+    </div>
+
+
+    <button class="agent-btn">
+        PORNEȘTE CONVERSAȚIA
+    </button>
+
+
+    <div class="agent-note">
+        AI + asistență umană
+    </div>
+
+
+</article>
+
+
+<!-- =========================
+     ANGAJATOR
+     ========================= -->
+
+<article class="card employer">
+
+
+    <div class="role-header">
+
+        <div class="badge">
+            ANGAJATOR
+        </div>
+
+        <button
+            class="top-guide"
+            onclick="window.location.href='ghid-angajator.html'"
+        >
+            GHID ANGAJATOR
+        </button>
+
+    </div>
+
+
+    <h2>
+        Cauți oameni?
+    </h2>
+
+
+    <p class="description">
+        Creează contul firmei sau PFA-ului și spune-ne
+        pentru ce activitate ai nevoie de zilieri.
+    </p>
+
+
+    <div class="quick-title">
+        Înscriere rapidă
+    </div>
+
+
+    <div class="form-grid">
+
+        <input
+            class="field full"
+            type="text"
+            placeholder="Denumire societate / PFA"
+        >
+
+        <input
+            class="field"
+            type="text"
+            placeholder="CUI"
+        >
+
+        <input
+            class="field"
+            type="text"
+            placeholder="Nume reprezentant"
+        >
+
+        <input
+            class="field"
+            type="text"
+            placeholder="Prenume reprezentant"
+        >
+
+        <input
+            class="field full"
+            type="tel"
+            placeholder="Telefon / WhatsApp"
+        >
+
+    </div>
+
+
+    <button
+        class="primary-btn"
+        onclick="openModal('angajator')"
+    >
+        ÎNSCRIE ANGAJATORUL
+    </button>
+
+
+    <div class="login">
+
+        <span>
+            Ai deja cont?
+        </span>
+
+        <button
+            class="login-btn"
+            onclick="openModal('login-angajator')"
+        >
+            Autentificare
+        </button>
+
+    </div>
+
+
+</article>
+
+
+</section>
+
+
+</main>
+
+
+<footer>
+
+    <a href="#">
+        Termeni și Condiții
+    </a>
+
+    <a href="#">
+        Politica de Confidențialitate
+    </a>
+
+    <a href="#">
+        ANPC
+    </a>
+
+    <a href="#">
+        Contact
+    </a>
+
+</footer>
+
+
+<!-- =========================
+     MODAL
+     ========================= -->
+
+<div
+    class="modal"
+    id="modal"
+>
+
+    <div class="modal-box">
+
+        <button
+            class="close"
+            onclick="closeModal()"
+        >
+            ×
+        </button>
+
+
+        <h2 id="modal-title">
+            Autentificare
+        </h2>
+
+
+        <p id="modal-text">
+            În această etapă este doar macheta vizuală.
+            Validarea reală prin WhatsApp va fi introdusă ulterior.
+        </p>
+
+
+        <input
+            class="field full"
+            type="tel"
+            placeholder="Numărul de telefon"
+            style="margin-bottom:10px"
+        >
+
+
+        <button class="primary-btn">
+            TRIMITE CODUL PE WHATSAPP
+        </button>
+
+
+    </div>
+
+</div>
+
+
+<script>
+
+function openModal(type) {
+
+    const modal =
+        document.getElementById("modal");
+
+    const title =
+        document.getElementById("modal-title");
+
+    const text =
+        document.getElementById("modal-text");
+
+
+    if (type === "zilier") {
+
+        title.textContent =
+            "Creare cont Zilier";
+
+        text.textContent =
+            "Urmează validarea telefonului prin WhatsApp. " +
+            "Restul profilului va putea fi completat ulterior.";
+
+    }
+
+
+    if (type === "angajator") {
+
+        title.textContent =
+            "Creare cont Angajator";
+
+        text.textContent =
+            "Contul va fi asociat firmei sau PFA-ului și validat " +
+            "prin cod transmis pe WhatsApp.";
+
+    }
+
+
+    if (type === "login-zilier") {
+
+        title.textContent =
+            "Autentificare Zilier";
+
+        text.textContent =
+            "Introdu numărul de telefon. Codul de acces va fi " +
+            "trimis ulterior prin WhatsApp.";
+
+    }
+
+
+    if (type === "login-angajator") {
+
+        title.textContent =
+            "Autentificare Angajator";
+
+        text.textContent =
+            "Introdu numărul asociat contului. Codul de acces va fi " +
+            "trimis ulterior prin WhatsApp.";
+
+    }
+
+
+    modal.classList.add("show");
+
+}
+
+
+function closeModal() {
+
+    document
+        .getElementById("modal")
+        .classList.remove("show");
+
+}
+
+
+document
+    .getElementById("modal")
+    .addEventListener("click", function(e) {
+
+        if (e.target === this) {
+            closeModal();
+        }
+
+    });
+
+</script>
+
+
+</body>
+</html>
+```
