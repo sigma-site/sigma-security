@@ -1,0 +1,1155 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STRICTZILIER.ro – Șabloane Job</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#263238;
+}
+
+header{
+    height:68px;
+    background:#fff;
+    border-bottom:1px solid #ddd;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 28px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+.logo span{
+    color:#f28c28;
+}
+
+.guide-top-btn{
+    background:transparent;
+    border:1px solid #f28c28;
+    color:#d86f0b;
+    border-radius:6px;
+    padding:6px 10px;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.main{
+    max-width:1280px;
+    margin:22px auto;
+    padding:0 18px;
+    display:grid;
+    grid-template-columns:minmax(0,1.55fr) minmax(320px,.75fr);
+    gap:22px;
+}
+
+.content,
+.agent{
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+
+.content{
+    padding:26px;
+}
+
+h1{
+    margin:0 0 8px;
+    font-size:26px;
+}
+
+.subtitle{
+    color:#6d7880;
+    margin-bottom:24px;
+    line-height:1.5;
+}
+
+button{
+    border:none;
+    border-radius:8px;
+    padding:12px 17px;
+    cursor:pointer;
+    font-weight:bold;
+    font-size:14px;
+}
+
+.primary{
+    background:#f28c28;
+    color:#fff;
+}
+
+.dark{
+    background:#263238;
+    color:#fff;
+}
+
+.top-actions{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.table-wrap{
+    overflow-x:auto;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:14px;
+}
+
+th{
+    background:#f1f3f4;
+    padding:12px 9px;
+    text-align:left;
+    white-space:nowrap;
+}
+
+td{
+    padding:12px 9px;
+    border-bottom:1px solid #e5e7e9;
+    vertical-align:middle;
+}
+
+.model-btn{
+    background:#263238;
+    color:#fff;
+    padding:9px 12px;
+    font-size:12px;
+    white-space:nowrap;
+}
+
+.agent{
+    min-height:650px;
+    display:flex;
+    flex-direction:column;
+}
+
+.agent-header{
+    padding:18px 20px;
+    border-bottom:1px solid #ddd;
+    font-weight:bold;
+}
+
+.chat{
+    flex:1;
+    padding:20px;
+    background:#fafafa;
+}
+
+.chat-message{
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:9px;
+    padding:13px;
+    font-size:14px;
+    line-height:1.45;
+}
+
+.chat-input{
+    padding:13px;
+    border-top:1px solid #ddd;
+    display:flex;
+    gap:8px;
+}
+
+.chat-input input{
+    flex:1;
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:7px;
+}
+
+.chat-input button{
+    background:#f28c28;
+    color:#fff;
+    padding:10px 14px;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    z-index:20;
+    background:rgba(0,0,0,.55);
+    padding:25px 15px;
+    overflow-y:auto;
+}
+
+.form-box{
+    max-width:900px;
+    margin:auto;
+    background:#fff;
+    border-radius:12px;
+    padding:28px;
+}
+
+.form-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:22px;
+}
+
+.form-header h2{
+    margin:0;
+    font-size:22px;
+}
+
+.close{
+    background:#eee;
+    color:#333;
+    padding:9px 13px;
+}
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+.field label{
+    font-size:13px;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+.field input,
+.field select,
+.field textarea{
+    width:100%;
+    padding:11px;
+    border:1px solid #cdd2d5;
+    border-radius:7px;
+    font-size:14px;
+    font-family:inherit;
+}
+
+.field textarea{
+    min-height:95px;
+    resize:vertical;
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
+    outline:none;
+    border-color:#f28c28;
+}
+
+.field-help{
+    margin-top:6px;
+    color:#6d7880;
+    font-size:12px;
+    line-height:1.4;
+}
+
+.form-bottom{
+    margin-top:26px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.save-btn{
+    background:#f28c28;
+    color:#fff;
+}
+
+.save-btn:disabled{
+    background:#d9d9d9;
+    color:#888;
+    cursor:not-allowed;
+}
+
+@media(max-width:800px){
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .top-actions{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .agent{
+        min-height:420px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+    <div class="logo">
+        STRICT<span>ZILIER</span>.ro
+    </div>
+
+    <button
+        class="guide-top-btn"
+        onclick="window.location.href='ghid-angajator.html'">
+        Ghid angajator
+    </button>
+
+</header>
+
+
+<div class="main">
+
+<section class="content">
+
+    <h1>Șabloanele mele de joburi</h1>
+
+    <div class="subtitle">
+        Un șablon reprezintă descrierea generică a unei activități.
+        Pentru lansarea unei oferte concrete se va folosi ulterior
+        unul dintre aceste șabloane.
+    </div>
+
+    <div class="top-actions">
+
+        <button
+            class="primary"
+            onclick="openNewTemplate()">
+            + Creează șablon nou
+        </button>
+
+        <button
+            class="dark"
+            onclick="location.href='plasare-job.html'">
+            Plasează o ofertă
+        </button>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Activitate</th>
+                    <th>Locul</th>
+                    <th>Denumire</th>
+                    <th>Durată</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>S001</td>
+                    <td>Cules fructe</td>
+                    <td>Fermă</td>
+                    <td>Cules mere</td>
+                    <td>8 ore</td>
+                    <td>
+                        <button
+                            class="model-btn"
+                            onclick="useAsModel('S001')">
+                            Folosește ca model
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>S002</td>
+                    <td>Activități de întreținere peisagistică</td>
+                    <td>Grădină</td>
+                    <td>Întreținere grădină</td>
+                    <td>6 ore</td>
+                    <td>
+                        <button
+                            class="model-btn"
+                            onclick="useAsModel('S002')">
+                            Folosește ca model
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>S003</td>
+                    <td>Activități de alimentație (catering) pentru evenimente</td>
+                    <td>Sală evenimente</td>
+                    <td>Servire eveniment</td>
+                    <td>8 ore</td>
+                    <td>
+                        <button
+                            class="model-btn"
+                            onclick="useAsModel('S003')">
+                            Folosește ca model
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<aside class="agent">
+
+    <div class="agent-header">
+        Asistent STRICTZILIER
+    </div>
+
+    <div class="chat">
+
+        <div class="chat-message">
+            Pot să vă ajut să creați un șablon nou,
+            să explicați câmpurile sau să porniți
+            de la un șablon existent.
+        </div>
+
+    </div>
+
+    <div class="chat-input">
+
+        <input
+            type="text"
+            placeholder="Scrieți întrebarea...">
+
+        <button>Trimite</button>
+
+    </div>
+
+</aside>
+
+</div>
+
+
+<!-- FORMULAR ȘABLON JOB -->
+
+<div
+    class="modal"
+    id="templateModal">
+
+    <div class="form-box">
+
+        <div class="form-header">
+
+            <h2 id="formTitle">
+                Șablon job nou
+            </h2>
+
+            <button
+                class="close"
+                onclick="closeTemplate()">
+                Închide
+            </button>
+
+        </div>
+
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label>Denumire job</label>
+
+                <input
+                    id="denumireJob"
+                    type="text">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Grupa activitate</label>
+
+                <select id="grupa">
+
+                    <option value="">
+                        Selectează grupa
+                    </option>
+
+                    <option value="G01">
+                        Agricultură, horticultură și comerț agricol
+                    </option>
+
+                    <option value="G02">
+                        Silvicultură, pescuit și creșterea animalelor
+                    </option>
+
+                    <option value="G03">
+                        Peisagistică, spații verzi și gestionarea deșeurilor
+                    </option>
+
+                    <option value="G04">
+                        Natură, biodiversitate și agrement în aer liber
+                    </option>
+
+                    <option value="G05">
+                        Alimentație, ospitalitate și cazare
+                    </option>
+
+                    <option value="G06">
+                        Evenimente, spectacole și comunicare
+                    </option>
+
+                    <option value="G07">
+                        Sport și agrement
+                    </option>
+
+                    <option value="G08">
+                        Cercetare și studii de piață
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>Activitate</label>
+
+                <select
+                    id="activitate"
+                    disabled>
+
+                    <option value="">
+                        Selectează mai întâi grupa
+                    </option>
+
+                </select>
+
+                <div class="field-help">
+                    Selectați o singură activitate din
+                    lista corespunzătoare grupei.
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Durata activității – ore</label>
+
+                <input
+                    id="durata"
+                    type="number"
+                    min="1">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Pauză de masă – minute</label>
+
+                <input
+                    id="pauzaMasa"
+                    type="number"
+                    min="0"
+                    placeholder="30 sau 60">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Plata netă – lei</label>
+
+                <input
+                    id="sumaNeta"
+                    type="number"
+                    min="0">
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>Grad efort fizic</label>
+
+                <select id="efort">
+
+                    <option value="">
+                        Selectează nivelul
+                    </option>
+
+                    <option value="1">
+                        Activitate preponderent statică sau cu
+                        deplasări ocazionale. Greutăți până la 3 kg
+                    </option>
+
+                    <option value="2">
+                        Activitate cu deplasări frecvente și efort
+                        fizic redus. Greutăți până la 10 kg
+                    </option>
+
+                    <option value="3">
+                        Activitate fizică desfășurată constant pe
+                        durata programului. Greutăți între 10 și 20 kg
+                    </option>
+
+                    <option value="4">
+                        Activitate fizică intensă pe aproape întreaga
+                        durată a programului. Greutăți între 20 și 30 kg
+                    </option>
+
+                    <option value="5">
+                        Activitate foarte solicitantă, cu efort susținut.
+                        Greutăți peste 30 kg sau manipulare repetată
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Județ</label>
+
+                <input
+                    id="judet"
+                    type="text">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>Localitate</label>
+
+                <input
+                    id="localitate"
+                    type="text">
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>Loc desfășurare</label>
+
+                <input
+                    id="locDesfasurare"
+                    type="text"
+                    placeholder="Fermă, grădină, pădure etc.">
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Timp transport inclus în timpul plătit?
+                </label>
+
+                <select id="transportInclus">
+
+                    <option value="Nu">Nu</option>
+                    <option value="Da">Da</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>
+                    Timp instruire inclus în timpul plătit?
+                </label>
+
+                <select id="instruireInclus">
+
+                    <option value="Nu">Nu</option>
+                    <option value="Da">Da</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>Descriere activitate</label>
+
+                <textarea id="descriere"></textarea>
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>Beneficii suplimentare</label>
+
+                <textarea id="beneficii"></textarea>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-bottom">
+
+            <button
+                id="saveButton"
+                class="save-btn"
+                disabled
+                onclick="saveTemplate()">
+                Salvare
+            </button>
+
+            <button
+                class="close"
+                onclick="closeTemplate()">
+                Închide
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+const activitiesByGroup = {
+
+    G01:[
+        "Agricultură, vânătoare și servicii anexe",
+        "Creșterea materialului săditor",
+        "Creșterea plantelor ornamentale",
+        "Gazon pentru transplantare",
+        "Operațiuni de îngrijire și curățare a pomilor",
+        "Activități ale pepinierelor (cu excepția pepinierelor forestiere)",
+        "Comerț cu ridicata al produselor agricole brute și al animalelor vii"
+    ],
+
+    G02:[
+        "Silvicultură, cu excepția exploatărilor forestiere",
+        "Pescuit și acvacultură",
+        "Creșterea și reproducția animalelor semidomesticite și a altor animale"
+    ],
+
+    G03:[
+        "Activități de întreținere peisagistică",
+        "Plantarea, îngrijirea și întreținerea de parcuri și grădini",
+        "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale",
+        "Colectarea, tratarea și eliminarea deșeurilor nepericuloase",
+        "Recuperarea materialelor"
+    ],
+
+    G04:[
+        "Activități ale grădinilor zoologice",
+        "Activități ale grădinilor botanice",
+        "Activități ale rezervațiilor naturale"
+    ],
+
+    G05:[
+        "Activități de alimentație (catering) pentru evenimente",
+        "Restaurante",
+        "Baruri și alte activități de servire a băuturilor",
+        "Hoteluri și alte facilități de cazare",
+        "Tabere de copii organizate de Ministerul Tineretului și Sportului",
+        "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"
+    ],
+
+    G06:[
+        "Activități de organizare a expozițiilor, târgurilor și congreselor",
+        "Publicitate",
+        "Activități de interpretare artistică – spectacole",
+        "Activități-suport pentru interpretarea artistică – spectacole",
+        "Activități de gestionare a sălilor de spectacole"
+    ],
+
+    G07:[
+        "Activități ale bazelor sportive",
+        "Activități ale cluburilor sportive"
+    ],
+
+    G08:[
+        "Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)",
+        "Activități de studiere a pieței",
+        "Activități de sondare a opiniei publice",
+        "Activități de cercetare-dezvoltare în biotehnologie",
+        "Activități de cercetare-dezvoltare în alte științe naturale și inginerie"
+    ]
+};
+
+
+const templates={
+
+    S001:{
+        denumireJob:"Cules mere",
+        grupa:"G01",
+        activitate:"Agricultură, vânătoare și servicii anexe",
+        durata:"8",
+        pauzaMasa:"30",
+        sumaNeta:"250",
+        efort:"3",
+        judet:"Bacău",
+        localitate:"Bacău",
+        locDesfasurare:"Fermă",
+        transportInclus:"Nu",
+        instruireInclus:"Nu",
+        descriere:"Cules și sortare mere.",
+        beneficii:"Apă și pauză de masă."
+    },
+
+    S002:{
+        denumireJob:"Întreținere grădină",
+        grupa:"G03",
+        activitate:"Activități de întreținere peisagistică",
+        durata:"6",
+        pauzaMasa:"0",
+        sumaNeta:"200",
+        efort:"2",
+        judet:"Bacău",
+        localitate:"Bacău",
+        locDesfasurare:"Grădină",
+        transportInclus:"Nu",
+        instruireInclus:"Da",
+        descriere:"Lucrări de întreținere și curățare.",
+        beneficii:""
+    },
+
+    S003:{
+        denumireJob:"Servire eveniment",
+        grupa:"G05",
+        activitate:"Activități de alimentație (catering) pentru evenimente",
+        durata:"8",
+        pauzaMasa:"30",
+        sumaNeta:"300",
+        efort:"2",
+        judet:"Bacău",
+        localitate:"Bacău",
+        locDesfasurare:"Sală evenimente",
+        transportInclus:"Da",
+        instruireInclus:"Da",
+        descriere:"Servire și pregătire sală.",
+        beneficii:"Masă inclusă."
+    }
+
+};
+
+
+let currentMode=null;
+let currentTemplateId=null;
+let originalData=null;
+
+
+const fieldIds=[
+    "denumireJob",
+    "grupa",
+    "activitate",
+    "durata",
+    "pauzaMasa",
+    "sumaNeta",
+    "efort",
+    "judet",
+    "localitate",
+    "locDesfasurare",
+    "transportInclus",
+    "instruireInclus",
+    "descriere",
+    "beneficii"
+];
+
+
+function getFormData(){
+
+    const data={};
+
+    fieldIds.forEach(id=>{
+        data[id]=document.getElementById(id).value;
+    });
+
+    return data;
+}
+
+
+function setFormData(data){
+
+    document.getElementById("denumireJob").value=data.denumireJob||"";
+    document.getElementById("durata").value=data.durata||"";
+    document.getElementById("pauzaMasa").value=data.pauzaMasa||"";
+    document.getElementById("sumaNeta").value=data.sumaNeta||"";
+    document.getElementById("efort").value=data.efort||"";
+    document.getElementById("judet").value=data.judet||"";
+    document.getElementById("localitate").value=data.localitate||"";
+    document.getElementById("locDesfasurare").value=data.locDesfasurare||"";
+    document.getElementById("transportInclus").value=data.transportInclus||"Nu";
+    document.getElementById("instruireInclus").value=data.instruireInclus||"Nu";
+    document.getElementById("descriere").value=data.descriere||"";
+    document.getElementById("beneficii").value=data.beneficii||"";
+}
+
+
+function loadActivities(groupValue,selectedActivity=""){
+
+    const select=document.getElementById("activitate");
+
+    select.innerHTML="";
+
+    if(!groupValue){
+
+        select.disabled=true;
+
+        const option=document.createElement("option");
+
+        option.value="";
+        option.textContent="Selectează mai întâi grupa";
+
+        select.appendChild(option);
+
+        return;
+    }
+
+    select.disabled=false;
+
+    const first=document.createElement("option");
+
+    first.value="";
+    first.textContent="Selectează o activitate";
+
+    select.appendChild(first);
+
+    activitiesByGroup[groupValue].forEach(activity=>{
+
+        const option=document.createElement("option");
+
+        option.value=activity;
+        option.textContent=activity;
+
+        if(activity===selectedActivity){
+            option.selected=true;
+        }
+
+        select.appendChild(option);
+
+    });
+}
+
+
+document.getElementById("grupa").addEventListener("change",function(){
+
+    loadActivities(this.value);
+    checkChanges();
+
+});
+
+
+function openNewTemplate(){
+
+    currentMode="new";
+    currentTemplateId=null;
+    originalData=null;
+
+    document.getElementById("formTitle").textContent=
+        "Șablon job nou";
+
+    document.getElementById("grupa").value="";
+
+    loadActivities("");
+
+    fieldIds.forEach(id=>{
+
+        if(id==="grupa" || id==="activitate"){
+            return;
+        }
+
+        const element=document.getElementById(id);
+
+        if(element.tagName==="SELECT"){
+
+            element.value=
+                id==="transportInclus" ||
+                id==="instruireInclus"
+                    ?"Nu"
+                    :"";
+
+        }else{
+
+            element.value="";
+
+        }
+
+    });
+
+    document.getElementById("saveButton").disabled=true;
+
+    document.getElementById("templateModal").style.display="block";
+}
+
+
+function useAsModel(id){
+
+    const template=templates[id];
+
+    if(!template){
+        return;
+    }
+
+    currentMode="model";
+    currentTemplateId=id;
+
+    document.getElementById("formTitle").textContent=
+        "Șablon nou pornind de la "+id;
+
+    document.getElementById("grupa").value=template.grupa;
+
+    loadActivities(
+        template.grupa,
+        template.activitate
+    );
+
+    setFormData(template);
+
+    originalData=getFormData();
+
+    document.getElementById("saveButton").disabled=true;
+
+    document.getElementById("templateModal").style.display="block";
+}
+
+
+function checkChanges(){
+
+    const saveButton=document.getElementById("saveButton");
+    const currentData=getFormData();
+
+    let changed=false;
+
+    if(currentMode==="new"){
+
+        changed=Object.values(currentData).some(value=>
+            String(value).trim()!==""
+        );
+
+    }
+
+    if(currentMode==="model"){
+
+        changed=
+            JSON.stringify(currentData)!==
+            JSON.stringify(originalData);
+
+    }
+
+    saveButton.disabled=!changed;
+}
+
+
+fieldIds.forEach(id=>{
+
+    const element=document.getElementById(id);
+
+    element.addEventListener("input",checkChanges);
+    element.addEventListener("change",checkChanges);
+
+});
+
+
+function saveTemplate(){
+
+    const saveButton=document.getElementById("saveButton");
+
+    if(saveButton.disabled){
+        return;
+    }
+
+    const data=getFormData();
+
+    const newId=
+        "S"+
+        String(
+            Math.floor(Math.random()*9000)+1000
+        );
+
+    if(currentMode==="model"){
+
+        alert(
+            "Șablonul "+
+            currentTemplateId+
+            " rămâne neschimbat.\n\n"+
+            "Noua variantă va fi salvată cu ID-ul "+
+            newId+
+            "."
+        );
+
+    }else{
+
+        alert(
+            "Șablonul nou va fi salvat cu ID-ul "+
+            newId+
+            "."
+        );
+
+    }
+
+    console.log("Date șablon:",data);
+
+    closeTemplate();
+}
+
+
+function closeTemplate(){
+
+    document.getElementById("templateModal").style.display="none";
+
+}
+
+
+window.addEventListener("click",function(event){
+
+    const modal=document.getElementById("templateModal");
+
+    if(event.target===modal){
+        closeTemplate();
+    }
+
+});
+
+</script>
+
+</body>
+</html>
