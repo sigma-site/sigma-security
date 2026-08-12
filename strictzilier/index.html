@@ -317,54 +317,6 @@ main {
 
 
 /* =========================
-   ORB — DECORATIV
-   ========================= */
-
-.agent-orb {
-
-    width: 52px;
-    height: 52px;
-
-    flex-shrink: 0;
-
-    margin-bottom: 10px;
-
-    border-radius: 50%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(255,255,255,.08);
-
-    border: 1px solid rgba(255,255,255,.18);
-
-    box-shadow:
-        0 0 0 7px rgba(255,255,255,.025);
-
-    font-size: 22px;
-
-    transition: .25s ease;
-}
-
-
-/* ACTIV */
-
-.agent.active .agent-orb {
-
-    background: rgba(47,125,104,.55);
-
-    border-color: #cce8df;
-
-    box-shadow:
-        0 0 0 7px rgba(47,125,104,.12),
-        0 0 20px rgba(47,125,104,.45);
-
-}
-
-
-/* =========================
    BUTON
    ========================= */
 
@@ -724,7 +676,7 @@ footer a:hover {
     width: 100%;
     max-width: 330px;
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 34px 1fr;
     gap: 6px;
     margin-bottom: 9px;
     flex-shrink: 0;
@@ -745,6 +697,29 @@ footer a:hover {
     background: var(--orange);
     border-color: var(--orange);
     color: white;
+}
+
+.agent-orb {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.18);
+    box-shadow: 0 0 0 4px rgba(255,255,255,.025);
+    color: white;
+    font-size: 15px;
+    transition: .25s ease;
+}
+
+.agent.active .agent-orb {
+    background: rgba(47,125,104,.55);
+    border-color: #cce8df;
+    box-shadow:
+        0 0 0 4px rgba(47,125,104,.12),
+        0 0 14px rgba(47,125,104,.45);
 }
 
 .mode-panel {
@@ -1099,6 +1074,10 @@ footer a:hover {
             VOCAL
         </button>
 
+        <div class="agent-orb" aria-hidden="true">
+            ✦
+        </div>
+
         <button
             id="textModeButton"
             class="mode-btn"
@@ -1113,9 +1092,6 @@ footer a:hover {
         id="voicePanel"
         class="mode-panel voice-controls">
 
-        <div class="agent-orb">
-            ✦
-        </div>
 
         <button
             id="agentButton"
@@ -1159,10 +1135,6 @@ footer a:hover {
 
     </div>
 
-
-    <div class="agent-note">
-        AI + asistență umană
-    </div>
 
 
 </article>
