@@ -6,10 +6,6 @@ header('Access-Control-Allow-Headers: Content-Type');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
 
 
-/*
- * Răspundem la verificarea CORS.
- */
-
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit;
@@ -17,25 +13,80 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 
 /*
- * Citim cheia Vapi din variabila de mediu.
+ * Citim cheia Vapi.
+ *
+ * Mai întâi încercăm getenv().
+ * Dacă PieHost nu expune variabila prin getenv(),
+ * citim direct fișierul .env din rădăcina proiectului.
  */
 
 $apiKey = getenv('VAPI_PRIVATE_KEY');
+
+
+if (!$apiKey) {
+
+    $envFile = dirname(__DIR__) . '/.env';
+
+    if (file_exists($envFile)) {
+
+        $lines = file(
+            $envFile,
+            FILE_IGNORE_NEW_LINES |
+            FILE_SKIP_EMPTY_LINES
+        );
+
+        foreach ($lines as $line) {
+
+            $line = trim($line);
+
+            if (
+                $line === '' ||
+                str_starts_with($line, '#')
+            ) {
+                continue;
+            }
+
+            if (
+                strpos($line, 'VAPI_PRIVATE_KEY=') === 0
+            ) {
+
+                $apiKey =
+                    substr(
+                        $line,
+                        strlen('VAPI_PRIVATE_KEY=')
+                    );
+
+                $apiKey =
+                    trim(
+                        $apiKey,
+                        " \t\n\r\0\x0B\"'"
+                    );
+
+                break;
+            }
+        }
+    }
+}
+
 
 if (!$apiKey) {
 
     http_response_code(500);
 
-    echo json_encode([
-        'error' => 'VAPI_PRIVATE_KEY nu este configurată.'
-    ]);
+    echo json_encode(
+        [
+            'error' =>
+                'VAPI_PRIVATE_KEY nu este configurată.'
+        ],
+        JSON_UNESCAPED_UNICODE
+    );
 
     exit;
 }
 
 
 /*
- * Citim datele trimise de pagina web.
+ * Citim mesajul primit de la pagina web.
  */
 
 $input = json_decode(
@@ -48,17 +99,22 @@ if (!is_array($input)) {
 
     http_response_code(400);
 
-    echo json_encode([
-        'error' => 'Date JSON invalide.'
-    ]);
+    echo json_encode(
+        [
+            'error' =>
+                'Date JSON invalide.'
+        ],
+        JSON_UNESCAPED_UNICODE
+    );
 
     exit;
 }
 
 
-$message = trim(
-    $input['message'] ?? ''
-);
+$message =
+    trim(
+        $input['message'] ?? ''
+    );
 
 
 $previousChatId =
@@ -71,16 +127,20 @@ if ($message === '') {
 
     http_response_code(400);
 
-    echo json_encode([
-        'error' => 'Mesajul este gol.'
-    ]);
+    echo json_encode(
+        [
+            'error' =>
+                'Mesajul este gol.'
+        ],
+        JSON_UNESCAPED_UNICODE
+    );
 
     exit;
 }
 
 
 /*
- * ID-ul agentului STRICTZILIER.
+ * Agentul STRICTZILIER.
  */
 
 $assistantId =
@@ -88,16 +148,19 @@ $assistantId =
 
 
 /*
- * Construim cererea către Vapi.
+ * Pregătim cererea către Vapi.
  */
 
 $data = [
 
-    'assistantId' => $assistantId,
+    'assistantId' =>
+        $assistantId,
 
-    'input' => $message,
+    'input' =>
+        $message,
 
-    'stream' => false
+    'stream' =>
+        false
 
 ];
 
@@ -111,7 +174,7 @@ if ($previousChatId !== '') {
 
 
 /*
- * Apel Vapi.
+ * Apel către Vapi.
  */
 
 $ch = curl_init(
@@ -123,22 +186,29 @@ curl_setopt_array(
     $ch,
     [
 
-        CURLOPT_POST => true,
+        CURLOPT_POST =>
+            true,
 
-        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_RETURNTRANSFER =>
+            true,
 
-        CURLOPT_HTTPHEADER => [
+        CURLOPT_HTTPHEADER =>
+            [
 
-            'Authorization: Bearer ' . $apiKey,
+                'Authorization: Bearer ' .
+                    $apiKey,
 
-            'Content-Type: application/json'
+                'Content-Type: application/json'
 
-        ],
+            ],
 
         CURLOPT_POSTFIELDS =>
-            json_encode($data),
+            json_encode(
+                $data
+            ),
 
-        CURLOPT_TIMEOUT => 60
+        CURLOPT_TIMEOUT =>
+            60
 
     ]
 );
@@ -170,12 +240,16 @@ if ($response === false) {
 
     http_response_code(502);
 
-    echo json_encode([
-        'error' =>
-            'Nu s-a putut contacta Vapi.',
-        'details' =>
-            $curlError
-    ]);
+    echo json_encode(
+        [
+            'error' =>
+                'Nu s-a putut contacta Vapi.',
+
+            'details' =>
+                $curlError
+        ],
+        JSON_UNESCAPED_UNICODE
+    );
 
     exit;
 }
@@ -192,6 +266,10 @@ $vapiResponse =
     );
 
 
+/*
+ * Vapi a returnat o eroare.
+ */
+
 if (
     $httpCode < 200 ||
     $httpCode >= 300
@@ -201,74 +279,37 @@ if (
         $httpCode ?: 502
     );
 
-    echo json_encode([
+    echo json_encode(
+        [
 
-        'error' =>
-            'Vapi a returnat o eroare.',
+            'error' =>
+                'Vapi a returnat o eroare.',
 
-        'vapi' =>
-            $vapiResponse
+            'vapi' =>
+                $vapiResponse
 
-    ]);
-
-    exit;
-}
-
-
-/*
- * Extragem răspunsul agentului.
- */
-
-$reply = '';
-
-
-if (
-    isset(
-        $vapiResponse['output'][0]['content']
-    )
-) {
-
-    $reply =
-        $vapiResponse['output'][0]['content'];
-
-}
-
-
-if ($reply === '') {
-
-    http_response_code(502);
-
-    echo json_encode([
-
-        'error' =>
-            'Vapi nu a returnat un răspuns text.',
-
-        'vapi' =>
-            $vapiResponse
-
-    ]);
+        ],
+        JSON_UNESCAPED_UNICODE
+    );
 
     exit;
 }
 
 
 /*
- * Trimitem către pagina web doar ce avem nevoie.
+ * Pentru moment returnăm răspunsul Vapi
+ * aproape integral, ca să vedem exact
+ * structura răspunsului real.
  */
 
 echo json_encode(
-
     [
+        'ok' =>
+            true,
 
-        'ok' => true,
-
-        'reply' => $reply,
-
-        'chatId' =>
-            $vapiResponse['id'] ?? null
+        'vapi' =>
+            $vapiResponse
 
     ],
-
     JSON_UNESCAPED_UNICODE
-
 );
