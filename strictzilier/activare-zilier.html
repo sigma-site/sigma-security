@@ -1,0 +1,1040 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>STRICTZILIER.ro – Activare cont zilier</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#263238;
+}
+
+
+/* =========================
+   HEADER
+   ========================= */
+
+header{
+    height:68px;
+    background:#fff;
+    border-bottom:1px solid #ddd;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 28px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+.logo span{
+    color:#f28c28;
+}
+
+.guide-top-btn{
+    background:transparent;
+    border:1px solid #f28c28;
+    color:#d86f0b;
+
+    border-radius:6px;
+
+    padding:6px 10px;
+
+    font-size:12px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+
+/* =========================
+   MAIN
+   ========================= */
+
+.main{
+    max-width:1180px;
+
+    margin:18px auto;
+
+    padding:0 18px;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1.55fr)
+        minmax(320px,.75fr);
+
+    gap:20px;
+}
+
+
+/* =========================
+   CONTENT
+   ========================= */
+
+.content,
+.agent{
+    background:#fff;
+
+    border-radius:12px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.06);
+}
+
+.content{
+    padding:23px;
+}
+
+h1{
+    margin:0 0 6px;
+
+    font-size:25px;
+}
+
+.subtitle{
+    color:#6d7880;
+
+    margin-bottom:18px;
+
+    line-height:1.45;
+
+    font-size:14px;
+}
+
+
+/* =========================
+   SECTIONS
+   ========================= */
+
+.section{
+    margin-bottom:16px;
+
+    padding-bottom:14px;
+
+    border-bottom:1px solid #e5e7e9;
+}
+
+.section:last-of-type{
+    border-bottom:none;
+
+    margin-bottom:8px;
+}
+
+.section h2{
+    margin:0 0 11px;
+
+    font-size:17px;
+}
+
+
+/* =========================
+   FIELDS
+   ========================= */
+
+.field{
+    margin-bottom:16px;
+}
+
+.field label{
+    display:block;
+
+    margin-bottom:6px;
+
+    font-size:12px;
+
+    color:#737d83;
+
+    font-weight:700;
+}
+
+select{
+    width:100%;
+
+    height:44px;
+
+    padding:0 11px;
+
+    border:1px solid #e4e7e9;
+
+    border-radius:7px;
+
+    background:#f7f8f9;
+
+    color:#263238;
+
+    font-size:13px;
+}
+
+select:focus{
+    outline:none;
+
+    border-color:#f28c28;
+
+    box-shadow:
+        0 0 0 2px rgba(242,140,40,.10);
+}
+
+select:disabled{
+    color:#899399;
+
+    background:#f1f3f4;
+}
+
+.activity-note{
+    margin-top:6px;
+
+    color:#737d83;
+
+    font-size:12px;
+
+    line-height:1.4;
+}
+
+
+/* =========================
+   AGE
+   ========================= */
+
+.age-box{
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:10px;
+
+    margin-top:15px;
+
+    padding:12px;
+
+    background:#f7f8f9;
+
+    border:1px solid #e4e7e9;
+
+    border-radius:7px;
+}
+
+.age-box input{
+    width:18px;
+    height:18px;
+
+    margin:1px 0 0;
+
+    flex-shrink:0;
+}
+
+.age-box label{
+    font-size:13px;
+
+    line-height:1.45;
+
+    font-weight:600;
+}
+
+.warning{
+    display:none;
+
+    margin-top:9px;
+
+    color:#b42318;
+
+    font-size:13px;
+
+    font-weight:700;
+
+    line-height:1.4;
+}
+
+
+/* =========================
+   BUTTON
+   ========================= */
+
+.button-area{
+    margin-top:18px;
+}
+
+.activate-button{
+    width:100%;
+
+    min-height:45px;
+
+    border:0;
+
+    border-radius:7px;
+
+    background:#f28c28;
+
+    color:#fff;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.activate-button:hover{
+    background:#d97718;
+}
+
+.activate-button:disabled{
+    background:#bfc6c9;
+
+    cursor:not-allowed;
+}
+
+
+/* =========================
+   BOTTOM NOTE
+   ========================= */
+
+.bottom-note{
+    margin:15px 0 0;
+
+    color:#6d7880;
+
+    font-size:12px;
+
+    line-height:1.45;
+}
+
+
+/* =========================
+   AGENT
+   ========================= */
+
+.agent{
+    min-height:560px;
+
+    display:flex;
+
+    flex-direction:column;
+}
+
+.agent-header{
+    padding:16px 18px;
+
+    border-bottom:1px solid #ddd;
+
+    font-weight:bold;
+
+    font-size:14px;
+}
+
+.chat{
+    flex:1;
+
+    padding:17px;
+
+    background:#fafafa;
+}
+
+.chat-message{
+    background:#fff;
+
+    border:1px solid #ddd;
+
+    border-radius:9px;
+
+    padding:12px;
+
+    font-size:13px;
+
+    line-height:1.45;
+}
+
+.chat-input{
+    padding:12px;
+
+    border-top:1px solid #ddd;
+
+    display:flex;
+
+    gap:7px;
+}
+
+.chat-input input{
+    flex:1;
+
+    min-width:0;
+
+    padding:9px;
+
+    border:1px solid #ccc;
+
+    border-radius:7px;
+
+    font-size:13px;
+}
+
+.chat-input button{
+    border:none;
+
+    border-radius:7px;
+
+    padding:9px 13px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    font-size:13px;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media(max-width:800px){
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .agent{
+        min-height:420px;
+    }
+
+}
+
+
+@media(max-width:520px){
+
+    header{
+        padding:0 16px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        STRICT<span>ZILIER</span>.ro
+    </div>
+
+
+    <button
+        class="guide-top-btn"
+        onclick="location.href='ghid-zilier.html'">
+
+        Ghid zilier
+
+    </button>
+
+</header>
+
+
+
+<div class="main">
+
+
+<!-- =========================
+     FORMULAR
+     ========================= -->
+
+<section class="content">
+
+
+    <h1>
+        Activează-ți contul
+    </h1>
+
+
+    <div class="subtitle">
+
+        Ai ajuns aici din mesajul primit pe WhatsApp.
+        Alege grupa de activități în care dorești să
+        lucrezi și confirmă că ai împlinit 18 ani.
+
+    </div>
+
+
+
+    <!-- GRUPA -->
+
+    <div class="section">
+
+        <h2>
+            Preferințe de activitate
+        </h2>
+
+
+        <div class="field">
+
+            <label for="group">
+                Grupa de activități
+            </label>
+
+
+            <select id="group">
+
+                <option value="">
+                    Alege grupa
+                </option>
+
+                <option value="G01">
+                    Agricultură, horticultură și comerț agricol
+                </option>
+
+                <option value="G02">
+                    Silvicultură, pescuit și creșterea animalelor
+                </option>
+
+                <option value="G03">
+                    Peisagistică, spații verzi și gestionarea deșeurilor
+                </option>
+
+                <option value="G04">
+                    Natură, biodiversitate și agrement în aer liber
+                </option>
+
+                <option value="G05">
+                    Alimentație, ospitalitate și cazare
+                </option>
+
+                <option value="G06">
+                    Evenimente, spectacole și comunicare
+                </option>
+
+                <option value="G07">
+                    Sport și agrement
+                </option>
+
+                <option value="G08">
+                    Cercetare și studii de piață
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <div class="field">
+
+            <label for="activity">
+                Activitatea preferată
+            </label>
+
+
+            <select
+                id="activity"
+                disabled
+            >
+
+                <option value="">
+                    Alege mai întâi grupa
+                </option>
+
+            </select>
+
+
+            <div class="activity-note">
+
+                Alegerea unei activități este opțională.
+                Dacă nu alegi o activitate, vei putea primi
+                oferte pentru toate activitățile din grupa aleasă.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- VARSTA -->
+
+    <div class="section">
+
+        <h2>
+            Confirmarea vârstei
+        </h2>
+
+
+        <div class="age-box">
+
+            <input
+                id="age"
+                type="checkbox"
+            >
+
+
+            <label for="age">
+
+                Confirm că am împlinit 18 ani și că
+                informațiile declarate sunt corecte.
+
+            </label>
+
+        </div>
+
+
+        <div
+            id="warning"
+            class="warning"
+        >
+
+            Pentru crearea contului este obligatoriu să
+            confirmi că ai împlinit 18 ani.
+
+        </div>
+
+    </div>
+
+
+
+    <!-- BUTON -->
+
+    <div class="button-area">
+
+        <button
+            id="activateButton"
+            class="activate-button"
+            type="button"
+            disabled
+        >
+
+            Activează contul
+
+        </button>
+
+    </div>
+
+
+    <p class="bottom-note">
+
+        După activarea contului vei primi pe WhatsApp
+        confirmarea și te vei putea conecta ulterior
+        folosind numărul tău de telefon.
+
+    </p>
+
+
+</section>
+
+
+
+<!-- =========================
+     AGENT
+     ========================= -->
+
+<aside class="agent">
+
+
+    <div class="agent-header">
+
+        Asistent STRICTZILIER
+
+    </div>
+
+
+    <div class="chat">
+
+        <div class="chat-message">
+
+            Bun venit! Vă pot ajuta cu alegerea grupei,
+            activității sau cu activarea contului.
+
+        </div>
+
+    </div>
+
+
+    <div class="chat-input">
+
+        <input
+            type="text"
+            placeholder="Scrieți întrebarea..."
+        >
+
+
+        <button class="primary">
+
+            Trimite
+
+        </button>
+
+    </div>
+
+
+</aside>
+
+
+</div>
+
+
+
+<script>
+
+
+/*
+    ACTIVITĂȚILE SUNT LEGATE DE GRUPELE
+    DIN NOMENCLATOR.
+
+    Codurile nu sunt afișate utilizatorului.
+*/
+
+
+const activities = {
+
+
+    G01: [
+
+        "Toate activitățile din această grupă",
+
+        "Agricultură, vânătoare și servicii anexe",
+
+        "Producerea materialului săditor",
+
+        "Cultivarea plantelor ornamentale",
+
+        "Producerea gazonului pentru transplantare",
+
+        "Îngrijirea și curățarea pomilor",
+
+        "Activități ale pepinierelor",
+
+        "Comerț cu produse agricole și animale vii"
+
+    ],
+
+
+    G02: [
+
+        "Toate activitățile din această grupă",
+
+        "Silvicultură",
+
+        "Pescuit și acvacultură",
+
+        "Creșterea și reproducerea animalelor semidomesticite și a altor animale"
+
+    ],
+
+
+    G03: [
+
+        "Toate activitățile din această grupă",
+
+        "Întreținerea peisagistică",
+
+        "Plantarea, îngrijirea și întreținerea parcurilor și grădinilor",
+
+        "Întreținerea spațiilor verzi publice",
+
+        "Colectarea, tratarea și eliminarea deșeurilor nepericuloase",
+
+        "Recuperarea materialelor"
+
+    ],
+
+
+    G04: [
+
+        "Toate activitățile din această grupă",
+
+        "Activități ale grădinilor zoologice",
+
+        "Activități ale grădinilor botanice",
+
+        "Activități ale rezervațiilor naturale"
+
+    ],
+
+
+    G05: [
+
+        "Toate activitățile din această grupă",
+
+        "Catering pentru evenimente",
+
+        "Restaurante",
+
+        "Baruri și servirea băuturilor",
+
+        "Hoteluri și alte facilități de cazare",
+
+        "Tabere de copii",
+
+        "Cabane și alte spații de cazare pentru vacanțe"
+
+    ],
+
+
+    G06: [
+
+        "Toate activitățile din această grupă",
+
+        "Organizarea de expoziții, târguri și congrese",
+
+        "Publicitate",
+
+        "Spectacole și interpretare artistică",
+
+        "Activități de sprijin pentru spectacole",
+
+        "Administrarea sălilor de spectacole"
+
+    ],
+
+
+    G07: [
+
+        "Toate activitățile din această grupă",
+
+        "Activități ale bazelor sportive",
+
+        "Activități ale cluburilor sportive"
+
+    ],
+
+
+    G08: [
+
+        "Toate activitățile din această grupă",
+
+        "Cercetare în științe sociale și umaniste – inclusiv săpături arheologice",
+
+        "Studii de piață",
+
+        "Sondaje de opinie",
+
+        "Cercetare în biotehnologie",
+
+        "Cercetare în alte științe naturale și inginerie"
+
+    ]
+
+};
+
+
+
+const group =
+    document.getElementById("group");
+
+
+const activity =
+    document.getElementById("activity");
+
+
+const age =
+    document.getElementById("age");
+
+
+const activateButton =
+    document.getElementById("activateButton");
+
+
+const warning =
+    document.getElementById("warning");
+
+
+
+/*
+    Încărcarea activităților după alegerea grupei.
+*/
+
+group.addEventListener(
+    "change",
+    function(){
+
+        activity.innerHTML = "";
+
+
+        if(!group.value){
+
+            activity.disabled = true;
+
+
+            const option =
+                document.createElement("option");
+
+            option.textContent =
+                "Alege mai întâi grupa";
+
+            option.value = "";
+
+
+            activity.appendChild(option);
+
+
+            updateButton();
+
+            return;
+
+        }
+
+
+        const defaultOption =
+            document.createElement("option");
+
+        defaultOption.value =
+            "ALL";
+
+        defaultOption.textContent =
+            "Toate activitățile din această grupă";
+
+
+        activity.appendChild(defaultOption);
+
+
+        activities[group.value]
+            .slice(1)
+            .forEach(
+                function(name){
+
+                    const option =
+                        document.createElement("option");
+
+                    option.value =
+                        name;
+
+                    option.textContent =
+                        name;
+
+
+                    activity.appendChild(option);
+
+                }
+            );
+
+
+        activity.disabled = false;
+
+        activity.value = "ALL";
+
+
+        updateButton();
+
+    }
+);
+
+
+
+activity.addEventListener(
+    "change",
+    function(){
+
+        updateButton();
+
+    }
+);
+
+
+
+age.addEventListener(
+    "change",
+    function(){
+
+        warning.style.display =
+            "none";
+
+        updateButton();
+
+    }
+);
+
+
+
+function updateButton(){
+
+    activateButton.disabled =
+        !(
+            group.value &&
+            age.checked
+        );
+
+}
+
+
+
+/*
+    În versiunea funcțională aici vor fi transmise
+    datele către Make / backend.
+
+    Nu mai afișăm în pagină mesajul tehnic.
+*/
+
+activateButton.addEventListener(
+    "click",
+    function(){
+
+        if(!age.checked){
+
+            warning.style.display =
+                "block";
+
+            return;
+
+        }
+
+
+        let selectedActivity =
+            activity.value;
+
+
+        if(!selectedActivity){
+
+            selectedActivity =
+                "ALL";
+
+        }
+
+
+        console.log({
+
+            grupa:
+                group.value,
+
+            activitate:
+                selectedActivity,
+
+            peste18:
+                age.checked
+
+        });
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>
+```

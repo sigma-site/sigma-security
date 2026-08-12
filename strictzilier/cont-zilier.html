@@ -1,0 +1,1384 @@
+﻿
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Cont Zilier - STRICTZILIER.ro</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f6f8;
+            color: #263238;
+        }
+
+        button,
+        select {
+            font: inherit;
+        }
+
+        .header {
+            height: 68px;
+            background: #ffffff;
+            border-bottom: 1px solid #dce4e7;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 0 28px;
+
+            position: sticky;
+            top: 0;
+            z-index: 20;
+        }
+
+        .logo {
+            font-size: 21px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        .logo span {
+            color: #f28c28;
+        }
+
+        .manual-link {
+    background:transparent;
+    border:1px solid #f28c28;
+    color:#d86f0b;
+    border-radius:6px;
+    padding:6px 10px;
+    font-size:12px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+        .page {
+            max-width:1180px;
+            width:calc(100% - 36px);
+            margin: 0 auto;
+            padding:18px 0 45px;
+        }
+
+        .layout {
+            display: grid;
+            grid-template-columns:minmax(0,1.55fr) minmax(320px,.75fr);
+            gap:20px;
+            align-items: start;
+        }
+
+        .card,
+        .assistant {
+            background: #ffffff;
+            border: 1px solid #dce4e7;
+            border-radius:12px;
+
+            box-shadow:0 2px 8px rgba(0,0,0,.06);
+        }
+
+        .card {
+            padding:23px;
+        }
+
+        .assistant {
+            padding:0;
+        }
+
+        .top-line {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 20px;
+        }
+
+        h1 {
+            margin: 0 0 5px;
+            font-size:25px;
+            line-height: 1.2;
+        }
+
+        h2 {
+            margin: 0;
+            font-size:17px;
+        }
+
+        .welcome {
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .muted {
+            color: #68767d;
+            line-height: 1.5;
+        }
+
+        .progress {
+            margin: 21px 0 28px;
+        }
+
+        .progress-top {
+            display: flex;
+            justify-content: space-between;
+
+            margin-bottom: 8px;
+
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .progress-track {
+            height: 10px;
+            background: #e5ecee;
+            border-radius: 99px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 64%;
+            height: 100%;
+            background: #f28c28;
+        }
+
+        .section {
+            margin-top: 28px;
+            padding-top: 25px;
+            border-top: 1px solid #e5ebed;
+        }
+
+        .section:first-of-type {
+            border-top: 0;
+            padding-top: 0;
+        }
+
+        .section-title {
+            margin-bottom: 7px;
+            font-size:17px;
+            font-weight: 800;
+        }
+
+        /* CALENDAR */
+
+        .calendar-help {
+            margin: 7px 0 16px;
+            font-size: 14px;
+        }
+
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .day {
+            position: relative;
+
+            display: block;
+
+            padding: 10px 5px;
+
+            border: 1px solid #dce4e7;
+            border-radius: 11px;
+
+            text-align: center;
+
+            background: #ffffff;
+
+            cursor: pointer;
+
+            user-select: none;
+        }
+
+        .day input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .day-name {
+            display: block;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .day-date {
+            display: block;
+
+            margin-top: 4px;
+
+            color: #68767d;
+            font-size: 11px;
+        }
+
+        .check {
+            display: block;
+
+            width: 21px;
+            height: 21px;
+
+            margin: 10px auto 1px;
+
+            border: 2px solid #c5d0d3;
+            border-radius: 6px;
+        }
+
+        .day.selected {
+            background: #fff2e5;
+            border-color: #f28c28;
+        }
+
+        .day.selected .check {
+            background: #f28c28;
+            border-color: #f28c28;
+        }
+
+        .day.selected .check::after {
+            content: "✓";
+
+            display: block;
+
+            color: #ffffff;
+
+            font-size: 14px;
+            font-weight: 800;
+
+            line-height: 17px;
+        }
+
+        .calendar-status {
+            min-height: 20px;
+
+            margin-top: 12px;
+
+            color: #68767d;
+
+            font-size: 13px;
+        }
+
+        /* PREFERINTE */
+
+        .preference-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-top: 16px;
+        }
+
+        .preference {
+            padding: 15px;
+
+            border: 1px solid #dce4e7;
+            border-radius: 12px;
+
+            background: #fafcfc;
+        }
+
+        .preference-label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #68767d;
+
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .preference-value {
+            display: block;
+
+            font-size: 15px;
+            font-weight: 800;
+
+            line-height: 1.4;
+        }
+
+        .edit-button {
+            margin-top: 14px;
+
+            min-height: 40px;
+
+            padding: 0 15px;
+
+            border: 1px solid #f28c28;
+            border-radius: 9px;
+
+            background: #ffffff;
+            color: #f28c28;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .edit-area {
+            display: none;
+
+            margin-top: 15px;
+
+            padding: 17px;
+
+            border-radius: 12px;
+
+            background: #f4f6f8;
+        }
+
+        .edit-area.active {
+            display: block;
+        }
+
+        .edit-field {
+            margin-bottom: 13px;
+        }
+
+        .edit-field label {
+            display: block;
+
+            margin-bottom: 6px;
+
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .edit-field select {
+            width: 100%;
+            height: 43px;
+
+            padding: 0 10px;
+
+            border: 1px solid #cbd6da;
+            border-radius: 9px;
+
+            background: #ffffff;
+        }
+
+        .edit-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .primary,
+        .secondary {
+            min-height: 43px;
+
+            padding: 0 16px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+            font-weight: 800;
+
+            cursor: pointer;
+        }
+
+        .primary {
+            border: 0;
+            background: #f28c28;
+            color: #ffffff;
+        }
+
+        .secondary {
+            border: 1px solid #cbd6da;
+            background: #ffffff;
+            color: #263238;
+        }
+
+        /* MINOR */
+
+        .minor-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
+
+            margin-top: 16px;
+            padding: 18px;
+
+            border: 1px solid #dce4e7;
+            border-radius: 13px;
+
+            background: #fafcfc;
+        }
+
+        .minor-text strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .minor-text span {
+            display: block;
+
+            color: #68767d;
+
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        /* PROFILE */
+
+        .profile-box {
+            margin-top: 15px;
+            padding: 19px;
+
+            border-radius: 13px;
+
+            background: #fff2e5;
+        }
+
+        .profile-box strong {
+            display: block;
+            margin-bottom: 7px;
+        }
+
+        .profile-box p {
+            margin: 0 0 14px;
+
+            color: #526168;
+
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* BUTTONS */
+
+        .button {
+            display: inline-flex;
+
+            align-items: center;
+            justify-content: center;
+
+            min-height: 44px;
+
+            padding: 0 17px;
+
+            border-radius: 9px;
+
+            text-decoration: none;
+
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        .button-primary {
+            border: 0;
+
+            background: #f28c28;
+            color: #ffffff;
+        }
+
+        .button-outline {
+            border: 1px solid #f28c28;
+
+            background: #ffffff;
+            color: #f28c28;
+        }
+
+        /* ASSISTANT */
+
+        .assistant {
+            min-height:560px;
+            display:flex;
+            flex-direction:column;
+            background:#fff;
+            border:1px solid #ddd;
+            border-radius:12px;
+            box-shadow:0 2px 8px rgba(0,0,0,.06);
+            overflow:hidden;
+        }
+
+        .assistant-header {
+            padding:16px 18px;
+            border-bottom:1px solid #ddd;
+            font-weight:bold;
+            font-size:14px;
+        }
+
+        .assistant-chat {
+            flex:1;
+            padding:17px;
+            background:#fafafa;
+        }
+
+        .assistant-message {
+            background:#fff;
+            border:1px solid #ddd;
+            border-radius:9px;
+            padding:12px;
+            font-size:13px;
+            line-height:1.45;
+        }
+
+        .assistant-input {
+            padding:12px;
+            border-top:1px solid #ddd;
+            display:flex;
+            gap:7px;
+        }
+
+        .assistant-input input {
+            flex:1;
+            min-width:0;
+            padding:9px;
+            border:1px solid #ccc;
+            border-radius:7px;
+            font-size:13px;
+        }
+
+        .assistant-input button {
+            border:none;
+            border-radius:7px;
+            padding:9px 13px;
+            cursor:pointer;
+            font-weight:bold;
+            font-size:13px;
+            background:#f28c28;
+            color:#fff;
+        }
+
+        .footer {
+            padding: 0 20px 30px;
+
+            text-align: center;
+
+            color: #68767d;
+
+            font-size: 12px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 800px) {
+
+            .header {
+                height: 62px;
+                padding: 0 15px;
+            }
+
+            .logo {
+                font-size:17px;
+            }
+
+            .manual-link {
+                font-size: 11px;
+            }
+
+            .page {padding:18px 0 40px;}
+
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .card{padding:21px;}
+            .assistant{min-height:420px;}
+
+            h1 {
+                font-size: 26px;
+            }
+
+            .assistant {
+                order: 2;
+            }
+
+        }
+
+        @media (max-width: 560px) {
+
+            .top-line {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .welcome {
+                white-space: normal;
+            }
+
+            .days {
+                gap: 4px;
+            }
+
+            .day {
+                padding: 8px 2px;
+            }
+
+            .day-name {
+                font-size: 10px;
+            }
+
+            .day-date {
+                font-size: 10px;
+            }
+
+            .preference-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .minor-box {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .minor-box .button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <div class="logo">
+        STRICT<span>ZILIER</span>.ro
+    </div>
+
+    <a
+        href="ghid-zilier.html"
+        class="manual-link"
+    >
+        GHID ZILIER
+    </a>
+
+</header>
+
+
+<main class="page">
+
+
+    <div class="layout">
+
+
+        <!-- COLOANA PRINCIPALA -->
+
+        <section class="card">
+
+
+            <!-- IDENTITATE -->
+
+            <div class="top-line">
+
+                <div>
+
+                    <h1>
+                        Contul meu
+                    </h1>
+
+                    <div class="muted">
+                        Săptămâna curentă
+                    </div>
+
+                </div>
+
+                <div class="welcome">
+                    Bun venit, Ion Popescu!
+                </div>
+
+            </div>
+
+
+            <!-- COMPLETARE CONT -->
+
+            <div class="progress">
+
+                <div class="progress-top">
+
+                    <span>
+                        Completarea contului
+                    </span>
+
+                    <span>
+                        64%
+                    </span>
+
+                </div>
+
+
+                <div class="progress-track">
+
+                    <div class="progress-fill"></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- CALENDAR -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Disponibilitatea mea
+                </div>
+
+                <p class="muted calendar-help">
+
+                    Bifează zilele în care poți lucra.
+                    Doar pentru zilele marcate ca disponibile
+                    vei putea primi oferte.
+
+                </p>
+
+
+                <div
+                    id="days"
+                    class="days"
+                ></div>
+
+
+                <div
+                    id="calendarStatus"
+                    class="calendar-status"
+                ></div>
+
+            </div>
+
+
+            <!-- PREFERINTE -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Preferințele mele
+                </div>
+
+                <p
+                    class="muted"
+                    style="margin:7px 0 0;font-size:14px"
+                >
+
+                    Aceste informații îl ajută pe Agent să
+                    găsească activități potrivite pentru tine.
+                    Le poți modifica oricând.
+
+                </p>
+
+
+                <div class="preference-grid">
+
+
+                    <div class="preference">
+
+                        <span class="preference-label">
+                            Zona de activitate
+                        </span>
+
+                        <span
+                            id="zoneValue"
+                            class="preference-value"
+                        >
+                            Bacău, Bacău
+                        </span>
+
+                    </div>
+
+
+                    <div class="preference">
+
+                        <span class="preference-label">
+                            Activitatea principală
+                        </span>
+
+                        <span
+                            id="activityValue"
+                            class="preference-value"
+                        >
+                            Catering pentru evenimente
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <button
+                    id="editPreferences"
+                    class="edit-button"
+                    type="button"
+                >
+                    Editează preferințele
+                </button>
+
+
+                <!-- EDITARE PREFERINTE -->
+
+                <div
+                    id="editArea"
+                    class="edit-area"
+                >
+
+
+                    <div class="edit-field">
+
+                        <label for="zone">
+                            Zona de activitate
+                        </label>
+
+                        <select id="zone">
+
+                            <option>
+                                Bacău, Bacău
+                            </option>
+
+                            <option>
+                                Onești, Bacău
+                            </option>
+
+                            <option>
+                                Moinești, Bacău
+                            </option>
+
+                            <option>
+                                Comănești, Bacău
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="edit-field">
+
+                        <label for="activity">
+                            Activitatea principală
+                        </label>
+
+                        <select id="activity">
+
+                            <option>
+                                Catering pentru evenimente
+                            </option>
+
+                            <option>
+                                Agricultură și activități agricole
+                            </option>
+
+                            <option>
+                                Întreținerea spațiilor verzi
+                            </option>
+
+                            <option>
+                                Restaurante
+                            </option>
+
+                            <option>
+                                Organizarea de târguri și expoziții
+                            </option>
+
+                            <option>
+                                Toate activitățile din grupa aleasă
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="edit-actions">
+
+                        <button
+                            id="savePreferences"
+                            class="primary"
+                            type="button"
+                        >
+                            Salvează modificările
+                        </button>
+
+                        <button
+                            id="cancelPreferences"
+                            class="secondary"
+                            type="button"
+                        >
+                            Renunță
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- MINOR -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Înscrierea unui minor
+                </div>
+
+
+                <div class="minor-box">
+
+
+                    <div class="minor-text">
+
+                        <strong>
+                            Poți înscrie un minor între 16 și 18 ani.
+                        </strong>
+
+                        <span>
+
+                            Dacă ești părintele sau reprezentantul
+                            lui legal, îl poți înscrie și administra
+                            din contul tău.
+
+                        </span>
+
+                    </div>
+
+
+                    <a
+                        href="inscriere-minor.html"
+                        class="button button-outline"
+                    >
+                        Înscrie un minor
+                    </a>
+
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFIL COMPLET -->
+
+            <div class="section">
+
+                <div class="section-title">
+                    Completează profilul
+                </div>
+
+
+                <div class="profile-box">
+
+                    <strong>
+                        Nu trebuie să completezi totul acum.
+                    </strong>
+
+                    <p>
+
+                        Cu cât profilul este mai complet,
+                        cu atât Agentul poate găsi mai ușor
+                        activități potrivite pentru tine.
+                        Datele suplimentare vor fi solicitate
+                        atunci când devin necesare.
+
+                    </p>
+
+
+                    <a
+                        href="profil-zilier.html"
+                        class="button button-primary"
+                    >
+                        Deschide formularul complet
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- ASISTENT -->
+
+        <aside class="assistant">
+
+            <div class="assistant-header">
+                Asistent STRICTZILIER
+            </div>
+
+            <div class="assistant-chat">
+
+                <div class="assistant-message">
+                    Bun venit! Te pot ajuta cu profilul,
+                    disponibilitatea, preferințele sau ofertele
+                    de muncă disponibile pentru tine.
+                </div>
+
+            </div>
+
+            <div class="assistant-input">
+
+                <input
+                    type="text"
+                    placeholder="Scrie întrebarea..."
+                >
+
+                <button type="button">
+                    Trimite
+                </button>
+
+            </div>
+
+        </aside>
+
+
+    </div>
+
+
+</main>
+
+
+<footer class="footer">
+
+    STRICTZILIER.ro · versiune demonstrativă
+
+</footer>
+
+
+<script>
+
+
+/* =========================================================
+   CALENDARUL SĂPTĂMÂNII CURENTE
+   ========================================================= */
+
+
+function getMonday(date) {
+
+    const d = new Date(date);
+
+    const day = d.getDay();
+
+    const difference =
+        day === 0
+            ? -6
+            : 1 - day;
+
+    d.setDate(
+        d.getDate() + difference
+    );
+
+    d.setHours(0, 0, 0, 0);
+
+    return d;
+
+}
+
+
+const weekStart =
+    getMonday(new Date());
+
+
+const dayNames = [
+    "Luni",
+    "Marți",
+    "Miercuri",
+    "Joi",
+    "Vineri",
+    "Sâmbătă",
+    "Duminică"
+];
+
+
+const daysContainer =
+    document.getElementById("days");
+
+
+/*
+    Pentru demonstrație păstrăm disponibilitatea
+    în localStorage.
+
+    În versiunea funcțională această informație
+    va fi transmisă către Make și baza de date.
+*/
+
+const savedDays =
+    JSON.parse(
+        localStorage.getItem(
+            "strictzilier_availability"
+        ) || "[]"
+    );
+
+
+for (
+    let i = 0;
+    i < 7;
+    i++
+) {
+
+
+    const date =
+        new Date(weekStart);
+
+
+    date.setDate(
+        weekStart.getDate() + i
+    );
+
+
+    const label =
+        document.createElement("label");
+
+
+    label.className = "day";
+
+
+    if (savedDays.includes(i)) {
+
+        label.classList.add("selected");
+
+    }
+
+
+    label.innerHTML = `
+
+        <input
+            type="checkbox"
+            data-day="${i}"
+            ${savedDays.includes(i) ? "checked" : ""}
+        >
+
+        <span class="day-name">
+            ${dayNames[i]}
+        </span>
+
+        <span class="day-date">
+            ${String(date.getDate()).padStart(2, "0")}.
+            ${String(date.getMonth() + 1).padStart(2, "0")}
+        </span>
+
+        <span class="check"></span>
+
+    `;
+
+
+    daysContainer.appendChild(label);
+
+}
+
+
+/*
+    Actualizarea calendarului.
+*/
+
+daysContainer.addEventListener(
+    "change",
+    function(event) {
+
+
+        const checkbox =
+            event.target;
+
+
+        if (
+            checkbox.type !== "checkbox"
+        ) {
+            return;
+        }
+
+
+        const day =
+            checkbox.closest(".day");
+
+
+        day.classList.toggle(
+            "selected",
+            checkbox.checked
+        );
+
+
+        const selected = [
+
+            ...daysContainer.querySelectorAll(
+                "input:checked"
+            )
+
+        ].map(
+            input =>
+                Number(input.dataset.day)
+        );
+
+
+        localStorage.setItem(
+            "strictzilier_availability",
+            JSON.stringify(selected)
+        );
+
+
+        updateCalendarStatus(
+            selected.length
+        );
+
+    }
+);
+
+
+/*
+    Mesajul de sub calendar.
+*/
+
+function updateCalendarStatus(count) {
+
+    const status =
+        document.getElementById(
+            "calendarStatus"
+        );
+
+
+    if (!count) {
+
+        status.textContent =
+            "Nu ai selectat încă nicio zi.";
+
+        return;
+
+    }
+
+
+    status.textContent =
+
+        `Ai selectat ${count} ${
+            count === 1
+                ? "zi disponibilă"
+                : "zile disponibile"
+        } în această săptămână.`;
+
+}
+
+
+updateCalendarStatus(
+    savedDays.length
+);
+
+
+/* =========================================================
+   EDITAREA PREFERINȚELOR
+   ========================================================= */
+
+
+const editButton =
+    document.getElementById(
+        "editPreferences"
+    );
+
+
+const editArea =
+    document.getElementById(
+        "editArea"
+    );
+
+
+const cancelButton =
+    document.getElementById(
+        "cancelPreferences"
+    );
+
+
+const saveButton =
+    document.getElementById(
+        "savePreferences"
+    );
+
+
+const zoneSelect =
+    document.getElementById(
+        "zone"
+    );
+
+
+const activitySelect =
+    document.getElementById(
+        "activity"
+    );
+
+
+const zoneValue =
+    document.getElementById(
+        "zoneValue"
+    );
+
+
+const activityValue =
+    document.getElementById(
+        "activityValue"
+    );
+
+
+editButton.addEventListener(
+    "click",
+    function() {
+
+        editArea.classList.add(
+            "active"
+        );
+
+        editButton.style.display =
+            "none";
+
+    }
+);
+
+
+cancelButton.addEventListener(
+    "click",
+    function() {
+
+        editArea.classList.remove(
+            "active"
+        );
+
+        editButton.style.display =
+            "inline-block";
+
+    }
+);
+
+
+saveButton.addEventListener(
+    "click",
+    function() {
+
+
+        zoneValue.textContent =
+            zoneSelect.value;
+
+
+        activityValue.textContent =
+            activitySelect.value;
+
+
+        editArea.classList.remove(
+            "active"
+        );
+
+
+        editButton.style.display =
+            "inline-block";
+
+
+        /*
+            În versiunea funcțională:
+            aici vom transmite modificările
+            către Make / baza de date.
+        */
+
+    }
+);
+
+</script>
+
+
+</body>
+</html>

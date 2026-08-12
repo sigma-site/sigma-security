@@ -1,0 +1,1272 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Înscrie un minor – STRICTZILIER.ro</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#263238;
+}
+
+
+/* =========================
+   HEADER – MODEL HOME
+   ========================= */
+
+header{
+    height:68px;
+    background:#fff;
+    border-bottom:1px solid #ddd;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 28px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+.logo span{
+    color:#f28c28;
+}
+
+.guide-top-btn{
+    background:transparent;
+    border:1px solid #f28c28;
+    color:#d86f0b;
+
+    border-radius:6px;
+
+    padding:6px 10px;
+
+    font-size:12px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+
+/* =========================
+   LAYOUT
+   ========================= */
+
+.main{
+    max-width:1180px;
+    margin:18px auto;
+    padding:0 18px;
+
+    display:grid;
+    grid-template-columns:minmax(0,1.55fr) minmax(320px,.75fr);
+
+    gap:20px;
+}
+
+
+/* =========================
+   CONTINUT
+   ========================= */
+
+.content,
+.agent{
+    background:#fff;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+
+.content{
+    padding:23px;
+}
+
+h1{
+    margin:0 0 6px;
+    font-size:25px;
+}
+
+.subtitle{
+    color:#6d7880;
+    margin-bottom:18px;
+    line-height:1.45;
+    font-size:14px;
+}
+
+
+/* =========================
+   SECTIUNI
+   ========================= */
+
+.section{
+    margin-bottom:16px;
+    padding-bottom:14px;
+
+    border-bottom:1px solid #e5e7e9;
+}
+
+.section:last-of-type{
+    border-bottom:none;
+    margin-bottom:8px;
+}
+
+.section h2{
+    margin:0 0 11px;
+    font-size:17px;
+}
+
+
+/* =========================
+   REPREZENTANT
+   ========================= */
+
+.representative{
+    background:#f7f8f9;
+    border:1px solid #e4e7e9;
+    border-radius:7px;
+
+    padding:11px 12px;
+    margin-bottom:16px;
+}
+
+.rep-label{
+    display:block;
+
+    color:#737d83;
+    font-size:11px;
+
+    margin-bottom:5px;
+}
+
+.rep-name{
+    font-size:13px;
+    font-weight:600;
+}
+
+.rep-info{
+    color:#737d83;
+    font-size:11px;
+    margin-top:4px;
+}
+
+
+/* =========================
+   FORMULAR
+   ========================= */
+
+.form-grid{
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:11px;
+}
+
+.field{
+    min-width:0;
+}
+
+.field.full{
+    grid-column:1 / -1;
+}
+
+.field label{
+    display:block;
+
+    font-size:11px;
+    color:#737d83;
+
+    margin-bottom:5px;
+    font-weight:600;
+}
+
+input,
+select{
+    width:100%;
+
+    height:40px;
+
+    padding:0 10px;
+
+    border:1px solid #cbd6da;
+    border-radius:7px;
+
+    background:#fff;
+    color:#263238;
+
+    font-size:13px;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+
+    border-color:#f28c28;
+
+    box-shadow:
+        0 0 0 2px rgba(242,140,40,.10);
+}
+
+.help{
+    margin-top:4px;
+
+    color:#78838a;
+
+    font-size:10px;
+    line-height:1.4;
+}
+
+
+/* =========================
+   ACTIVITATE
+   ========================= */
+
+.activity-note{
+    margin-top:10px;
+
+    background:#f7f8f9;
+
+    border:1px solid #e4e7e9;
+    border-radius:7px;
+
+    padding:10px 11px;
+
+    color:#68747a;
+
+    font-size:11px;
+    line-height:1.45;
+}
+
+
+/* =========================
+   DECLARATII
+   ========================= */
+
+.declaration{
+    display:flex;
+    align-items:flex-start;
+
+    gap:9px;
+
+    padding:9px 0;
+
+    border-bottom:1px solid #edf0f1;
+}
+
+.declaration:last-child{
+    border-bottom:none;
+}
+
+.declaration input{
+    width:17px;
+    height:17px;
+
+    margin:1px 0 0;
+
+    flex-shrink:0;
+}
+
+.declaration label{
+    margin:0;
+
+    color:#39484d;
+
+    font-size:12px;
+    line-height:1.45;
+
+    font-weight:600;
+}
+
+
+/* =========================
+   AVERTIZARE
+   ========================= */
+
+.warning{
+    margin-top:12px;
+
+    background:#fff8e9;
+
+    border:1px solid #ead8aa;
+    border-radius:7px;
+
+    padding:10px 11px;
+
+    color:#715d2c;
+
+    font-size:11px;
+    line-height:1.45;
+}
+
+
+/* =========================
+   BUTOANE
+   ========================= */
+
+.actions{
+    display:flex;
+
+    gap:10px;
+
+    margin-top:18px;
+}
+
+.actions button{
+    flex:1;
+
+    border:none;
+
+    border-radius:7px;
+
+    padding:11px 14px;
+
+    cursor:pointer;
+
+    font-size:13px;
+    font-weight:bold;
+}
+
+.primary{
+    background:#f28c28;
+    color:#fff;
+}
+
+.secondary{
+    background:#263238;
+    color:#fff;
+}
+
+.primary:hover{
+    background:#df7818;
+}
+
+
+/* =========================
+   INFORMATIE FINALA
+   ========================= */
+
+.final-info{
+    margin-top:12px;
+
+    color:#737d83;
+
+    font-size:11px;
+    line-height:1.45;
+
+    text-align:center;
+}
+
+
+/* =========================
+   AGENT – MODEL HOME
+   ========================= */
+
+.agent{
+    min-height:560px;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.agent-header{
+    padding:16px 18px;
+
+    border-bottom:1px solid #ddd;
+
+    font-weight:bold;
+    font-size:14px;
+}
+
+.chat{
+    flex:1;
+
+    padding:17px;
+
+    background:#fafafa;
+}
+
+.chat-message{
+    background:#fff;
+
+    border:1px solid #ddd;
+    border-radius:9px;
+
+    padding:12px;
+
+    font-size:13px;
+    line-height:1.45;
+}
+
+.chat-input{
+    padding:12px;
+
+    border-top:1px solid #ddd;
+
+    display:flex;
+    gap:7px;
+}
+
+.chat-input input{
+    flex:1;
+
+    min-width:0;
+
+    height:auto;
+
+    padding:9px;
+
+    border:1px solid #ccc;
+    border-radius:7px;
+
+    font-size:13px;
+}
+
+.chat-input button{
+    border:none;
+
+    border-radius:7px;
+
+    padding:9px 13px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+    font-size:13px;
+}
+
+
+/* =========================
+   FOOTER
+   ========================= */
+
+footer{
+    margin-top:18px;
+
+    text-align:center;
+
+    color:#7a858a;
+
+    font-size:11px;
+}
+
+footer a{
+    color:#68747a;
+
+    text-decoration:none;
+
+    margin:0 7px;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media(max-width:800px){
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .agent{
+        min-height:420px;
+    }
+
+}
+
+@media(max-width:520px){
+
+    header{
+        padding:0 16px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .actions{
+        flex-direction:column;
+    }
+
+    .agent{
+        min-height:400px;
+    }
+
+}
+
+
+/* =========================
+   MESAJ DEMO
+   ========================= */
+
+.success-message{
+    display:none;
+
+    margin-top:15px;
+
+    padding:12px;
+
+    border-radius:7px;
+
+    background:#f3f7f5;
+
+    border:1px solid #d9e5df;
+
+    color:#496258;
+
+    font-size:12px;
+
+    line-height:1.45;
+}
+
+.success-message.show{
+    display:block;
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<header>
+
+    <div class="logo">
+        STRICT<span>ZILIER</span>.ro
+    </div>
+
+    <button
+        class="guide-top-btn"
+        onclick="location.href='ghid-zilier.html'"
+    >
+        Ghid zilier
+    </button>
+
+</header>
+
+
+
+<div class="main">
+
+
+<section class="content">
+
+
+    <h1>
+        Înscrie un minor
+    </h1>
+
+
+    <div class="subtitle">
+        Poți înscrie un minor cu vârsta între 16 și 18 ani
+        dacă ești reprezentantul lui legal.
+    </div>
+
+
+
+    <!-- REPREZENTANT -->
+
+    <div class="representative">
+
+        <div class="rep-label">
+            Reprezentant legal
+        </div>
+
+        <div class="rep-name">
+            Ion Popescu
+        </div>
+
+        <div class="rep-info">
+            Cont confirmat · Asocierea cu minorul se va realiza automat
+        </div>
+
+    </div>
+
+
+
+    <!-- DATE MINOR -->
+
+    <div class="section">
+
+        <h2>
+            Date despre minor
+        </h2>
+
+        <div class="form-grid">
+
+
+            <div class="field">
+
+                <label for="nume">
+                    NUME
+                </label>
+
+                <input
+                    id="nume"
+                    type="text"
+                    placeholder="Numele minorului"
+                    autocomplete="family-name"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="prenume">
+                    PRENUME
+                </label>
+
+                <input
+                    id="prenume"
+                    type="text"
+                    placeholder="Prenumele minorului"
+                    autocomplete="given-name"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="telefon">
+                    TELEFON
+                </label>
+
+                <input
+                    id="telefon"
+                    type="tel"
+                    placeholder="07xx xxx xxx"
+                >
+
+                <div class="help">
+                    Opțional în această etapă. Minorul rămâne asociat
+                    reprezentantului și nu primește un cont independent.
+                </div>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="varsta">
+                    VÂRSTA
+                </label>
+
+                <select id="varsta">
+
+                    <option value="">
+                        Selectează
+                    </option>
+
+                    <option value="16">
+                        16 ani
+                    </option>
+
+                    <option value="17">
+                        17 ani
+                    </option>
+
+                    <option value="18">
+                        18 ani
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ZONA -->
+
+    <div class="section">
+
+        <h2>
+            Zona principală
+        </h2>
+
+        <div class="form-grid">
+
+
+            <div class="field">
+
+                <label for="judet">
+                    JUDEȚ
+                </label>
+
+                <select id="judet">
+
+                    <option value="">
+                        Selectează județul
+                    </option>
+
+                    <option>
+                        Bacău
+                    </option>
+
+                    <option>
+                        Neamț
+                    </option>
+
+                    <option>
+                        Iași
+                    </option>
+
+                    <option>
+                        Vrancea
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="localitate">
+                    LOCALITATE
+                </label>
+
+                <input
+                    id="localitate"
+                    type="text"
+                    placeholder="Localitatea"
+                >
+
+                <div class="help">
+                    Localitatea va putea fi verificată și completată
+                    automat de Agent.
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ACTIVITATE -->
+
+    <div class="section">
+
+        <h2>
+            Activitatea dorită
+        </h2>
+
+        <div class="form-grid">
+
+
+            <div class="field">
+
+                <label for="grupa">
+                    GRUPĂ DE ACTIVITĂȚI
+                </label>
+
+                <select id="grupa">
+
+                    <option value="">
+                        Selectează grupa
+                    </option>
+
+                    <option value="G01">
+                        Agricultură, horticultură și comerț agricol
+                    </option>
+
+                    <option value="G02">
+                        Silvicultură, pescuit și creșterea animalelor
+                    </option>
+
+                    <option value="G03">
+                        Peisagistică, spații verzi și gestionarea deșeurilor
+                    </option>
+
+                    <option value="G04">
+                        Natură, biodiversitate și agrement în aer liber
+                    </option>
+
+                    <option value="G05">
+                        Alimentație, ospitalitate și cazare
+                    </option>
+
+                    <option value="G06">
+                        Evenimente, spectacole și comunicare
+                    </option>
+
+                    <option value="G07">
+                        Sport și agrement
+                    </option>
+
+                    <option value="G08">
+                        Cercetare și studii de piață
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="activitate">
+                    ACTIVITATE PREFERATĂ
+                </label>
+
+                <select id="activitate">
+
+                    <option value="">
+                        Toate activitățile din grupă
+                    </option>
+
+                </select>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="activity-note">
+            Activitatea preferată nu este obligatorie pentru înscriere.
+            Dacă nu este aleasă acum, profilul poate fi folosit pentru
+            toate activitățile din grupa selectată.
+        </div>
+
+    </div>
+
+
+
+    <!-- DECLARATII -->
+
+    <div class="section">
+
+        <h2>
+            Confirmarea reprezentantului legal
+        </h2>
+
+
+        <div class="declaration">
+
+            <input
+                type="checkbox"
+                id="legal"
+            >
+
+            <label for="legal">
+                Declar că sunt reprezentantul legal al minorului
+                pe care îl înscriu.
+            </label>
+
+        </div>
+
+
+        <div class="declaration">
+
+            <input
+                type="checkbox"
+                id="age"
+            >
+
+            <label for="age">
+                Confirm că minorul are vârsta cuprinsă între
+                16 și 18 ani.
+            </label>
+
+        </div>
+
+
+        <div class="declaration">
+
+            <input
+                type="checkbox"
+                id="truth"
+            >
+
+            <label for="truth">
+                Confirm că datele introduse sunt reale și corespund
+                persoanei pe care o înscriu.
+            </label>
+
+        </div>
+
+
+        <div class="warning">
+            Datele de identificare necesare pentru Registrul
+            Electronic al Zilierilor vor fi solicitate ulterior,
+            atunci când profilul va ajunge în etapa în care acestea
+            sunt necesare.
+        </div>
+
+    </div>
+
+
+
+    <!-- ACTIUNI -->
+
+    <div class="actions">
+
+
+        <button
+            class="secondary"
+            onclick="window.location.href='profil-zilier.html'"
+        >
+            ÎNAPOI LA PROFIL
+        </button>
+
+
+        <button
+            class="primary"
+            onclick="creeazaProfilMinor()"
+        >
+            CREEAZĂ PROFILUL MINORULUI
+        </button>
+
+
+    </div>
+
+
+    <div
+        id="success"
+        class="success-message"
+    ></div>
+
+
+    <div class="final-info">
+
+        Profilul minorului va primi propriul ID zilier și va rămâne
+        asociat permanent contului reprezentantului legal.
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =========================
+     ASISTENT
+     ========================= -->
+
+<aside class="agent">
+
+
+    <div class="agent-header">
+        Asistent STRICTZILIER
+    </div>
+
+
+    <div class="chat">
+
+
+        <div class="chat-message">
+
+            Bun venit! Vă pot ajuta cu înscrierea unui minor,
+            alegerea grupei de activități sau completarea
+            datelor necesare profilului.
+
+        </div>
+
+
+    </div>
+
+
+    <div class="chat-input">
+
+        <input
+            type="text"
+            placeholder="Scrieți întrebarea..."
+        >
+
+
+        <button class="primary">
+            Trimite
+        </button>
+
+    </div>
+
+
+</aside>
+
+
+</div>
+
+
+
+<footer>
+
+    <a href="ghid-zilier.html">
+        Ghid zilier
+    </a>
+
+    <a href="#">
+        Termeni
+    </a>
+
+    <a href="#">
+        Confidențialitate
+    </a>
+
+    <a href="#">
+        Contact
+    </a>
+
+    <br><br>
+
+    STRICTZILIER.ro
+
+</footer>
+
+
+
+<script>
+
+
+/* ==========================================
+   ACTIVITĂȚI PE GRUPE
+   ========================================== */
+
+const activitati = {
+
+    G01: [
+        "Toate activitățile din grupă",
+        "Agricultură, horticultură și comerț agricol",
+        "Creșterea materialului săditor",
+        "Creșterea plantelor ornamentale",
+        "Gazon pentru transplantare",
+        "Operațiuni de îngrijire și curățare a pomilor",
+        "Activități ale pepinierelor",
+        "Comerț cu ridicata al produselor agricole brute și al animalelor vii"
+    ],
+
+    G02: [
+        "Toate activitățile din grupă",
+        "Silvicultură, cu excepția exploatărilor forestiere",
+        "Pescuit și acvacultură",
+        "Creșterea și reproducția animalelor semidomesticite și a altor animale"
+    ],
+
+    G03: [
+        "Toate activitățile din grupă",
+        "Activități de întreținere peisagistică",
+        "Plantarea, îngrijirea și întreținerea de parcuri și grădini",
+        "Întreținerea spațiilor verzi din domeniul public",
+        "Colectarea, tratarea și eliminarea deșeurilor nepericuloase",
+        "Recuperarea materialelor"
+    ],
+
+    G04: [
+        "Toate activitățile din grupă",
+        "Activități ale grădinilor zoologice",
+        "Activități ale grădinilor botanice",
+        "Activități ale rezervațiilor naturale"
+    ],
+
+    G05: [
+        "Toate activitățile din grupă",
+        "Activități de alimentație (catering) pentru evenimente",
+        "Restaurante",
+        "Baruri și alte activități de servire a băuturilor",
+        "Hoteluri și alte facilități de cazare",
+        "Tabere de copii organizate de Ministerul Tineretului și Sportului",
+        "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"
+    ],
+
+    G06: [
+        "Toate activitățile din grupă",
+        "Activități de organizare a expozițiilor, târgurilor și congreselor",
+        "Publicitate",
+        "Activități de interpretare artistică – spectacole",
+        "Activități-suport pentru interpretarea artistică – spectacole",
+        "Activități de gestionare a sălilor de spectacole"
+    ],
+
+    G07: [
+        "Toate activitățile din grupă",
+        "Activități ale bazelor sportive",
+        "Activități ale cluburilor sportive"
+    ],
+
+    G08: [
+        "Toate activitățile din grupă",
+        "Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)",
+        "Activități de studiere a pieței",
+        "Activități de sondare a opiniei publice",
+        "Activități de cercetare-dezvoltare în biotehnologie",
+        "Activități de cercetare-dezvoltare în alte științe naturale și inginerie"
+    ]
+
+};
+
+
+
+/* ==========================================
+   SELECTARE ACTIVITATE
+   ========================================== */
+
+const grupa =
+    document.getElementById("grupa");
+
+const activitate =
+    document.getElementById("activitate");
+
+
+grupa.addEventListener(
+    "change",
+    function(){
+
+        activitate.innerHTML = "";
+
+        const lista =
+            activitati[this.value];
+
+
+        if(!lista){
+
+            const option =
+                document.createElement("option");
+
+            option.textContent =
+                "Alege mai întâi grupa";
+
+            option.value =
+                "";
+
+            activitate.appendChild(option);
+
+            return;
+        }
+
+
+        lista.forEach(
+            function(nume,index){
+
+                const option =
+                    document.createElement("option");
+
+                option.value =
+                    index === 0
+                    ? "toate"
+                    : nume;
+
+                option.textContent =
+                    nume;
+
+                activitate.appendChild(option);
+
+            }
+        );
+
+    }
+);
+
+
+
+/* ==========================================
+   CREARE PROFIL – DEMO
+   ========================================== */
+
+function creeazaProfilMinor(){
+
+
+    const legal =
+        document.getElementById("legal").checked;
+
+    const age =
+        document.getElementById("age").checked;
+
+    const truth =
+        document.getElementById("truth").checked;
+
+
+    if(!legal || !age || !truth){
+
+        alert(
+            "Pentru a continua trebuie să confirmați toate cele trei declarații."
+        );
+
+        return;
+    }
+
+
+    const nume =
+        document
+        .getElementById("nume")
+        .value
+        .trim();
+
+
+    const prenume =
+        document
+        .getElementById("prenume")
+        .value
+        .trim();
+
+
+    if(!nume || !prenume){
+
+        alert(
+            "Introduceți numele și prenumele minorului."
+        );
+
+        return;
+    }
+
+
+    const success =
+        document.getElementById("success");
+
+
+    success.textContent =
+        "Profilul minorului a fost pregătit. " +
+        "În versiunea funcțională, datele vor fi transmise " +
+        "către baza de date și va fi generat un ID zilier " +
+        "asociat reprezentantului legal.";
+
+
+    success.classList.add("show");
+
+
+    success.scrollIntoView({
+        behavior:"smooth",
+        block:"nearest"
+    });
+
+}
+
+
+</script>
+
+
+</body>
+</html>
+```

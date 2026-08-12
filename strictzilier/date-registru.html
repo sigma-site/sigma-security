@@ -1,0 +1,1523 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Date registru – STRICTZILIER.ro</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+}
+
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#263238;
+}
+
+
+/* =====================================================
+   HEADER
+   ===================================================== */
+
+header{
+    height:68px;
+    background:#fff;
+    border-bottom:1px solid #ddd;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 28px;
+}
+
+.logo{
+    font-size:24px;
+    font-weight:800;
+}
+
+.logo span{
+    color:#f28c28;
+}
+
+.guide-top-btn{
+    background:transparent;
+    border:1px solid #f28c28;
+    color:#d86f0b;
+
+    border-radius:6px;
+
+    padding:6px 10px;
+
+    font-size:12px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+
+/* =====================================================
+   ZONA PRINCIPALA
+   ===================================================== */
+
+.main{
+    max-width:1180px;
+
+    margin:18px auto;
+    padding:0 18px;
+
+    display:grid;
+
+    grid-template-columns:
+        minmax(0,1.55fr)
+        minmax(320px,.75fr);
+
+    gap:20px;
+}
+
+
+/* =====================================================
+   CARD FORMULAR
+   ===================================================== */
+
+.content,
+.agent{
+    background:#fff;
+    border-radius:12px;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.06);
+}
+
+.content{
+    padding:23px;
+}
+
+
+/* =====================================================
+   TITLU
+   ===================================================== */
+
+h1{
+    margin:0 0 6px;
+    font-size:25px;
+}
+
+.subtitle{
+    color:#6d7880;
+    margin-bottom:18px;
+
+    line-height:1.45;
+    font-size:14px;
+}
+
+
+/* =====================================================
+   ALEGERE METODA
+   ===================================================== */
+
+.method{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:11px;
+
+    margin-bottom:18px;
+}
+
+.method button{
+    min-height:68px;
+
+    padding:11px 13px;
+
+    border:1px solid #e4e7e9;
+    border-radius:7px;
+
+    background:#f7f8f9;
+    color:#263238;
+
+    text-align:left;
+
+    cursor:pointer;
+}
+
+.method button:hover,
+.method button.active{
+    border-color:#f28c28;
+    background:#fff8f1;
+}
+
+.method strong{
+    display:block;
+
+    margin-bottom:5px;
+
+    font-size:13px;
+}
+
+.method span{
+    display:block;
+
+    color:#737d83;
+
+    font-size:12px;
+    line-height:1.4;
+}
+
+
+/* =====================================================
+   UPLOAD CI
+   ===================================================== */
+
+.upload{
+    display:none;
+
+    margin:0 0 18px;
+
+    padding:14px;
+
+    border:1px dashed #cbd4d7;
+    border-radius:8px;
+
+    background:#f7f8f9;
+}
+
+.upload.show{
+    display:block;
+}
+
+.upload-row{
+    display:flex;
+    align-items:center;
+
+    gap:10px;
+    flex-wrap:wrap;
+}
+
+.file-label{
+    display:inline-flex;
+
+    align-items:center;
+    justify-content:center;
+
+    min-height:39px;
+
+    padding:0 14px;
+
+    border-radius:7px;
+
+    background:#f28c28;
+    color:#fff;
+
+    font-size:12px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.file-label:hover{
+    background:#d97816;
+}
+
+#identityFile{
+    display:none;
+}
+
+.file-status{
+    color:#737d83;
+    font-size:12px;
+}
+
+.preview{
+    display:none;
+
+    max-height:180px;
+    max-width:100%;
+
+    margin-top:12px;
+
+    border:1px solid #ddd;
+    border-radius:7px;
+}
+
+.preview.show{
+    display:block;
+}
+
+
+/* BUTON TRIMITERE FOTO */
+
+.photo-actions{
+    display:none;
+
+    margin-top:13px;
+}
+
+.photo-actions.show{
+    display:block;
+}
+
+.send-photo{
+    min-height:40px;
+
+    padding:0 16px;
+
+    border:0;
+    border-radius:7px;
+
+    background:#f28c28;
+    color:#fff;
+
+    font-size:12px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.send-photo:hover{
+    background:#d97816;
+}
+
+.send-photo:disabled{
+    background:#bfc5c7;
+    cursor:not-allowed;
+}
+
+.upload-status{
+    margin-top:8px;
+
+    color:#68767d;
+
+    font-size:11px;
+    line-height:1.4;
+}
+
+
+/* =====================================================
+   FORMULAR
+   ===================================================== */
+
+.form-title{
+    margin:0 0 12px;
+
+    font-size:17px;
+}
+
+.form-grid{
+    display:grid;
+
+    grid-template-columns:1fr 1fr;
+
+    gap:11px;
+}
+
+.field.full{
+    grid-column:1 / -1;
+}
+
+label{
+    display:block;
+
+    margin-bottom:5px;
+
+    font-size:11px;
+    font-weight:800;
+}
+
+input,
+select{
+    width:100%;
+    height:43px;
+
+    padding:0 11px;
+
+    border:1px solid #cbd6da;
+    border-radius:7px;
+
+    background:#fff;
+    color:#263238;
+
+    font-size:13px;
+}
+
+input:focus,
+select:focus{
+    outline:none;
+
+    border-color:#f28c28;
+
+    box-shadow:
+        0 0 0 3px rgba(242,140,40,.10);
+}
+
+.help{
+    margin-top:4px;
+
+    color:#78858a;
+
+    font-size:10px;
+}
+
+
+/* =====================================================
+   RAND TIP ACT / SERIE / NUMAR
+   ===================================================== */
+
+.identity-row{
+    display:grid;
+
+    grid-template-columns:minmax(0,1.55fr) 90px 130px;
+
+    gap:11px;
+
+    grid-column:1 / -1;
+}
+
+
+/* =====================================================
+   NOTIFICARE
+   ===================================================== */
+
+.notice{
+    margin-top:16px;
+
+    padding:11px 13px;
+
+    border-radius:7px;
+
+    background:#fff7ef;
+
+    color:#68767d;
+
+    font-size:11px;
+    line-height:1.45;
+}
+
+
+/* =====================================================
+   CONFIRMARE
+   ===================================================== */
+
+.confirm{
+    margin-top:16px;
+
+    padding:12px 14px;
+
+    border:1px solid #e5e7e9;
+
+    border-radius:8px;
+
+    display:flex;
+    align-items:flex-start;
+
+    gap:9px;
+
+    font-size:12px;
+    line-height:1.45;
+}
+
+.confirm input{
+    width:17px;
+    height:17px;
+
+    flex-shrink:0;
+}
+
+
+/* =====================================================
+   BUTON SALVARE
+   ===================================================== */
+
+.actions{
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-top:17px;
+}
+
+.save{
+    min-height:43px;
+
+    padding:0 19px;
+
+    border:0;
+    border-radius:7px;
+
+    background:#f28c28;
+    color:#fff;
+
+    font-size:12px;
+    font-weight:bold;
+
+    cursor:pointer;
+}
+
+.save:hover{
+    background:#d97816;
+}
+
+.save:disabled{
+    background:#bfc5c7;
+    cursor:not-allowed;
+}
+
+
+/* =====================================================
+   SUCCESS
+   ===================================================== */
+
+.success{
+    display:none;
+
+    padding:16px;
+
+    margin-top:17px;
+
+    border-radius:8px;
+
+    background:#fff7ef;
+
+    color:#59676d;
+
+    font-size:12px;
+    line-height:1.5;
+}
+
+.success.show{
+    display:block;
+}
+
+
+/* =====================================================
+   ASISTENT
+   ===================================================== */
+
+.agent{
+    min-height:560px;
+
+    display:flex;
+    flex-direction:column;
+}
+
+.agent-header{
+    padding:16px 18px;
+
+    border-bottom:1px solid #ddd;
+
+    font-weight:bold;
+    font-size:14px;
+}
+
+.chat{
+    flex:1;
+
+    padding:17px;
+
+    background:#fafafa;
+}
+
+.chat-message{
+    background:#fff;
+
+    border:1px solid #ddd;
+
+    border-radius:9px;
+
+    padding:12px;
+
+    font-size:13px;
+    line-height:1.45;
+}
+
+.chat-input{
+    padding:12px;
+
+    border-top:1px solid #ddd;
+
+    display:flex;
+
+    gap:7px;
+}
+
+.chat-input input{
+    flex:1;
+
+    min-width:0;
+
+    height:auto;
+
+    padding:9px;
+
+    border:1px solid #ccc;
+
+    border-radius:7px;
+
+    font-size:13px;
+}
+
+.chat-input button{
+    border:none;
+
+    border-radius:7px;
+
+    padding:9px 13px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    font-size:13px;
+}
+
+.primary{
+    background:#f28c28;
+    color:#fff;
+}
+
+
+/* =====================================================
+   RESPONSIVE
+   ===================================================== */
+
+@media(max-width:800px){
+
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .agent{
+        min-height:420px;
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    header{
+        padding:0 16px;
+    }
+
+    .logo{
+        font-size:20px;
+    }
+
+    .content{
+        padding:18px;
+    }
+
+    .method{
+        grid-template-columns:1fr;
+    }
+
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+
+    .identity-row{
+        grid-template-columns:1fr 80px 110px;
+        gap:9px;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .actions{
+        display:block;
+    }
+
+    .save{
+        width:100%;
+    }
+
+}
+
+@media(max-width:430px){
+
+    .identity-row{
+        grid-template-columns:1fr 72px 100px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     HEADER
+     ===================================================== -->
+
+<header>
+
+    <div class="logo">
+        STRICT<span>ZILIER</span>.ro
+    </div>
+
+
+    <button
+        class="guide-top-btn"
+        onclick="location.href='ghid-zilier.html'">
+
+        Ghid zilier
+
+    </button>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN
+     ===================================================== -->
+
+<div class="main">
+
+
+<section class="content">
+
+
+    <h1>
+        Date pentru registru
+    </h1>
+
+
+    <div class="subtitle">
+
+        Pentru activitatea acceptată avem nevoie de datele
+        tale oficiale de identificare. Le poți introduce
+        manual sau poți fotografia cartea de identitate.
+
+    </div>
+
+
+
+    <!-- ALEGERE METODĂ -->
+
+    <div class="method">
+
+
+        <button
+            id="manualBtn"
+            onclick="chooseMethod('manual')"
+        >
+
+            <strong>
+                Completez manual
+            </strong>
+
+            <span>
+                Introduci datele exact ca în actul
+                de identitate.
+            </span>
+
+        </button>
+
+
+
+        <button
+            id="ocrBtn"
+            onclick="chooseMethod('ocr')"
+        >
+
+            <strong>
+                Fotografiez cartea de identitate
+            </strong>
+
+            <span>
+                Datele sunt preluate automat și
+                apoi verificate de tine.
+            </span>
+
+        </button>
+
+
+    </div>
+
+
+
+    <!-- ÎNCĂRCARE CI -->
+
+    <div
+        id="upload"
+        class="upload"
+    >
+
+        <div class="upload-row">
+
+
+            <label
+                for="identityFile"
+                class="file-label"
+            >
+
+                Alege fotografia CI
+
+            </label>
+
+
+            <input
+                id="identityFile"
+                type="file"
+                accept="image/*"
+                capture="environment"
+            >
+
+
+            <span
+                id="fileStatus"
+                class="file-status"
+            >
+
+                Fotografia trebuie să fie clară și completă.
+
+            </span>
+
+
+        </div>
+
+
+        <img
+            id="preview"
+            class="preview"
+            alt="Previzualizare CI"
+        >
+
+
+        <div
+            id="photoActions"
+            class="photo-actions"
+        >
+
+            <button
+                id="sendPhoto"
+                class="send-photo"
+                type="button"
+                onclick="sendPhoto()"
+            >
+
+                TRIMITE FOTOGRAFIA
+
+            </button>
+
+
+            <div
+                id="uploadStatus"
+                class="upload-status"
+            ></div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- FORMULAR -->
+
+    <h2 class="form-title">
+        Date de identificare
+    </h2>
+
+
+    <div class="form-grid">
+
+
+        <div class="field">
+
+            <label for="nume">
+                Nume *
+            </label>
+
+            <input
+                id="nume"
+                type="text"
+                autocomplete="family-name"
+            >
+
+        </div>
+
+
+
+        <div class="field">
+
+            <label for="prenume">
+                Prenume *
+            </label>
+
+            <input
+                id="prenume"
+                type="text"
+                autocomplete="given-name"
+            >
+
+        </div>
+
+
+
+        <div class="field">
+
+            <label for="cnp">
+                CNP *
+            </label>
+
+            <input
+                id="cnp"
+                type="text"
+                inputmode="numeric"
+                maxlength="13"
+                autocomplete="off"
+            >
+
+            <div class="help">
+                Data nașterii va putea fi determinată din CNP.
+            </div>
+
+        </div>
+
+
+
+        <div class="field">
+
+            <label for="citizenship">
+                Cetățenie *
+            </label>
+
+            <select id="citizenship">
+
+                <option value="">
+                    Selectează
+                </option>
+
+                <option>
+                    Română
+                </option>
+
+                <option>
+                    Altă cetățenie
+                </option>
+
+                <option>
+                    Apatrid
+                </option>
+
+            </select>
+
+        </div>
+
+
+
+        <!-- TIP ACT / SERIE / NUMAR -->
+
+        <div class="identity-row">
+
+
+            <div class="field">
+
+                <label for="actType">
+                    Tip act *
+                </label>
+
+                <select id="actType">
+
+                    <option value="">
+                        Selectează
+                    </option>
+
+                    <option>
+                        Carte de identitate
+                    </option>
+
+                    <option>
+                        Carte de identitate provizorie
+                    </option>
+
+                    <option>
+                        Pașaport
+                    </option>
+
+                </select>
+
+            </div>
+
+
+
+            <div class="field">
+
+                <label for="series">
+                    Serie *
+                </label>
+
+                <input
+                    id="series"
+                    type="text"
+                    maxlength="2"
+                    inputmode="text"
+                    autocomplete="off"
+                    placeholder="AB"
+                >
+
+            </div>
+
+
+
+            <div class="field">
+
+                <label for="number">
+                    Număr *
+                </label>
+
+                <input
+                    id="number"
+                    type="text"
+                    maxlength="6"
+                    inputmode="numeric"
+                    autocomplete="off"
+                    placeholder="123456"
+                >
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="field full">
+
+            <label for="address">
+                Domiciliu
+            </label>
+
+            <input
+                id="address"
+                type="text"
+                autocomplete="street-address"
+                placeholder="Domiciliul înscris în act"
+            >
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- NOTĂ -->
+
+    <div class="notice">
+
+        Verifică atent toate datele înainte de confirmare.
+        Dacă ai folosit fotografia CI, câmpurile au fost
+        precompletate automat și trebuie verificate de tine.
+
+    </div>
+
+
+
+    <!-- CONFIRMARE -->
+
+    <label class="confirm">
+
+        <input
+            id="confirm"
+            type="checkbox"
+            onchange="toggleSave()"
+        >
+
+        <span>
+            Confirm că datele introduse corespund
+            actului meu de identitate.
+        </span>
+
+    </label>
+
+
+
+    <!-- BUTON -->
+
+    <div class="actions">
+
+        <button
+            id="saveBtn"
+            class="save"
+            disabled
+            onclick="saveData()"
+        >
+
+            Confirmă și salvează datele
+
+        </button>
+
+    </div>
+
+
+
+    <!-- SUCCESS -->
+
+    <div
+        id="success"
+        class="success"
+    >
+
+        Datele au fost confirmate. În versiunea
+        funcțională, acestea vor fi transmise către
+        Make și înscrise în profilul tău.
+
+    </div>
+
+
+</section>
+
+
+
+<!-- =====================================================
+     ASISTENT
+     ===================================================== -->
+
+<aside class="agent">
+
+
+    <div class="agent-header">
+
+        Asistent STRICTZILIER
+
+    </div>
+
+
+    <div class="chat">
+
+        <div class="chat-message">
+
+            Bun venit! Vă pot ajuta cu completarea
+            datelor pentru registru, alegerea metodei
+            de identificare sau verificarea informațiilor
+            înainte de confirmare.
+
+        </div>
+
+    </div>
+
+
+    <div class="chat-input">
+
+
+        <input
+            type="text"
+            placeholder="Scrieți întrebarea..."
+        >
+
+
+        <button class="primary">
+
+            Trimite
+
+        </button>
+
+
+    </div>
+
+
+</aside>
+
+
+</div>
+
+
+
+<script>
+
+
+let method = null;
+
+
+/* =====================================================
+   ALEGERE METODĂ
+   ===================================================== */
+
+function chooseMethod(value){
+
+    method = value;
+
+
+    document
+        .getElementById("manualBtn")
+        .classList.remove("active");
+
+
+    document
+        .getElementById("ocrBtn")
+        .classList.remove("active");
+
+
+    if(value === "manual"){
+
+        document
+            .getElementById("manualBtn")
+            .classList.add("active");
+
+
+        document
+            .getElementById("upload")
+            .classList.remove("show");
+
+        return;
+    }
+
+
+    if(value === "ocr"){
+
+        document
+            .getElementById("ocrBtn")
+            .classList.add("active");
+
+
+        document
+            .getElementById("upload")
+            .classList.add("show");
+
+    }
+
+}
+
+
+
+/* =====================================================
+   SELECTARE FOTOGRAFIE
+   ===================================================== */
+
+document
+    .getElementById("identityFile")
+    .addEventListener(
+        "change",
+        function(){
+
+            const file = this.files[0];
+
+
+            const preview =
+                document.getElementById("preview");
+
+
+            const photoActions =
+                document.getElementById("photoActions");
+
+
+            const uploadStatus =
+                document.getElementById("uploadStatus");
+
+
+            if(!file){
+
+                preview.classList.remove("show");
+
+                photoActions.classList.remove("show");
+
+                uploadStatus.textContent = "";
+
+                return;
+            }
+
+
+            if(!file.type.startsWith("image/")){
+
+                document
+                    .getElementById("fileStatus")
+                    .textContent =
+                    "Alege un fișier imagine.";
+
+                this.value = "";
+
+                photoActions.classList.remove("show");
+
+                return;
+            }
+
+
+            if(file.size > 12 * 1024 * 1024){
+
+                document
+                    .getElementById("fileStatus")
+                    .textContent =
+                    "Fotografia este prea mare.";
+
+                this.value = "";
+
+                photoActions.classList.remove("show");
+
+                return;
+            }
+
+
+            const reader =
+                new FileReader();
+
+
+            reader.onload =
+                function(event){
+
+                    preview.src =
+                        event.target.result;
+
+                    preview.classList.add("show");
+
+                    photoActions.classList.add("show");
+
+                    uploadStatus.textContent =
+                        "Fotografia este pregătită pentru trimitere.";
+
+                };
+
+
+            reader.readAsDataURL(file);
+
+
+            document
+                .getElementById("fileStatus")
+                .textContent =
+                "Fotografia a fost selectată.";
+
+        }
+    );
+
+
+
+/* =====================================================
+   TRIMITERE FOTOGRAFIE
+   ===================================================== */
+
+function sendPhoto(){
+
+    const fileInput =
+        document.getElementById("identityFile");
+
+
+    const file =
+        fileInput.files[0];
+
+
+    if(!file){
+
+        return;
+    }
+
+
+    const sendButton =
+        document.getElementById("sendPhoto");
+
+
+    const uploadStatus =
+        document.getElementById("uploadStatus");
+
+
+    /*
+        AICI VA FI LEGAT ULTERIOR
+        UPLOADUL REAL CĂTRE MAKE / BACKEND.
+
+        Fluxul va fi:
+
+        fotografie
+            ↓
+        upload
+            ↓
+        Make
+            ↓
+        OCR
+            ↓
+        completarea automată
+            ↓
+        verificarea datelor
+    */
+
+
+    sendButton.disabled = true;
+
+    sendButton.textContent =
+        "SE PREGĂTEȘTE...";
+
+
+    uploadStatus.textContent =
+        "Fotografia este pregătită pentru transmitere.";
+
+
+    /*
+        Pentru moment nu facem un upload
+        fictiv către un URL inexistent.
+    */
+
+    setTimeout(
+        function(){
+
+            sendButton.disabled = false;
+
+            sendButton.textContent =
+                "TRIMITE FOTOGRAFIA";
+
+            uploadStatus.textContent =
+                "Fotografia este pregătită pentru transmiterea către sistem.";
+
+        },
+        800
+    );
+
+}
+
+
+
+/* =====================================================
+   ACTIVARE BUTON SALVARE
+   ===================================================== */
+
+function toggleSave(){
+
+    document
+        .getElementById("saveBtn")
+        .disabled =
+        !document
+            .getElementById("confirm")
+            .checked;
+
+}
+
+
+
+/* =====================================================
+   SALVARE DATE
+   ===================================================== */
+
+function saveData(){
+
+    const required = [
+
+        "nume",
+        "prenume",
+        "cnp",
+        "citizenship",
+        "actType",
+        "series",
+        "number"
+
+    ];
+
+
+    for(const id of required){
+
+        const field =
+            document.getElementById(id);
+
+
+        if(!field.value.trim()){
+
+            alert(
+                "Completează toate câmpurile obligatorii."
+            );
+
+            field.focus();
+
+            return;
+
+        }
+
+    }
+
+
+    const cnp =
+        document
+            .getElementById("cnp")
+            .value
+            .trim();
+
+
+    if(!/^\d{13}$/.test(cnp)){
+
+        alert(
+            "CNP-ul trebuie să conțină 13 cifre."
+        );
+
+        document
+            .getElementById("cnp")
+            .focus();
+
+        return;
+
+    }
+
+
+    const series =
+        document
+            .getElementById("series")
+            .value
+            .trim();
+
+
+    if(!/^[A-Za-zĂÂÎȘȚăâîșț]{2}$/.test(series)){
+
+        alert(
+            "Seria actului trebuie să conțină două litere."
+        );
+
+        document
+            .getElementById("series")
+            .focus();
+
+        return;
+
+    }
+
+
+    const number =
+        document
+            .getElementById("number")
+            .value
+            .trim();
+
+
+    if(!/^\d{6}$/.test(number)){
+
+        alert(
+            "Numărul actului trebuie să conțină șase cifre."
+        );
+
+        document
+            .getElementById("number")
+            .focus();
+
+        return;
+
+    }
+
+
+    document
+        .getElementById("success")
+        .classList.add("show");
+
+
+    document
+        .getElementById("success")
+        .scrollIntoView({
+            behavior:"smooth"
+        });
+
+}
+
+</script>
+
+
+</body>
+</html>
+```
+
+Am făcut și validarea efectivă pentru **seria de exact două litere** și **numărul de exact șase cifre**, nu doar modificarea vizuală. Butonul de fotografie este momentan interfața pentru pasul de upload; nu am introdus un endpoint fictiv către Make, astfel încât partea de integrare să o putem lega ulterior de fluxul real OCR.
