@@ -1,16 +1,448 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STRICTZILIER – Test</title>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Agent STRICTZILIER – Test Chat</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --dark: #173b3a;
+    --orange: #d9873d;
+    --cream: #f5f7f5;
+    --white: #ffffff;
+    --muted: #71807d;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: var(--cream);
+
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* =========================
+   AGENT
+   ========================= */
+
+.agent {
+
+    width: min(100%, 560px);
+    height: 680px;
+
+    margin: 20px;
+    padding: 25px;
+
+    background: var(--dark);
+    color: white;
+
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    box-shadow:
+        0 16px 40px rgba(23,59,58,.20);
+}
+
+
+/* =========================
+   TITLU
+   ========================= */
+
+.badge {
+
+    align-self: center;
+
+    padding: 6px 11px;
+
+    border-radius: 30px;
+
+    background: rgba(255,255,255,.10);
+
+    color: #cce8df;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    letter-spacing: .6px;
+}
+
+
+/* =========================
+   CONVERSAȚIE
+   ========================= */
+
+.conversation {
+
+    width: 100%;
+
+    flex: 1;
+
+    min-height: 0;
+
+    margin-top: 18px;
+    margin-bottom: 14px;
+
+    padding: 14px;
+
+    background: rgba(255,255,255,.06);
+
+    border: 1px solid rgba(255,255,255,.12);
+
+    border-radius: 12px;
+
+    overflow-y: auto;
+}
+
+
+/* =========================
+   MESAJ
+   ========================= */
+
+.message {
+
+    max-width: 86%;
+
+    margin-bottom: 10px;
+
+    padding: 9px 11px;
+
+    border-radius: 9px;
+
+    font-size: 13px;
+
+    line-height: 1.4;
+}
+
+
+.agent-message {
+
+    margin-right: auto;
+
+    background: rgba(255,255,255,.10);
+
+    color: #edf5f3;
+}
+
+
+.user-message {
+
+    margin-left: auto;
+
+    background: var(--orange);
+
+    color: white;
+}
+
+
+.message-label {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    opacity: .65;
+}
+
+
+/* =========================
+   INPUT
+   ========================= */
+
+.chat-input {
+
+    display: flex;
+
+    gap: 8px;
+
+    width: 100%;
+}
+
+
+.chat-input input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    height: 46px;
+
+    padding: 0 13px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    outline: none;
+
+    font-size: 14px;
+}
+
+
+.chat-input button {
+
+    width: 95px;
+
+    height: 46px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background: var(--orange);
+
+    color: white;
+
+    font-size: 12px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+}
+
+
+.chat-input button:hover {
+    opacity: .9;
+}
+
+
+/* =========================
+   NOTĂ
+   ========================= */
+
+.agent-note {
+
+    text-align: center;
+
+    margin-top: 10px;
+
+    color: #9fb3af;
+
+    font-size: 11px;
+}
+
+
+/* =========================
+   MOBIL
+   ========================= */
+
+@media (max-width: 520px) {
+
+    .agent {
+
+        width: calc(100% - 20px);
+
+        height: calc(100vh - 20px);
+
+        min-height: 520px;
+
+        margin: 10px;
+
+        padding: 20px 16px;
+
+        border-radius: 16px;
+    }
+
+    .chat-input button {
+
+        width: 80px;
+    }
+
+}
+
+</style>
+
 </head>
+
 
 <body>
 
-    <h1>STRICTZILIER – TEST</h1>
 
-    <p>Pagina de test funcționează.</p>
+<article class="agent">
+
+
+    <div class="badge">
+        AGENT STRICTZILIER
+    </div>
+
+
+    <div
+        id="conversation"
+        class="conversation">
+
+
+        <div class="message agent-message">
+
+            <span class="message-label">
+                AGENT
+            </span>
+
+            Bun venit. Scrieți ce căutați
+            sau cu ce aveți nevoie de ajutor.
+
+        </div>
+
+
+    </div>
+
+
+    <div class="chat-input">
+
+        <input
+            id="messageInput"
+            type="text"
+            placeholder="Scrieți mesajul..."
+            autocomplete="off"
+        >
+
+        <button
+            id="sendButton"
+            type="button">
+
+            TRIMITE
+
+        </button>
+
+    </div>
+
+
+    <div class="agent-note">
+        AI + asistență umană
+    </div>
+
+
+</article>
+
+
+<script>
+
+const input =
+    document.getElementById("messageInput");
+
+const button =
+    document.getElementById("sendButton");
+
+const conversation =
+    document.getElementById("conversation");
+
+
+function addMessage(type, text) {
+
+    if (!text.trim()) {
+        return;
+    }
+
+
+    const message =
+        document.createElement("div");
+
+
+    message.className =
+        "message " +
+        (
+            type === "user"
+                ? "user-message"
+                : "agent-message"
+        );
+
+
+    const label =
+        document.createElement("span");
+
+
+    label.className =
+        "message-label";
+
+
+    label.textContent =
+        type === "user"
+            ? "TU"
+            : "AGENT";
+
+
+    const content =
+        document.createElement("div");
+
+
+    content.textContent =
+        text;
+
+
+    message.appendChild(label);
+
+    message.appendChild(content);
+
+    conversation.appendChild(message);
+
+
+    conversation.scrollTop =
+        conversation.scrollHeight;
+
+}
+
+
+function sendTestMessage() {
+
+    const text =
+        input.value.trim();
+
+
+    if (!text) {
+        return;
+    }
+
+
+    addMessage(
+        "user",
+        text
+    );
+
+
+    input.value = "";
+
+}
+
+
+button.addEventListener(
+    "click",
+    sendTestMessage
+);
+
+
+input.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            sendTestMessage();
+
+        }
+
+    }
+);
+
+</script>
+
 
 </body>
 </html>
