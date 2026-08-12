@@ -34,6 +34,11 @@ body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+
+/* =========================
+   AGENT
+   ========================= */
+
 .agent {
 
     width: min(100%, 560px);
@@ -54,6 +59,11 @@ body {
         0 16px 40px rgba(23,59,58,.20);
 }
 
+
+/* =========================
+   TITLU
+   ========================= */
+
 .badge {
 
     align-self: center;
@@ -71,6 +81,11 @@ body {
 
     letter-spacing: .6px;
 }
+
+
+/* =========================
+   CONVERSAȚIE
+   ========================= */
 
 .conversation {
 
@@ -94,6 +109,11 @@ body {
     overflow-y: auto;
 }
 
+
+/* =========================
+   MESAJ
+   ========================= */
+
 .message {
 
     max-width: 86%;
@@ -109,6 +129,7 @@ body {
     line-height: 1.4;
 }
 
+
 .agent-message {
 
     margin-right: auto;
@@ -118,6 +139,7 @@ body {
     color: #edf5f3;
 }
 
+
 .user-message {
 
     margin-left: auto;
@@ -126,6 +148,7 @@ body {
 
     color: white;
 }
+
 
 .message-label {
 
@@ -140,6 +163,11 @@ body {
     opacity: .65;
 }
 
+
+/* =========================
+   INPUT
+   ========================= */
+
 .chat-input {
 
     display: flex;
@@ -148,6 +176,7 @@ body {
 
     width: 100%;
 }
+
 
 .chat-input input {
 
@@ -167,6 +196,7 @@ body {
 
     font-size: 14px;
 }
+
 
 .chat-input button {
 
@@ -189,16 +219,21 @@ body {
     cursor: pointer;
 }
 
+
 .chat-input button:hover {
     opacity: .9;
 }
 
+
 .chat-input button:disabled {
-
     opacity: .6;
-
     cursor: default;
 }
+
+
+/* =========================
+   NOTĂ
+   ========================= */
 
 .agent-note {
 
@@ -210,6 +245,11 @@ body {
 
     font-size: 11px;
 }
+
+
+/* =========================
+   MOBIL
+   ========================= */
 
 @media (max-width: 520px) {
 
@@ -239,17 +279,22 @@ body {
 
 </head>
 
+
 <body>
 
+
 <article class="agent">
+
 
     <div class="badge">
         AGENT STRICTZILIER
     </div>
 
+
     <div
         id="conversation"
         class="conversation">
+
 
         <div class="message agent-message">
 
@@ -262,7 +307,9 @@ body {
 
         </div>
 
+
     </div>
+
 
     <div class="chat-input">
 
@@ -272,6 +319,7 @@ body {
             placeholder="Scrieți mesajul..."
             autocomplete="off"
         >
+
 
         <button
             id="sendButton"
@@ -283,14 +331,21 @@ body {
 
     </div>
 
+
     <div class="agent-note">
         AI + asistență umană
     </div>
+
 
 </article>
 
 
 <script>
+
+
+/*
+ * ELEMENTELE INTERFEȚEI
+ */
 
 const input =
     document.getElementById("messageInput");
@@ -304,13 +359,16 @@ const conversation =
 
 /*
  * ID-ul conversației Vapi.
+ *
+ * Acesta permite continuarea conversației
+ * după primul mesaj.
  */
 
 let previousChatId = null;
 
 
 /*
- * Adaugă mesaj în interfață.
+ * ADAUGĂ MESAJ ÎN FEREASTRĂ
  */
 
 function addMessage(type, text) {
@@ -319,8 +377,10 @@ function addMessage(type, text) {
         return;
     }
 
+
     const message =
         document.createElement("div");
+
 
     message.className =
         "message " +
@@ -330,27 +390,35 @@ function addMessage(type, text) {
                 : "agent-message"
         );
 
+
     const label =
         document.createElement("span");
 
+
     label.className =
         "message-label";
+
 
     label.textContent =
         type === "user"
             ? "TU"
             : "AGENT";
 
+
     const content =
         document.createElement("div");
+
 
     content.textContent =
         text;
 
+
     message.appendChild(label);
+
     message.appendChild(content);
 
     conversation.appendChild(message);
+
 
     conversation.scrollTop =
         conversation.scrollHeight;
@@ -358,50 +426,71 @@ function addMessage(type, text) {
 
 
 /*
- * Trimite mesajul către chat.php.
+ * TRIMITEREA MESAJULUI
  */
 
 async function sendMessage() {
 
-    const text =
+    const message =
         input.value.trim();
 
-    if (!text) {
+
+    if (!message) {
         return;
     }
 
 
+    /*
+     * Afișăm mesajul utilizatorului.
+     */
+
     addMessage(
         "user",
-        text
+        message
     );
 
 
+    /*
+     * Curățăm câmpul.
+     */
+
     input.value = "";
 
-    button.disabled = true;
 
-    button.textContent = "...";
+    /*
+     * Dezactivăm butonul în timpul
+     * comunicării cu serverul.
+     */
+
+    sendButtonState(true);
 
 
     try {
 
+
+        /*
+         * FOLOSIM EXACT URL-UL CARE
+         * FUNCȚIONEAZĂ ÎN test-chat.html
+         */
+
         const response =
             await fetch(
-                "chat.php",
+                "https://2.pie.host/chat.php",
                 {
 
                     method: "POST",
 
                     headers: {
+
                         "Content-Type":
                             "application/json"
+
                     },
 
                     body: JSON.stringify({
 
                         message:
-                            text,
+                            message,
 
                         previousChatId:
                             previousChatId
@@ -413,93 +502,34 @@ async function sendMessage() {
 
 
         /*
-         * Citim mai întâi răspunsul ca text.
-         *
-         * Astfel putem vedea și erorile PHP
-         * care nu sunt JSON.
+         * Citim răspunsul JSON.
          */
 
-        const raw =
-            await response.text();
+        const data =
+            await response.json();
 
 
         console.log(
-            "HTTP STATUS:",
-            response.status
-        );
-
-        console.log(
-            "SERVER RESPONSE:",
-            raw
+            "Răspuns server:",
+            data
         );
 
 
         /*
-         * Încercăm să interpretăm JSON-ul.
-         */
-
-        let data;
-
-        try {
-
-            data =
-                JSON.parse(raw);
-
-        }
-
-        catch(jsonError) {
-
-            addMessage(
-                "agent",
-                "Eroare server HTTP " +
-                response.status +
-                ": " +
-                raw
-            );
-
-            return;
-        }
-
-
-        /*
-         * Dacă serverul a returnat eroare.
+         * Dacă serverul returnează eroare,
+         * o afișăm în conversație.
          */
 
         if (!response.ok) {
 
-            let errorText =
-                "Eroare HTTP " +
-                response.status;
-
-            if (data.error) {
-
-                errorText +=
-                    "\n" +
-                    data.error;
-
-            }
-
-            if (data.details) {
-
-                errorText +=
-                    "\n" +
-                    data.details;
-
-            }
-
-            if (data.vapi) {
-
-                errorText +=
-                    "\nRăspuns Vapi: " +
-                    JSON.stringify(
-                        data.vapi
-                    );
-
-            }
-
             addMessage(
                 "agent",
-                errorText
+                "EROARE:\n" +
+                JSON.stringify(
+                    data,
+                    null,
+                    2
+                )
             );
 
             return;
@@ -535,22 +565,17 @@ async function sendMessage() {
 
             addMessage(
                 "agent",
-                "Răspuns primit, dar fără text.\n\n" +
-                JSON.stringify(
-                    data,
-                    null,
-                    2
-                )
+                "Agentul nu a returnat un răspuns."
             );
 
         }
 
     }
 
+
     catch(error) {
 
         console.error(
-            "FETCH ERROR:",
             error
         );
 
@@ -563,22 +588,38 @@ async function sendMessage() {
 
     }
 
+
     finally {
 
-        button.disabled =
-            false;
-
-        button.textContent =
-            "TRIMITE";
+        sendButtonState(false);
 
         input.focus();
 
     }
+
 }
 
 
 /*
- * Buton TRIMITE.
+ * STAREA BUTONULUI
+ */
+
+function sendButtonState(disabled) {
+
+    button.disabled =
+        disabled;
+
+
+    button.textContent =
+        disabled
+            ? "..."
+            : "TRIMITE";
+
+}
+
+
+/*
+ * CLICK PE TRIMITE
  */
 
 button.addEventListener(
@@ -588,7 +629,7 @@ button.addEventListener(
 
 
 /*
- * Enter trimite mesajul.
+ * ENTER PENTRU TRIMITERE
  */
 
 input.addEventListener(
@@ -607,6 +648,7 @@ input.addEventListener(
 );
 
 </script>
+
 
 </body>
 </html>
