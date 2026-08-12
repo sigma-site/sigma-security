@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Agent STRICTZILIER – Test Chat</title>
+<title>Agent STRICTZILIER – Chat</title>
 
 <style>
 
@@ -225,6 +225,14 @@ body {
 }
 
 
+.chat-input button:disabled {
+
+    opacity: .6;
+
+    cursor: default;
+}
+
+
 /* =========================
    NOTĂ
    ========================= */
@@ -335,6 +343,12 @@ body {
 
 <script>
 
+/*
+ * =========================================================
+ * ELEMENTE
+ * =========================================================
+ */
+
 const input =
     document.getElementById("messageInput");
 
@@ -345,9 +359,30 @@ const conversation =
     document.getElementById("conversation");
 
 
+/*
+ * =========================================================
+ * CONVERSAȚIA VAPI
+ * =========================================================
+ *
+ * După primul răspuns, chatId este păstrat aici.
+ *
+ * La următorul mesaj îl trimitem către chat.php
+ * ca previousChatId, astfel încât agentul să păstreze
+ * contextul conversației.
+ */
+
+let previousChatId = null;
+
+
+/*
+ * =========================================================
+ * ADAUGĂ MESAJ ÎN FEREASTRĂ
+ * =========================================================
+ */
+
 function addMessage(type, text) {
 
-    if (!text.trim()) {
+    if (!text || !text.trim()) {
         return;
     }
 
@@ -400,7 +435,13 @@ function addMessage(type, text) {
 }
 
 
-function sendTestMessage() {
+/*
+ * =========================================================
+ * TRIMITERE MESAJ CĂTRE CHAT.PHP
+ * =========================================================
+ */
+
+async function sendMessage() {
 
     const text =
         input.value.trim();
@@ -411,22 +452,183 @@ function sendTestMessage() {
     }
 
 
+    /*
+     * Afișăm imediat mesajul utilizatorului.
+     */
+
     addMessage(
         "user",
         text
     );
 
 
+    /*
+     * Golim câmpul.
+     */
+
     input.value = "";
+
+
+    /*
+     * Dezactivăm temporar butonul pentru
+     * a nu trimite două cereri simultan.
+     */
+
+    button.disabled = true;
+
+    button.textContent =
+        "...";
+
+
+    try {
+
+        const response =
+            await fetch(
+                "chat.php",
+                {
+
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body: JSON.stringify({
+
+                        message:
+                            text,
+
+                        previousChatId:
+                            previousChatId
+
+                    })
+
+                }
+            );
+
+
+        /*
+         * Citim răspunsul PHP.
+         */
+
+        const data =
+            await response.json();
+
+
+        console.log(
+            "CHAT.PHP:",
+            data
+        );
+
+
+        /*
+         * Verificăm dacă PHP/Vapi
+         * a returnat o eroare.
+         */
+
+        if (!response.ok) {
+
+            addMessage(
+                "agent",
+                "A apărut o eroare la contactarea agentului."
+            );
+
+            console.error(
+                "Eroare chat:",
+                data
+            );
+
+            return;
+        }
+
+
+        /*
+         * Salvăm ID-ul conversației.
+         */
+
+        if (data.chatId) {
+
+            previousChatId =
+                data.chatId;
+
+        }
+
+
+        /*
+         * Afișăm răspunsul agentului.
+         */
+
+        if (data.reply) {
+
+            addMessage(
+                "agent",
+                data.reply
+            );
+
+        } else {
+
+            addMessage(
+                "agent",
+                "Agentul nu a returnat un răspuns."
+            );
+
+            console.error(
+                "Răspuns fără reply:",
+                data
+            );
+
+        }
+
+    }
+
+    catch(error) {
+
+        console.error(
+            "Eroare de conectare:",
+            error
+        );
+
+
+        addMessage(
+            "agent",
+            "Nu am putut contacta agentul."
+        );
+
+    }
+
+    finally {
+
+        button.disabled =
+            false;
+
+        button.textContent =
+            "TRIMITE";
+
+        input.focus();
+
+    }
 
 }
 
 
+/*
+ * =========================================================
+ * BUTON
+ * =========================================================
+ */
+
 button.addEventListener(
     "click",
-    sendTestMessage
+    sendMessage
 );
 
+
+/*
+ * =========================================================
+ * ENTER
+ * =========================================================
+ */
 
 input.addEventListener(
     "keydown",
@@ -434,7 +636,9 @@ input.addEventListener(
 
         if (event.key === "Enter") {
 
-            sendTestMessage();
+            event.preventDefault();
+
+            sendMessage();
 
         }
 
