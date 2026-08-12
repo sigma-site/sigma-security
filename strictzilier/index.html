@@ -1,4 +1,4 @@
-﻿
+```html
 <!DOCTYPE html>
 <html lang="ro">
 <head>
@@ -157,9 +157,12 @@ main {
 }
 
 
-/* AGENT */
+/* =========================
+   AGENT
+   ========================= */
 
 .agent {
+    height: 580px;
     min-height: 580px;
 
     background: var(--dark);
@@ -171,11 +174,258 @@ main {
     align-items: center;
 
     box-shadow: 0 16px 40px rgba(23,59,58,.20);
+
+    padding: 24px 28px;
 }
 
 
 /* =========================
-   TOP LINE ZILIER / ANGAJATOR
+   TOP BADGE
+   ========================= */
+
+.badge {
+    width: fit-content;
+
+    padding: 7px 12px;
+
+    border-radius: 30px;
+
+    background: var(--orange-light);
+
+    color: #b96b2d;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: .7px;
+}
+
+.agent .badge {
+    background: rgba(255,255,255,.10);
+    color: #cce8df;
+}
+
+
+/* =========================
+   AGENT DESCRIPTION
+   ========================= */
+
+.agent-description {
+    width: 100%;
+    max-width: 370px;
+
+    margin: 12px 0 12px;
+
+    color: #c5d4d1;
+
+    line-height: 1.4;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   CONVERSATION
+   ========================= */
+
+.conversation {
+
+    width: 100%;
+
+    flex: 1;
+
+    min-height: 0;
+
+    padding: 12px;
+
+    margin-bottom: 12px;
+
+    background: rgba(255,255,255,.06);
+
+    border: 1px solid rgba(255,255,255,.12);
+
+    border-radius: 12px;
+
+    overflow-y: auto;
+
+    text-align: left;
+
+}
+
+
+/* =========================
+   MESSAGE
+   ========================= */
+
+.message {
+
+    max-width: 86%;
+
+    margin-bottom: 9px;
+
+    padding: 9px 11px;
+
+    border-radius: 9px;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+}
+
+
+/* AGENT */
+
+.message.agent-message {
+
+    background: rgba(255,255,255,.10);
+
+    color: #edf5f3;
+
+    margin-right: auto;
+
+}
+
+
+/* UTILIZATOR */
+
+.message.user-message {
+
+    background: var(--orange);
+
+    color: white;
+
+    margin-left: auto;
+
+}
+
+
+/* LABEL */
+
+.message-label {
+
+    display: block;
+
+    margin-bottom: 3px;
+
+    font-size: 9px;
+
+    font-weight: 800;
+
+    opacity: .65;
+
+}
+
+
+/* =========================
+   ORB — DECORATIV
+   ========================= */
+
+.agent-orb {
+
+    width: 52px;
+    height: 52px;
+
+    flex-shrink: 0;
+
+    margin-bottom: 10px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(255,255,255,.08);
+
+    border: 1px solid rgba(255,255,255,.18);
+
+    box-shadow:
+        0 0 0 7px rgba(255,255,255,.025);
+
+    font-size: 22px;
+
+    transition: .25s ease;
+}
+
+
+/* ACTIV */
+
+.agent.active .agent-orb {
+
+    background: rgba(47,125,104,.55);
+
+    border-color: #cce8df;
+
+    box-shadow:
+        0 0 0 7px rgba(47,125,104,.12),
+        0 0 20px rgba(47,125,104,.45);
+
+}
+
+
+/* =========================
+   BUTON
+   ========================= */
+
+.agent-btn {
+
+    width: 100%;
+
+    max-width: 330px;
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    border: none;
+
+    border-radius: 10px;
+
+    background: white;
+
+    color: var(--dark);
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+}
+
+
+.agent.active .agent-btn {
+
+    background: var(--orange);
+
+    color: white;
+
+}
+
+
+/* =========================
+   STATUS
+   ========================= */
+
+.status {
+
+    min-height: 16px;
+
+    margin-top: 7px;
+
+    color: #cce8df;
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+}
+
+
+/* =========================
+   ROLE HEADER
    ========================= */
 
 .role-header {
@@ -223,33 +473,6 @@ main {
 
 
 /* =========================
-   BADGES
-   ========================= */
-
-.badge {
-    width: fit-content;
-
-    padding: 7px 12px;
-
-    border-radius: 30px;
-
-    background: var(--orange-light);
-
-    color: #b96b2d;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    letter-spacing: .7px;
-}
-
-.agent .badge {
-    background: rgba(255,255,255,.10);
-    color: #cce8df;
-}
-
-
-/* =========================
    TITLES
    ========================= */
 
@@ -261,11 +484,6 @@ main {
     font-size: 27px;
 }
 
-.agent h2 {
-    color: white;
-    font-size: 31px;
-}
-
 .description {
     margin: 0 0 24px;
 
@@ -273,11 +491,6 @@ main {
 
     line-height: 1.55;
     font-size: 15px;
-}
-
-.agent .description {
-    max-width: 370px;
-    color: #c5d4d1;
 }
 
 
@@ -395,82 +608,6 @@ main {
     font-weight: 800;
 
     cursor: pointer;
-
-    transition: .15s ease;
-}
-
-.login-btn:hover {
-    background: var(--orange);
-    color: white;
-}
-
-
-/* =========================
-   GUIDES
-   ========================= */
-
-.guides {
-    display: none;
-}
-
-
-/* =========================
-   AGENT
-   ========================= */
-
-.agent-orb {
-    width: 126px;
-    height: 126px;
-
-    margin: 18px 0 30px;
-
-    border-radius: 50%;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    background: rgba(255,255,255,.08);
-
-    border: 1px solid rgba(255,255,255,.18);
-
-    box-shadow:
-        0 0 0 18px rgba(255,255,255,.025);
-
-    font-size: 48px;
-}
-
-.agent-btn {
-    width: 100%;
-    max-width: 330px;
-
-    height: 56px;
-
-    margin-top: auto;
-
-    border: none;
-    border-radius: 12px;
-
-    background: white;
-    color: var(--dark);
-
-    font-size: 16px;
-    font-weight: 800;
-
-    cursor: pointer;
-}
-
-.agent-btn:hover {
-    opacity: .92;
-}
-
-.agent-note {
-    margin-top: 15px;
-
-    color: #9fb3af;
-
-    font-size: 12px;
 }
 
 
@@ -557,6 +694,7 @@ footer a:hover {
     color: var(--muted);
 
     font-size: 14px;
+
     line-height: 1.5;
 }
 
@@ -577,6 +715,96 @@ footer a:hover {
 }
 
 
+
+
+/* =========================
+   MODURI VOCE / SCRIS
+   ========================= */
+
+.mode-switch {
+    width: 100%;
+    max-width: 330px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    margin-bottom: 9px;
+    flex-shrink: 0;
+}
+
+.mode-btn {
+    height: 34px;
+    border: 1px solid rgba(255,255,255,.18);
+    border-radius: 8px;
+    background: rgba(255,255,255,.07);
+    color: #cce8df;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.mode-btn.active {
+    background: var(--orange);
+    border-color: var(--orange);
+    color: white;
+}
+
+.mode-panel {
+    width: 100%;
+    max-width: 330px;
+    flex-shrink: 0;
+}
+
+.mode-panel.hidden {
+    display: none;
+}
+
+.voice-controls {
+    width: 100%;
+}
+
+.chat-input {
+    display: flex;
+    gap: 7px;
+    width: 100%;
+}
+
+.chat-input input {
+    flex: 1;
+    min-width: 0;
+    height: 48px;
+    padding: 0 12px;
+    border: none;
+    border-radius: 9px;
+    outline: none;
+    font-size: 13px;
+}
+
+.chat-input button {
+    width: 82px;
+    height: 48px;
+    border: none;
+    border-radius: 9px;
+    background: var(--orange);
+    color: white;
+    font-size: 11px;
+    font-weight: 800;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.chat-input button:disabled {
+    opacity: .6;
+    cursor: default;
+}
+
+.chat-status {
+    min-height: 16px;
+    margin-top: 6px;
+    color: #cce8df;
+    font-size: 10px;
+    font-weight: 700;
+}
+
 /* =========================
    RESPONSIVE
    ========================= */
@@ -593,12 +821,14 @@ footer a:hover {
 
     .agent {
         order: -1;
+        height: 580px;
+        min-height: 580px;
     }
 
-    .card,
-    .agent {
+    .card:not(.agent) {
         min-height: auto;
     }
+
 }
 
 
@@ -641,6 +871,23 @@ footer a:hover {
         border-radius: 16px;
     }
 
+    .agent {
+        height: 560px;
+        min-height: 560px;
+
+        padding: 20px 17px;
+    }
+
+    .agent-description {
+        font-size: 12px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .conversation {
+        padding: 10px;
+    }
+
     .form-grid {
         grid-template-columns: 1fr;
     }
@@ -667,6 +914,7 @@ footer a:hover {
 
         padding: 22px 15px;
     }
+
 }
 
 </style>
@@ -808,7 +1056,9 @@ footer a:hover {
      AGENT
      ========================= -->
 
-<article class="card agent">
+<article
+    id="agent"
+    class="card agent">
 
 
     <div class="badge">
@@ -816,25 +1066,99 @@ footer a:hover {
     </div>
 
 
-    <h2>
-        Vorbește cu Agentul
-    </h2>
-
-
-    <p class="description">
+    <p class="agent-description">
         Spune ce cauți sau de ce ai nevoie. Agentul mediază
         întâlnirea dintre zilieri și angajatori.
     </p>
 
 
-    <div class="agent-orb">
-        ✦
+    <div
+        id="conversation"
+        class="conversation">
+
+        <div
+            id="emptyMessage"
+            class="message agent-message">
+
+            <span class="message-label">
+                AGENT
+            </span>
+
+            Bun venit. Alege modul vocal sau scris pentru a începe conversația.
+
+        </div>
+
     </div>
 
 
-    <button class="agent-btn">
-        PORNEȘTE CONVERSAȚIA
-    </button>
+    <div class="mode-switch">
+
+        <button
+            id="voiceModeButton"
+            class="mode-btn active"
+            type="button">
+            VOCAL
+        </button>
+
+        <button
+            id="textModeButton"
+            class="mode-btn"
+            type="button">
+            SCRIS
+        </button>
+
+    </div>
+
+
+    <div
+        id="voicePanel"
+        class="mode-panel voice-controls">
+
+        <div class="agent-orb">
+            ✦
+        </div>
+
+        <button
+            id="agentButton"
+            class="agent-btn"
+            type="button">
+            PORNEȘTE CONVERSAȚIA
+        </button>
+
+        <div
+            id="status"
+            class="status">
+        </div>
+
+    </div>
+
+
+    <div
+        id="textPanel"
+        class="mode-panel hidden">
+
+        <div class="chat-input">
+
+            <input
+                id="messageInput"
+                type="text"
+                placeholder="Scrieți mesajul..."
+                autocomplete="off">
+
+            <button
+                id="sendButton"
+                type="button">
+                TRIMITE
+            </button>
+
+        </div>
+
+        <div
+            id="chatStatus"
+            class="chat-status">
+        </div>
+
+    </div>
 
 
     <div class="agent-note">
@@ -1106,6 +1430,425 @@ document
         }
 
     });
+
+</script>
+
+
+<!-- =========================
+     VAPI + CHAT TEXT
+     ========================= -->
+
+<script type="module">
+
+import Vapi
+    from "https://esm.sh/@vapi-ai/web";
+
+
+const PUBLIC_KEY =
+    "ab245358-61ea-4876-b767-8e4ad159627d";
+
+const ASSISTANT_ID =
+    "970da2f1-89c8-438c-ac8c-30abfa04528e";
+
+const CHAT_URL =
+    "https://2.pie.host/chat.php";
+
+
+const vapi =
+    new Vapi(PUBLIC_KEY);
+
+
+const agent =
+    document.getElementById("agent");
+
+const voiceModeButton =
+    document.getElementById("voiceModeButton");
+
+const textModeButton =
+    document.getElementById("textModeButton");
+
+const voicePanel =
+    document.getElementById("voicePanel");
+
+const textPanel =
+    document.getElementById("textPanel");
+
+const button =
+    document.getElementById("agentButton");
+
+const status =
+    document.getElementById("status");
+
+const conversation =
+    document.getElementById("conversation");
+
+const input =
+    document.getElementById("messageInput");
+
+const sendButton =
+    document.getElementById("sendButton");
+
+const chatStatus =
+    document.getElementById("chatStatus");
+
+
+let conversationActive = false;
+let previousChatId = null;
+let currentMode = "voice";
+
+
+/* =========================
+   MESAJ ÎN FEREASTRĂ
+   ========================= */
+
+function addMessage(type, text) {
+
+    if (!text || !text.trim()) {
+        return;
+    }
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message " +
+        (
+            type === "user"
+                ? "user-message"
+                : "agent-message"
+        );
+
+    const label =
+        document.createElement("span");
+
+    label.className =
+        "message-label";
+
+    label.textContent =
+        type === "user"
+            ? "TU"
+            : "AGENT";
+
+    const content =
+        document.createElement("div");
+
+    content.textContent = text;
+
+    message.appendChild(label);
+    message.appendChild(content);
+    conversation.appendChild(message);
+
+    conversation.scrollTop =
+        conversation.scrollHeight;
+}
+
+
+/* =========================
+   MOD SCHIMBARE
+   ========================= */
+
+function setMode(mode) {
+
+    if (mode === currentMode) {
+        return;
+    }
+
+    if (mode === "text" && conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        agent.classList.remove("active");
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
+    }
+
+    currentMode = mode;
+
+    const voice =
+        mode === "voice";
+
+    voiceModeButton.classList.toggle(
+        "active",
+        voice
+    );
+
+    textModeButton.classList.toggle(
+        "active",
+        !voice
+    );
+
+    voicePanel.classList.toggle(
+        "hidden",
+        !voice
+    );
+
+    textPanel.classList.toggle(
+        "hidden",
+        voice
+    );
+
+    if (!voice) {
+        input.focus();
+    }
+}
+
+
+voiceModeButton.addEventListener(
+    "click",
+    function() {
+        setMode("voice");
+    }
+);
+
+
+textModeButton.addEventListener(
+    "click",
+    function() {
+        setMode("text");
+    }
+);
+
+
+/* =========================
+   MESAJE VAPI
+   ========================= */
+
+vapi.on(
+    "message",
+    function(message) {
+
+        console.log(
+            "VAPI MESSAGE:",
+            message
+        );
+
+        if (
+            message.type ===
+            "transcript"
+        ) {
+
+            const role =
+                message.role;
+
+            const text =
+                message.transcript;
+
+            if (
+                message.transcriptType ===
+                "final"
+            ) {
+
+                addMessage(
+                    role === "user"
+                        ? "user"
+                        : "agent",
+                    text
+                );
+            }
+        }
+    }
+);
+
+
+/* =========================
+   VOCE VAPI
+   ========================= */
+
+button.addEventListener(
+    "click",
+    async function() {
+
+        if (conversationActive) {
+
+            vapi.stop();
+
+            conversationActive =
+                false;
+
+            agent.classList.remove(
+                "active"
+            );
+
+            button.textContent =
+                "PORNEȘTE CONVERSAȚIA";
+
+            status.textContent = "";
+
+            return;
+        }
+
+        status.textContent =
+            "Se conectează...";
+
+        try {
+
+            await vapi.start(
+                ASSISTANT_ID
+            );
+
+            conversationActive =
+                true;
+
+            agent.classList.add(
+                "active"
+            );
+
+            button.textContent =
+                "ÎNCHIDE CONVERSAȚIA";
+
+            status.textContent =
+                "Conversația vocală este activă.";
+
+        }
+        catch(error) {
+
+            console.error(
+                "Eroare Vapi:",
+                error
+            );
+
+            status.textContent =
+                "Nu s-a putut porni conversația.";
+        }
+    }
+);
+
+
+vapi.on(
+    "error",
+    function(error) {
+
+        console.error(
+            "Vapi error:",
+            error
+        );
+
+        status.textContent =
+            "Eroare Vapi.";
+    }
+);
+
+
+/* =========================
+   CHAT TEXT
+   ========================= */
+
+async function sendTextMessage() {
+
+    const message =
+        input.value.trim();
+
+    if (!message) {
+        return;
+    }
+
+    addMessage(
+        "user",
+        message
+    );
+
+    input.value = "";
+
+    sendButton.disabled =
+        true;
+
+    chatStatus.textContent =
+        "Se contactează agentul...";
+
+    try {
+
+        const response =
+            await fetch(
+                CHAT_URL,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+                    body: JSON.stringify({
+                        message: message,
+                        previousChatId:
+                            previousChatId
+                    })
+                }
+            );
+
+        const data =
+            await response.json();
+
+        console.log(
+            "Răspuns chat:",
+            data
+        );
+
+        if (!response.ok) {
+
+            addMessage(
+                "agent",
+                "EROARE:\n" +
+                JSON.stringify(
+                    data,
+                    null,
+                    2
+                )
+            );
+
+            return;
+        }
+
+        if (data.chatId) {
+            previousChatId =
+                data.chatId;
+        }
+
+        addMessage(
+            "agent",
+            data.reply ||
+            "Agentul nu a returnat un răspuns."
+        );
+
+        chatStatus.textContent = "";
+
+    }
+    catch(error) {
+
+        console.error(error);
+
+        addMessage(
+            "agent",
+            "Eroare de conectare:\n" +
+            error.message
+        );
+
+    }
+    finally {
+
+        sendButton.disabled =
+            false;
+
+        input.focus();
+    }
+}
+
+
+sendButton.addEventListener(
+    "click",
+    sendTextMessage
+);
+
+
+input.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            event.preventDefault();
+
+            sendTextMessage();
+        }
+    }
+);
 
 </script>
 
