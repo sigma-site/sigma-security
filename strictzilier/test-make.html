@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Test înscriere zilier</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    max-width:500px;
+    margin:40px auto;
+    padding:20px;
+}
+
+h2{
+    text-align:center;
+}
+
+input,
+select,
+button{
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    box-sizing:border-box;
+    font-size:16px;
+}
+
+button{
+    cursor:pointer;
+}
+
+#mesaj{
+    margin-top:20px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Test înscriere zilier</h2>
+
+<form id="formular">
+
+<input
+    type="text"
+    id="nume"
+    placeholder="Nume"
+    required>
+
+<input
+    type="text"
+    id="prenume"
+    placeholder="Prenume"
+    required>
+
+<input
+    type="tel"
+    id="telefon"
+    placeholder="Telefon"
+    required>
+
+<select id="judet" required>
+
+<option value="">Selectează județul</option>
+
+<option>Bacău</option>
+<option>Iași</option>
+<option>Neamț</option>
+<option>Vaslui</option>
+
+</select>
+
+<input
+    type="text"
+    id="localitate"
+    placeholder="Localitate"
+    required>
+
+<button type="submit">
+
+Trimite
+
+</button>
+
+</form>
+
+<div id="mesaj"></div>
+
+<script>
+
+const webhook =
+"INTRODU_AICI_WEBHOOKUL_TAU";
+
+document
+.getElementById("formular")
+.addEventListener("submit",async(e)=>{
+
+e.preventDefault();
+
+const date={
+
+nume:
+document.getElementById("nume").value,
+
+prenume:
+document.getElementById("prenume").value,
+
+telefon:
+document.getElementById("telefon").value,
+
+judet:
+document.getElementById("judet").value,
+
+localitate:
+document.getElementById("localitate").value
+
+};
+
+try{
+
+await fetch(webhook,{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(date)
+
+});
+
+document.getElementById("mesaj").innerHTML=
+"Datele au fost trimise.";
+
+}
+
+catch{
+
+document.getElementById("mesaj").innerHTML=
+"Eroare la transmiterea datelor.";
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
