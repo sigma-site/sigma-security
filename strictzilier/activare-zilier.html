@@ -1,1003 +1,360 @@
 <!DOCTYPE html>
 <html lang="ro">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>STRICTZILIER.ro – Activare cont zilier</title>
-
-<style>
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f4f6f8;
-    color:#263238;
-}
-
-
-/* =========================
-   HEADER
-   ========================= */
-
-header{
-    height:68px;
-    background:#fff;
-    border-bottom:1px solid #ddd;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 28px;
-}
-
-.logo{
-    font-size:24px;
-    font-weight:800;
-}
-
-.logo span{
-    color:#f28c28;
-}
-
-.guide-top-btn{
-    background:transparent;
-    border:1px solid #f28c28;
-    color:#d86f0b;
-
-    border-radius:6px;
-
-    padding:6px 10px;
-
-    font-size:12px;
-    font-weight:bold;
-
-    cursor:pointer;
-}
-
-
-/* =========================
-   MAIN
-   ========================= */
-
-.main{
-    max-width:1180px;
-
-    margin:18px auto;
-
-    padding:0 18px;
-
-    display:grid;
-
-    grid-template-columns:
-        minmax(0,1.55fr)
-        minmax(320px,.75fr);
-
-    gap:20px;
-}
-
-
-/* =========================
-   CONTENT
-   ========================= */
-
-.content,
-.agent{
-    background:#fff;
-
-    border-radius:12px;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.06);
-}
-
-.content{
-    padding:23px;
-}
-
-h1{
-    margin:0 0 6px;
-
-    font-size:25px;
-}
-
-.subtitle{
-    color:#6d7880;
-
-    margin-bottom:18px;
-
-    line-height:1.45;
-
-    font-size:14px;
-}
-
-
-/* =========================
-   SECTIONS
-   ========================= */
-
-.section{
-    margin-bottom:16px;
-
-    padding-bottom:14px;
-
-    border-bottom:1px solid #e5e7e9;
-}
-
-.section:last-of-type{
-    border-bottom:none;
-
-    margin-bottom:8px;
-}
-
-.section h2{
-    margin:0 0 11px;
-
-    font-size:17px;
-}
-
-
-/* =========================
-   FIELDS
-   ========================= */
-
-.field{
-    margin-bottom:16px;
-}
-
-.field label{
-    display:block;
-
-    margin-bottom:6px;
-
-    font-size:12px;
-
-    color:#737d83;
-
-    font-weight:700;
-}
-
-select{
-    width:100%;
-
-    height:44px;
-
-    padding:0 11px;
-
-    border:1px solid #e4e7e9;
-
-    border-radius:7px;
-
-    background:#f7f8f9;
-
-    color:#263238;
-
-    font-size:13px;
-}
-
-select:focus{
-    outline:none;
-
-    border-color:#f28c28;
-
-    box-shadow:
-        0 0 0 2px rgba(242,140,40,.10);
-}
-
-select:disabled{
-    color:#899399;
-
-    background:#f1f3f4;
-}
-
-.activity-note{
-    margin-top:6px;
-
-    color:#737d83;
-
-    font-size:12px;
-
-    line-height:1.4;
-}
-
-
-/* =========================
-   AGE
-   ========================= */
-
-.age-box{
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:10px;
-
-    margin-top:15px;
-
-    padding:12px;
-
-    background:#f7f8f9;
-
-    border:1px solid #e4e7e9;
-
-    border-radius:7px;
-}
-
-.age-box input{
-    width:18px;
-    height:18px;
-
-    margin:1px 0 0;
-
-    flex-shrink:0;
-}
-
-.age-box label{
-    font-size:13px;
-
-    line-height:1.45;
-
-    font-weight:600;
-}
-
-.warning{
-    display:none;
-
-    margin-top:9px;
-
-    color:#b42318;
-
-    font-size:13px;
-
-    font-weight:700;
-
-    line-height:1.4;
-}
-
-
-/* =========================
-   BUTTON
-   ========================= */
-
-.button-area{
-    margin-top:18px;
-}
-
-.activate-button{
-    width:100%;
-
-    min-height:45px;
-
-    border:0;
-
-    border-radius:7px;
-
-    background:#f28c28;
-
-    color:#fff;
-
-    font-size:13px;
-
-    font-weight:bold;
-
-    cursor:pointer;
-}
-
-.activate-button:hover{
-    background:#d97718;
-}
-
-.activate-button:disabled{
-    background:#bfc6c9;
-
-    cursor:not-allowed;
-}
-
-
-/* =========================
-   BOTTOM NOTE
-   ========================= */
-
-.bottom-note{
-    margin:15px 0 0;
-
-    color:#6d7880;
-
-    font-size:12px;
-
-    line-height:1.45;
-}
-
-
-/* =========================
-   AGENT
-   ========================= */
-
-.agent{
-    min-height:560px;
-
-    display:flex;
-
-    flex-direction:column;
-}
-
-.agent-header{
-    padding:16px 18px;
-
-    border-bottom:1px solid #ddd;
-
-    font-weight:bold;
-
-    font-size:14px;
-}
-
-.chat{
-    flex:1;
-
-    padding:17px;
-
-    background:#fafafa;
-}
-
-.chat-message{
-    background:#fff;
-
-    border:1px solid #ddd;
-
-    border-radius:9px;
-
-    padding:12px;
-
-    font-size:13px;
-
-    line-height:1.45;
-}
-
-.chat-input{
-    padding:12px;
-
-    border-top:1px solid #ddd;
-
-    display:flex;
-
-    gap:7px;
-}
-
-.chat-input input{
-    flex:1;
-
-    min-width:0;
-
-    padding:9px;
-
-    border:1px solid #ccc;
-
-    border-radius:7px;
-
-    font-size:13px;
-}
-
-.chat-input button{
-    border:none;
-
-    border-radius:7px;
-
-    padding:9px 13px;
-
-    cursor:pointer;
-
-    font-weight:bold;
-
-    font-size:13px;
-}
-
-
-/* =========================
-   RESPONSIVE
-   ========================= */
-
-@media(max-width:800px){
-
-    .main{
-        grid-template-columns:1fr;
-    }
-
-    .agent{
-        min-height:420px;
-    }
-
-}
-
-
-@media(max-width:520px){
-
-    header{
-        padding:0 16px;
-    }
-
-    .logo{
-        font-size:20px;
-    }
-
-    .content{
-        padding:18px;
-    }
-
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Activare Cont Zilier — STRICTZILIER.ro</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+  </style>
 </head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
+  <!-- Header Permanent (Identic cu index.html) -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+        <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
+      </a>
 
-<body>
-
-
-<header>
-
-    <div class="logo">
-        STRICT<span>ZILIER</span>.ro
-    </div>
-
-
-    <button
-        class="guide-top-btn"
-        onclick="location.href='ghid-zilier.html'">
-
-        Ghid zilier
-
-    </button>
-
-</header>
-
-
-
-<div class="main">
-
-
-<!-- =========================
-     FORMULAR
-     ========================= -->
-
-<section class="content">
-
-
-    <h1>
-        Activează-ți contul
-    </h1>
-
-
-    <div class="subtitle">
-
-        Ai ajuns aici din mesajul primit pe WhatsApp.
-        Alege grupa de activități în care dorești să
-        lucrezi și confirmă că ai împlinit 18 ani.
+      <!-- Buton Ghid Zilier -->
+      <div>
+        <a href="ghid-zilier.html" class="inline-flex items-center gap-1 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-semibold transition">
+          <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Ghid Zilier</span>
+        </a>
+      </div>
 
     </div>
+  </header>
 
 
-
-    <!-- GRUPA -->
-
-    <div class="section">
-
-        <h2>
-            Preferințe de activitate
-        </h2>
-
-
-        <div class="field">
-
-            <label for="group">
-                Grupa de activități
-            </label>
-
-
-            <select id="group">
-
-                <option value="">
-                    Alege grupa
-                </option>
-
-                <option value="G01">
-                    Agricultură, horticultură și comerț agricol
-                </option>
-
-                <option value="G02">
-                    Silvicultură, pescuit și creșterea animalelor
-                </option>
-
-                <option value="G03">
-                    Peisagistică, spații verzi și gestionarea deșeurilor
-                </option>
-
-                <option value="G04">
-                    Natură, biodiversitate și agrement în aer liber
-                </option>
-
-                <option value="G05">
-                    Alimentație, ospitalitate și cazare
-                </option>
-
-                <option value="G06">
-                    Evenimente, spectacole și comunicare
-                </option>
-
-                <option value="G07">
-                    Sport și agrement
-                </option>
-
-                <option value="G08">
-                    Cercetare și studii de piață
-                </option>
-
-            </select>
-
+  <!-- ================================================================= -->
+  <!-- MAIN CONTENT: GRID 2 COLOANE DESKTOP / 1 COLOANA MOBIL            -->
+  <!-- ================================================================= -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+      
+      <!-- COLOANA STÂNGA: FORMULAR ACTIVARE (OUPĂ 2 COLOANE PE DESKTOP) -->
+      <section class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-amber-400 transition-all">
+        
+        <!-- Antet Pagină -->
+        <div class="border-b border-slate-100 pb-4 mb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div>
+            <h1 class="text-xl sm:text-2xl font-bold text-slate-900">Activează-ți contul de Zilier</h1>
+            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">
+              Alege grupa de activități în care dorești să lucrezi și confirmă că ai împlinit 18 ani.
+            </p>
+          </div>
+          
+          <!-- Badge afișare ID Zilier -->
+          <div class="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg text-xs font-bold text-amber-800 self-start sm:self-auto">
+            <span>ID Cont:</span>
+            <span id="displayId" class="font-mono text-amber-600">Se verifică...</span>
+          </div>
         </div>
 
+        <!-- Formular Activare -->
+        <form id="form-activare" class="space-y-6">
 
+          <!-- SECTIUNEA 1: PREFERINȚE ACTIVITATE -->
+          <div class="space-y-4">
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">1. Preferințe de activitate</h2>
 
-        <div class="field">
-
-            <label for="activity">
-                Activitatea preferată
-            </label>
-
-
-            <select
-                id="activity"
-                disabled
-            >
-
-                <option value="">
-                    Alege mai întâi grupa
-                </option>
-
-            </select>
-
-
-            <div class="activity-note">
-
-                Alegerea unei activități este opțională.
-                Dacă nu alegi o activitate, vei putea primi
-                oferte pentru toate activitățile din grupa aleasă.
-
+            <div>
+              <label for="group" class="block text-xs font-semibold text-slate-700 mb-1">Grupa de activități *</label>
+              <select id="group" required class="w-full px-3 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-50/50">
+                <option value="">Alege grupa...</option>
+                <option value="G01">Agricultură, horticultură și comerț agricol</option>
+                <option value="G02">Silvicultură, pescuit și creșterea animalelor</option>
+                <option value="G03">Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                <option value="G04">Natură, biodiversitate și agrement în aer liber</option>
+                <option value="G05">Alimentație, ospitalitate și cazare</option>
+                <option value="G06">Evenimente, spectacole și comunicare</option>
+                <option value="G07">Sport și agrement</option>
+                <option value="G08">Cercetare și studii de piață</option>
+              </select>
             </div>
 
-        </div>
+            <div>
+              <label for="activity" class="block text-xs font-semibold text-slate-700 mb-1">Activitatea preferată (opțional)</label>
+              <select id="activity" disabled class="w-full px-3 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-100 disabled:cursor-not-allowed text-slate-500">
+                <option value="">Alege mai întâi grupa</option>
+              </select>
+              <p class="text-[11px] text-slate-400 mt-1 leading-normal">
+                Alegerea unei activități specifice este opțională. Dacă nu selectezi o activitate, vei putea primi oferte pentru toate activitățile din grupa aleasă.
+              </p>
+            </div>
+          </div>
+
+          <div class="border-t border-slate-100 pt-4 space-y-4">
+            <!-- SECTIUNEA 2: VÂRSTĂ -->
+            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider">2. Confirmarea vârstei legală</h2>
+
+            <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
+              <label class="flex items-start gap-3 cursor-pointer">
+                <input id="age" type="checkbox" class="mt-0.5 w-4 h-4 text-amber-500 border-slate-300 rounded focus:ring-amber-500">
+                <span class="text-xs sm:text-sm text-slate-700 leading-snug font-medium">
+                  Confirm că am împlinit vârsta de <strong>18 ani</strong> și că informațiile declarate sunt corecte. *
+                </span>
+              </label>
+            </div>
+
+            <div id="warning" class="hidden p-3 bg-rose-50 border border-rose-200 text-rose-700 rounded-xl text-xs font-bold">
+              Pentru crearea și activarea contului este obligatoriu să confirmi că ai împlinit 18 ani.
+            </div>
+          </div>
+
+          <!-- ACTIUNE & MESAJ STATUS -->
+          <div class="pt-2">
+            <button id="activateButton" type="button" disabled class="w-full py-3 px-4 bg-amber-500 hover:bg-amber-600 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-semibold text-sm rounded-lg shadow-sm transition">
+              Activează contul
+            </button>
+
+            <div id="statusMessage" class="min-h-[18px] mt-3 text-xs font-semibold text-center"></div>
+
+            <p class="text-xs text-slate-400 text-center mt-3 leading-relaxed">
+              După activare vei primi confirmarea pe WhatsApp și te vei putea conecta ulterior direct cu numărul tău de telefon.
+            </p>
+          </div>
+
+        </form>
+
+      </section>
+
+
+      <!-- COLOANA DREAPTA: AGENT AI INTEGRAT (IFRAME DEDICAT) -->
+      <aside class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden h-[580px]">
+        <iframe src="agent.html" class="w-full h-full border-0" loading="lazy"></iframe>
+      </aside>
 
     </div>
+  </main>
 
 
-
-    <!-- VARSTA -->
-
-    <div class="section">
-
-        <h2>
-            Confirmarea vârstei
-        </h2>
-
-
-        <div class="age-box">
-
-            <input
-                id="age"
-                type="checkbox"
-            >
-
-
-            <label for="age">
-
-                Confirm că am împlinit 18 ani și că
-                informațiile declarate sunt corecte.
-
-            </label>
-
-        </div>
-
-
-        <div
-            id="warning"
-            class="warning"
-        >
-
-            Pentru crearea contului este obligatoriu să
-            confirmi că ai împlinit 18 ani.
-
-        </div>
-
+  <!-- Footer Standard (Identic cu index.html) -->
+  <footer class="bg-white border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>© 2026 STRICTZILIER.ro. Toate drepturile rezervate. Conform Legii 52/2011.</div>
+      <div class="flex flex-wrap gap-4 font-medium">
+        <a href="#termeni" class="hover:text-slate-800 transition">Termeni și Condiții</a>
+        <a href="#confidentialitate" class="hover:text-slate-800 transition">Politică de Confidențialitate</a>
+      </div>
     </div>
+  </footer>
 
 
+  <!-- LOGICĂ JAVASCRIPT: DINAMICĂ SELECȚIE & CONECTARE MAKE.COM -->
+  <script>
+    // URL Webhook Make.com pentru Activare Zilier
+    const WEBHOOK_ACTIVARE_ZILIER = "INTRODU_AICI_WEBHOOK_ACTIVARE_ZILIER";
 
-    <!-- BUTON -->
-
-    <div class="button-area">
-
-        <button
-            id="activateButton"
-            class="activate-button"
-            type="button"
-            disabled
-        >
-
-            Activează contul
-
-        </button>
-
-    </div>
-
-
-    <p class="bottom-note">
-
-        După activarea contului vei primi pe WhatsApp
-        confirmarea și te vei putea conecta ulterior
-        folosind numărul tău de telefon.
-
-    </p>
-
-
-</section>
-
-
-
-<!-- =========================
-     AGENT
-     ========================= -->
-
-<aside class="agent">
-<iframe src="agent.html" style="width:100%;height:100%;border:0;border-radius:12px;" loading="lazy"></iframe>
-</aside>
-
-
-</div>
-
-
-
-<script>
-
-
-/*
-    ACTIVITĂȚILE SUNT LEGATE DE GRUPELE
-    DIN NOMENCLATOR.
-
-    Codurile nu sunt afișate utilizatorului.
-*/
-
-
-const activities = {
-
-
-    G01: [
-
+    // Nomenclator Activități Legate de Grupe
+    const activities = {
+      G01: [
         "Toate activitățile din această grupă",
-
         "Agricultură, vânătoare și servicii anexe",
-
         "Producerea materialului săditor",
-
         "Cultivarea plantelor ornamentale",
-
         "Producerea gazonului pentru transplantare",
-
         "Îngrijirea și curățarea pomilor",
-
         "Activități ale pepinierelor",
-
         "Comerț cu produse agricole și animale vii"
-
-    ],
-
-
-    G02: [
-
+      ],
+      G02: [
         "Toate activitățile din această grupă",
-
         "Silvicultură",
-
         "Pescuit și acvacultură",
-
         "Creșterea și reproducerea animalelor semidomesticite și a altor animale"
-
-    ],
-
-
-    G03: [
-
+      ],
+      G03: [
         "Toate activitățile din această grupă",
-
         "Întreținerea peisagistică",
-
         "Plantarea, îngrijirea și întreținerea parcurilor și grădinilor",
-
         "Întreținerea spațiilor verzi publice",
-
         "Colectarea, tratarea și eliminarea deșeurilor nepericuloase",
-
         "Recuperarea materialelor"
-
-    ],
-
-
-    G04: [
-
+      ],
+      G04: [
         "Toate activitățile din această grupă",
-
         "Activități ale grădinilor zoologice",
-
         "Activități ale grădinilor botanice",
-
         "Activități ale rezervațiilor naturale"
-
-    ],
-
-
-    G05: [
-
+      ],
+      G05: [
         "Toate activitățile din această grupă",
-
         "Catering pentru evenimente",
-
         "Restaurante",
-
         "Baruri și servirea băuturilor",
-
         "Hoteluri și alte facilități de cazare",
-
         "Tabere de copii",
-
         "Cabane și alte spații de cazare pentru vacanțe"
-
-    ],
-
-
-    G06: [
-
+      ],
+      G06: [
         "Toate activitățile din această grupă",
-
         "Organizarea de expoziții, târguri și congrese",
-
         "Publicitate",
-
         "Spectacole și interpretare artistică",
-
         "Activități de sprijin pentru spectacole",
-
         "Administrarea sălilor de spectacole"
-
-    ],
-
-
-    G07: [
-
+      ],
+      G07: [
         "Toate activitățile din această grupă",
-
         "Activități ale bazelor sportive",
-
         "Activități ale cluburilor sportive"
-
-    ],
-
-
-    G08: [
-
+      ],
+      G08: [
         "Toate activitățile din această grupă",
-
         "Cercetare în științe sociale și umaniste – inclusiv săpături arheologice",
-
         "Studii de piață",
-
         "Sondaje de opinie",
-
         "Cercetare în biotehnologie",
-
         "Cercetare în alte științe naturale și inginerie"
+      ]
+    };
 
-    ]
+    const group = document.getElementById("group");
+    const activity = document.getElementById("activity");
+    const age = document.getElementById("age");
+    const activateButton = document.getElementById("activateButton");
+    const warning = document.getElementById("warning");
+    const displayId = document.getElementById("displayId");
+    const statusMessage = document.getElementById("statusMessage");
 
-};
+    let currentIdZilier = "";
 
+    // 1. Preluarea ID-ului din URL (?id=Z100010)
+    document.addEventListener("DOMContentLoaded", function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const idParam = urlParams.get("id");
 
+      if (idParam && idParam.trim() !== "") {
+        currentIdZilier = idParam.trim();
+        displayId.textContent = currentIdZilier;
+      } else {
+        displayId.textContent = "Lipsă ID";
+        displayId.className = "font-mono text-rose-600 font-bold";
+        statusMessage.className = "min-h-[18px] mt-3 text-xs font-semibold text-center text-rose-600";
+        statusMessage.textContent = "Acces neautorizat. Linkul nu conține un ID de activare valid.";
+      }
+    });
 
-const group =
-    document.getElementById("group");
+    // 2. Schimbare Grupa de Activitate
+    group.addEventListener("change", function(){
+      activity.innerHTML = "";
 
-
-const activity =
-    document.getElementById("activity");
-
-
-const age =
-    document.getElementById("age");
-
-
-const activateButton =
-    document.getElementById("activateButton");
-
-
-const warning =
-    document.getElementById("warning");
-
-
-
-/*
-    Încărcarea activităților după alegerea grupei.
-*/
-
-group.addEventListener(
-    "change",
-    function(){
-
-        activity.innerHTML = "";
-
-
-        if(!group.value){
-
-            activity.disabled = true;
-
-
-            const option =
-                document.createElement("option");
-
-            option.textContent =
-                "Alege mai întâi grupa";
-
-            option.value = "";
-
-
-            activity.appendChild(option);
-
-
-            updateButton();
-
-            return;
-
-        }
-
-
-        const defaultOption =
-            document.createElement("option");
-
-        defaultOption.value =
-            "ALL";
-
-        defaultOption.textContent =
-            "Toate activitățile din această grupă";
-
-
-        activity.appendChild(defaultOption);
-
-
-        activities[group.value]
-            .slice(1)
-            .forEach(
-                function(name){
-
-                    const option =
-                        document.createElement("option");
-
-                    option.value =
-                        name;
-
-                    option.textContent =
-                        name;
-
-
-                    activity.appendChild(option);
-
-                }
-            );
-
-
-        activity.disabled = false;
-
-        activity.value = "ALL";
-
-
+      if(!group.value){
+        activity.disabled = true;
+        activity.className = "w-full px-3 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-100 disabled:cursor-not-allowed text-slate-500";
+        
+        const option = document.createElement("option");
+        option.textContent = "Alege mai întâi grupa";
+        option.value = "";
+        activity.appendChild(option);
+        
         updateButton();
+        return;
+      }
 
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "ALL";
+      defaultOption.textContent = "Toate activitățile din această grupă";
+      activity.appendChild(defaultOption);
+
+      activities[group.value].slice(1).forEach(function(name){
+        const option = document.createElement("option");
+        option.value = name;
+        option.textContent = name;
+        activity.appendChild(option);
+      });
+
+      activity.disabled = false;
+      activity.className = "w-full px-3 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-50/50 text-slate-800";
+      activity.value = "ALL";
+
+      updateButton();
+    });
+
+    activity.addEventListener("change", updateButton);
+
+    age.addEventListener("change", function(){
+      warning.classList.add("hidden");
+      updateButton();
+    });
+
+    function updateButton(){
+      activateButton.disabled = !(
+        currentIdZilier &&
+        group.value &&
+        age.checked
+      );
     }
-);
 
+    // 3. Trimitere Date la Make.com
+    activateButton.addEventListener("click", async function(){
+      if(!age.checked){
+        warning.classList.remove("hidden");
+        return;
+      }
 
+      if(!currentIdZilier){
+        statusMessage.className = "min-h-[18px] mt-3 text-xs font-semibold text-center text-rose-600";
+        statusMessage.textContent = "Nu se poate efectua activarea fără un ID valid.";
+        return;
+      }
 
-activity.addEventListener(
-    "change",
-    function(){
+      let selectedActivity = activity.value;
+      if(!selectedActivity){
+        selectedActivity = "ALL";
+      }
 
-        updateButton();
+      const payload = {
+        id_zilier: currentIdZilier,
+        cod_grupa: group.value,
+        denumire_grupa: group.options[group.selectedIndex].text.trim(),
+        activitate_preferata: selectedActivity,
+        major_declarat: age.checked ? "DA" : "NU"
+      };
 
-    }
-);
+      activateButton.disabled = true;
+      activateButton.textContent = "Se activează contul...";
+      statusMessage.className = "min-h-[18px] mt-3 text-xs font-semibold text-center text-slate-500";
+      statusMessage.textContent = "Se trimit datele de activare...";
 
-
-
-age.addEventListener(
-    "change",
-    function(){
-
-        warning.style.display =
-            "none";
-
-        updateButton();
-
-    }
-);
-
-
-
-function updateButton(){
-
-    activateButton.disabled =
-        !(
-            group.value &&
-            age.checked
-        );
-
-}
-
-
-
-/*
-    În versiunea funcțională aici vor fi transmise
-    datele către Make / backend.
-
-    Nu mai afișăm în pagină mesajul tehnic.
-*/
-
-activateButton.addEventListener(
-    "click",
-    function(){
-
-        if(!age.checked){
-
-            warning.style.display =
-                "block";
-
-            return;
-
-        }
-
-
-        let selectedActivity =
-            activity.value;
-
-
-        if(!selectedActivity){
-
-            selectedActivity =
-                "ALL";
-
-        }
-
-
-        console.log({
-
-            grupa:
-                group.value,
-
-            activitate:
-                selectedActivity,
-
-            peste18:
-                age.checked
-
+      try {
+        await fetch(WEBHOOK_ACTIVARE_ZILIER, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
         });
 
-    }
-);
+        statusMessage.className = "min-h-[18px] mt-3 text-xs font-semibold text-center text-emerald-600";
+        statusMessage.textContent = "Contul tău a fost activat cu succes! Poți închide această pagină.";
 
-</script>
+        activateButton.textContent = "Cont Activat cu Succes";
+        activateButton.className = "w-full py-3 px-4 bg-emerald-600 text-white font-semibold text-sm rounded-lg shadow-sm cursor-default";
+        
+        group.disabled = true;
+        activity.disabled = true;
+        age.disabled = true;
 
+      } catch (error) {
+        console.error("Eroare la activare:", error);
+        statusMessage.className = "min-h-[18px] mt-3 text-xs font-semibold text-center text-rose-600";
+        statusMessage.textContent = "Eroare la transmiterea datelor. Încearcă din nou.";
+        activateButton.disabled = false;
+        activateButton.textContent = "Activează contul";
+      }
+    });
+  </script>
 
 </body>
 </html>
-```
