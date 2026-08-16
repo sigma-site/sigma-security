@@ -36,11 +36,11 @@
     </div>
   </header>
 
-  <!-- Content Principal: Grid 2 Coloane -->
+  <!-- Content Principal -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
       
-      <!-- Stânga: Formular Activare (Ocupă 2 coloane pe desktop) -->
+      <!-- Stânga: Formular Activare -->
       <section class="lg:col-span-2 bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-amber-400 transition-all">
         
         <!-- Antet Pagină -->
@@ -70,14 +70,14 @@
               <label for="group" class="block text-xs font-semibold text-slate-700 mb-1">Grupa de activități *</label>
               <select id="group" required class="w-full px-3 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-50/50">
                 <option value="">Alege grupa...</option>
-                <option value="G01">Agricultură, horticultură și comerț agricol</option>
-                <option value="G02">Silvicultură, pescuit și creșterea animalelor</option>
-                <option value="G03">Peisagistică, spații verzi și gestionarea deșeurilor</option>
-                <option value="G04">Natură, biodiversitate și agrement în aer liber</option>
-                <option value="G05">Alimentație, ospitalitate și cazare</option>
-                <option value="G06">Evenimente, spectacole și comunicare</option>
-                <option value="G07">Sport și agrement</option>
-                <option value="G08">Cercetare și studii de piață</option>
+                <option value="GA001">Agricultură, horticultură și comerț agricol</option>
+                <option value="GA002">Silvicultură, pescuit și creșterea animalelor</option>
+                <option value="GA003">Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                <option value="GA004">Natură, biodiversitate și agrement în aer liber</option>
+                <option value="GA005">Alimentație, ospitalitate și cazare</option>
+                <option value="GA006">Evenimente, spectacole și comunicare</option>
+                <option value="GA007">Sport și agrement</option>
+                <option value="GA008">Cercetare și studii de piață</option>
               </select>
             </div>
 
@@ -127,7 +127,7 @@
 
       </section>
 
-      <!-- Dreapta: Agent AI Integrat (Iframe) -->
+      <!-- Dreapta: Agent AI Integrat -->
       <aside class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden h-[580px]">
         <iframe src="agent.html" class="w-full h-full border-0" loading="lazy"></iframe>
       </aside>
@@ -148,11 +148,11 @@
 
   <!-- Logica JavaScript -->
   <script>
-    // URL Webhook Make.com pentru Activare Zilier (Scenariu Nou)
-    const WEBHOOK_ACTIVARE_ZILIER = "https://hook.eu1.make.com/l983rboqndpeaga1t4o92cvk1iudy7kv";
+    // URL Webhook Make.com pentru Activare Zilier
+    const WEBHOOK_ACTIVARE_ZILIER = "INTRODU_AICI_WEBHOOK_ACTIVARE_ZILIER";
 
     const activities = {
-      G01: [
+      GA001: [
         "Toate activitățile din această grupă",
         "Agricultură, vânătoare și servicii anexe",
         "Producerea materialului săditor",
@@ -162,13 +162,13 @@
         "Activități ale pepinierelor",
         "Comerț cu produse agricole și animale vii"
       ],
-      G02: [
+      GA002: [
         "Toate activitățile din această grupă",
-        "Silvicultură",
+        "Silvicultură, cu excepția exploatărilor forestiere",
         "Pescuit și acvacultură",
         "Creșterea și reproducerea animalelor semidomesticite și a altor animale"
       ],
-      G03: [
+      GA003: [
         "Toate activitățile din această grupă",
         "Întreținerea peisagistică",
         "Plantarea, îngrijirea și întreținerea parcurilor și grădinilor",
@@ -176,41 +176,41 @@
         "Colectarea, tratarea și eliminarea deșeurilor nepericuloase",
         "Recuperarea materialelor"
       ],
-      G04: [
+      GA004: [
         "Toate activitățile din această grupă",
         "Activități ale grădinilor zoologice",
         "Activități ale grădinilor botanice",
         "Activități ale rezervațiilor naturale"
       ],
-      G05: [
+      GA005: [
         "Toate activitățile din această grupă",
-        "Catering pentru evenimente",
+        "Activități de alimentație (catering) pentru evenimente",
         "Restaurante",
-        "Baruri și servirea băuturilor",
+        "Baruri și alte activități de servire a băuturilor",
         "Hoteluri și alte facilități de cazare",
         "Tabere de copii",
-        "Cabane și alte spații de cazare pentru vacanțe"
+        "Facilități de cazare pentru vacanțe – cabane"
       ],
-      G06: [
+      GA006: [
         "Toate activitățile din această grupă",
-        "Organizarea de expoziții, târguri și congrese",
+        "Activități de organizare a expozițiilor, târgurilor și congreselor",
         "Publicitate",
-        "Spectacole și interpretare artistică",
-        "Activități de sprijin pentru spectacole",
-        "Administrarea sălilor de spectacole"
+        "Activități de interpretare artistică – spectacole",
+        "Activități-suport pentru interpretarea artistică",
+        "Activități de gestionare a sălilor de spectacole"
       ],
-      G07: [
+      GA007: [
         "Toate activitățile din această grupă",
         "Activități ale bazelor sportive",
         "Activități ale cluburilor sportive"
       ],
-      G08: [
+      GA008: [
         "Toate activitățile din această grupă",
-        "Cercetare în științe sociale și umaniste – inclusiv săpături arheologice",
-        "Studii de piață",
-        "Sondaje de opinie",
-        "Cercetare în biotehnologie",
-        "Cercetare în alte științe naturale și inginerie"
+        "Activități de cercetare-dezvoltare în științe sociale și umaniste",
+        "Activități de studiere a pieței",
+        "Activități de sondare a opiniei publice",
+        "Activități de cercetare-dezvoltare în biotehnologie",
+        "Activități de cercetare-dezvoltare în alte științe naturale și inginerie"
       ]
     };
 
@@ -224,7 +224,7 @@
 
     let currentIdZilier = "";
 
-    // 1. Preluarea și curățarea ID-ului din URL (?id=Z100061)
+    // 1. Preluarea și curățarea ID-ului din URL (?id=Z100065)
     document.addEventListener("DOMContentLoaded", function() {
       const urlParams = new URLSearchParams(window.location.search);
       let idParam = urlParams.get("id");
@@ -267,12 +267,14 @@
       defaultOption.textContent = "Toate activitățile din această grupă";
       activity.appendChild(defaultOption);
 
-      activities[group.value].slice(1).forEach(function(name){
-        const option = document.createElement("option");
-        option.value = name;
-        option.textContent = name;
-        activity.appendChild(option);
-      });
+      if (activities[group.value]) {
+        activities[group.value].slice(1).forEach(function(name){
+          const option = document.createElement("option");
+          option.value = name;
+          option.textContent = name;
+          activity.appendChild(option);
+        });
+      }
 
       activity.disabled = false;
       activity.className = "w-full px-3 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none bg-slate-50/50 text-slate-800";
@@ -315,11 +317,11 @@
       }
 
       const payload = {
-        id_zilier: currentIdZilier,
-        cod_grupa: group.value,
-        den_grupa: group.options[group.selectedIndex].text.trim(),
-        activitate: selectedActivity,
-        major_declarat: age.checked ? "DA" : "NU"
+        ID_zilier: currentIdZilier,
+        Cod_grup_activitate: group.value,
+        Denumire_grup_activitate: group.options[group.selectedIndex].text.trim(),
+        Activitate_preferata: selectedActivity,
+        Major_declarat: age.checked ? "DA" : "NU"
       };
 
       activateButton.disabled = true;
