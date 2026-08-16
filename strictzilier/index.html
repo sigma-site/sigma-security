@@ -1,1829 +1,624 @@
 <!DOCTYPE html>
 <html lang="ro">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>STRICTZILIER.ro — Simplu și Rapid</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
-}
-
-:root {
-    --dark: #173b3a;
-    --dark-2: #245553;
-
-    --green: #2f7d68;
-    --green-light: #e9f4f0;
-
-    --orange: #d9873d;
-    --orange-light: #fff2e5;
-
-    --cream: #f5f7f5;
-    --white: #ffffff;
-
-    --text: #203130;
-    --muted: #71807d;
-    --border: #dce5e2;
-
-    --shadow: 0 12px 35px rgba(23,59,58,.08);
-}
-
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--cream);
-    color: var(--text);
-}
-
-button,
-input,
-select {
-    font: inherit;
-}
-
-
-/* =========================
-   HEADER
-   ========================= */
-
-header {
-    height: 82px;
-    background: var(--white);
-    border-bottom: 1px solid var(--border);
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 0 5vw;
-}
-
-.logo {
-    color: var(--dark);
-    font-size: 25px;
-    font-weight: 800;
-    letter-spacing: 1.5px;
-}
-
-.logo span {
-    color: var(--orange);
-}
-
-.tagline {
-    color: var(--muted);
-    font-size: 17px;
-}
-
-
-/* =========================
-   MAIN
-   ========================= */
-
-main {
-    max-width: 1400px;
-    margin: auto;
-    padding: 42px 28px 45px;
-}
-
-.intro {
-    text-align: center;
-    margin-bottom: 36px;
-}
-
-.intro h1 {
-    margin: 0 0 10px;
-
-    color: var(--dark);
-
-    font-size: clamp(30px, 4vw, 47px);
-    letter-spacing: -1.2px;
-}
-
-.intro p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 17px;
-}
-
-
-/* =========================
-   THREE MAIN BLOCKS
-   ========================= */
-
-.columns {
-    display: grid;
-
-    grid-template-columns: 1fr 1.25fr 1fr;
-
-    gap: 22px;
-
-    align-items: stretch;
-}
-
-.card {
-    min-height: 550px;
-
-    background: var(--white);
-
-    border: 1px solid var(--border);
-    border-radius: 20px;
-
-    padding: 30px;
-
-    box-shadow: var(--shadow);
-
-    display: flex;
-    flex-direction: column;
-}
-
-
-/* ZILIER */
-
-.worker {
-    border-top: 5px solid var(--orange);
-}
-
-
-/* ANGAJATOR */
-
-.employer {
-    border-top: 5px solid var(--orange);
-}
-
-
-/* =========================
-   AGENT
-   ========================= */
-
-.agent {
-    height: 580px;
-    min-height: 580px;
-
-    background: var(--dark);
-    color: white;
-
-    border: none;
-
-    text-align: center;
-    align-items: center;
-
-    box-shadow: 0 16px 40px rgba(23,59,58,.20);
-
-    padding: 24px 28px;
-}
-
-
-/* =========================
-   TOP BADGE
-   ========================= */
-
-.badge {
-    width: fit-content;
-
-    padding: 7px 12px;
-
-    border-radius: 30px;
-
-    background: var(--orange-light);
-
-    color: #b96b2d;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    letter-spacing: .7px;
-}
-
-.agent .badge {
-    background: rgba(255,255,255,.10);
-    color: #cce8df;
-}
-
-
-/* =========================
-   AGENT DESCRIPTION
-   ========================= */
-
-.agent-description {
-    width: 100%;
-    max-width: 370px;
-
-    margin: 12px 0 12px;
-
-    color: #c5d4d1;
-
-    line-height: 1.4;
-
-    font-size: 13px;
-}
-
-
-/* =========================
-   CONVERSATION
-   ========================= */
-
-.conversation {
-
-    width: 100%;
-
-    flex: 1;
-
-    min-height: 0;
-
-    padding: 12px;
-
-    margin-bottom: 12px;
-
-    background: rgba(255,255,255,.06);
-
-    border: 1px solid rgba(255,255,255,.12);
-
-    border-radius: 12px;
-
-    overflow-y: auto;
-
-    text-align: left;
-
-}
-
-
-/* =========================
-   MESSAGE
-   ========================= */
-
-.message {
-
-    max-width: 86%;
-
-    margin-bottom: 9px;
-
-    padding: 9px 11px;
-
-    border-radius: 9px;
-
-    font-size: 12px;
-
-    line-height: 1.4;
-
-}
-
-
-/* AGENT */
-
-.message.agent-message {
-
-    background: rgba(255,255,255,.10);
-
-    color: #edf5f3;
-
-    margin-right: auto;
-
-}
-
-
-/* UTILIZATOR */
-
-.message.user-message {
-
-    background: var(--orange);
-
-    color: white;
-
-    margin-left: auto;
-
-}
-
-
-/* LABEL */
-
-.message-label {
-
-    display: block;
-
-    margin-bottom: 3px;
-
-    font-size: 9px;
-
-    font-weight: 800;
-
-    opacity: .65;
-
-}
-
-
-/* =========================
-   BUTON
-   ========================= */
-
-.agent-btn {
-
-    width: 100%;
-
-    max-width: 330px;
-
-    height: 48px;
-
-    flex-shrink: 0;
-
-    border: none;
-
-    border-radius: 10px;
-
-    background: white;
-
-    color: var(--dark);
-
-    font-size: 13px;
-
-    font-weight: 800;
-
-    cursor: pointer;
-
-}
-
-
-.agent.active .agent-btn {
-
-    background: var(--orange);
-
-    color: white;
-
-}
-
-
-/* =========================
-   STATUS
-   ========================= */
-
-.status {
-
-    min-height: 16px;
-
-    margin-top: 7px;
-
-    color: #cce8df;
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-}
-
-
-/* =========================
-   ROLE HEADER
-   ========================= */
-
-.role-header {
-    display: flex;
-
-    align-items: center;
-    justify-content: space-between;
-
-    gap: 12px;
-
-    margin-bottom: 19px;
-}
-
-.role-header .badge {
-    margin-bottom: 0;
-}
-
-.top-guide {
-    flex-shrink: 0;
-
-    padding: 6px 10px;
-
-    border-radius: 7px;
-
-    border: 1px solid #e2d5c9;
-
-    background: #fffaf6;
-
-    color: #9b5d2d;
-
-    font-size: 11px;
-    font-weight: 800;
-
-    cursor: pointer;
-
-    white-space: nowrap;
-
-    transition: .15s ease;
-}
-
-.top-guide:hover {
-    background: var(--orange-light);
-    border-color: var(--orange);
-}
-
-
-/* =========================
-   TITLES
-   ========================= */
-
-.card h2 {
-    margin: 0 0 12px;
-
-    color: var(--dark);
-
-    font-size: 27px;
-}
-
-.description {
-    margin: 0 0 24px;
-
-    color: var(--muted);
-
-    line-height: 1.55;
-    font-size: 15px;
-}
-
-
-/* =========================
-   QUICK REGISTRATION
-   ========================= */
-
-.quick-title {
-    margin: 3px 0 12px;
-
-    color: var(--dark);
-
-    font-size: 13px;
-    font-weight: 700;
-
-    text-transform: uppercase;
-    letter-spacing: .5px;
-}
-
-.form-grid {
-    display: grid;
-
-    grid-template-columns: 1fr 1fr;
-
-    gap: 10px;
-}
-
-.field {
-    width: 100%;
-    height: 47px;
-
-    padding: 0 13px;
-
-    border: 1px solid var(--border);
-    border-radius: 9px;
-
-    outline: none;
-
-    color: var(--text);
-    background: #fbfcfb;
-}
-
-.field::placeholder {
-    color: #9aa7a4;
-}
-
-.field.full {
-    grid-column: 1 / -1;
-}
-
-.field:focus {
-    border-color: var(--orange);
-}
-
-
-/* =========================
-   PRIMARY BUTTON
-   ========================= */
-
-.primary-btn {
-    width: 100%;
-    height: 50px;
-
-    margin-top: 11px;
-
-    border: none;
-    border-radius: 10px;
-
-    color: white;
-    background: var(--orange);
-
-    font-size: 14px;
-    font-weight: 800;
-
-    cursor: pointer;
-}
-
-.primary-btn:hover {
-    opacity: .91;
-}
-
-
-/* =========================
-   LOGIN
-   ========================= */
-
-.login {
-    margin-top: 17px;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 8px;
-
-    color: var(--muted);
-    font-size: 14px;
-}
-
-.login-btn {
-    height: 36px;
-
-    padding: 0 13px;
-
-    border: 1px solid var(--orange);
-
-    border-radius: 8px;
-
-    background: var(--orange);
-
-    color: white;
-
-    font-size: 12px;
-    font-weight: 800;
-
-    cursor: pointer;
-}
-
-
-/* =========================
-   FOOTER
-   ========================= */
-
-footer {
-    padding: 25px 5vw;
-
-    border-top: 1px solid var(--border);
-
-    background: white;
-
-    display: flex;
-    justify-content: center;
-
-    gap: 30px;
-
-    flex-wrap: wrap;
-
-    color: var(--muted);
-
-    font-size: 13px;
-}
-
-footer a {
-    color: inherit;
-    text-decoration: none;
-}
-
-footer a:hover {
-    color: var(--dark);
-}
-
-
-/* =========================
-   MODAL
-   ========================= */
-
-.modal {
-    position: fixed;
-    inset: 0;
-
-    z-index: 20;
-
-    display: none;
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    background: rgba(15,35,34,.58);
-}
-
-.modal.show {
-    display: flex;
-}
-
-.modal-box {
-    width: min(430px, 100%);
-
-    background: white;
-
-    border-radius: 18px;
-
-    padding: 28px;
-
-    box-shadow: 0 25px 70px rgba(0,0,0,.25);
-
-    position: relative;
-}
-
-.modal-box h2 {
-    margin: 0 0 8px;
-
-    color: var(--dark);
-}
-
-.modal-box p {
-    margin: 0 0 20px;
-
-    color: var(--muted);
-
-    font-size: 14px;
-
-    line-height: 1.5;
-}
-
-.close {
-    position: absolute;
-
-    top: 15px;
-    right: 18px;
-
-    border: 0;
-    background: transparent;
-
-    color: var(--muted);
-
-    font-size: 24px;
-
-    cursor: pointer;
-}
-
-
-
-
-/* =========================
-   MODURI VOCE / SCRIS
-   ========================= */
-
-.mode-switch {
-    width: 100%;
-    max-width: 330px;
-    display: grid;
-    grid-template-columns: 1fr 34px 1fr;
-    gap: 6px;
-    margin-bottom: 9px;
-    flex-shrink: 0;
-}
-
-.mode-btn {
-    height: 34px;
-    border: 1px solid rgba(255,255,255,.18);
-    border-radius: 8px;
-    background: rgba(255,255,255,.07);
-    color: #cce8df;
-    font-size: 11px;
-    font-weight: 800;
-    cursor: pointer;
-}
-
-.mode-btn.active {
-    background: var(--orange);
-    border-color: var(--orange);
-    color: white;
-}
-
-.agent-orb {
-    width: 34px;
-    height: 34px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255,255,255,.08);
-    border: 1px solid rgba(255,255,255,.18);
-    box-shadow: 0 0 0 4px rgba(255,255,255,.025);
-    color: white;
-    font-size: 15px;
-    transition: .25s ease;
-}
-
-.agent.active .agent-orb {
-    background: rgba(47,125,104,.55);
-    border-color: #cce8df;
-    box-shadow:
-        0 0 0 4px rgba(47,125,104,.12),
-        0 0 14px rgba(47,125,104,.45);
-}
-
-.mode-panel {
-    width: 100%;
-    max-width: 330px;
-    flex-shrink: 0;
-}
-
-.mode-panel.hidden {
-    display: none;
-}
-
-.voice-controls {
-    width: 100%;
-}
-
-.chat-input {
-    display: flex;
-    gap: 7px;
-    width: 100%;
-}
-
-.chat-input input {
-    flex: 1;
-    min-width: 0;
-    height: 48px;
-    padding: 0 12px;
-    border: none;
-    border-radius: 9px;
-    outline: none;
-    font-size: 13px;
-}
-
-.chat-input button {
-    width: 82px;
-    height: 48px;
-    border: none;
-    border-radius: 9px;
-    background: var(--orange);
-    color: white;
-    font-size: 11px;
-    font-weight: 800;
-    cursor: pointer;
-    flex-shrink: 0;
-}
-
-.chat-input button:disabled {
-    opacity: .6;
-    cursor: default;
-}
-
-.chat-status {
-    min-height: 16px;
-    margin-top: 6px;
-    color: #cce8df;
-    font-size: 10px;
-    font-weight: 700;
-}
-
-/* =========================
-   RESPONSIVE
-   ========================= */
-
-@media (max-width: 950px) {
-
-    .columns {
-        grid-template-columns: 1fr;
-
-        max-width: 650px;
-
-        margin: auto;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STRICTZILIER.ro - Platformă Conectare Zilieri și Angajatori</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    
+    /* Stilizare Scrollbar fin */
+    .custom-scroll::-webkit-scrollbar {
+      width: 5px;
     }
-
-    .agent {
-        order: -1;
-        height: 580px;
-        min-height: 580px;
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
     }
-
-    .card:not(.agent) {
-        min-height: auto;
-    }
-
-}
-
-
-@media (max-width: 520px) {
-
-    header {
-        min-height: 72px;
-        height: auto;
-
-        padding: 15px 20px;
-    }
-
-    .logo {
-        font-size: 21px;
-    }
-
-    .tagline {
-        display: none;
-    }
-
-    main {
-        padding: 30px 15px;
-    }
-
-    .intro {
-        margin-bottom: 25px;
-    }
-
-    .intro h1 {
-        font-size: 31px;
-    }
-
-    .intro p {
-        font-size: 15px;
-    }
-
-    .card {
-        padding: 24px 19px;
-
-        border-radius: 16px;
-    }
-
-    .agent {
-        height: 560px;
-        min-height: 560px;
-
-        padding: 20px 17px;
-    }
-
-    .agent-description {
-        font-size: 12px;
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .conversation {
-        padding: 10px;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .field.full {
-        grid-column: auto;
-    }
-
-    .role-header {
-        align-items: flex-start;
-    }
-
-    .top-guide {
-        font-size: 10px;
-        padding: 6px 8px;
-    }
-
-    .login {
-        flex-wrap: wrap;
-    }
-
-    footer {
-        gap: 16px;
-
-        padding: 22px 15px;
-    }
-
-}
-
-</style>
-
+  </style>
 </head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
+  <!-- Header / Navigation Bar Permanent -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-2 cursor-pointer" onclick="showLandingView()">
+        <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
+      </div>
 
-<body>
-
-
-<header>
-
-    <div class="logo">
-        STRICT<span>ZILIER</span>.ro
-    </div>
-
-    <div class="tagline">
-        Muncă ocazională. Simplu și rapid.
-    </div>
-
-</header>
-
-
-<main>
-
-
-<section class="intro">
-
-    <h1>
-        Găsește omul potrivit. Găsește de lucru.
-    </h1>
-
-    <p>
-        O platformă simplă pentru zilieri și angajatori.
-    </p>
-
-</section>
-
-
-<section class="columns">
-
-
-<!-- =========================
-     ZILIER
-     ========================= -->
-
-<article class="card worker">
-
-
-    <div class="role-header">
-
-        <div class="badge">
-            ZILIER
-        </div>
-
-        <button
-            class="top-guide"
-            onclick="window.location.href='ghid-zilier.html'"
-        >
-            GHID ZILIER
-        </button>
-
-    </div>
-
-
-    <h2>
-        Cauți de muncă?
-    </h2>
-
-
-    <p class="description">
-        Creează-ți rapid contul. După validarea telefonului,
-        vei putea completa treptat informațiile necesare.
-    </p>
-
-
-    <div class="quick-title">
-        Înscriere rapidă
-    </div>
-
-
-    <div class="form-grid">
-
-        <input
-            class="field"
-            type="text"
-            placeholder="Nume"
-        >
-
-        <input
-            class="field"
-            type="text"
-            placeholder="Prenume"
-        >
-
-        <input
-            class="field full"
-            type="tel"
-            placeholder="Telefon / WhatsApp"
-        >
-
-        <input
-            class="field full"
-            type="text"
-            placeholder="Zona în care lucrezi"
-        >
-
-    </div>
-
-
-    <button
-        class="primary-btn"
-        onclick="openModal('zilier')"
-    >
-        ÎNSCRIE-TE RAPID
-    </button>
-
-
-    <div class="login">
-
-        <span>
-            Ai deja cont?
+      <!-- Tag Legal -->
+      <div>
+        <span class="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-slate-500 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+          Conform Legii 52/2011
         </span>
-
-        <button
-            class="login-btn"
-            onclick="openModal('login-zilier')"
-        >
-            Autentificare
-        </button>
+      </div>
 
     </div>
+  </header>
 
 
-</article>
+  <!-- ================================================================= -->
+  <!-- VEDEREA 1: PAGINA PRINCIPALĂ (LANDING PAGE)                      -->
+  <!-- ================================================================= -->
+  <main id="view-landing" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+      
+      <!-- BLOC 1: ZILIER (STÂNGA DESKTOP / PRIMUL PE MOBIL) -->
+      <section class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-amber-400 transition-all flex flex-col justify-between">
+        <div>
+          <!-- Antet Bloc Zilier + Buton deschidere pagina ghid-zilier.html -->
+          <div class="flex items-start justify-between gap-2 mb-5">
+            <div class="flex items-center gap-3">
+              <div class="p-3 bg-amber-100 text-amber-700 rounded-xl flex-shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+              </div>
+              <div>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Zilieri</h2>
+                <p class="text-xs text-slate-500">Muncă ocazională</p>
+              </div>
+            </div>
+            
+            <a href="ghid-zilier.html" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-semibold transition">
+              <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Ghid Zilier</span>
+            </a>
+          </div>
 
+          <!-- Formular Înscriere Zilier Conectat la Make Webhook -->
+          <form id="form-zilier" class="space-y-3.5">
+            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider border-b pb-2">Înscriere Rapidă Cont Nou</h3>
+            
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Nume *</label>
+                <input type="text" id="nume-zilier" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Popescu">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Prenume *</label>
+                <input type="text" id="prenume-zilier" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Ion">
+              </div>
+            </div>
 
-<!-- =========================
-     AGENT
-     ========================= -->
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Număr Telefon (WhatsApp) *</label>
+              <input type="tel" id="telefon-zilier" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="07xx xxx xxx">
+            </div>
 
-<article
-    id="agent"
-    class="card agent">
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Județ *</label>
+                <input type="text" id="judet-zilier" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: Bacău">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Localitate *</label>
+                <input type="text" id="localitate-zilier" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: Comănești">
+              </div>
+            </div>
 
-
-    <div class="badge">
-        AGENT STRICTZILIER
-    </div>
-
-
-    <p class="agent-description">
-        Spune ce cauți sau de ce ai nevoie. Agentul mediază
-        întâlnirea dintre zilieri și angajatori.
-    </p>
-
-
-    <div
-        id="conversation"
-        class="conversation">
-
-        <div
-            id="emptyMessage"
-            class="message agent-message">
-
-            <span class="message-label">
-                AGENT
-            </span>
-
-            Bun venit. Alege modul vocal sau scris pentru a începe conversația.
-
-        </div>
-
-    </div>
-
-
-    <div class="mode-switch">
-
-        <button
-            id="voiceModeButton"
-            class="mode-btn active"
-            type="button">
-            VOCAL
-        </button>
-
-        <div class="agent-orb" aria-hidden="true">
-            ✦
-        </div>
-
-        <button
-            id="textModeButton"
-            class="mode-btn"
-            type="button">
-            SCRIS
-        </button>
-
-    </div>
-
-
-    <div
-        id="voicePanel"
-        class="mode-panel voice-controls">
-
-
-        <button
-            id="agentButton"
-            class="agent-btn"
-            type="button">
-            PORNEȘTE CONVERSAȚIA
-        </button>
-
-        <div
-            id="status"
-            class="status">
-        </div>
-
-    </div>
-
-
-    <div
-        id="textPanel"
-        class="mode-panel hidden">
-
-        <div class="chat-input">
-
-            <input
-                id="messageInput"
-                type="text"
-                placeholder="Scrieți mesajul..."
-                autocomplete="off">
-
-            <button
-                id="sendButton"
-                type="button">
-                TRIMITE
+            <button type="submit" id="btn-submit-zilier" class="w-full py-3 sm:py-2.5 px-4 bg-amber-500 hover:bg-amber-600 text-white font-semibold text-sm rounded-lg shadow-sm transition">
+              Înregistrează-te ca Zilier
             </button>
+            <div id="mesaj-zilier" class="text-xs font-semibold text-center mt-2 min-h-[16px]"></div>
+          </form>
 
+          <div class="relative my-5">
+            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200"></div></div>
+            <div class="relative flex justify-center text-xs"><span class="bg-white px-2 text-slate-400">Ai deja cont?</span></div>
+          </div>
+
+          <!-- Autentificare Zilier -->
+          <button type="button" onclick="openAuthModal('zilier')" class="w-full py-3 sm:py-2.5 px-4 border border-amber-500 text-amber-700 hover:bg-amber-50 font-semibold text-sm rounded-lg transition flex items-center justify-center gap-2">
+            <span>Autentificare prin WhatsApp</span>
+          </button>
+        </div>
+      </section>
+
+
+      <!-- BLOC 2: AGENT VAPI + CHAT SCRIS -->
+      <section id="strictzilierAgent" class="bg-gradient-to-b from-slate-900 to-blue-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl border border-blue-900 flex flex-col justify-between h-[580px] text-center">
+        <div>
+          <p class="text-xs text-slate-300 mb-2 leading-tight max-w-xs mx-auto pt-1">
+            Spune ce cauți sau de ce ai nevoie. Agentul mediază întâlnirea dintre zilieri și angajatori.
+          </p>
+
+          <!-- Fereastră de Conversație Maximizată -->
+          <div id="conversation" class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
+            <div class="bg-white/10 text-slate-100 p-2 rounded-lg text-xs leading-relaxed max-w-[88%] border-l-2 border-blue-500">
+              <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>
+              Bun venit. Alege modul vocal sau scris pentru a începe conversația.
+            </div>
+          </div>
         </div>
 
-        <div
-            id="chatStatus"
-            class="chat-status">
+        <div>
+          <!-- Comutator Mod -->
+          <div class="w-full max-w-[340px] mx-auto grid grid-cols-[1fr_34px_1fr] gap-1.5 items-center mb-1.5">
+            <button id="voiceModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">
+              VOCAL
+            </button>
+            <div id="agentOrb" class="w-8.5 h-8.5 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs text-white">
+              ✦
+            </div>
+            <button id="textModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center">
+              SCRIS
+            </button>
+          </div>
+
+          <!-- Panou Control Vocal -->
+          <div id="voicePanel" class="w-full max-w-[340px] mx-auto">
+            <button id="agentButton" type="button" class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">
+              PORNEȘTE CONVERSAȚIA
+            </button>
+            <div id="status" class="min-h-[14px] mt-1 text-[10px] font-bold text-emerald-400"></div>
+          </div>
+
+          <!-- Panou Chat Scris -->
+          <div id="textPanel" class="w-full max-w-[340px] mx-auto hidden">
+            <div class="flex gap-1.5">
+              <input id="messageInput" type="text" placeholder="Scrieți mesajul..." autocomplete="off" class="flex-1 min-w-0 h-11 px-3 bg-white text-slate-900 rounded-lg text-xs outline-none">
+              <button id="sendButton" type="button" class="w-[76px] h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-lg transition flex-shrink-0 flex items-center justify-center">
+                TRIMITE
+              </button>
+            </div>
+            <div id="chatStatus" class="min-h-[14px] mt-1 text-[10px] font-bold text-blue-300"></div>
+          </div>
         </div>
-
-    </div>
-
+      </section>
 
 
-</article>
+      <!-- BLOC 3: ANGAJATOR (DREAPTA DESKTOP / AL TREILEA PE MOBIL) -->
+      <section class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-blue-400 transition-all flex flex-col justify-between">
+        <div>
+          <!-- Antet Bloc Angajator + Buton deschidere pagina ghid-angajator.html -->
+          <div class="flex items-start justify-between gap-2 mb-5">
+            <div class="flex items-center gap-3">
+              <div class="p-3 bg-blue-100 text-blue-700 rounded-xl flex-shrink-0">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5m0 0h4m-4 0V11m0 0h4m-4 0H9"></path></svg>
+              </div>
+              <div>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900">Angajatori</h2>
+                <p class="text-xs text-slate-500">Firme / PFA</p>
+              </div>
+            </div>
 
+            <a href="ghid-angajator.html" class="inline-flex items-center gap-1 px-2.5 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 rounded-lg text-xs font-semibold transition">
+              <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+              <span>Ghid Angajator</span>
+            </a>
+          </div>
 
-<!-- =========================
-     ANGAJATOR
-     ========================= -->
+          <!-- Formular Înscriere Angajator Conectat la Make Webhook -->
+          <form id="form-angajator" class="space-y-3.5">
+            <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider border-b pb-2">Înscriere Rapidă Cont Nou</h3>
+            
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Denumire Societate / PFA *</label>
+              <input type="text" id="societate-angajator" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="SC Muncă Rapidă SRL">
+            </div>
 
-<article class="card employer">
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">CUI / CIF *</label>
+              <input type="text" id="cui-angajator" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="RO12345678">
+            </div>
 
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Nume Reprezentant *</label>
+                <input type="text" id="nume-angajator" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Ionescu">
+              </div>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Prenume Reprezentant *</label>
+                <input type="text" id="prenume-angajator" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Vasile">
+              </div>
+            </div>
 
-    <div class="role-header">
+            <div>
+              <label class="block text-xs font-medium text-slate-600 mb-1">Număr Telefon (WhatsApp) *</label>
+              <input type="tel" id="telefon-angajator" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="07xx xxx xxx">
+            </div>
 
-        <div class="badge">
-            ANGAJATOR
+            <button type="submit" id="btn-submit-angajator" class="w-full py-3 sm:py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-lg shadow-sm transition">
+              Înregistrează-te ca Angajator
+            </button>
+            <div id="mesaj-angajator" class="text-xs font-semibold text-center mt-2 min-h-[16px]"></div>
+          </form>
+
+          <div class="relative my-5">
+            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-200"></div></div>
+            <div class="relative flex justify-center text-xs"><span class="bg-white px-2 text-slate-400">Ai deja cont?</span></div>
+          </div>
+
+          <!-- Autentificare Angajator -->
+          <button type="button" onclick="openAuthModal('angajator')" class="w-full py-3 sm:py-2.5 px-4 border border-blue-600 text-blue-700 hover:bg-blue-50 font-semibold text-sm rounded-lg transition flex items-center justify-center gap-2">
+            <span>Autentificare prin WhatsApp</span>
+          </button>
         </div>
+      </section>
 
-        <button
-            class="top-guide"
-            onclick="window.location.href='ghid-angajator.html'"
-        >
-            GHID ANGAJATOR
+    </div>
+  </main>
+
+
+  <!-- ================================================================= -->
+  <!-- VEDEREA 2: DASHBOARD ZILIER                                        -->
+  <!-- ================================================================= -->
+  <main id="view-dashboard-zilier" class="hidden flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <div class="w-10 h-10 bg-amber-500 text-white font-bold rounded-full flex items-center justify-center flex-shrink-0">
+          Z
+        </div>
+        <div>
+          <h2 class="text-base font-bold text-slate-900">Panou Zilier: Popescu Ion</h2>
+          <p class="text-xs text-slate-600">Status: <span class="text-emerald-700 font-semibold">Disponibil</span> | Zonă: Bacău</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 pt-2 sm:pt-0 border-amber-200">
+        <a href="ghid-zilier.html" class="px-3 py-1.5 bg-white border border-amber-300 text-amber-800 rounded-lg text-xs font-semibold hover:bg-amber-100 transition flex items-center gap-1">
+          <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Instrucțiuni Zilier</span>
+        </a>
+
+        <button onclick="showLandingView()" class="text-xs font-semibold text-slate-500 hover:text-slate-800 underline ml-2">
+          Deconectare
         </button>
-
+      </div>
     </div>
+  </main>
 
 
-    <h2>
-        Cauți oameni?
-    </h2>
+  <!-- ================================================================= -->
+  <!-- VEDEREA 3: DASHBOARD ANGAJATOR                                    -->
+  <!-- ================================================================= -->
+  <main id="view-dashboard-angajator" class="hidden flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-3 w-full sm:w-auto">
+        <div class="w-10 h-10 bg-blue-700 text-white font-bold rounded-full flex items-center justify-center flex-shrink-0">
+          A
+        </div>
+        <div>
+          <h2 class="text-base font-bold text-slate-900">Panou Angajator: SC AgroServ SRL</h2>
+          <p class="text-xs text-slate-600">CUI: RO12345678 | Reprezentant: Ionescu Vasile</p>
+        </div>
+      </div>
 
+      <div class="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 pt-2 sm:pt-0 border-blue-200">
+        <a href="ghid-angajator.html" class="px-3 py-1.5 bg-white border border-blue-300 text-blue-800 rounded-lg text-xs font-semibold hover:bg-blue-100 transition flex items-center gap-1">
+          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <span>Instrucțiuni Angajator</span>
+        </a>
 
-    <p class="description">
-        Creează contul firmei sau PFA-ului și spune-ne
-        pentru ce activitate ai nevoie de zilieri.
-    </p>
-
-
-    <div class="quick-title">
-        Înscriere rapidă
-    </div>
-
-
-    <div class="form-grid">
-
-        <input
-            class="field full"
-            type="text"
-            placeholder="Denumire societate / PFA"
-        >
-
-        <input
-            class="field"
-            type="text"
-            placeholder="CUI"
-        >
-
-        <input
-            class="field"
-            type="text"
-            placeholder="Nume reprezentant"
-        >
-
-        <input
-            class="field"
-            type="text"
-            placeholder="Prenume reprezentant"
-        >
-
-        <input
-            class="field full"
-            type="tel"
-            placeholder="Telefon / WhatsApp"
-        >
-
-    </div>
-
-
-    <button
-        class="primary-btn"
-        onclick="openModal('angajator')"
-    >
-        ÎNSCRIE ANGAJATORUL
-    </button>
-
-
-    <div class="login">
-
-        <span>
-            Ai deja cont?
-        </span>
-
-        <button
-            class="login-btn"
-            onclick="openModal('login-angajator')"
-        >
-            Autentificare
+        <button onclick="showLandingView()" class="text-xs font-semibold text-slate-500 hover:text-slate-800 underline ml-2">
+          Deconectare
         </button>
-
+      </div>
     </div>
+  </main>
 
 
-</article>
-
-
-</section>
-
-
-</main>
-
-
-<footer>
-
-    <a href="#">
-        Termeni și Condiții
-    </a>
-
-    <a href="#">
-        Politica de Confidențialitate
-    </a>
-
-    <a href="#">
-        ANPC
-    </a>
-
-    <a href="#">
-        Contact
-    </a>
-
-</footer>
-
-
-<!-- =========================
-     MODAL
-     ========================= -->
-
-<div
-    class="modal"
-    id="modal"
->
-
-    <div class="modal-box">
-
-        <button
-            class="close"
-            onclick="closeModal()"
-        >
-            ×
+  <!-- MODAL AUTENTIFICARE WHATSAPP -->
+  <div id="auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative border border-slate-100">
+      <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <div class="text-center mb-6">
+        <h3 id="modal-title" class="text-lg font-bold text-slate-900">Autentificare Cont</h3>
+        <p class="text-xs text-slate-500 mt-1">Conectare securizată prin cod WhatsApp</p>
+      </div>
+      <div id="auth-step-1" class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-600 mb-1">Numărul de WhatsApp</label>
+          <input type="tel" id="auth-phone-input" class="w-full px-3 py-2.5 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none" placeholder="07xx xxx xxx">
+        </div>
+        <button type="button" onclick="sendWhatsAppCode()" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-lg transition shadow-sm">
+          Trimite Codul de Verificare
         </button>
-
-
-        <h2 id="modal-title">
-            Autentificare
-        </h2>
-
-
-        <p id="modal-text">
-            În această etapă este doar macheta vizuală.
-            Validarea reală prin WhatsApp va fi introdusă ulterior.
-        </p>
-
-
-        <input
-            class="field full"
-            type="tel"
-            placeholder="Numărul de telefon"
-            style="margin-bottom:10px"
-        >
-
-
-        <button class="primary-btn">
-            TRIMITE CODUL PE WHATSAPP
+      </div>
+      <div id="auth-step-2" class="space-y-4 hidden">
+        <div class="bg-emerald-50 border border-emerald-200 rounded-lg p-3 text-xs text-emerald-800">
+          Am trimis un cod din 4 cifre pe WhatsApp la numărul <span id="display-phone" class="font-bold"></span>.
+        </div>
+        <div>
+          <label class="block text-xs font-medium text-slate-600 mb-1">Cod Verificare</label>
+          <input type="text" id="auth-code-input" maxlength="4" class="w-full text-center text-xl tracking-widest px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:outline-none font-bold" placeholder="• • • •">
+        </div>
+        <button type="button" onclick="verifyWhatsAppCode()" class="w-full py-2.5 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-sm rounded-lg transition shadow-sm">
+          Validează Codul și Intră în Cont
         </button>
-
-
+      </div>
     </div>
-
-</div>
-
-
-<script>
-
-function openModal(type) {
-
-    const modal =
-        document.getElementById("modal");
-
-    const title =
-        document.getElementById("modal-title");
-
-    const text =
-        document.getElementById("modal-text");
+  </div>
 
 
-    if (type === "zilier") {
+  <!-- Footer Standard -->
+  <footer class="bg-white border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>© 2026 STRICTZILIER.ro. Toate drepturile rezervate. Conform Legii 52/2011.</div>
+      <div class="flex flex-wrap gap-4 font-medium">
+        <a href="#termeni" class="hover:text-slate-800 transition">Termeni și Condiții</a>
+        <a href="#confidentialitate" class="hover:text-slate-800 transition">Politică de Confidențialitate</a>
+        <a href="https://anpc.ro" target="_blank" rel="noopener" class="hover:text-slate-800 transition">ANPC</a>
+      </div>
+    </div>
+  </footer>
 
-        title.textContent =
-            "Creare cont Zilier";
 
-        text.textContent =
-            "Urmează validarea telefonului prin WhatsApp. " +
-            "Restul profilului va putea fi completat ulterior.";
+  <!-- Integrări Vapi & Pie.host Chat -->
+  <script type="module">
+    import Vapi from "https://esm.sh/@vapi-ai/web";
 
+    const PUBLIC_KEY = "ab245358-61ea-4876-b767-8e4ad159627d";
+    const ASSISTANT_ID = "970da2f1-89c8-438c-ac8c-30abfa04528e";
+    const CHAT_URL = "https://2.pie.host/chat.php";
+
+    const vapi = new Vapi(PUBLIC_KEY);
+
+    const voiceModeButton = document.getElementById("voiceModeButton");
+    const textModeButton = document.getElementById("textModeButton");
+    const voicePanel = document.getElementById("voicePanel");
+    const textPanel = document.getElementById("textPanel");
+    const button = document.getElementById("agentButton");
+    const status = document.getElementById("status");
+    const conversation = document.getElementById("conversation");
+    const input = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
+    const chatStatus = document.getElementById("chatStatus");
+
+    let conversationActive = false;
+    let previousChatId = null;
+    let currentMode = "voice";
+
+    function addMessage(type, text) {
+      if (!text || !text.trim()) return;
+
+      const message = document.createElement("div");
+      message.className = "max-w-[88%] p-2 rounded-lg text-xs leading-relaxed " + 
+        (type === "user" ? "bg-amber-500 text-white ml-auto" : "bg-white/10 text-slate-100 mr-auto border-l-2 border-blue-500");
+
+      const label = document.createElement("span");
+      label.className = "block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider";
+      label.textContent = type === "user" ? "TU" : "AGENT";
+
+      const content = document.createElement("div");
+      content.textContent = text;
+
+      message.appendChild(label);
+      message.appendChild(content);
+      conversation.appendChild(message);
+
+      conversation.scrollTop = conversation.scrollHeight;
     }
 
+    function setMode(mode) {
+      if (mode === currentMode) return;
 
-    if (type === "angajator") {
-
-        title.textContent =
-            "Creare cont Angajator";
-
-        text.textContent =
-            "Contul va fi asociat firmei sau PFA-ului și validat " +
-            "prin cod transmis pe WhatsApp.";
-
-    }
-
-
-    if (type === "login-zilier") {
-
-        title.textContent =
-            "Autentificare Zilier";
-
-        text.textContent =
-            "Introdu numărul de telefon. Codul de acces va fi " +
-            "trimis ulterior prin WhatsApp.";
-
-    }
-
-
-    if (type === "login-angajator") {
-
-        title.textContent =
-            "Autentificare Angajator";
-
-        text.textContent =
-            "Introdu numărul asociat contului. Codul de acces va fi " +
-            "trimis ulterior prin WhatsApp.";
-
-    }
-
-
-    modal.classList.add("show");
-
-}
-
-
-function closeModal() {
-
-    document
-        .getElementById("modal")
-        .classList.remove("show");
-
-}
-
-
-document
-    .getElementById("modal")
-    .addEventListener("click", function(e) {
-
-        if (e.target === this) {
-            closeModal();
-        }
-
-    });
-
-</script>
-
-
-<!-- =========================
-     VAPI + CHAT TEXT
-     ========================= -->
-
-<script type="module">
-
-import Vapi
-    from "https://esm.sh/@vapi-ai/web";
-
-
-const PUBLIC_KEY =
-    "ab245358-61ea-4876-b767-8e4ad159627d";
-
-const ASSISTANT_ID =
-    "970da2f1-89c8-438c-ac8c-30abfa04528e";
-
-const CHAT_URL =
-    "https://2.pie.host/chat.php";
-
-
-const vapi =
-    new Vapi(PUBLIC_KEY);
-
-
-const agent =
-    document.getElementById("agent");
-
-const voiceModeButton =
-    document.getElementById("voiceModeButton");
-
-const textModeButton =
-    document.getElementById("textModeButton");
-
-const voicePanel =
-    document.getElementById("voicePanel");
-
-const textPanel =
-    document.getElementById("textPanel");
-
-const button =
-    document.getElementById("agentButton");
-
-const status =
-    document.getElementById("status");
-
-const conversation =
-    document.getElementById("conversation");
-
-const input =
-    document.getElementById("messageInput");
-
-const sendButton =
-    document.getElementById("sendButton");
-
-const chatStatus =
-    document.getElementById("chatStatus");
-
-
-let conversationActive = false;
-let previousChatId = null;
-let currentMode = "voice";
-
-
-/* =========================
-   MESAJ ÎN FEREASTRĂ
-   ========================= */
-
-function addMessage(type, text) {
-
-    if (!text || !text.trim()) {
-        return;
-    }
-
-    const message =
-        document.createElement("div");
-
-    message.className =
-        "message " +
-        (
-            type === "user"
-                ? "user-message"
-                : "agent-message"
-        );
-
-    const label =
-        document.createElement("span");
-
-    label.className =
-        "message-label";
-
-    label.textContent =
-        type === "user"
-            ? "TU"
-            : "AGENT";
-
-    const content =
-        document.createElement("div");
-
-    content.textContent = text;
-
-    message.appendChild(label);
-    message.appendChild(content);
-    conversation.appendChild(message);
-
-    conversation.scrollTop =
-        conversation.scrollHeight;
-}
-
-
-/* =========================
-   MOD SCHIMBARE
-   ========================= */
-
-function setMode(mode) {
-
-    if (mode === currentMode) {
-        return;
-    }
-
-    if (mode === "text" && conversationActive) {
+      if (mode === "text" && conversationActive) {
         vapi.stop();
         conversationActive = false;
-        agent.classList.remove("active");
         button.textContent = "PORNEȘTE CONVERSAȚIA";
         status.textContent = "";
+      }
+
+      currentMode = mode;
+      const voice = mode === "voice";
+
+      voiceModeButton.classList.toggle("bg-amber-500", voice);
+      voiceModeButton.classList.toggle("border-amber-500", voice);
+      voiceModeButton.classList.toggle("text-white", voice);
+      voiceModeButton.classList.toggle("bg-white/10", !voice);
+      voiceModeButton.classList.toggle("text-blue-200", !voice);
+
+      textModeButton.classList.toggle("bg-amber-500", !voice);
+      textModeButton.classList.toggle("border-amber-500", !voice);
+      textModeButton.classList.toggle("text-white", !voice);
+      textModeButton.classList.toggle("bg-white/10", voice);
+      textModeButton.classList.toggle("text-blue-200", voice);
+
+      voicePanel.classList.toggle("hidden", !voice);
+      textPanel.classList.toggle("hidden", voice);
+
+      if (!voice) input.focus();
     }
 
-    currentMode = mode;
+    voiceModeButton.addEventListener("click", () => setMode("voice"));
+    textModeButton.addEventListener("click", () => setMode("text"));
 
-    const voice =
-        mode === "voice";
+    vapi.on("message", (message) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        addMessage(message.role === "user" ? "user" : "agent", message.transcript);
+      }
+    });
 
-    voiceModeButton.classList.toggle(
-        "active",
-        voice
-    );
-
-    textModeButton.classList.toggle(
-        "active",
-        !voice
-    );
-
-    voicePanel.classList.toggle(
-        "hidden",
-        !voice
-    );
-
-    textPanel.classList.toggle(
-        "hidden",
-        voice
-    );
-
-    if (!voice) {
-        input.focus();
-    }
-}
-
-
-voiceModeButton.addEventListener(
-    "click",
-    function() {
-        setMode("voice");
-    }
-);
-
-
-textModeButton.addEventListener(
-    "click",
-    function() {
-        setMode("text");
-    }
-);
-
-
-/* =========================
-   MESAJE VAPI
-   ========================= */
-
-vapi.on(
-    "message",
-    function(message) {
-
-        console.log(
-            "VAPI MESSAGE:",
-            message
-        );
-
-        if (
-            message.type ===
-            "transcript"
-        ) {
-
-            const role =
-                message.role;
-
-            const text =
-                message.transcript;
-
-            if (
-                message.transcriptType ===
-                "final"
-            ) {
-
-                addMessage(
-                    role === "user"
-                        ? "user"
-                        : "agent",
-                    text
-                );
-            }
-        }
-    }
-);
-
-
-/* =========================
-   VOCE VAPI
-   ========================= */
-
-button.addEventListener(
-    "click",
-    async function() {
-
-        if (conversationActive) {
-
-            vapi.stop();
-
-            conversationActive =
-                false;
-
-            agent.classList.remove(
-                "active"
-            );
-
-            button.textContent =
-                "PORNEȘTE CONVERSAȚIA";
-
-            status.textContent = "";
-
-            return;
-        }
-
-        status.textContent =
-            "Se conectează...";
-
-        try {
-
-            await vapi.start(
-                ASSISTANT_ID
-            );
-
-            conversationActive =
-                true;
-
-            agent.classList.add(
-                "active"
-            );
-
-            button.textContent =
-                "ÎNCHIDE CONVERSAȚIA";
-
-            status.textContent =
-                "Conversația vocală este activă.";
-
-        }
-        catch(error) {
-
-            console.error(
-                "Eroare Vapi:",
-                error
-            );
-
-            status.textContent =
-                "Nu s-a putut porni conversația.";
-        }
-    }
-);
-
-
-vapi.on(
-    "error",
-    function(error) {
-
-        console.error(
-            "Vapi error:",
-            error
-        );
-
-        status.textContent =
-            "Eroare Vapi.";
-    }
-);
-
-
-/* =========================
-   CHAT TEXT
-   ========================= */
-
-async function sendTextMessage() {
-
-    const message =
-        input.value.trim();
-
-    if (!message) {
+    button.addEventListener("click", async () => {
+      if (conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
         return;
-    }
+      }
 
-    addMessage(
-        "user",
-        message
-    );
+      status.textContent = "Se conectează...";
 
-    input.value = "";
+      try {
+        await vapi.start(ASSISTANT_ID);
+        conversationActive = true;
+        button.textContent = "ÎNCHIDE CONVERSAȚIA";
+        status.textContent = "Conversația vocală este activă.";
+      } catch (error) {
+        console.error("Eroare Vapi:", error);
+        status.textContent = "Nu s-a putut porni conversația.";
+      }
+    });
 
-    sendButton.disabled =
-        true;
+    async function sendTextMessage() {
+      const message = input.value.trim();
+      if (!message) return;
 
-    chatStatus.textContent =
-        "Se contactează agentul...";
+      addMessage("user", message);
+      input.value = "";
+      sendButton.disabled = true;
+      chatStatus.textContent = "Se contactează agentul...";
 
-    try {
+      try {
+        const response = await fetch(CHAT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message, previousChatId: previousChatId })
+        });
 
-        const response =
-            await fetch(
-                CHAT_URL,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type":
-                            "application/json"
-                    },
-                    body: JSON.stringify({
-                        message: message,
-                        previousChatId:
-                            previousChatId
-                    })
-                }
-            );
-
-        const data =
-            await response.json();
-
-        console.log(
-            "Răspuns chat:",
-            data
-        );
-
-        if (!response.ok) {
-
-            addMessage(
-                "agent",
-                "EROARE:\n" +
-                JSON.stringify(
-                    data,
-                    null,
-                    2
-                )
-            );
-
-            return;
-        }
-
-        if (data.chatId) {
-            previousChatId =
-                data.chatId;
-        }
-
-        addMessage(
-            "agent",
-            data.reply ||
-            "Agentul nu a returnat un răspuns."
-        );
-
+        const data = await response.json();
+        if (data.chatId) previousChatId = data.chatId;
+        addMessage("agent", data.reply || "Agentul nu a returnat un răspuns.");
         chatStatus.textContent = "";
-
-    }
-    catch(error) {
-
-        console.error(error);
-
-        addMessage(
-            "agent",
-            "Eroare de conectare:\n" +
-            error.message
-        );
-
-    }
-    finally {
-
-        sendButton.disabled =
-            false;
-
+      } catch (error) {
+        addMessage("agent", "Eroare de conectare:\n" + error.message);
+      } finally {
+        sendButton.disabled = false;
         input.focus();
+      }
     }
-}
 
+    sendButton.addEventListener("click", sendTextMessage);
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
+  </script>
 
-sendButton.addEventListener(
-    "click",
-    sendTextMessage
-);
+  <!-- Logica Trimitere Formulare la Make.com & Autentificare -->
+  <script>
+    // Configurare Webhook-uri Make.com
+    const WEBHOOK_ZILIER = "https://hook.eu1.make.com/7o11e1rycibv4qv6h9hawhk88uii9k1w";
+    const WEBHOOK_ANGAJATOR = "INTRODU_AICI_WEBHOOK_ANGAJATOR";
 
+    // 1. Trimitere Formular Zilier
+    document.getElementById("form-zilier").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-input.addEventListener(
-    "keydown",
-    function(event) {
+      const btn = document.getElementById("btn-submit-zilier");
+      const mesaj = document.getElementById("mesaj-zilier");
 
-        if (event.key === "Enter") {
+      const date = {
+        nume: document.getElementById("nume-zilier").value.trim(),
+        prenume: document.getElementById("prenume-zilier").value.trim(),
+        telefon: document.getElementById("telefon-zilier").value.trim(),
+        judet: document.getElementById("judet-zilier").value.trim(),
+        localitate: document.getElementById("localitate-zilier").value.trim()
+      };
 
-            event.preventDefault();
+      btn.disabled = true;
+      btn.textContent = "Se trimite...";
+      mesaj.className = "text-xs font-semibold text-center mt-2 text-slate-500";
+      mesaj.textContent = "Se procesează înregistrarea...";
 
-            sendTextMessage();
-        }
+      try {
+        await fetch(WEBHOOK_ZILIER, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(date)
+        });
+
+        mesaj.className = "text-xs font-semibold text-center mt-2 text-emerald-600";
+        mesaj.textContent = "Datele au fost trimise cu succes! Verifică WhatsApp-ul.";
+        document.getElementById("form-zilier").reset();
+      } catch (error) {
+        console.error("Eroare Webhook Zilier:", error);
+        mesaj.className = "text-xs font-semibold text-center mt-2 text-rose-600";
+        mesaj.textContent = "Eroare la transmiterea datelor. Încearcă din nou.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Înregistrează-te ca Zilier";
+      }
+    });
+
+    // 2. Trimitere Formular Angajator
+    document.getElementById("form-angajator").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const btn = document.getElementById("btn-submit-angajator");
+      const mesaj = document.getElementById("mesaj-angajator");
+
+      const date = {
+        societate: document.getElementById("societate-angajator").value.trim(),
+        cui: document.getElementById("cui-angajator").value.trim(),
+        nume: document.getElementById("nume-angajator").value.trim(),
+        prenume: document.getElementById("prenume-angajator").value.trim(),
+        telefon: document.getElementById("telefon-angajator").value.trim()
+      };
+
+      btn.disabled = true;
+      btn.textContent = "Se trimite...";
+      mesaj.className = "text-xs font-semibold text-center mt-2 text-slate-500";
+      mesaj.textContent = "Se procesează înregistrarea...";
+
+      try {
+        await fetch(WEBHOOK_ANGAJATOR, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(date)
+        });
+
+        mesaj.className = "text-xs font-semibold text-center mt-2 text-emerald-600";
+        mesaj.textContent = "Datele au fost trimise cu succes! Verifică WhatsApp-ul.";
+        document.getElementById("form-angajator").reset();
+      } catch (error) {
+        console.error("Eroare Webhook Angajator:", error);
+        mesaj.className = "text-xs font-semibold text-center mt-2 text-rose-600";
+        mesaj.textContent = "Eroare la transmiterea datelor. Încearcă din nou.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Înregistrează-te ca Angajator";
+      }
+    });
+
+    // Logică Modal Autentificare & Navigare
+    let currentAuthRole = '';
+
+    function openAuthModal(role) {
+      currentAuthRole = role;
+      document.getElementById('modal-title').textContent = role === 'zilier' ? 'Autentificare Cont Zilier' : 'Autentificare Cont Angajator';
+      resetAuthStep();
+      document.getElementById('auth-modal').classList.remove('hidden');
     }
-);
 
-</script>
+    function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
 
+    function sendWhatsAppCode() {
+      const phone = document.getElementById('auth-phone-input').value.trim();
+      if(!phone) { alert('Te rugăm să introduci numărul de telefon!'); return; }
+      document.getElementById('display-phone').textContent = phone;
+      document.getElementById('auth-step-1').classList.add('hidden');
+      document.getElementById('auth-step-2').classList.remove('hidden');
+    }
+
+    function verifyWhatsAppCode() {
+      closeAuthModal();
+      if(currentAuthRole === 'zilier') showZilierDashboard(); else showAngajatorDashboard();
+    }
+
+    function resetAuthStep() {
+      document.getElementById('auth-step-1').classList.remove('hidden');
+      document.getElementById('auth-step-2').classList.add('hidden');
+    }
+
+    function hideAllViews() {
+      document.getElementById('view-landing').classList.add('hidden');
+      document.getElementById('view-dashboard-zilier').classList.add('hidden');
+      document.getElementById('view-dashboard-angajator').classList.add('hidden');
+    }
+
+    function showLandingView() { hideAllViews(); document.getElementById('view-landing').classList.remove('hidden'); }
+    function showZilierDashboard() { hideAllViews(); document.getElementById('view-dashboard-zilier').classList.remove('hidden'); }
+    function showAngajatorDashboard() { hideAllViews(); document.getElementById('view-dashboard-angajator').classList.remove('hidden'); }
+  </script>
 
 </body>
 </html>
-
