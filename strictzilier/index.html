@@ -13,7 +13,6 @@
   <style>
     body { font-family: 'Inter', sans-serif; }
     
-    /* Stilizare Scrollbar fin */
     .custom-scroll::-webkit-scrollbar {
       width: 5px;
     }
@@ -25,14 +24,14 @@
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
-  <!-- Header / Navigation Bar Permanent -->
+  <!-- Header Permanent -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
       <!-- Brand Logo -->
-      <div class="flex items-center gap-2 cursor-pointer" onclick="showLandingView()">
+      <a href="index.html" class="flex items-center gap-2 cursor-pointer">
         <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
-      </div>
+      </a>
 
       <!-- Tag Legal -->
       <div>
@@ -45,16 +44,14 @@
   </header>
 
 
-  <!-- ================================================================= -->
-  <!-- VEDEREA 1: PAGINA PRINCIPALĂ (LANDING PAGE)                      -->
-  <!-- ================================================================= -->
-  <main id="view-landing" class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
       
-      <!-- BLOC 1: ZILIER (STÂNGA DESKTOP / PRIMUL PE MOBIL) -->
+      <!-- BLOC 1: ZILIER (STÂNGA) -->
       <section class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-amber-400 transition-all flex flex-col justify-between">
         <div>
-          <!-- Antet Bloc Zilier + Buton deschidere pagina ghid-zilier.html -->
+          <!-- Antet Zilier + Ghid -->
           <div class="flex items-start justify-between gap-2 mb-5">
             <div class="flex items-center gap-3">
               <div class="p-3 bg-amber-100 text-amber-700 rounded-xl flex-shrink-0">
@@ -79,27 +76,27 @@
             <div class="grid grid-cols-2 gap-2.5">
               <div>
                 <label class="block text-xs font-medium text-slate-600 mb-1">Nume *</label>
-                <input type="text" id="zilier-nume" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Popescu">
+                <input type="text" id="zilier-nume" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Popescu">
               </div>
               <div>
                 <label class="block text-xs font-medium text-slate-600 mb-1">Prenume *</label>
-                <input type="text" id="zilier-prenume" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Ion">
+                <input type="text" id="zilier-prenume" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Ion">
               </div>
             </div>
 
             <div>
               <label class="block text-xs font-medium text-slate-600 mb-1">Număr Telefon (WhatsApp) *</label>
-              <input type="tel" id="zilier-telefon" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="07xx xxx xxx">
+              <input type="tel" id="zilier-telefon" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="07xx xxx xxx">
             </div>
 
             <div class="grid grid-cols-2 gap-2.5">
               <div>
                 <label class="block text-xs font-medium text-slate-600 mb-1">Județ *</label>
-                <input type="text" id="zilier-judet" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: Bacău">
+                <input type="text" id="zilier-judet" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: Bacău">
               </div>
               <div>
                 <label class="block text-xs font-medium text-slate-600 mb-1">Localitate *</label>
-                <input type="text" id="zilier-localitate" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: Comănești">
+                <input type="text" id="zilier-localitate" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: Comănești">
               </div>
             </div>
 
@@ -129,7 +126,6 @@
             Spune ce cauți sau de ce ai nevoie. Agentul mediază întâlnirea dintre zilieri și angajatori.
           </p>
 
-          <!-- Fereastră de Conversație Maximizată -->
           <div id="conversation" class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
             <div class="bg-white/10 text-slate-100 p-2 rounded-lg text-xs leading-relaxed max-w-[88%] border-l-2 border-blue-500">
               <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>
@@ -139,7 +135,6 @@
         </div>
 
         <div>
-          <!-- Comutator Mod (Toate cele 3 butoane h-11) -->
           <div class="w-full max-w-[340px] mx-auto grid grid-cols-[1fr_34px_1fr] gap-1.5 items-center mb-1.5">
             <button id="voiceModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">
               VOCAL
@@ -152,7 +147,6 @@
             </button>
           </div>
 
-          <!-- Panou Control Vocal -->
           <div id="voicePanel" class="w-full max-w-[340px] mx-auto">
             <button id="agentButton" type="button" class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">
               PORNEȘTE CONVERSAȚIA
@@ -160,7 +154,6 @@
             <div id="status" class="min-h-[14px] mt-1 text-[10px] font-bold text-emerald-400"></div>
           </div>
 
-          <!-- Panou Chat Scris -->
           <div id="textPanel" class="w-full max-w-[340px] mx-auto hidden">
             <div class="flex gap-1.5">
               <input id="messageInput" type="text" placeholder="Scrieți mesajul..." autocomplete="off" class="flex-1 min-w-0 h-11 px-3 bg-white text-slate-900 rounded-lg text-xs outline-none">
@@ -174,10 +167,10 @@
       </section>
 
 
-      <!-- BLOC 3: ANGAJATOR (DREAPTA DESKTOP / AL TREILEA PE MOBIL) -->
+      <!-- BLOC 3: ANGAJATOR (DREAPTA) -->
       <section class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 hover:border-blue-400 transition-all flex flex-col justify-between">
         <div>
-          <!-- Antet Bloc Angajator + Buton deschidere pagina ghid-angajator.html -->
+          <!-- Antet Angajator + Ghid -->
           <div class="flex items-start justify-between gap-2 mb-5">
             <div class="flex items-center gap-3">
               <div class="p-3 bg-blue-100 text-blue-700 rounded-xl flex-shrink-0">
@@ -196,38 +189,39 @@
           </div>
 
           <!-- Formular Înscriere Angajator -->
-          <form id="form-angajator" class="space-y-3.5" onsubmit="event.preventDefault(); alert('Înregistrare trimisă!');">
+          <form id="form-angajator" class="space-y-3.5">
             <h3 class="text-xs font-bold text-slate-500 uppercase tracking-wider border-b pb-2">Înscriere Rapidă Cont Nou</h3>
             
             <div>
               <label class="block text-xs font-medium text-slate-600 mb-1">Denumire Societate / PFA *</label>
-              <input type="text" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="SC Muncă Rapidă SRL">
+              <input type="text" id="angajator-societate" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="SC Muncă Rapidă SRL">
             </div>
 
             <div>
               <label class="block text-xs font-medium text-slate-600 mb-1">CUI / CIF *</label>
-              <input type="text" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="RO12345678">
+              <input type="text" id="angajator-cui" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="RO12345678">
             </div>
 
             <div class="grid grid-cols-2 gap-2.5">
               <div>
                 <label class="block text-xs font-medium text-slate-600 mb-1">Nume Reprezentant *</label>
-                <input type="text" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Ionescu">
+                <input type="text" id="angajator-nume" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Ionescu">
               </div>
               <div>
                 <label class="block text-xs font-medium text-slate-600 mb-1">Prenume Reprezentant *</label>
-                <input type="text" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Vasile">
+                <input type="text" id="angajator-prenume" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Vasile">
               </div>
             </div>
 
             <div>
               <label class="block text-xs font-medium text-slate-600 mb-1">Număr Telefon (WhatsApp) *</label>
-              <input type="tel" required class="w-full px-3 py-2.5 sm:py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="07xx xxx xxx">
+              <input type="tel" id="angajator-telefon" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="07xx xxx xxx">
             </div>
 
-            <button type="submit" class="w-full py-3 sm:py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-lg shadow-sm transition">
+            <button type="submit" id="btn-submit-angajator" class="w-full py-3 sm:py-2.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold text-sm rounded-lg shadow-sm transition">
               Înregistrează-te ca Angajator
             </button>
+            <div id="mesaj-angajator" class="min-h-[16px] text-xs font-semibold text-center mt-1"></div>
           </form>
 
           <div class="relative my-5">
@@ -242,64 +236,6 @@
         </div>
       </section>
 
-    </div>
-  </main>
-
-
-  <!-- ================================================================= -->
-  <!-- VEDEREA 2: DASHBOARD ZILIER                                        -->
-  <!-- ================================================================= -->
-  <main id="view-dashboard-zilier" class="hidden flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-3 w-full sm:w-auto">
-        <div class="w-10 h-10 bg-amber-500 text-white font-bold rounded-full flex items-center justify-center flex-shrink-0">
-          Z
-        </div>
-        <div>
-          <h2 class="text-base font-bold text-slate-900">Panou Zilier: <span id="dash-zilier-nume">Popescu Ion</span></h2>
-          <p class="text-xs text-slate-600">Status: <span class="text-emerald-700 font-semibold">Disponibil</span> | ID: <span id="dash-zilier-id" class="font-mono font-bold">Z1000xx</span></p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 pt-2 sm:pt-0 border-amber-200">
-        <a href="ghid-zilier.html" class="px-3 py-1.5 bg-white border border-amber-300 text-amber-800 rounded-lg text-xs font-semibold hover:bg-amber-100 transition flex items-center gap-1">
-          <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <span>Instrucțiuni Zilier</span>
-        </a>
-
-        <button onclick="logout()" class="text-xs font-semibold text-slate-500 hover:text-slate-800 underline ml-2">
-          Deconectare
-        </button>
-      </div>
-    </div>
-  </main>
-
-
-  <!-- ================================================================= -->
-  <!-- VEDEREA 3: DASHBOARD ANGAJATOR                                    -->
-  <!-- ================================================================= -->
-  <main id="view-dashboard-angajator" class="hidden flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
-    <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="flex items-center gap-3 w-full sm:w-auto">
-        <div class="w-10 h-10 bg-blue-700 text-white font-bold rounded-full flex items-center justify-center flex-shrink-0">
-          A
-        </div>
-        <div>
-          <h2 class="text-base font-bold text-slate-900">Panou Angajator: SC AgroServ SRL</h2>
-          <p class="text-xs text-slate-600">CUI: RO12345678 | Reprezentant: Ionescu Vasile</p>
-        </div>
-      </div>
-
-      <div class="flex items-center gap-2 w-full sm:w-auto justify-end border-t sm:border-t-0 pt-2 sm:pt-0 border-blue-200">
-        <a href="ghid-angajator.html" class="px-3 py-1.5 bg-white border border-blue-300 text-blue-800 rounded-lg text-xs font-semibold hover:bg-blue-100 transition flex items-center gap-1">
-          <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <span>Instrucțiuni Angajator</span>
-        </a>
-
-        <button onclick="logout()" class="text-xs font-semibold text-slate-500 hover:text-slate-800 underline ml-2">
-          Deconectare
-        </button>
-      </div>
     </div>
   </main>
 
@@ -501,16 +437,20 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- Logica Modale Autentificare, Inregistrare & Persistentă Sesiune Săptămânală -->
+
+  <!-- LOGICĂ PRINCIPALĂ: WEBHOOK-URI, AUTENTIFICARE & SESIUNE SĂPTĂMÂNALĂ -->
   <script>
-    // URL-urile Webhook Make.com
-    const WEBHOOK_INREGISTRARE_ZILIER = "https://hook.eu1.make.com/l983rboqndpeaga1t4o92cvk1iudy7kv";
+    // =================================================================
+    // CONFIGURARE ADRESE WEBHOOK MAKE.COM
+    // =================================================================
+    const WEBHOOK_INREGISTRARE_ZILIER = "https://hook.eu1.make.com/7o11e1rycibv4qv6h9hawhk88uii9k1w";
+    const WEBHOOK_INREGISTRARE_ANGAJATOR = "LIPEȘTE_AICI_WEBHOOK_ANGAJATOR1";
     const WEBHOOK_SOLICITA_OTP = "https://hook.eu1.make.com/ahmufdtrs1osrhmxucms28nhje417fdj";
     const WEBHOOK_VALIDEAZA_OTP = "https://hook.eu1.make.com/ejc4rt4hkvtxv5zihsflanlzdawachmf";
 
     let currentAuthRole = '';
 
-    // Determinare Luni a săptămânii curente
+    // Determinare Luni din săptămâna curentă (Format YYYY-MM-DD)
     function getStartOfWeekISO() {
       const d = new Date();
       const day = d.getDay();
@@ -520,7 +460,7 @@
       return monday.toISOString().split('T')[0];
     }
 
-    // Verificare automată a sesiunii la încărcare
+    // Auto-Login: Verifică la încărcare dacă există o sesiune activă pe săptămâna în curs
     document.addEventListener("DOMContentLoaded", () => {
       checkWeeklySession();
     });
@@ -534,11 +474,12 @@
 
           if (session.startOfWeek === currentMonday && session.id) {
             if (session.role === 'zilier') {
-              showZilierDashboard(session);
+              window.location.href = "cont-zilier.html";
             } else if (session.role === 'angajator') {
-              showAngajatorDashboard(session);
+              window.location.href = "cont-angajator.html";
             }
           } else {
+            // Săptămâna s-a schimbat -> Se șterge sesiunea veche
             localStorage.removeItem("strictzilier_session");
           }
         } catch (e) {
@@ -559,7 +500,7 @@
       document.getElementById('auth-modal').classList.add('hidden'); 
     }
 
-    // Pasul 1 OTP: Trimite Solicitarea la Make
+    // PASUL 1 OTP: Trimite solicitare cod pe WhatsApp
     async function sendWhatsAppCode() {
       const phoneInput = document.getElementById('auth-phone-input');
       const phone = phoneInput.value.trim();
@@ -602,7 +543,7 @@
       }
     }
 
-    // Pasul 2 OTP: Validează Codul pe Server via Make
+    // PASUL 2 OTP: Validează codul OTP și redirecționează pe pagina dedicată
     async function verifyWhatsAppCode() {
       const phone = document.getElementById('auth-phone-input').value.trim();
       const codeInput = document.getElementById('auth-code-input').value.trim();
@@ -641,10 +582,11 @@
 
           closeAuthModal();
 
+          // Redirecționare directă către pagina corespunzătoare
           if (currentAuthRole === 'zilier') {
-            showZilierDashboard(sessionPayload);
+            window.location.href = "cont-zilier.html";
           } else {
-            showAngajatorDashboard(sessionPayload);
+            window.location.href = "cont-angajator.html";
           }
         } else {
           alert(data.mesaj || "Codul introdus este incorect sau a expirat.");
@@ -659,11 +601,6 @@
       }
     }
 
-    function logout() {
-      localStorage.removeItem("strictzilier_session");
-      showLandingView();
-    }
-
     function resetAuthStep() {
       document.getElementById('auth-phone-input').value = '';
       document.getElementById('auth-code-input').value = '';
@@ -671,34 +608,7 @@
       document.getElementById('auth-step-2').classList.add('hidden');
     }
 
-    function hideAllViews() {
-      document.getElementById('view-landing').classList.add('hidden');
-      document.getElementById('view-dashboard-zilier').classList.add('hidden');
-      document.getElementById('view-dashboard-angajator').classList.add('hidden');
-    }
-
-    function showLandingView() { 
-      hideAllViews(); 
-      document.getElementById('view-landing').classList.remove('hidden'); 
-    }
-
-    function showZilierDashboard(session) { 
-      hideAllViews(); 
-      if (session && session.nume) {
-        document.getElementById('dash-zilier-nume').textContent = session.nume;
-      }
-      if (session && session.id) {
-        document.getElementById('dash-zilier-id').textContent = session.id;
-      }
-      document.getElementById('view-dashboard-zilier').classList.remove('hidden'); 
-    }
-
-    function showAngajatorDashboard(session) { 
-      hideAllViews(); 
-      document.getElementById('view-dashboard-angajator').classList.remove('hidden'); 
-    }
-
-    // Înregistrare Zilier (Formular Principal)
+    // Înregistrare Zilier (Formular Stânga)
     document.getElementById("form-zilier").addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -730,12 +640,57 @@
         document.getElementById("form-zilier").reset();
 
       } catch (error) {
-        console.error("Eroare înregistrare:", error);
+        console.error("Eroare înregistrare zilier:", error);
         mesaj.className = "min-h-[16px] text-xs font-semibold text-center mt-1 text-rose-600";
         mesaj.textContent = "Eroare la transmitere. Încearcă din nou.";
       } finally {
         btn.disabled = false;
         btn.textContent = "Înregistrează-te ca Zilier";
+      }
+    });
+
+    // Înregistrare Angajator (Formular Dreapta)
+    document.getElementById("form-angajator").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const btn = document.getElementById("btn-submit-angajator");
+      const mesaj = document.getElementById("mesaj-angajator");
+
+      const payload = {
+        societate: document.getElementById("angajator-societate").value.trim(),
+        cui: document.getElementById("angajator-cui").value.trim(),
+        nume: document.getElementById("angajator-nume").value.trim(),
+        prenume: document.getElementById("angajator-prenume").value.trim(),
+        telefon: document.getElementById("angajator-telefon").value.trim()
+      };
+
+      btn.disabled = true;
+      btn.textContent = "Se trimite înregistrarea...";
+      mesaj.className = "min-h-[16px] text-xs font-semibold text-center mt-1 text-slate-500";
+      mesaj.textContent = "Se procesează datele...";
+
+      try {
+        if (WEBHOOK_INREGISTRARE_ANGAJATOR.includes("LIPEȘTE")) {
+          throw new Error("Webhook neconfigurat pentru Angajator");
+        }
+
+        await fetch(WEBHOOK_INREGISTRARE_ANGAJATOR, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        mesaj.className = "min-h-[16px] text-xs font-semibold text-center mt-1 text-emerald-600";
+        mesaj.textContent = "Cont creat! Verifică mesajul WhatsApp pentru activare.";
+        document.getElementById("form-angajator").reset();
+
+      } catch (error) {
+        console.error("Eroare înregistrare angajator:", error);
+        mesaj.className = "min-h-[16px] text-xs font-semibold text-center mt-1 text-rose-600";
+        mesaj.textContent = "Eroare la transmitere sau scenariu neconfigurat.";
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "Înregistrează-te ca Angajator";
       }
     });
   </script>
