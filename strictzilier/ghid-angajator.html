@@ -1,1695 +1,691 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Ghid Angajator — STRICTZILIER.ro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
 * {
    box-sizing: border-box;
 }
 
 :root {
-   --dark: #173b3a;
-   --dark-2: #245553;
+   --blue-dark: #0f172a;
+   --blue-primary: #1e3a8a;
+   --blue-light: #eff6ff;
+   --blue-border: #bfdbfe;
 
-   --orange: #d9873d;
-   --orange-light: #fff2e5;
+   --amber: #f59e0b;
+   --amber-hover: #d97706;
+   --amber-light: #fffbeb;
 
-   --cream: #f5f7f5;
+   --cream: #f8fafc;
    --white: #ffffff;
 
-   --text: #263533;
-   --muted: #71807d;
-   --border: #dce5e2;
+   --text: #1e293b;
+   --muted: #64748b;
+   --border: #e2e8f0;
 
-   --green-light: #e9f4f0;
-
-   --shadow: 0 10px 30px rgba(23,59,58,.07);
+   --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
 }
 
 body {
    margin: 0;
-
-   font-family:
-       Arial,
-       Helvetica,
-       sans-serif;
-
+   font-family: 'Inter', Arial, Helvetica, sans-serif;
    background: var(--cream);
    color: var(--text);
-
    line-height: 1.6;
 }
-
 
 /* =========================
   HEADER
   ========================= */
-
 header {
    background: white;
-
    border-bottom: 1px solid var(--border);
-
-   padding: 17px 5vw;
-
+   padding: 14px 5vw;
    display: flex;
    align-items: center;
    justify-content: space-between;
-
    gap: 20px;
-
    position: sticky;
    top: 0;
-
    z-index: 10;
 }
 
 .logo {
-   color: var(--dark);
-
-   font-size: 24px;
-   font-weight: 800;
-
-   letter-spacing: 1.4px;
-
+   color: var(--blue-primary);
+   font-size: 22px;
+   font-weight: 900;
+   letter-spacing: -0.5px;
    white-space: nowrap;
 }
 
 .logo span {
-   color: var(--orange);
+   color: var(--amber);
 }
 
 .back {
-   color: var(--dark);
-
+   color: var(--muted);
    text-decoration: none;
-
    font-size: 13px;
    font-weight: 700;
-
    border: 1px solid var(--border);
-
-   padding: 8px 14px;
-
+   padding: 7px 14px;
    border-radius: 8px;
-
    background: white;
+   transition: all 0.2s;
 }
 
 .back:hover {
-   border-color: var(--orange);
-   color: var(--orange);
+   border-color: var(--blue-primary);
+   color: var(--blue-primary);
+   background: var(--blue-light);
 }
 
-
 /* =========================
-  HERO
+  HERO (INGUSTAT & COMPACT)
   ========================= */
-
 .hero {
-   background: var(--dark);
-
+   background: linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%);
    color: white;
-
-   padding: 55px 25px 50px;
-
+   padding: 24px 20px 22px; /* Banda îngustă conform cerinței */
    text-align: center;
 }
 
 .hero-inner {
    max-width: 850px;
-
    margin: auto;
 }
 
 .hero .label {
    display: inline-block;
-
-   padding: 6px 13px;
-
-   margin-bottom: 14px;
-
-   border-radius: 30px;
-
-   background: rgba(255,255,255,.10);
-
-   color: #d8ebe5;
-
-   font-size: 12px;
-   font-weight: 700;
-
+   padding: 3px 10px;
+   margin-bottom: 8px;
+   border-radius: 20px;
+   background: rgba(255,255,255,.12);
+   border: 1px solid rgba(255,255,255,.2);
+   color: #93c5fd;
+   font-size: 11px;
+   font-weight: 800;
    letter-spacing: .8px;
+   text-transform: uppercase;
 }
 
 .hero h1 {
-   margin: 0 0 14px;
-
-   font-size: clamp(30px, 5vw, 46px);
-
-   line-height: 1.15;
+   margin: 0 0 6px;
+   font-size: clamp(22px, 4vw, 32px);
+   font-weight: 800;
+   line-height: 1.2;
 }
 
 .hero p {
    margin: 0 auto;
-
    max-width: 680px;
-
-   color: #c9d8d5;
-
-   font-size: 17px;
+   color: #cbd5e1;
+   font-size: 14px;
+   line-height: 1.4;
 }
-
 
 /* =========================
   LAYOUT
   ========================= */
-
 .layout {
    max-width: 1120px;
-
    margin: auto;
-
-   padding: 38px 25px 60px;
-
+   padding: 28px 20px 60px;
    display: grid;
-
-   grid-template-columns: 245px 1fr;
-
-   gap: 35px;
-
+   grid-template-columns: 260px 1fr;
+   gap: 30px;
    align-items: start;
 }
 
-
 /* =========================
-  CUPRINS
+  CUPRINS (FEREASTRĂ DERULANTĂ)
   ========================= */
-
 .toc {
    position: sticky;
-
-   top: 105px;
-
+   top: 85px;
    background: white;
-
    border: 1px solid var(--border);
-
-   border-radius: 15px;
-
-   padding: 20px;
-
+   border-radius: 14px;
+   padding: 16px;
    box-shadow: var(--shadow);
+   max-height: 420px; /* Limitare înălțime pentru derulare */
+   overflow-y: auto;  /* Fereastră derulantă activată */
+}
+
+/* Stilizare Scrollbar fin */
+.toc::-webkit-scrollbar {
+   width: 5px;
+}
+.toc::-webkit-scrollbar-thumb {
+   background: #cbd5e1;
+   border-radius: 4px;
 }
 
 .toc-title {
-   color: var(--dark);
-
-   font-size: 12px;
+   color: var(--blue-primary);
+   font-size: 11px;
    font-weight: 800;
-
    text-transform: uppercase;
-
    letter-spacing: .7px;
-
-   margin-bottom: 12px;
+   margin-bottom: 10px;
+   padding-bottom: 6px;
+   border-b: 1px solid var(--border);
 }
 
 .toc a {
    display: block;
-
-   padding: 7px 0;
-
+   padding: 6px 4px;
    color: var(--muted);
-
    text-decoration: none;
-
-   font-size: 13px;
-
+   font-size: 12px;
+   font-weight: 600;
    line-height: 1.35;
+   border-radius: 6px;
+   transition: all 0.15s;
 }
 
 .toc a:hover {
-   color: var(--orange);
+   color: var(--blue-primary);
+   background: var(--blue-light);
+   padding-left: 8px;
 }
-
 
 /* =========================
   CONTENT
   ========================= */
-
 .content {
    min-width: 0;
 }
 
 .section {
    background: white;
-
    border: 1px solid var(--border);
-
-   border-radius: 17px;
-
-   padding: 30px 32px;
-
+   border-radius: 16px;
+   padding: 26px 28px;
    margin-bottom: 20px;
-
    box-shadow: var(--shadow);
-
-   scroll-margin-top: 105px;
+   scroll-margin-top: 85px;
 }
 
 .step {
    display: flex;
-
-   gap: 13px;
-
+   gap: 12px;
    align-items: center;
-
-   margin-bottom: 14px;
+   margin-bottom: 12px;
 }
 
 .number {
-   flex: 0 0 36px;
-
-   width: 36px;
-   height: 36px;
-
+   flex: 0 0 34px;
+   width: 34px;
+   height: 34px;
    display: flex;
-
    align-items: center;
    justify-content: center;
-
    border-radius: 50%;
-
-   background: var(--orange);
-
+   background: var(--amber);
    color: white;
-
-   font-size: 15px;
+   font-size: 14px;
    font-weight: 800;
 }
 
 .section h2 {
    margin: 0;
-
-   color: var(--dark);
-
-   font-size: 23px;
-
+   color: var(--blue-dark);
+   font-size: 20px;
+   font-weight: 800;
    line-height: 1.25;
 }
 
 .section h3 {
-   margin: 24px 0 8px;
-
-   color: var(--dark);
-
-   font-size: 17px;
+   margin: 20px 0 8px;
+   color: var(--blue-primary);
+   font-size: 16px;
+   font-weight: 700;
 }
 
 .section p {
-   margin: 9px 0;
-
+   margin: 8px 0;
    color: var(--text);
-
-   font-size: 15px;
+   font-size: 14px;
 }
 
 .section ul {
-   margin: 12px 0 8px;
-
-   padding-left: 22px;
+   margin: 10px 0 8px;
+   padding-left: 20px;
 }
 
 .section li {
-   margin: 7px 0;
-
-   font-size: 15px;
+   margin: 6px 0;
+   font-size: 14px;
 }
 
-
 /* =========================
-  WHY BOX
+  BOX-URI SPECIFICE STILIZATE
   ========================= */
-
 .why {
-   margin-top: 20px;
-
-   padding: 17px 19px;
-
-   border-left: 4px solid var(--orange);
-
-   background: var(--orange-light);
-
+   margin-top: 16px;
+   padding: 14px 16px;
+   border-left: 4px solid var(--amber);
+   background: var(--amber-light);
    border-radius: 0 10px 10px 0;
 }
 
 .why strong {
    display: block;
-
-   margin-bottom: 4px;
-
-   color: #a9632d;
-
-   font-size: 13px;
-
+   margin-bottom: 3px;
+   color: var(--amber-hover);
+   font-size: 12px;
    text-transform: uppercase;
-
    letter-spacing: .5px;
 }
 
 .why p {
    margin: 0;
-
-   font-size: 14px;
-
-   color: #5e5147;
+   font-size: 13px;
+   color: #78350f;
 }
 
-
-/* =========================
-  INFO BOX
-  ========================= */
-
 .info {
-   margin: 18px 0;
-
-   padding: 16px 18px;
-
+   margin: 16px 0;
+   padding: 14px 16px;
    border-radius: 10px;
-
-   background: var(--green-light);
-
-   color: var(--dark);
-
-   font-size: 14px;
+   background: var(--blue-light);
+   border: 1px solid var(--blue-border);
+   color: var(--blue-primary);
+   font-size: 13px;
 }
 
 .info strong {
-   color: var(--dark);
+   color: var(--blue-dark);
 }
-
-
-/* =========================
-  FLOW
-  ========================= */
 
 .flow {
    display: grid;
-
    grid-template-columns: repeat(3, 1fr);
-
    gap: 10px;
-
-   margin-top: 18px;
+   margin-top: 16px;
 }
 
 .flow-item {
-   padding: 14px;
-
+   padding: 12px;
    border: 1px solid var(--border);
-
    border-radius: 10px;
-
-   background: #fbfcfb;
-
-   font-size: 13px;
+   background: #f8fafc;
+   font-size: 12px;
 }
 
 .flow-item strong {
    display: block;
-
-   color: var(--dark);
-
+   color: var(--blue-primary);
    margin-bottom: 4px;
 }
 
-
-/* =========================
-  IMPORTANT
-  ========================= */
-
 .important {
-   margin-top: 20px;
-
-   padding: 18px;
-
+   margin-top: 16px;
+   padding: 14px 16px;
    border-radius: 10px;
-
-   background: #f8f8f8;
-
+   background: #f1f5f9;
    border: 1px solid var(--border);
+   font-size: 13px;
 }
 
 .important strong {
-   color: var(--dark);
+   color: var(--blue-dark);
 }
-
 
 /* =========================
   FOOTER
   ========================= */
-
 footer {
    background: white;
-
    border-top: 1px solid var(--border);
-
-   padding: 25px;
-
+   padding: 20px;
    text-align: center;
-
    color: var(--muted);
-
-   font-size: 13px;
+   font-size: 12px;
 }
 
 footer a {
-   color: var(--dark);
-
+   color: var(--blue-primary);
    text-decoration: none;
-
    font-weight: 700;
 }
 
-
-/* =========================
-  RESPONSIVE
-  ========================= */
-
+/* RESPONSIVE */
 @media (max-width: 850px) {
-
-   .layout {
-       grid-template-columns: 1fr;
-   }
-
-   .toc {
-       position: static;
-
-       display: grid;
-
-       grid-template-columns: repeat(2, 1fr);
-
-       gap: 2px 18px;
-   }
-
-   .toc-title {
-       grid-column: 1 / -1;
-   }
-
-   .flow {
-       grid-template-columns: 1fr;
-   }
+   .layout { grid-template-columns: 1fr; }
+   .toc { position: static; max-height: 250px; }
+   .flow { grid-template-columns: 1fr; }
 }
-
-
-@media (max-width: 560px) {
-
-   header {
-       padding: 14px 18px;
-   }
-
-   .logo {
-       font-size: 20px;
-   }
-
-   .back {
-       font-size: 12px;
-
-       padding: 7px 10px;
-   }
-
-   .hero {
-       padding: 40px 18px;
-   }
-
-   .hero p {
-       font-size: 15px;
-   }
-
-   .layout {
-       padding: 22px 14px 45px;
-   }
-
-   .toc {
-       grid-template-columns: 1fr;
-   }
-
-   .section {
-       padding: 23px 19px;
-
-       border-radius: 14px;
-   }
-
-   .section h2 {
-       font-size: 20px;
-   }
-
-   .section p,
-   .section li {
-       font-size: 14px;
-   }
-}
-
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =========================
-    HEADER
-    ========================= -->
-
+<!-- HEADER -->
 <header>
-
    <div class="logo">
        STRICT<span>ZILIER</span>.ro
    </div>
-
-   <a
-       class="back"
-       href="index.html"
-   >
-       ← Înapoi
-   </a>
-
+   <a class="back" href="index.html">← Înapoi</a>
 </header>
 
-
-<!-- =========================
-    HERO
-    ========================= -->
-
+<!-- HERO (Banda îngustă) -->
 <section class="hero">
-
    <div class="hero-inner">
-
-       <div class="label">
-           GHID ANGAJATOR
-       </div>
-
-       <h1>
-           Cum funcționează platforma
-       </h1>
-
-       <p>
-           De la crearea contului până la definirea
-           activităților și lansarea unei oferte de muncă,
-           fiecare etapă este separată și ușor de urmărit.
-       </p>
-
+       <div class="label">GHID ANGAJATOR</div>
+       <h1>Cum funcționează platforma</h1>
+       <p>De la crearea contului până la definirea activităților și lansarea unei oferte de muncă, fiecare etapă este separată și ușor de urmărit.</p>
    </div>
-
 </section>
-
 
 <div class="layout">
 
-
-<!-- =========================
-    CUPRINS
-    ========================= -->
-
+<!-- CUPRINS (Fereastră derulantă) -->
 <nav class="toc">
-
-   <div class="toc-title">
-       În acest ghid
-   </div>
-
-   <a href="#inceput">
-       1. Înscrierea angajatorului
-   </a>
-
-   <a href="#whatsapp">
-       2. Confirmarea telefonului
-   </a>
-
-   <a href="#home">
-       3. Pagina Home
-   </a>
-
-   <a href="#profil">
-       4. Profilul angajatorului
-   </a>
-
-   <a href="#sablon">
-       5. Ce este un șablon de job
-   </a>
-
-   <a href="#activitate">
-       6. Alegerea activității
-   </a>
-
-   <a href="#parametri">
-       7. Completarea șablonului
-   </a>
-
-   <a href="#model">
-       8. Folosește ca model
-   </a>
-
-   <a href="#idnou">
-       9. Regula noului ID
-   </a>
-
-   <a href="#oferta">
-       10. Lansarea unei oferte
-   </a>
-
-   <a href="#configurare">
-       11. Configurarea ofertei
-   </a>
-
-   <a href="#diferenta">
-       12. Șablonul și oferta
-   </a>
-
-   <a href="#agent">
-       13. Asistența agentului
-   </a>
-
-   <a href="#tarifare">
-       14. Utilizarea și tarifarea
-   </a>
-
-   <a href="#selectie">
-       15. Selecția zilierilor
-   </a>
-
+   <div class="toc-title">În acest ghid</div>
+   <a href="#inceput">1. Înscrierea angajatorului</a>
+   <a href="#whatsapp">2. Confirmarea telefonului</a>
+   <a href="#home">3. Pagina Home</a>
+   <a href="#profil">4. Profilul angajatorului</a>
+   <a href="#sablon">5. Ce este un șablon de job</a>
+   <a href="#activitate">6. Alegerea activității</a>
+   <a href="#parametri">7. Completarea șablonului</a>
+   <a href="#model">8. Folosește ca model</a>
+   <a href="#idnou">9. Regula noului ID</a>
+   <a href="#oferta">10. Lansarea unei oferte</a>
+   <a href="#configurare">11. Configurarea ofertei</a>
+   <a href="#diferenta">12. Șablonul și oferta</a>
+   <a href="#agent">13. Asistența agentului</a>
+   <a href="#tarifare">14. Utilizarea și tarifarea</a>
+   <a href="#selectie">15. Selecția zilierilor</a>
 </nav>
 
-
-<!-- =========================
-    CONTENT
-    ========================= -->
-
+<!-- CONTENT -->
 <main class="content">
 
-
-<!-- 1 -->
-
-<section
-   class="section"
-   id="inceput"
->
-
+<section class="section" id="inceput">
    <div class="step">
-
-       <div class="number">
-           1
-       </div>
-
-       <h2>
-           Înscrierea angajatorului
-       </h2>
-
+       <div class="number">1</div>
+       <h2>Înscrierea angajatorului</h2>
    </div>
-
-
-   <p>
-       Primul pas este crearea contului de angajator.
-       Înscrierea este concepută astfel încât datele
-       importante pentru profil să fie colectate de la
-       început, chiar dacă unele dintre ele vor fi folosite
-       ulterior.
-   </p>
-
-
-   <p>
-       În această etapă sunt solicitate datele necesare
-       identificării angajatorului și a reprezentantului său.
-   </p>
-
-
+   <p>Primul pas este crearea contului de angajator. Înscrierea este concepută astfel încât datele importante pentru profil să fie colectate de la început, chiar dacă unele dintre ele vor fi folosite ulterior.</p>
+   <p>În această etapă sunt solicitate datele necesare identificării angajatorului și a reprezentantului său.</p>
    <ul>
-
        <li><strong>Denumirea societății</strong></li>
-
        <li><strong>CUI</strong></li>
-
        <li><strong>CNP-ul reprezentantului</strong></li>
-
        <li><strong>Numele reprezentantului</strong></li>
-
        <li><strong>Prenumele reprezentantului</strong></li>
-
        <li><strong>Telefonul</strong></li>
-
        <li><strong>Emailul</strong></li>
-
        <li><strong>Sediul social</strong></li>
-
    </ul>
-
-
    <div class="why">
-
-       <strong>
-           De ce sunt solicitate de la început?
-       </strong>
-
-       <p>
-           Profilul angajatorului trebuie să poată fi
-           complet și utilizabil fără ca aceleași informații
-           să fie solicitate din nou în etapele următoare.
-       </p>
-
+       <strong>De ce sunt solicitate de la început?</strong>
+       <p>Profilul angajatorului trebuie să poată fi complet și utilizabil fără ca aceleași informații să fie solicitate din nou în etapele următoare.</p>
    </div>
-
-
 </section>
 
-
-<!-- 2 -->
-
-<section
-   class="section"
-   id="whatsapp"
->
-
+<section class="section" id="whatsapp">
    <div class="step">
-
-       <div class="number">
-           2
-       </div>
-
-       <h2>
-           Confirmarea telefonului prin WhatsApp
-       </h2>
-
+       <div class="number">2</div>
+       <h2>Confirmarea telefonului prin WhatsApp</h2>
    </div>
-
-
-   <p>
-       După înscriere, numărul de telefon asociat contului
-       este confirmat prin WhatsApp.
-   </p>
-
-
-   <p>
-       Angajatorul primește un cod temporar și îl introduce
-       în pagina de confirmare.
-   </p>
-
-
+   <p>După înscriere, numărul de telefon asociat contului este confirmat prin WhatsApp.</p>
+   <p>Angajatorul primește un cod temporar și îl introduce în pagina de confirmare.</p>
    <div class="why">
-
-       <strong>
-           De ce este importantă confirmarea?
-       </strong>
-
-       <p>
-           Numărul de telefon reprezintă elementul prin care
-           angajatorul se poate conecta ulterior la cont și
-           poate primi comunicările platformei.
-       </p>
-
+       <strong>De ce este importantă confirmarea?</strong>
+       <p>Numărul de telefon reprezintă elementul prin care angajatorul se poate conecta ulterior la cont și poate primi comunicările platformei.</p>
    </div>
-
-
-   <p>
-       După confirmare, angajatorul poate intra în zona
-       proprie și poate continua configurarea contului.
-   </p>
-
-
+   <p>După confirmare, angajatorul poate intra în zona proprie și poate continua configurarea contului.</p>
 </section>
 
-
-<!-- 3 -->
-
-<section
-   class="section"
-   id="home"
->
-
+<section class="section" id="home">
    <div class="step">
-
-       <div class="number">
-           3
-       </div>
-
-       <h2>
-           Pagina Home
-       </h2>
-
+       <div class="number">3</div>
+       <h2>Pagina Home</h2>
    </div>
-
-
-   <p>
-       După conectare, angajatorul ajunge în pagina Home.
-       Aceasta este punctul central din care sunt accesate
-       principalele funcții ale contului.
-   </p>
-
-
+   <p>După conectare, angajatorul ajunge în pagina Home. Aceasta este punctul central din care sunt accesate principalele funcții ale contului.</p>
    <div class="flow">
-
        <div class="flow-item">
-
-           <strong>
-               Profil
-           </strong>
-
+           <strong>Profil</strong>
            Datele angajatorului și ale reprezentantului.
        </div>
-
-
        <div class="flow-item">
-
-           <strong>
-               Șabloane
-           </strong>
-
-           Activitățile generice definite de angajator.
+           <strong>Șabloane</strong>
+           Activitățile generice defined de angajator.
        </div>
-
-
        <div class="flow-item">
-
-           <strong>
-               Plasări
-           </strong>
-
+           <strong>Plasări</strong>
            Ofertele concrete lansate către zilieri.
        </div>
-
    </div>
-
-
    <div class="info">
-
-       <strong>
-           Important:
-       </strong>
-
-       Șablonul și oferta sunt două operațiuni diferite.
-       O ofertă nu se creează independent de un șablon existent.
-
+       <strong>Important:</strong> Șablonul și oferta sunt două operațiuni diferite. O ofertă nu se creează independent de un șablon existent.
    </div>
-
-
 </section>
 
-
-<!-- 4 -->
-
-<section
-   class="section"
-   id="profil"
->
-
+<section class="section" id="profil">
    <div class="step">
-
-       <div class="number">
-           4
-       </div>
-
-       <h2>
-           Profilul angajatorului
-       </h2>
-
+       <div class="number">4</div>
+       <h2>Profilul angajatorului</h2>
    </div>
-
-
-   <p>
-       Profilul centralizează informațiile despre
-       angajator care sunt păstrate în cont.
-   </p>
-
-
-   <p>
-       În funcție de tipul informației, aceasta poate fi
-       doar afișată sau poate putea fi actualizată.
-   </p>
-
-
-   <p>
-       Profilul este separat de șabloanele de job și de
-       ofertele lansate. Modificarea profilului nu creează
-       un nou șablon și nu modifică ofertele existente.
-   </p>
-
-
+   <p>Profilul centralizează informațiile despre angajator care sunt păstrate în cont.</p>
+   <p>În funcție de tipul informației, aceasta poate fi doar afișată sau poate putea fi actualizată.</p>
+   <p>Profilul este separat de șabloanele de job și de ofertele lansate. Modificarea profilului nu creează un nou șablon și nu modifică ofertele existente.</p>
 </section>
 
-
-<!-- 5 -->
-
-<section
-   class="section"
-   id="sablon"
->
-
+<section class="section" id="sablon">
    <div class="step">
-
-       <div class="number">
-           5
-       </div>
-
-       <h2>
-           Ce este un șablon de job
-       </h2>
-
+       <div class="number">5</div>
+       <h2>Ce este un șablon de job</h2>
    </div>
-
-
-   <p>
-       Un șablon de job este descrierea generică a unei
-       activități pe care angajatorul o poate solicita.
-   </p>
-
-
-   <p>
-       El nu reprezintă încă o ofertă concretă adresată
-       zilierilor. Șablonul descrie activitatea și parametrii
-       ei principali și poate fi folosit ulterior pentru
-       lansarea uneia sau mai multor oferte.
-   </p>
-
-
+   <p>Un șablon de job este descrierea generică a unei activități pe care angajatorul o poate solicita.</p>
+   <p>El nu reprezintă încă o ofertă concretă adresată zilierilor. Șablonul descrie activitatea și parametrii ei principali și poate fi folosit ulterior pentru lansarea uneia sau mai multor oferte.</p>
    <div class="why">
-
-       <strong>
-           De ce există șablonul?
-       </strong>
-
-       <p>
-           O activitate repetitivă nu trebuie descrisă de
-           fiecare dată de la zero. Șablonul păstrează
-           descrierea generică, iar oferta stabilește
-           necesitatea concretă.
-       </p>
-
+       <strong>De ce există șablonul?</strong>
+       <p>O activitate repetitivă nu trebuie descrisă de fiecare dată de la zero. Șablonul păstrează descrierea generică, iar oferta stabilește necesitatea concretă.</p>
    </div>
-
-
 </section>
 
-
-<!-- 6 -->
-
-<section
-   class="section"
-   id="activitate"
->
-
+<section class="section" id="activitate">
    <div class="step">
-
-       <div class="number">
-           6
-       </div>
-
-       <h2>
-           Alegerea activității
-       </h2>
-
+       <div class="number">6</div>
+       <h2>Alegerea activității</h2>
    </div>
-
-
-   <p>
-       Alegerea activității se face în două etape.
-       Mai întâi se alege grupa de activitate, iar apoi
-       din lista asociată grupei se alege activitatea
-       concretă.
-   </p>
-
-
-   <p>
-       În listă este afișată denumirea activității în clar.
-       Angajatorul nu trebuie să introducă manual codul
-       activității.
-   </p>
-
-
+   <p>Alegerea activității se face în două etape. Mai întâi se alege grupa de activitate, iar apoi din lista asociată grupei se alege activitatea concretă.</p>
+   <p>În listă este afișată denumirea activității în clar. Angajatorul nu trebuie să introducă manual codul activității.</p>
    <div class="info">
-
-       <strong>
-           Regula platformei:
-       </strong>
-
-       O ofertă poate fi lansată numai pentru activitățile
-       disponibile în nomenclatorul platformei pentru
-       activitatea de zilieri.
+       <strong>Regula platformei:</strong> O ofertă poate fi lansată numai pentru activitățile disponibile în nomenclatorul platformei pentru activitatea de zilieri.
    </div>
-
-
-   <p>
-       După alegerea activității concrete, aceasta devine
-       parte a șablonului și va fi preluată și în etapa
-       ulterioară de lansare a unei oferte.
-   </p>
-
-
+   <p>După alegerea activității concrete, aceasta devine parte a șablonului și va fi preluată și în etapa ulterioară de lansare a unei oferte.</p>
 </section>
 
-
-<!-- 7 -->
-
-<section
-   class="section"
-   id="parametri"
->
-
+<section class="section" id="parametri">
    <div class="step">
-
-       <div class="number">
-           7
-       </div>
-
-       <h2>
-           Completarea șablonului
-       </h2>
-
+       <div class="number">7</div>
+       <h2>Completarea șablonului</h2>
    </div>
-
-
-   <p>
-       După alegerea activității, angajatorul completează
-       parametrii care descriu activitatea.
-   </p>
-
-
+   <p>După alegerea activității, angajatorul completează parametrii care descriu activitatea.</p>
    <ul>
-
        <li><strong>Durata activității</strong></li>
-
        <li><strong>Plata netă</strong></li>
-
        <li><strong>Plata brută</strong></li>
-
        <li><strong>Gradul de efort fizic</strong></li>
-
        <li><strong>Județul și localitatea</strong></li>
-
        <li><strong>Locul desfășurării</strong></li>
-
        <li><strong>Timpul de transport</strong></li>
-
        <li><strong>Timpul de instruire</strong></li>
-
        <li><strong>Descrierea activității</strong></li>
-
        <li><strong>Beneficiile suplimentare</strong></li>
-
    </ul>
-
-
-   <p>
-       Pentru timpul de transport și timpul de instruire
-       se precizează dacă acestea sunt cuprinse în timpul
-       plătit.
-   </p>
-
-
+   <p>Pentru timpul de transport și timpul de instruire se precizează dacă acestea sunt cuprinse în timpul plătit.</p>
    <div class="why">
-
-       <strong>
-           De ce sunt importante aceste date?
-       </strong>
-
-       <p>
-           Ele permit prezentarea activității într-o formă
-           suficient de clară pentru ca zilierul să poată
-           înțelege ce presupune munca înainte de a răspunde
-           unei oferte.
-       </p>
-
+       <strong>De ce sunt importante aceste date?</strong>
+       <p>Ele permit prezentarea activității într-o formă suficient de clară pentru ca zilierul să poată înțelege ce presupune munca înainte de a răspunde unei oferte.</p>
    </div>
-
-
 </section>
 
-
-<!-- 8 -->
-
-<section
-   class="section"
-   id="model"
->
-
+<section class="section" id="model">
    <div class="step">
-
-       <div class="number">
-           8
-       </div>
-
-       <h2>
-           Folosește ca model
-       </h2>
-
+       <div class="number">8</div>
+       <h2>Folosește ca model</h2>
    </div>
-
-
-   <p>
-       În lista șabloanelor existente, un șablon poate fi
-       deschis pentru a fi folosit ca model.
-   </p>
-
-
-   <p>
-       Butonul
-       <strong>„Folosește ca model”</strong>
-       deschide formularul completat cu toate datele
-       existente ale șablonului ales.
-   </p>
-
-
-   <p>
-       Angajatorul poate modifica oricare dintre datele
-       care trebuie schimbate înainte de salvare.
-   </p>
-
-
+   <p>În lista șabloanelor existente, un șablon poate fi deschis pentru a fi folosit ca model.</p>
+   <p>Butonul <strong>„Folosește ca model”</strong> deschide formularul completat cu toate datele existente ale șablonului ales.</p>
+   <p>Angajatorul poate modifica oricare dintre datele care trebuie schimbate înainte de salvare.</p>
    <div class="info">
-
-       <strong>
-           Important:
-       </strong>
-
-       Folosirea unui șablon ca model nu modifică șablonul
-       original.
-
+       <strong>Important:</strong> Folosirea unui șablon ca model nu modifică șablonul original.
    </div>
-
-
 </section>
 
-
-<!-- 9 -->
-
-<section
-   class="section"
-   id="idnou"
->
-
+<section class="section" id="idnou">
    <div class="step">
-
-       <div class="number">
-           9
-       </div>
-
-       <h2>
-           Regula noului ID
-       </h2>
-
+       <div class="number">9</div>
+       <h2>Regula noului ID</h2>
    </div>
-
-
-   <p>
-       Un șablon existent nu este modificat și salvat peste
-       aceeași înregistrare atunci când angajatorul schimbă
-       datele lui.
-   </p>
-
-
-   <p>
-       Dacă datele sunt modificate și rezultatul este salvat,
-       sistemul creează un
-       <strong>șablon nou, cu un ID nou</strong>.
-   </p>
-
-
+   <p>Un șablon existent nu este modificat și salvat peste aceeași înregistrare atunci când angajatorul schimbă datele lui.</p>
+   <p>Dacă datele sunt modificate și rezultatul este salvat, sistemul creează un <strong>șablon nou, cu un ID nou</strong>.</p>
    <div class="why">
-
-       <strong>
-           De ce folosim această regulă?
-       </strong>
-
-       <p>
-           Astfel, șabloanele create anterior rămân
-           distincte și nu sunt modificate retroactiv prin
-           schimbarea parametrilor unui șablon existent.
-       </p>
-
+       <strong>De ce folosim această regulă?</strong>
+       <p>Astfel, șabloanele create anterior rămân distincte și nu sunt modificate retroactiv prin schimbarea parametrilor unui șablon existent.</p>
    </div>
-
-
    <div class="important">
-
-       <strong>
-           Regula simplă:
-       </strong>
-
-       Folosești un șablon ca model → modifici datele →
-       apeși „Salvare” → se creează un nou șablon și un
-       nou ID.
-
+       <strong>Regula simplă:</strong> Folosești un șablon ca model → modifici datele → apeși „Salvare” → se creează un nou șablon și un nou ID.
    </div>
-
-
 </section>
 
-
-<!-- 10 -->
-
-<section
-   class="section"
-   id="oferta"
->
-
+<section class="section" id="oferta">
    <div class="step">
-
-       <div class="number">
-           10
-       </div>
-
-       <h2>
-           Lansarea unei oferte de muncă
-       </h2>
-
+       <div class="number">10</div>
+       <h2>Lansarea unei oferte de muncă</h2>
    </div>
-
-
-   <p>
-       O ofertă de muncă se lansează întotdeauna pornind
-       de la un șablon existent.
-   </p>
-
-
-   <p>
-       În pagina de plasare sunt afișate informațiile
-       necesare pentru identificarea șablonului:
-   </p>
-
-
+   <p>O ofertă de muncă se lansează întotdeauna pornind de la un șablon existent.</p>
+   <p>În pagina de plasare sunt afișate informațiile necesare pentru identificarea șablonului:</p>
    <ul>
-
        <li><strong>ID-ul șablonului</strong></li>
-
        <li><strong>Activitatea</strong></li>
-
        <li><strong>Locul</strong></li>
-
        <li><strong>Denumirea</strong></li>
-
        <li><strong>Durata</strong></li>
-
    </ul>
-
-
-   <p>
-       Aceste informații sunt suficiente pentru alegerea
-       șablonului potrivit. Detaliile complete ale
-       activității rămân în șablon.
-   </p>
-
-
+   <p>Aceste informații sunt suficiente pentru alegerea șablonului potrivit. Detaliile complete ale activității rămân în șablon.</p>
 </section>
 
-
-<!-- 11 -->
-
-<section
-   class="section"
-   id="configurare"
->
-
+<section class="section" id="configurare">
    <div class="step">
-
-       <div class="number">
-           11
-       </div>
-
-       <h2>
-           Configurarea ofertei
-       </h2>
-
+       <div class="number">11</div>
+       <h2>Configurarea ofertei</h2>
    </div>
-
-
-   <p>
-       După alegerea șablonului, angajatorul configurează
-       necesitatea concretă de zilieri.
-   </p>
-
-
-   <p>
-       Pentru o plasare se stabilesc:
-   </p>
-
-
+   <p>După alegerea șablonului, angajatorul configurează necesitatea concretă de zilieri.</p>
+   <p>Pentru o plasare se stabilesc:</p>
    <ul>
-
        <li><strong>Data de început</strong></li>
-
        <li><strong>Data de sfârșit</strong></li>
-
        <li><strong>Numărul minim de zilieri</strong></li>
-
        <li><strong>Numărul dorit de zilieri</strong></li>
-
        <li><strong>Locul de prezentare</strong></li>
-
        <li><strong>Dacă transportul este asigurat</strong></li>
-
        <li><strong>Capacitatea transportului</strong></li>
-
    </ul>
-
-
    <div class="why">
-
-       <strong>
-           Șablonul nu este modificat
-       </strong>
-
-       <p>
-           Configurarea unei oferte stabilește nevoia
-           concretă a angajatorului pentru perioada
-           respectivă. Ea nu modifică șablonul de la care
-           a pornit oferta.
-       </p>
-
+       <strong>Șablonul nu este modificat</strong>
+       <p>Configurarea unei oferte stabilește nevoia concretă a angajatorului pentru perioada respectivă. Ea nu modifică șablonul de la care a pornit oferta.</p>
    </div>
-
-
 </section>
 
-
-<!-- 12 -->
-
-<section
-   class="section"
-   id="diferenta"
->
-
+<section class="section" id="diferenta">
    <div class="step">
-
-       <div class="number">
-           12
-       </div>
-
-       <h2>
-           Șablonul și oferta sunt lucruri diferite
-       </h2>
-
+       <div class="number">12</div>
+       <h2>Șablonul și oferta sunt lucruri diferite</h2>
    </div>
-
-
-   <p>
-       Șablonul este descrierea generică a unei activități.
-       El poate rămâne în cont și poate fi reutilizat.
-   </p>
-
-
-   <p>
-       Oferta este o nevoie concretă de muncă pentru o
-       anumită perioadă și pentru un anumit număr de zilieri.
-   </p>
-
-
+   <p>Șablonul este descrierea generică a unei activități. El poate rămâne în cont și poate fi reutilizat.</p>
+   <p>Oferta este o nevoie concretă de muncă pentru o anumită perioadă și pentru un anumit număr de zilieri.</p>
    <div class="flow">
-
        <div class="flow-item">
-
-           <strong>
-               Șablon
-           </strong>
-
+           <strong>Șablon</strong>
            Descrie activitatea generică.
-
        </div>
-
-
        <div class="flow-item">
-
-           <strong>
-               Plasare
-           </strong>
-
+           <strong>Plasare</strong>
            Stabilește perioada și necesarul.
-
        </div>
-
-
        <div class="flow-item">
-
-           <strong>
-               Ofertă
-           </strong>
-
+           <strong>Ofertă</strong>
            Este prezentată zilierilor.
-
        </div>
-
    </div>
-
-
    <div class="info">
-
-       <strong>
-           Exemplu:
-       </strong>
-
-       Același șablon poate fi folosit pentru mai multe
-       oferte distincte, în perioade diferite.
-
+       <strong>Exemplu:</strong> Același șablon poate fi folosit pentru mai multe oferte distincte, în perioade diferite.
    </div>
-
-
 </section>
 
-
-<!-- 13 -->
-
-<section
-   class="section"
-   id="agent"
->
-
+<section class="section" id="agent">
    <div class="step">
-
-       <div class="number">
-           13
-       </div>
-
-       <h2>
-           Asistența agentului
-       </h2>
-
+       <div class="number">13</div>
+       <h2>Asistența agentului</h2>
    </div>
-
-
-   <p>
-       În paginile platformei este disponibil un agent care
-       poate ajuta angajatorul în timpul completării.
-   </p>
-
-
-   <p>
-       Agentul poate explica termenii, poate indica
-       informațiile necesare și poate ajuta utilizatorul
-       să parcurgă pașii fără să părăsească pagina.
-   </p>
-
-
+   <p>În paginile platformei este disponibil un agent care poate ajuta angajatorul în timpul completării.</p>
+   <p>Agentul poate explica termenii, poate indica informațiile necesare și poate ajuta utilizatorul să parcurgă pașii fără să părăsească pagina.</p>
    <div class="why">
-
-       <strong>
-           Două zone distincte
-       </strong>
-
-       <p>
-           În paginile de lucru, informațiile și formularul
-           rămân în partea stângă, iar fereastra agentului
-           este rezervată în partea dreaptă.
-       </p>
-
+       <strong>Două zone distincte</strong>
+       <p>În paginile de lucru, informațiile și formularul rămân în partea stângă, iar fereastra agentului este rezervată în partea dreaptă.</p>
    </div>
-
-
 </section>
 
-
-<!-- 14 -->
-
-<section
-   class="section"
-   id="tarifare"
->
-
+<section class="section" id="tarifare">
    <div class="step">
-
-       <div class="number">
-           14
-       </div>
-
-       <h2>
-           Utilizarea platformei și tarifarea
-       </h2>
-
+       <div class="number">14</div>
+       <h2>Utilizarea platformei și tarifarea</h2>
    </div>
-
-
-   <p>
-       Angajatorul beneficiază inițial de o perioadă de
-       utilizare gratuită, destinată familiarizării cu
-       platforma și cu modul de lucru.
-   </p>
-
-
-   <p>
-       Ulterior, platforma va funcționa pe baza unui
-       abonament care permite plasarea oricărui număr de
-       joburi.
-   </p>
-
-
-   <p>
-       Pentru fiecare recrutare finalizată se va aplica
-       tariful corespunzător serviciului de recrutare.
-   </p>
-
-
+   <p>Angajatorul beneficiază inițial de o perioadă de utilizare gratuită, destinată familiarizării cu platforma și cu modul de lucru.</p>
+   <p>Ulterior, platforma va funcționa pe baza unui abonament care permite plasarea oricărui număr de joburi.</p>
+   <p>Pentru fiecare recrutare finalizată se va aplica tariful corespunzător serviciului de recrutare.</p>
    <div class="info">
-
-       <strong>
-           Condițiile comerciale complete
-       </strong>
-
-       vor fi prezentate separat și vor putea fi consultate
-       înainte de trecerea la utilizarea plătită.
-
+       <strong>Condițiile comerciale complete</strong> vor fi prezentate separat și vor putea fi consultate înainte de trecerea la utilizarea plătită.
    </div>
-
-
 </section>
 
-
-<!-- 15 -->
-
-<section
-   class="section"
-   id="selectie"
->
-
+<section class="section" id="selectie">
    <div class="step">
-
-       <div class="number">
-           15
-       </div>
-
-       <h2>
-           Selecția zilierilor
-       </h2>
-
+       <div class="number">15</div>
+       <h2>Selecția zilierilor</h2>
    </div>
-
-
-   <p>
-       După lansarea unei oferte, angajatorul poate primi
-       un mesaj WhatsApp cu un link către pagina de selecție.
-   </p>
-
-
-   <p>
-       În această pagină sunt afișate persoanele care au
-       confirmat disponibilitatea și cerințele stabilite
-       pentru oferta respectivă.
-   </p>
-
-
-   <p>
-       Lista este asociată ofertei de muncă și conține
-       informațiile necesare pentru alegerea zilierilor:
-   </p>
-
-
+   <p>După lansarea unei oferte, angajatorul poate primi un mesaj WhatsApp cu un link către pagina de selecție.</p>
+   <p>În această pagină sunt afișate persoanele care au confirmat disponibilitatea și cerințele stabilite pentru oferta respectivă.</p>
+   <p>Lista este asociată ofertei de muncă și conține informațiile necesare pentru alegerea zilierilor:</p>
    <ul>
-
-       <li>
-           <strong>Numele</strong>
-       </li>
-
-       <li>
-           <strong>Domiciliul</strong>
-       </li>
-
-       <li>
-           <strong>Vârsta</strong>
-       </li>
-
+       <li><strong>Numele</strong></li>
+       <li><strong>Domiciliul</strong></li>
+       <li><strong>Vârsta</strong></li>
    </ul>
-
-
-   <p>
-       Dacă este cazul, în listă sunt indicate și
-       apartenența la o echipă sau prezența unui minor
-       împreună cu adultul responsabil.
-   </p>
-
-
+   <p>Dacă este cazul, în listă sunt indicate și apartenența la o echipă sau prezența unui minor împreună cu adultul responsabil.</p>
    <div class="info">
-
-       <strong>
-           Selecția este individuală.
-       </strong>
-
-       Chiar dacă mai mulți zilieri sunt prezentați ca
-       echipă, fiecare persoană poate fi selectată separat.
-
+       <strong>Selecția este individuală.</strong> Chiar dacă mai mulți zilieri sunt prezentați ca echipă, fiecare persoană poate fi selectată separat.
    </div>
-
-
-   <p>
-       Pentru un minor este afișat întotdeauna și adultul
-       responsabil care îl însoțește. Adultul responsabil
-       este, la rândul său, zilier.
-   </p>
-
-
-   <p>
-       Angajatorul bifează persoanele pe care dorește să le
-       selecteze și transmite alegerea prin butonul
-       <strong>„Trimite selecția”</strong>.
-   </p>
-
-
+   <p>Pentru un minor este afișat întotdeauna și adultul responsabil care îl însoțește. Adultul responsabil este, la rândul său, zilier.</p>
+   <p>Angajatorul bifează persoanele pe care dorește să le selecteze și transmite alegerea prin butonul <strong>„Trimite selecția”</strong>.</p>
    <div class="why">
-
-       <strong>
-           Accesarea paginii
-       </strong>
-
-       <p>
-           Pagina de selecție nu face parte din navigarea
-           obișnuită a contului. Ea este accesată prin linkul
-           primit de angajator în mesajul WhatsApp.
-       </p>
-
+       <strong>Accesarea paginii</strong>
+       <p>Pagina de selecție nu face parte din navigarea obișnuită a contului. Ea este accesată prin linkul primit de angajator în mesajul WhatsApp.</p>
    </div>
-
-
 </section>
-
 
 </main>
-
 </div>
 
-
-<!-- =========================
-    FOOTER
-    ========================= -->
-
+<!-- FOOTER -->
 <footer>
-
-   STRICT<span style="color:#d9873d;">
-       ZILIER
-   </span>.ro
-
+   STRICT<span style="color:#f59e0b;">ZILIER</span>.ro
 </footer>
-
 
 </body>
 </html>
- 
