@@ -388,7 +388,7 @@
       if (!sessionData) {
         const demoSession = {
           role: 'zilier',
-          id: 'Z000001',
+          id: 'Z100001',
           nume: 'Ion Popescu',
           startOfWeek: getStartOfWeekISO().toISOString().split('T')[0]
         };
@@ -455,20 +455,25 @@
       updateCalendarStatus(savedDays.length);
     }
 
-    document.getElementById("days").addEventListener("change", async function(e) {
-      if (e.target.type !== "checkbox") return;
+    document.getElementById("days").addEventListener("click", async function(e) {
+      const label = e.target.closest("label");
+      if (!label) return;
 
-      const checkbox = e.target;
-      const dayLabel = checkbox.closest("label");
+      const checkbox = label.querySelector('input[type="checkbox"]');
+      if (!checkbox) return;
+
+      if (e.target !== checkbox) {
+        checkbox.checked = !checkbox.checked;
+      }
 
       if (checkbox.checked) {
-        dayLabel.className = "flex flex-col items-center justify-between p-2.5 sm:p-3 border rounded-xl text-center cursor-pointer transition select-none bg-amber-50 border-amber-500 text-amber-900 font-bold";
-        dayLabel.querySelector("div").className = "w-5 h-5 mt-2 rounded-md border flex items-center justify-center text-xs bg-amber-500 border-amber-500 text-white";
-        dayLabel.querySelector("div").textContent = "✓";
+        label.className = "flex flex-col items-center justify-between p-2.5 sm:p-3 border rounded-xl text-center cursor-pointer transition select-none bg-amber-50 border-amber-500 text-amber-900 font-bold";
+        label.querySelector("div").className = "w-5 h-5 mt-2 rounded-md border flex items-center justify-center text-xs bg-amber-500 border-amber-500 text-white";
+        label.querySelector("div").textContent = "✓";
       } else {
-        dayLabel.className = "flex flex-col items-center justify-between p-2.5 sm:p-3 border rounded-xl text-center cursor-pointer transition select-none bg-white border-slate-200 text-slate-700 hover:border-amber-300";
-        dayLabel.querySelector("div").className = "w-5 h-5 mt-2 rounded-md border flex items-center justify-center text-xs border-slate-300 bg-white";
-        dayLabel.querySelector("div").textContent = "";
+        label.className = "flex flex-col items-center justify-between p-2.5 sm:p-3 border rounded-xl text-center cursor-pointer transition select-none bg-white border-slate-200 text-slate-700 hover:border-amber-300";
+        label.querySelector("div").className = "w-5 h-5 mt-2 rounded-md border flex items-center justify-center text-xs border-slate-300 bg-white";
+        label.querySelector("div").textContent = "";
       }
 
       const selectedIndices = [...document.querySelectorAll("#days input:checked")].map(i => Number(i.dataset.day));
