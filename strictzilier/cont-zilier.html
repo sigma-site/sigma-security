@@ -530,27 +530,37 @@
           if (res.ok) {
             const data = await res.json();
             if (data) {
-              if (data.nume) {
-                document.getElementById("user-welcome").textContent = `Bun venit, ${data.nume}!`;
+              // Nume & Progres
+              const numeComplet = data.Nume ? `${data.Nume} ${data.Prenume || ''}`.trim() : data.nume;
+              if (numeComplet) {
+                document.getElementById("user-welcome").textContent = `Bun venit, ${numeComplet}!`;
               }
-              if (data.procent_completare) {
-                document.getElementById("progress-percent").textContent = `${data.procent_completare}%`;
-                document.getElementById("progress-bar").style.width = `${data.procent_completare}%`;
-              }
-              document.getElementById("judetValue").textContent = data.judet || "-";
-              document.getElementById("localitateValue").textContent = data.localitate || "-";
-              document.getElementById("judet").value = data.judet || "Bacău";
-              document.getElementById("localitate").value = data.localitate || "";
+              const pct = data.Procent_completare_cont || data.procent_completare || "0";
+              document.getElementById("progress-percent").textContent = `${pct}%`;
+              document.getElementById("progress-bar").style.width = `${pct}%`;
 
-              const codGrup = data.cod_grup_activitate || "GA005";
-              const numeGrup = NUME_GRUPE[codGrup] || data.denumire_grup_activitate || "-";
-              const actPref = data.activitate_preferata || "Toate activitățile din grupa aleasă";
+              // Județ și Localitate (Căutare după denumirea exactă din coloanele Google Sheets)
+              const judetReal = data.Judet || data.judet || "-";
+              const localitateReal = data.Localitate_domiciliu || data.localitate || "-";
+
+              document.getElementById("judetValue").textContent = judetReal;
+              document.getElementById("localitateValue").textContent = localitateReal;
+              
+              if (judetReal !== "-") document.getElementById("judet").value = judetReal;
+              if (localitateReal !== "-") document.getElementById("localitate").value = localitateReal;
+
+              // Grup Activitate și Activitate Preferată
+              const codGrup = data.Cod_grup_activitate || data.cod_grup_activitate || "GA001";
+              const numeGrup = data.Denumire_grup_activitate || data.denumire_grup_activitate || NUME_GRUPE[codGrup] || "-";
+              
+              let rawAct = data.Activitate_preferata || data.activitate_preferata || "ALL";
+              let displayAct = (rawAct === "ALL" || !rawAct) ? "Toate activitățile din grupa aleasă" : rawAct;
 
               document.getElementById("grupActivitateValue").textContent = numeGrup;
-              document.getElementById("activitatePreferataValue").textContent = actPref;
+              document.getElementById("activitatePreferataValue").textContent = displayAct;
 
               document.getElementById("grupActivitate").value = codGrup;
-              updateActivitiesDropdown(codGrup, actPref);
+              updateActivitiesDropdown(codGrup, rawAct);
             }
           }
         } else {
@@ -559,11 +569,11 @@
           document.getElementById("progress-bar").style.width = "64%";
           document.getElementById("judetValue").textContent = "Bacău";
           document.getElementById("localitateValue").textContent = "Bacău";
-          document.getElementById("grupActivitateValue").textContent = "Alimentație, ospitalitate și cazare";
-          document.getElementById("activitatePreferataValue").textContent = "Catering pentru evenimente";
+          document.getElementById("grupActivitateValue").textContent = "Agricultură, horticultură și comerț agricol";
+          document.getElementById("activitatePreferataValue").textContent = "Toate activitățile din grupa aleasă";
           
-          document.getElementById("grupActivitate").value = "GA005";
-          updateActivitiesDropdown("GA005", "Catering pentru evenimente");
+          document.getElementById("grupActivitate").value = "GA001";
+          updateActivitiesDropdown("GA001", "ALL");
         }
       } catch (err) {
         console.error("Eroare la încărcarea datelor din bază:", err);
@@ -579,9 +589,11 @@
       
       lista.forEach(act => {
         const opt = document.createElement("option");
-        opt.value = act;
+        const val = (act === "Toate activitățile din grupa aleasă") ? "ALL" : act;
+        opt.value = val;
         opt.textContent = act;
-        if (selectedAct && act === selectedAct) {
+        
+        if (selectedAct && (val === selectedAct || act === selectedAct)) {
           opt.selected = true;
         }
         actSelect.appendChild(opt);
@@ -724,7 +736,7 @@
       document.getElementById("judetValue").textContent = judetVal;
       document.getElementById("localitateValue").textContent = localitateVal;
       document.getElementById("grupActivitateValue").textContent = numeGrupVal;
-      document.getElementById("activitatePreferataValue").textContent = activitatePreferataVal;
+      document.getElementById("activitatePreferataValue").textContent = activitatePreferataVal === "ALL" ? "Toate activitățile din grupa aleasă" : activitatePreferataVal;
 
       editArea.classList.add("hidden");
       editButton.classList.remove("hidden");
