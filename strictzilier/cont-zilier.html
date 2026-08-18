@@ -56,7 +56,7 @@
               <p class="text-xs font-semibold text-slate-400 mt-0.5">Săptămâna curentă</p>
             </div>
             <div id="user-welcome" class="text-sm font-bold text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-100">
-              Bun venit, Ion Popescu!
+              Se încarcă profilul...
             </div>
           </div>
 
@@ -64,10 +64,10 @@
           <div class="my-6">
             <div class="flex justify-between items-center mb-2 text-xs font-bold text-slate-700">
               <span>Completarea contului</span>
-              <span id="progress-percent">64%</span>
+              <span id="progress-percent">0%</span>
             </div>
             <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
-              <div id="progress-bar" class="h-full bg-amber-500 rounded-full transition-all duration-500" style="width: 64%;"></div>
+              <div id="progress-bar" class="h-full bg-amber-500 rounded-full transition-all duration-500" style="width: 0%;"></div>
             </div>
           </div>
 
@@ -85,30 +85,30 @@
             <div id="calendarStatus" class="min-h-[20px] mt-3 text-xs font-semibold text-slate-500"></div>
           </div>
 
-          <!-- SECTIUNE PREFERINȚE (ZONĂ ȘI ACTIVITĂȚI) -->
+          <!-- SECTIUNE PREFERINȚE (ZONĂ ȘI ACTIVITĂȚI DIN BAZĂ) -->
           <div class="pt-6 mt-6 border-t border-slate-100">
             <h2 class="text-base font-bold text-slate-900 mb-1">Preferințele mele</h2>
             <p class="text-xs text-slate-500 mb-4">
-              Aceste informații îl ajută pe Agent să găsească activități potrivite pentru tine. Le poți modifica oricând.
+              Aceste informații sunt preluate din contul tău și ajută Agentul să-ți găsească de lucru. Le poți modifica oricând.
             </p>
 
-            <!-- AFIȘARE VALORI EXISTENTE -->
+            <!-- AFIȘARE VALORI DIN BAZĂ -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                 <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Județ</span>
-                <span id="judetValue" class="block text-xs font-bold text-slate-800">Bacău</span>
+                <span id="judetValue" class="block text-xs font-bold text-slate-800">Se încarcă...</span>
               </div>
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                 <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Localitate</span>
-                <span id="localitateValue" class="block text-xs font-bold text-slate-800">Bacău</span>
+                <span id="localitateValue" class="block text-xs font-bold text-slate-800">Se încarcă...</span>
               </div>
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                 <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Grup Activitate</span>
-                <span id="grupActivitateValue" class="block text-xs font-bold text-slate-800">HORECA</span>
+                <span id="grupActivitateValue" class="block text-xs font-bold text-slate-800">Se încarcă...</span>
               </div>
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                 <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Activitate Preferată</span>
-                <span id="activitatePreferataValue" class="block text-xs font-bold text-slate-800">Catering pentru evenimente</span>
+                <span id="activitatePreferataValue" class="block text-xs font-bold text-slate-800">Se încarcă...</span>
               </div>
             </div>
 
@@ -116,7 +116,7 @@
               Editează preferințele
             </button>
 
-            <!-- EDITARE PREFERINȚE (FORMULAR DEBLOCAT) -->
+            <!-- FORMULAR EDITARE PREFERINȚE -->
             <div id="editArea" class="hidden mt-4 p-4 bg-slate-100/70 rounded-xl border border-slate-200 space-y-3">
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
@@ -126,11 +126,15 @@
                     <option value="Neamț">Neamț</option>
                     <option value="Iași">Iași</option>
                     <option value="Vrancea">Vrancea</option>
+                    <option value="Vaslui">Vaslui</option>
+                    <option value="Botoșani">Botoșani</option>
+                    <option value="Suceava">Suceava</option>
+                    <option value="Galați">Galați</option>
                   </select>
                 </div>
                 <div>
                   <label for="localitate" class="block text-xs font-bold text-slate-700 mb-1">Localitate</label>
-                  <input type="text" id="localitate" value="Bacău" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Introdu localitatea...">
+                  <input type="text" id="localitate" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Introdu localitatea...">
                 </div>
               </div>
 
@@ -138,20 +142,20 @@
                 <div>
                   <label for="grupActivitate" class="block text-xs font-bold text-slate-700 mb-1">Grup Activitate</label>
                   <select id="grupActivitate" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="HORECA">HORECA</option>
-                    <option value="Agricultură">Agricultură</option>
-                    <option value="Spații Verzi">Spații Verzi</option>
-                    <option value="Evenimente">Evenimente</option>
+                    <option value="GA001">GA001 - Agricultură, horticultură și comerț agricol</option>
+                    <option value="GA002">GA002 - Silvicultură, pescuit și creșterea animalelor</option>
+                    <option value="GA003">GA003 - Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                    <option value="GA004">GA004 - Natură, biodiversitate și agrement în aer liber</option>
+                    <option value="GA005">GA005 - Alimentație, ospitalitate și cazare</option>
+                    <option value="GA006">GA006 - Evenimente, spectacole și comunicare</option>
+                    <option value="GA007">GA007 - Sport și agrement</option>
+                    <option value="GA008">GA008 - Cercetare și studii de piață</option>
                   </select>
                 </div>
                 <div>
                   <label for="activitatePreferata" class="block text-xs font-bold text-slate-700 mb-1">Activitate Preferată</label>
                   <select id="activitatePreferata" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="Catering pentru evenimente">Catering pentru evenimente</option>
-                    <option value="Agricultură și activități agricole">Agricultură și activități agricole</option>
-                    <option value="Întreținerea spațiilor verzi">Întreținerea spațiilor verzi</option>
-                    <option value="Restaurante">Restaurante</option>
-                    <option value="Organizarea de târguri și expoziții">Organizarea de târguri și expoziții</option>
+                    <!-- Se populează dinamic în funcție de grupul ales -->
                   </select>
                 </div>
               </div>
@@ -400,10 +404,87 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ BAZĂ DE DATE & WEBHOOKS -->
+  <!-- SCRIPT LOGICĂ BAZĂ DE DATE, ACTIVITĂȚI & WEBHOOKS -->
   <script>
+    // WEBHOOKS MAKE.COM
+    const WEBHOOK_INCARCA_PROFIL = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_INCARCA_PROFIL";
     const WEBHOOK_SALVEAZA_DISPONIBILITATE = "https://hook.eu1.make.com/g1jq2tkvpsnf068dxms8wub92rvsl4pp";
     const WEBHOOK_SALVEAZA_PREFERINTE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_PREFERINTE";
+
+    // NOMENCLATOR ACTIVITĂȚI PE GRUPE (EXACT DIN BAZA DE DATE)
+    const ACTIVITATI_PE_GRUPE = {
+      "GA001": [
+        "Toate activitățile din grupa aleasă",
+        "Agricultură, vânătoare și servicii anexe",
+        "Creșterea materialului săditor",
+        "Creșterea plantelor ornamentale",
+        "Gazon pentru transplantare",
+        "Operațiuni de îngrijire și curățare a pomilor",
+        "Activități ale pepinierelor (cu excepția pepinierelor forestiere)",
+        "Comerţ cu ridicata al produselor agricole brute şi al animalelor vii"
+      ],
+      "GA002": [
+        "Toate activitățile din grupa aleasă",
+        "Silvicultură, cu excepția exploatărilor forestiere",
+        "Pescuit și acvacultură",
+        "Creșterea și reproducția animalelor semidomesticite și a altor animale"
+      ],
+      "GA003": [
+        "Toate activitățile din grupa aleasă",
+        "Activități de întreținere peisagistică cu excepția facilității de locuit particulare",
+        "Plantarea, îngrijirea și întreținerea de parcuri și grădini",
+        "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale",
+        "Colectarea, tratarea şi eliminarea deşeurilor nepericuloase",
+        "Recuperarea materialelor"
+      ],
+      "GA004": [
+        "Toate activitățile din grupa aleasă",
+        "Activități ale grădinilor zoologice",
+        "Activități ale grădinilor botanice",
+        "Activități ale rezervațiilor naturale"
+      ],
+      "GA005": [
+        "Toate activitățile din grupa aleasă",
+        "Activități de alimentație (catering) pentru evenimente",
+        "Restaurante",
+        "Baruri și alte activități de servire a băuturilor",
+        "Hoteluri și alte facilități de cazare",
+        "Tabere de copii organizate de Ministerul Tineretului și Sportului",
+        "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"
+      ],
+      "GA006": [
+        "Toate activitățile din grupa aleasă",
+        "Activități de organizare a expozițiilor, târgurilor și congreselor",
+        "Publicitate",
+        "Activități de interpretare artistică – spectacole",
+        "Activități-suport pentru interpretarea artistică – spectacole",
+        "Activități de gestionare a sălilor de spectacole"
+      ],
+      "GA007": [
+        "Toate activitățile din grupa aleasă",
+        "Activități ale bazelor sportive",
+        "Activități ale cluburilor sportive"
+      ],
+      "GA008": [
+        "Toate activitățile din grupa aleasă",
+        "Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)",
+        "Activități de studiere a pieței",
+        "Activități de sondare a opiniei publice",
+        "Activităţi de cercetare-dezvoltare în biotehnologie",
+        "Activităţi de cercetare-dezvoltare în alte ştiinţe naturale şi inginerie"
+      ]
+    };
+
+    const NUME_GRUPE = {
+      "GA001": "Agricultură, horticultură și comerț agricol",
+      "GA002": "Silvicultură, pescuit și creșterea animalelor",
+      "GA003": "Peisagistică, spații verzi și gestionarea deșeurilor",
+      "GA004": "Natură, biodiversitate și agrement în aer liber",
+      "GA005": "Alimentație, ospitalitate și cazare",
+      "GA006": "Evenimente, spectacole și comunicare",
+      "GA007": "Sport și agrement",
+      "GA008": "Cercetare și studii de piață"
+    };
 
     let currentUserSession = null;
 
@@ -423,16 +504,97 @@
 
       try {
         currentUserSession = JSON.parse(sessionData);
-        if (currentUserSession.nume) {
-          document.getElementById("user-welcome").textContent = `Bun venit, ${currentUserSession.nume}!`;
-        }
       } catch (e) {
         console.error("Eroare la citirea sesiunii:", e);
       }
 
       initCalendar();
+      loadUserProfileFromDatabase();
     });
 
+    // 1. ÎNCĂRCAREA AUTOMATĂ A PROFILEI DIN BAZA DE DATE VIA MAKE
+    async function loadUserProfileFromDatabase() {
+      if (!currentUserSession || !currentUserSession.id) return;
+
+      try {
+        if (!WEBHOOK_INCARCA_PROFIL.includes("SOT_AICI")) {
+          const res = await fetch(WEBHOOK_INCARCA_PROFIL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ID_zilier: currentUserSession.id })
+          });
+          const data = await res.json();
+
+          if (data) {
+            // Nume și Welcome
+            if (data.nume) {
+              document.getElementById("user-welcome").textContent = `Bun venit, ${data.nume}!`;
+            }
+
+            // Progres cont
+            if (data.procent_completare) {
+              document.getElementById("progress-percent").textContent = `${data.procent_completare}%`;
+              document.getElementById("progress-bar").style.width = `${data.procent_completare}%`;
+            }
+
+            // Județ și Localitate
+            document.getElementById("judetValue").textContent = data.judet || "Bacău";
+            document.getElementById("localitateValue").textContent = data.localitate || "Bacău";
+            document.getElementById("judet").value = data.judet || "Bacău";
+            document.getElementById("localitate").value = data.localitate || "Bacău";
+
+            // Grup Activitate și Activitate Preferată
+            const codGrup = data.cod_grup_activitate || "GA005";
+            const numeGrup = NUME_GRUPE[codGrup] || data.denumire_grup_activitate || "Alimentație, ospitalitate și cazare";
+            const actPref = data.activitate_preferata || "Toate activitățile din grupa aleasă";
+
+            document.getElementById("grupActivitateValue").textContent = numeGrup;
+            document.getElementById("activitatePreferataValue").textContent = actPref;
+
+            document.getElementById("grupActivitate").value = codGrup;
+            updateActivitiesDropdown(codGrup, actPref);
+          }
+        } else {
+          // Fallback date locale de prezentare
+          document.getElementById("user-welcome").textContent = `Bun venit, ${currentUserSession.nume || "Ion Popescu"}!`;
+          document.getElementById("progress-percent").textContent = "64%";
+          document.getElementById("progress-bar").style.width = "64%";
+          document.getElementById("judetValue").textContent = "Bacău";
+          document.getElementById("localitateValue").textContent = "Bacău";
+          document.getElementById("grupActivitateValue").textContent = "Alimentație, ospitalitate și cazare";
+          document.getElementById("activitatePreferataValue").textContent = "Catering pentru evenimente";
+          
+          document.getElementById("grupActivitate").value = "GA005";
+          updateActivitiesDropdown("GA005", "Catering pentru evenimente");
+        }
+      } catch (err) {
+        console.error("Eroare la încărcarea datelor din bază:", err);
+      }
+    }
+
+    // 2. ACTUALIZARE DINAMICĂ A LISTEI DE ACTIVITĂȚI PREFERATE
+    function updateActivitiesDropdown(codGrup, selectedAct = null) {
+      const actSelect = document.getElementById("activitatePreferata");
+      actSelect.innerHTML = "";
+
+      const lista = ACTIVITATI_PE_GRUPE[codGrup] || ["Toate activitățile din grupa aleasă"];
+      
+      lista.forEach(act => {
+        const opt = document.createElement("option");
+        opt.value = act;
+        opt.textContent = act;
+        if (selectedAct && act === selectedAct) {
+          opt.selected = true;
+        }
+        actSelect.appendChild(opt);
+      });
+    }
+
+    document.getElementById("grupActivitate").addEventListener("change", (e) => {
+      updateActivitiesDropdown(e.target.value);
+    });
+
+    // 3. LOGICĂ CALENDAR DISPONIBILITATE
     function getStartOfWeekISO(d = new Date()) {
       const date = new Date(d);
       const day = date.getDay();
@@ -538,6 +700,7 @@
       status.textContent = `Ai selectat ${count} ${count === 1 ? "zi disponibilă" : "zile disponibile"} în această săptămână.`;
     }
 
+    // 4. LOGICĂ EDITARE ȘI SALVARE PREFERINȚE
     const editButton = document.getElementById("editPreferences");
     const editArea = document.getElementById("editArea");
     const cancelButton = document.getElementById("cancelPreferences");
@@ -556,12 +719,13 @@
     saveButton.addEventListener("click", async () => {
       const judetVal = document.getElementById("judet").value;
       const localitateVal = document.getElementById("localitate").value;
-      const grupActivitateVal = document.getElementById("grupActivitate").value;
+      const codGrupVal = document.getElementById("grupActivitate").value;
+      const numeGrupVal = NUME_GRUPE[codGrupVal] || codGrupVal;
       const activitatePreferataVal = document.getElementById("activitatePreferata").value;
 
       document.getElementById("judetValue").textContent = judetVal;
       document.getElementById("localitateValue").textContent = localitateVal;
-      document.getElementById("grupActivitateValue").textContent = grupActivitateVal;
+      document.getElementById("grupActivitateValue").textContent = numeGrupVal;
       document.getElementById("activitatePreferataValue").textContent = activitatePreferataVal;
 
       editArea.classList.add("hidden");
@@ -570,8 +734,9 @@
       const preferencesPayload = {
         ID_zilier: currentUserSession ? currentUserSession.id : null,
         Judet: judetVal,
-        Localitate: localitateVal,
-        Denumire_grup_activitate: grupActivitateVal,
+        Localitate_domiciliu: localitateVal,
+        Cod_grup_activitate: codGrupVal,
+        Denumire_grup_activitate: numeGrupVal,
         Activitate_preferata: activitatePreferataVal
       };
 
