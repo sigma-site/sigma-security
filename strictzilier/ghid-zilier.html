@@ -1,1733 +1,639 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Ghid Zilier — STRICTZILIER.ro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
-
 * {
     box-sizing: border-box;
 }
 
 :root {
-    --dark: #173b3a;
-    --dark-2: #245553;
+    --blue-dark: #0f172a;
+    --blue-primary: #1e3a8a;
+    --blue-light: #eff6ff;
+    --blue-border: #bfdbfe;
 
-    --orange: #d9873d;
-    --orange-light: #fff2e5;
+    --amber: #f59e0b;
+    --amber-hover: #d97706;
+    --amber-light: #fffbeb;
 
-    --cream: #f5f7f5;
+    --cream: #f8fafc;
     --white: #ffffff;
 
-    --text: #263533;
-    --muted: #71807d;
-    --border: #dce5e2;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
 
-    --green-light: #e9f4f0;
-
-    --shadow: 0 10px 30px rgba(23,59,58,.07);
+    --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
 }
 
 body {
     margin: 0;
-
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
     background: var(--cream);
     color: var(--text);
-
     line-height: 1.6;
 }
 
-
-/* =========================
-   HEADER
-   ========================= */
-
+/* HEADER */
 header {
     background: white;
-
     border-bottom: 1px solid var(--border);
-
-    padding: 17px 5vw;
-
+    padding: 14px 5vw;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 20px;
-
     position: sticky;
     top: 0;
-
     z-index: 10;
 }
 
 .logo {
-    color: var(--dark);
-
-    font-size: 24px;
-    font-weight: 800;
-
-    letter-spacing: 1.4px;
-
+    color: var(--blue-primary);
+    font-size: 22px;
+    font-weight: 900;
+    letter-spacing: -0.5px;
     white-space: nowrap;
 }
 
 .logo span {
-    color: var(--orange);
+    color: var(--amber);
 }
 
 .back {
-    color: var(--dark);
-
+    color: var(--muted);
     text-decoration: none;
-
     font-size: 13px;
     font-weight: 700;
-
     border: 1px solid var(--border);
-
-    padding: 8px 14px;
-
+    padding: 7px 14px;
     border-radius: 8px;
-
     background: white;
+    transition: all 0.2s;
 }
 
 .back:hover {
-    border-color: var(--orange);
-    color: var(--orange);
+    border-color: var(--blue-primary);
+    color: var(--blue-primary);
+    background: var(--blue-light);
 }
 
-
-/* =========================
-   INTRO
-   ========================= */
-
+/* HERO (Banda Îngustă) */
 .hero {
-    background: var(--dark);
-
+    background: linear-gradient(180deg, #0f172a 0%, #1e3a8a 100%);
     color: white;
-
-    padding: 55px 25px 50px;
-
+    padding: 24px 20px 22px; /* Îngustat conform cerinței */
     text-align: center;
 }
 
 .hero-inner {
     max-width: 850px;
-
     margin: auto;
 }
 
 .hero .label {
     display: inline-block;
-
-    padding: 6px 13px;
-
-    margin-bottom: 14px;
-
-    border-radius: 30px;
-
-    background: rgba(255,255,255,.10);
-
-    color: #d8ebe5;
-
-    font-size: 12px;
-    font-weight: 700;
-
+    padding: 3px 10px;
+    margin-bottom: 8px;
+    border-radius: 20px;
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+    color: #93c5fd;
+    font-size: 11px;
+    font-weight: 800;
     letter-spacing: .8px;
+    text-transform: uppercase;
 }
 
 .hero h1 {
-    margin: 0 0 14px;
-
-    font-size: clamp(30px, 5vw, 46px);
-
-    line-height: 1.15;
+    margin: 0 0 6px;
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 800;
+    line-height: 1.2;
 }
 
 .hero p {
     margin: 0 auto;
-
     max-width: 680px;
-
-    color: #c9d8d5;
-
-    font-size: 17px;
+    color: #cbd5e1;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
-
-/* =========================
-   LAYOUT
-   ========================= */
-
+/* LAYOUT */
 .layout {
     max-width: 1120px;
-
     margin: auto;
-
-    padding: 38px 25px 60px;
-
+    padding: 28px 20px 60px;
     display: grid;
-
-    grid-template-columns: 245px 1fr;
-
-    gap: 35px;
-
+    grid-template-columns: 260px 1fr;
+    gap: 30px;
     align-items: start;
 }
 
-
-/* =========================
-   NAVIGATION
-   ========================= */
-
+/* CUPRINS (FEREASTRĂ DERULANTĂ) */
 .toc {
     position: sticky;
-    top: 105px;
-
+    top: 85px;
     background: white;
-
     border: 1px solid var(--border);
-
-    border-radius: 15px;
-
-    padding: 20px;
-
+    border-radius: 14px;
+    padding: 16px;
     box-shadow: var(--shadow);
+    max-height: 420px; /* Limitare înălțime pentru derulare */
+    overflow-y: auto;  /* Fereastră derulantă */
+}
+
+/* Stilizare Scrollbar fin */
+.toc::-webkit-scrollbar {
+    width: 5px;
+}
+.toc::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
 }
 
 .toc-title {
-    color: var(--dark);
-
-    font-size: 12px;
+    color: var(--blue-primary);
+    font-size: 11px;
     font-weight: 800;
-
     text-transform: uppercase;
-
     letter-spacing: .7px;
-
-    margin-bottom: 12px;
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-b: 1px solid var(--border);
 }
 
 .toc a {
     display: block;
-
-    padding: 7px 0;
-
+    padding: 6px 4px;
     color: var(--muted);
-
     text-decoration: none;
-
-    font-size: 13px;
-
+    font-size: 12px;
+    font-weight: 600;
     line-height: 1.35;
+    border-radius: 6px;
+    transition: all 0.15s;
 }
 
 .toc a:hover {
-    color: var(--orange);
+    color: var(--blue-primary);
+    background: var(--blue-light);
+    padding-left: 8px;
 }
 
-
-/* =========================
-   CONTENT
-   ========================= */
-
+/* CONTENT */
 .content {
     min-width: 0;
 }
 
 .section {
     background: white;
-
     border: 1px solid var(--border);
-
-    border-radius: 17px;
-
-    padding: 30px 32px;
-
+    border-radius: 16px;
+    padding: 26px 28px;
     margin-bottom: 20px;
-
     box-shadow: var(--shadow);
-
-    scroll-margin-top: 105px;
+    scroll-margin-top: 85px;
 }
 
 .step {
     display: flex;
-
-    gap: 13px;
-
+    gap: 12px;
     align-items: center;
-
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 
 .number {
-    flex: 0 0 36px;
-
-    width: 36px;
-    height: 36px;
-
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
     display: flex;
-
     align-items: center;
     justify-content: center;
-
     border-radius: 50%;
-
-    background: var(--orange);
-
+    background: var(--amber);
     color: white;
-
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 800;
 }
 
 .section h2 {
     margin: 0;
-
-    color: var(--dark);
-
-    font-size: 23px;
-
+    color: var(--blue-dark);
+    font-size: 20px;
+    font-weight: 800;
     line-height: 1.25;
 }
 
 .section h3 {
-    margin: 24px 0 8px;
-
-    color: var(--dark);
-
-    font-size: 17px;
+    margin: 20px 0 8px;
+    color: var(--blue-primary);
+    font-size: 16px;
+    font-weight: 700;
 }
 
 .section p {
-    margin: 9px 0;
-
+    margin: 8px 0;
     color: var(--text);
-
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .section ul {
-    margin: 12px 0 8px;
-
-    padding-left: 22px;
+    margin: 10px 0 8px;
+    padding-left: 20px;
 }
 
 .section li {
-    margin: 7px 0;
-
-    font-size: 15px;
+    margin: 6px 0;
+    font-size: 14px;
 }
 
-
-/* =========================
-   WHY BOX
-   ========================= */
-
+/* BOX-URI SPECIFICE STILIZATE */
 .why {
-    margin-top: 20px;
-
-    padding: 17px 19px;
-
-    border-left: 4px solid var(--orange);
-
-    background: var(--orange-light);
-
+    margin-top: 16px;
+    padding: 14px 16px;
+    border-left: 4px solid var(--amber);
+    background: var(--amber-light);
     border-radius: 0 10px 10px 0;
 }
 
 .why strong {
     display: block;
-
-    margin-bottom: 4px;
-
-    color: #a9632d;
-
-    font-size: 13px;
-
+    margin-bottom: 3px;
+    color: var(--amber-hover);
+    font-size: 12px;
     text-transform: uppercase;
-
     letter-spacing: .5px;
 }
 
 .why p {
     margin: 0;
-
-    font-size: 14px;
-
-    color: #5e5147;
+    font-size: 13px;
+    color: #78350f;
 }
 
-
-/* =========================
-   INFO BOX
-   ========================= */
-
 .info {
-    margin: 18px 0;
-
-    padding: 16px 18px;
-
+    margin: 16px 0;
+    padding: 14px 16px;
     border-radius: 10px;
-
-    background: var(--green-light);
-
-    color: var(--dark);
-
-    font-size: 14px;
+    background: var(--blue-light);
+    border: 1px solid var(--blue-border);
+    color: var(--blue-primary);
+    font-size: 13px;
 }
 
 .info strong {
-    color: var(--dark);
+    color: var(--blue-dark);
 }
-
-
-/* =========================
-   FLOW
-   ========================= */
 
 .flow {
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     gap: 10px;
-
-    margin-top: 18px;
+    margin-top: 16px;
 }
 
 .flow-item {
-    padding: 14px;
-
+    padding: 12px;
     border: 1px solid var(--border);
-
     border-radius: 10px;
-
-    background: #fbfcfb;
-
-    font-size: 13px;
+    background: #f8fafc;
+    font-size: 12px;
 }
 
 .flow-item strong {
     display: block;
-
-    color: var(--dark);
-
+    color: var(--blue-primary);
     margin-bottom: 4px;
 }
 
-
-/* =========================
-   IMPORTANT
-   ========================= */
-
 .important {
-    margin-top: 20px;
-
-    padding: 18px;
-
+    margin-top: 16px;
+    padding: 14px 16px;
     border-radius: 10px;
-
-    background: #f8f8f8;
-
+    background: #f1f5f9;
     border: 1px solid var(--border);
-}
-
-.important strong {
-    color: var(--dark);
-}
-
-
-/* =========================
-   FOOTER
-   ========================= */
-
-footer {
-    background: white;
-
-    border-top: 1px solid var(--border);
-
-    padding: 25px;
-
-    text-align: center;
-
-    color: var(--muted);
-
     font-size: 13px;
 }
 
+.important strong {
+    color: var(--blue-dark);
+}
+
+/* FOOTER */
+footer {
+    background: white;
+    border-top: 1px solid var(--border);
+    padding: 20px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
 footer a {
-    color: var(--dark);
-
+    color: var(--blue-primary);
     text-decoration: none;
-
     font-weight: 700;
 }
 
-
-/* =========================
-   RESPONSIVE
-   ========================= */
-
 @media (max-width: 850px) {
-
-    .layout {
-        grid-template-columns: 1fr;
-    }
-
-    .toc {
-        position: static;
-
-        display: grid;
-
-        grid-template-columns: repeat(2, 1fr);
-
-        gap: 2px 18px;
-    }
-
-    .toc-title {
-        grid-column: 1 / -1;
-    }
-
-    .flow {
-        grid-template-columns: 1fr;
-    }
+    .layout { grid-template-columns: 1fr; }
+    .toc { position: static; max-height: 250px; }
+    .flow { grid-template-columns: 1fr; }
 }
-
-
-@media (max-width: 560px) {
-
-    header {
-        padding: 14px 18px;
-    }
-
-    .logo {
-        font-size: 20px;
-    }
-
-    .back {
-        font-size: 12px;
-
-        padding: 7px 10px;
-    }
-
-    .hero {
-        padding: 40px 18px;
-    }
-
-    .hero p {
-        font-size: 15px;
-    }
-
-    .layout {
-        padding: 22px 14px 45px;
-    }
-
-    .toc {
-        grid-template-columns: 1fr;
-    }
-
-    .section {
-        padding: 23px 19px;
-
-        border-radius: 14px;
-    }
-
-    .section h2 {
-        font-size: 20px;
-    }
-
-    .section p,
-    .section li {
-        font-size: 14px;
-    }
-}
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =========================
-     HEADER
-     ========================= -->
-
+<!-- HEADER -->
 <header>
-
     <div class="logo">
         STRICT<span>ZILIER</span>.ro
     </div>
-
-    <a
-        class="back"
-        href="index.html"
-    >
-        ← Înapoi
-    </a>
-
+    <a class="back" href="index.html">← Înapoi</a>
 </header>
 
-
-
-<!-- =========================
-     HERO
-     ========================= -->
-
+<!-- HERO (Banda îngustă) -->
 <section class="hero">
-
     <div class="hero-inner">
-
-        <div class="label">
-            GHID ZILIER
-        </div>
-
-        <h1>
-            Cum funcționează platforma
-        </h1>
-
-        <p>
-            De la prima înscriere până la o posibilă
-            ofertă de muncă, informațiile sunt culese
-            treptat, exact atunci când sunt necesare.
-        </p>
-
+        <div class="label">GHID ZILIER</div>
+        <h1>Cum funcționează platforma</h1>
+        <p>De la prima înscriere până la o posibilă ofertă de muncă, informațiile sunt culese treptat, exact atunci când sunt necesare.</p>
     </div>
-
 </section>
-
-
 
 <div class="layout">
 
-
-<!-- =========================
-     CUPRINS
-     ========================= -->
-
+<!-- CUPRINS (Fereastră derulantă) -->
 <nav class="toc">
-
-    <div class="toc-title">
-        În acest ghid
-    </div>
-
-    <a href="#inceput">
-        1. Înscrierea rapidă
-    </a>
-
-    <a href="#whatsapp">
-        2. Validarea telefonului
-    </a>
-
-    <a href="#activitate">
-        3. Activitatea preferată
-    </a>
-
-    <a href="#activare">
-        4. Activarea contului
-    </a>
-
-    <a href="#conectare">
-        5. Conectarea
-    </a>
-
-    <a href="#disponibilitate">
-        6. Disponibilitatea
-    </a>
-
-    <a href="#potrivire">
-        7. Prima potrivire
-    </a>
-
-    <a href="#registru">
-        8. Datele pentru registru
-    </a>
-
-    <a href="#profil">
-        9. Profilul zilierului
-    </a>
-
-    <a href="#efort">
-        10. Efortul declarat
-    </a>
-
-    <a href="#minor">
-        11. Înscrierea unui minor
-    </a>
-
-    <a href="#echipa">
-        12. Formarea unei echipe
-    </a>
-
-    <a href="#final">
-        13. Ce urmează
-    </a>
-
+    <div class="toc-title">În acest ghid</div>
+    <a href="#inceput">1. Înscrierea rapidă</a>
+    <a href="#whatsapp">2. Validarea telefonului</a>
+    <a href="#activitate">3. Alegerea activității</a>
+    <a href="#activare">4. Confirmarea vârstei</a>
+    <a href="#conectare">5. Conectarea la cont</a>
+    <a href="#disponibilitate">6. Calendarul disponibilității</a>
+    <a href="#potrivire">7. Prima potrivire</a>
+    <a href="#registru">8. Datele pentru registru</a>
+    <a href="#profil">9. Profilul zilierului</a>
+    <a href="#efort">10. Capacitatea de efort</a>
+    <a href="#minor">11. Înscrierea unui minor</a>
+    <a href="#echipa">12. Formarea unei echipe</a>
+    <a href="#final">13. Ce urmează</a>
 </nav>
 
-
-
-<!-- =========================
-     CONTENT
-     ========================= -->
-
+<!-- CONTENT -->
 <main class="content">
 
-
-<!-- 1 -->
-
-<section
-    class="section"
-    id="inceput"
->
-
+<section class="section" id="inceput">
     <div class="step">
-
         <div class="number">1</div>
-
-        <h2>
-            Înscrierea rapidă
-        </h2>
-
+        <h2>Înscrierea rapidă</h2>
     </div>
-
-
-    <p>
-        Primul pas este intenționat foarte simplu.
-        Nu trebuie să completezi un formular lung pentru
-        a începe să folosești platforma.
-    </p>
-
-
-    <p>
-        În formularul de înscriere rapidă introduci:
-    </p>
-
-
+    <p>Primul pas este intenționat foarte simplu. Nu trebuie să completezi un formular lung pentru a începe să folosești platforma.</p>
+    <p>În formularul de înscriere rapidă introduci:</p>
     <ul>
-
-        <li>
-            <strong>Numele</strong>
-        </li>
-
-        <li>
-            <strong>Prenumele</strong>
-        </li>
-
-        <li>
-            <strong>Numărul de telefon WhatsApp</strong>
-        </li>
-
-        <li>
-            <strong>Județul</strong> în care dorești să lucrezi
-        </li>
-
-        <li>
-            <strong>Localitatea</strong> în care dorești să lucrezi
-        </li>
-
+        <li><strong>Numele</strong></li>
+        <li><strong>Prenumele</strong></li>
+        <li><strong>Numărul de telefon WhatsApp</strong></li>
+        <li><strong>Județul</strong> în care dorești să lucrezi</li>
+        <li><strong>Localitatea</strong> în care dorești să lucrezi</li>
     </ul>
-
-
     <div class="why">
-
         <strong>De ce solicităm aceste date?</strong>
-
-        <p>
-            Acestea sunt suficiente pentru a începe
-            identificarea unui posibil zilier și pentru
-            a putea face primele potriviri după zonă.
-            Restul informațiilor vor fi solicitate ulterior,
-            numai dacă sunt necesare.
-        </p>
-
+        <p>Acestea sunt suficiente pentru a începe identificarea unui posibil zilier și pentru a putea face primele potriviri după zonă. Restul informațiilor vor fi solicitate ulterior, numai dacă sunt necesare.</p>
     </div>
-
-
     <div class="info">
-
-        <strong>Important:</strong>
-        Numele și prenumele sunt păstrate separat,
-        deoarece această structură este necesară pentru
-        evidența zilierului și pentru folosirea ulterioară
-        a datelor în documentele generate.
-        
+        <strong>Important:</strong> Numele și prenumele sunt păstrate separat, deoarece această structură este necesară pentru evidența zilierului și pentru folosirea ulterioară a datelor în documentele generate.
     </div>
-
 </section>
 
-
-
-<!-- 2 -->
-
-<section
-    class="section"
-    id="whatsapp"
->
-
+<section class="section" id="whatsapp">
     <div class="step">
-
         <div class="number">2</div>
-
-        <h2>
-            Validarea telefonului prin WhatsApp
-        </h2>
-
+        <h2>Validarea telefonului prin WhatsApp</h2>
     </div>
-
-
-    <p>
-        După înscrierea rapidă primești pe numărul
-        introdus un mesaj WhatsApp.
-    </p>
-
-
-    <p>
-        Mesajul confirmă că ai început înscrierea și
-        îți oferă următorul pas.
-    </p>
-
-
+    <p>După înscrierea rapidă primești pe numărul introdus un mesaj WhatsApp.</p>
+    <p>Mesajul confirmă că ai început înscrierea și îți oferă următorul pas.</p>
     <div class="why">
-
         <strong>De ce folosim WhatsApp?</strong>
-
-        <p>
-            Numărul de telefon este principalul element
-            prin care contul tău este identificat.
-            Validarea prin WhatsApp permite accesul fără
-            parole complicate și permite transmiterea
-            ulterioară a notificărilor.
-        </p>
-
+        <p>Numărul de telefon este principalul element prin care contul tău este identificat. Validarea prin WhatsApp permite accesul fără parole complicate și permite transmiterea ulterioară a notificărilor.</p>
     </div>
-
-
-    <p>
-        În această etapă nu este nevoie să completezi
-        toate datele despre tine.
-    </p>
-
+    <p>În această etapă nu este nevoie să completezi toate datele despre tine.</p>
 </section>
 
-
-
-<!-- 3 -->
-
-<section
-    class="section"
-    id="activitate"
->
-
+<section class="section" id="activitate">
     <div class="step">
-
         <div class="number">3</div>
-
-        <h2>
-            Alegerea activității
-        </h2>
-
+        <h2>Alegerea activității</h2>
     </div>
-
-
-    <p>
-        Din mesajul primit vei putea accesa pagina în
-        care alegi domeniul în care dorești să lucrezi.
-    </p>
-
-
-    <p>
-        Mai întâi alegi una dintre cele opt grupe:
-    </p>
-
-
+    <p>Din mesajul primit vei putea accesa pagina în care alegi domeniul în care dorești să lucrezi.</p>
+    <p>Mai întâi alegi una dintre cele opt grupe:</p>
     <ul>
-
-        <li>
-            Agricultură, horticultură și comerț agricol
-        </li>
-
-        <li>
-            Silvicultură, pescuit și creșterea animalelor
-        </li>
-
-        <li>
-            Peisagistică, spații verzi și gestionarea deșeurilor
-        </li>
-
-        <li>
-            Natură, biodiversitate și agrement în aer liber
-        </li>
-
-        <li>
-            Alimentație, ospitalitate și cazare
-        </li>
-
-        <li>
-            Evenimente, spectacole și comunicare
-        </li>
-
-        <li>
-            Sport și agrement
-        </li>
-
-        <li>
-            Cercetare și studii de piață
-        </li>
-
+        <li>Agricultură, horticultură și comerț agricol</li>
+        <li>Silvicultură, pescuit și creșterea animalelor</li>
+        <li>Peisagistică, spații verzi și gestionarea deșeurilor</li>
+        <li>Natură, biodiversitate și agrement în aer liber</li>
+        <li>Alimentație, ospitalitate și cazare</li>
+        <li>Evenimente, spectacole și comunicare</li>
+        <li>Sport și agrement</li>
+        <li>Cercetare și studii de piață</li>
     </ul>
-
-
-    <p>
-        După alegerea grupei apare lista activităților
-        corespunzătoare acelei grupe. Poți alege o
-        activitate concretă sau varianta <strong>Toate</strong>.
-    </p>
-
-
+    <p>După alegerea grupei apare lista activităților corespunzătoare acelei grupe. Poți alege o activitate concretă sau varianta <strong>Toate</strong>.</p>
     <div class="why">
-
         <strong>De ce cerem activitatea acum?</strong>
-
-        <p>
-            Activitatea și zona permit agentului să facă
-            primele potriviri cu ofertele disponibile,
-            chiar înainte ca profilul tău să fie complet.
-        </p>
-
+        <p>Activitatea și zona permit agentului să facă primele potriviri cu ofertele disponibile, chiar înainte ca profilul tău să fie complet.</p>
     </div>
-
-
     <div class="info">
-
-        <strong>Nu ești obligat să alegi acum.</strong>
-        Dacă nu selectezi o activitate preferată,
-        contul poate fi activat, iar preferința poate fi
-        completată automat cu <strong>Toate</strong>.
-        O vei putea modifica ulterior din profil.
-
+        <strong>Nu ești obligat să alegi acum.</strong> Dacă nu selectezi o activitate preferată, contul poate fi activat, iar preferința poate fi completată automat cu <strong>Toate</strong>. O vei putea modifica ulterior din profil.
     </div>
-
 </section>
 
-
-
-<!-- 4 -->
-
-<section
-    class="section"
-    id="activare"
->
-
+<section class="section" id="activare">
     <div class="step">
-
         <div class="number">4</div>
-
-        <h2>
-            Confirmarea vârstei și activarea contului
-        </h2>
-
+        <h2>Confirmarea vârstei și activarea contului</h2>
     </div>
-
-
-    <p>
-        În aceeași etapă trebuie să confirmi că ai
-        împlinit 18 ani.
-    </p>
-
-
-    <p>
-        Confirmarea se face prin bifarea căsuței
-        corespunzătoare.
-    </p>
-
-
+    <p>În aceeași etapă trebuie să confirmi că ai împlinit 18 ani.</p>
+    <p>Confirmarea se face prin bifarea căsuței corespunzătoare.</p>
     <div class="why">
-
         <strong>De ce este necesară această confirmare?</strong>
-
-        <p>
-            Platforma trebuie să știe încă de la început
-            dacă lucrează cu un adult sau dacă este necesar
-            un circuit separat pentru un minor.
-        </p>
-
+        <p>Platforma trebuie să știe încă de la început dacă lucrează cu un adult sau dacă este necesar un circuit separat pentru un minor.</p>
     </div>
-
-
     <div class="important">
-
-        Dacă această căsuță nu este bifată,
-        contul de adult nu este activat.
-
+        Dacă această căsuță nu este bifată, contul de adult nu este activat.
     </div>
-
-
-    <p>
-        După completarea etapelor necesare primești
-        mesajul prin care ești informat că ai cont și
-        că te poți conecta cu numărul de telefon.
-    </p>
-
+    <p>După completarea etapelor necesare primești mesajul prin care ești informat că ai cont și că te poți conecta cu numărul de telefon.</p>
 </section>
 
-
-
-<!-- 5 -->
-
-<section
-    class="section"
-    id="conectare"
->
-
+<section class="section" id="conectare">
     <div class="step">
-
         <div class="number">5</div>
-
-        <h2>
-            Conectarea la cont
-        </h2>
-
+        <h2>Conectarea la cont</h2>
     </div>
-
-
-    <p>
-        Pentru conectare introduci numărul de telefon
-        asociat contului.
-    </p>
-
-
-    <p>
-        Primești codul de acces prin WhatsApp.
-    </p>
-
-
-    <p>
-        După autentificare rămâi conectat pentru perioada
-        stabilită de platformă, astfel încât să nu fie
-        necesară introducerea repetată a codului.
-    </p>
-
-
+    <p>Pentru conectare introduci numărul de telefon asociat contului.</p>
+    <p>Primești codul de acces prin WhatsApp.</p>
+    <p>După autentificare rămâi conectat pentru perioada stabilită de platformă, astfel încât să nu fie necesară introducerea repetată a codului.</p>
     <div class="why">
-
         <strong>De ce nu avem parolă?</strong>
-
-        <p>
-            Numărul de telefon validat este elementul
-            principal de identificare. Astfel, accesul
-            este mai simplu pentru utilizator și nu este
-            necesară memorarea unei parole.
-        </p>
-
+        <p>Numărul de telefon validat este elementul principal de identificare. Astfel, accesul este mai simplu pentru utilizator și nu este necesară memorarea unei parole.</p>
     </div>
-
 </section>
 
-
-
-<!-- 6 -->
-
-<section
-    class="section"
-    id="disponibilitate"
->
-
+<section class="section" id="disponibilitate">
     <div class="step">
-
         <div class="number">6</div>
-
-        <h2>
-            Calendarul și disponibilitatea
-        </h2>
-
+        <h2>Calendarul și disponibilitatea</h2>
     </div>
-
-
-    <p>
-        După conectare ajungi în pagina permanentă
-        a zilierului.
-    </p>
-
-
-    <p>
-        În partea principală a paginii apare calendarul
-        săptămânii curente.
-    </p>
-
-
-    <p>
-        Poți bifa zilele în care ești disponibil pentru
-        a primi propuneri de lucru.
-    </p>
-
-
+    <p>După conectare ajungi în pagina permanentă a zilierului.</p>
+    <p>În partea principală a paginii apare calendarul săptămânii curente.</p>
+    <p>Poți bifa zilele în care ești disponibil pentru a primi propuneri de lucru.</p>
     <div class="why">
-
         <strong>De ce cerem disponibilitatea separat?</strong>
-
-        <p>
-            Disponibilitatea se schimbă de la o săptămână
-            la alta și nu este o caracteristică permanentă
-            a profilului. Agentul trebuie să știe când
-            poți lucra pentru a nu-ți trimite oferte
-            nepotrivite.
-        </p>
-
+        <p>Disponibilitatea se schimbă de la o săptămână la alta și nu este o caracteristică permanentă a profilului. Agentul trebuie să știe când poți lucra pentru a nu-ți trimite oferte nepotrivite.</p>
     </div>
-
-
     <div class="info">
-
-        Sunt afișate toate zilele săptămânii,
-        inclusiv sâmbăta și duminica. Pentru activități
-        precum catering, evenimente, târguri, expoziții
-        sau spectacole, zilele de weekend pot fi zile
-        normale de lucru.
-
+        Sunt afișate toate zilele săptămânii, inclusiv sâmbăta și duminica. Pentru activități precum catering, evenimente, târguri sau spectacole, zilele de weekend pot fi zile normale de lucru.
     </div>
-
-
     <div class="important">
-
-        <strong>
-            Pentru a primi oferte, disponibilitatea trebuie
-            să fie declarată în calendar.
-        </strong>
-
+        <strong>Pentru a primi oferte, disponibilitatea trebuie să fie declarată în calendar.</strong>
     </div>
-
 </section>
 
-
-
-<!-- 7 -->
-
-<section
-    class="section"
-    id="potrivire"
->
-
+<section class="section" id="potrivire">
     <div class="step">
-
         <div class="number">7</div>
-
-        <h2>
-            Prima potrivire cu un loc de muncă
-        </h2>
-
+        <h2>Prima potrivire cu un loc de muncă</h2>
     </div>
-
-
-    <p>
-        Din acest moment agentul are deja câteva
-        informații esențiale despre tine:
-    </p>
-
-
+    <p>Din acest moment agentul are deja câteva informații esențiale despre tine:</p>
     <ul>
-
-        <li>
-            zona în care dorești să lucrezi;
-        </li>
-
-        <li>
-            activitatea preferată;
-        </li>
-
-        <li>
-            zilele în care ești disponibil.
-        </li>
-
+        <li>zona în care dorești să lucrezi;</li>
+        <li>activitatea preferată;</li>
+        <li>zilele în care ești disponibil.</li>
     </ul>
-
-
-    <p>
-        Aceste informații pot fi suficiente pentru o
-        primă potrivire cu un job.
-    </p>
-
-
+    <p>Aceste informații pot fi suficiente pentru o primă potrivire cu un job.</p>
     <div class="why">
-
         <strong>De ce nu cerem imediat toate datele?</strong>
-
-        <p>
-            Pentru că nu are sens să îți solicităm date
-            suplimentare înainte să existe o posibilitate
-            reală de muncă. Platforma urmărește să reducă
-            efortul de înscriere și să ceară informațiile
-            în momentul în care devin necesare.
-        </p>
-
+        <p>Pentru că nu are sens să îți solicităm date suplimentare înainte să existe o posibilitate reală de muncă. Platforma urmărește să reducă efortul de înscriere și să ceară informațiile în momentul în care devin necesare.</p>
     </div>
-
-
     <div class="flow">
-
         <div class="flow-item">
-
             <strong>1. Există un job</strong>
-
             Agentul identifică o ofertă compatibilă.
-
         </div>
-
         <div class="flow-item">
-
             <strong>2. Există o potrivire</strong>
-
-            Zona, activitatea și disponibilitatea
-            corespund.
-
+            Zona, activitatea și disponibilitatea corespund.
         </div>
-
         <div class="flow-item">
-
             <strong>3. Urmează verificarea</strong>
-
-            Dacă ești propus și acceptat, sunt solicitate
-            datele necesare pentru etapa următoare.
-
+            Dacă ești propus și acceptat, sunt solicitate datele necesare pentru etapa următoare.
         </div>
-
     </div>
-
 </section>
 
-
-
-<!-- 8 -->
-
-<section
-    class="section"
-    id="registru"
->
-
+<section class="section" id="registru">
     <div class="step">
-
         <div class="number">8</div>
-
-        <h2>
-            Datele necesare pentru Registrul zilierilor
-        </h2>
-
+        <h2>Datele necesare pentru Registrul zilierilor</h2>
     </div>
-
-
-    <p>
-        Atunci când există o posibilitate concretă de
-        muncă, trebuie completate datele de identificare
-        necesare pentru evidența zilierului.
-    </p>
-
-
-    <p>
-        Pagina <strong>Date registru</strong> este concepută
-        ca o singură etapă compactă de completare.
-    </p>
-
-
-    <p>
-        Datele pot fi introduse manual sau, în circuitul
-        care va fi implementat ulterior, pot fi preluate
-        din fotografia documentului și verificate de tine.
-    </p>
-
-
+    <p>Atunci când există o posibilitate concretă de muncă, trebuie completate datele de identificare necesare pentru evidența zilierului.</p>
+    <p>Pagina <strong>Date registru</strong> este concepută ca o singură etapă compactă de completare.</p>
     <div class="why">
-
         <strong>De ce solicităm aceste date abia acum?</strong>
-
-        <p>
-            Pentru că ele sunt necesare în etapa în care
-            zilierul urmează să fie folosit efectiv pentru
-            o lucrare. Nu este nevoie să încărcăm prima
-            înscriere cu date de identificare care nu sunt
-            încă necesare.
-        </p>
-
+        <p>Pentru că ele sunt necesare în etapa în care zilierul urmează să fie folosit efectiv pentru o lucrare. Nu este nevoie să încărcăm prima înscriere cu date de identificare care nu sunt încă necesare.</p>
     </div>
-
-
-    <p>
-        Printre datele care pot fi necesare se află
-        informațiile de identificare și cele necesare
-        evidenței în registru.
-    </p>
-
-
     <div class="info">
-
-        <strong>CNP-ul conține data nașterii.</strong>
-        De aceea nu este necesar să solicităm separat
-        data nașterii atunci când aceasta poate fi
-        determinată din CNP.
-
+        <strong>CNP-ul conține data nașterii.</strong> De aceea nu este necesar să solicităm separat data nașterii atunci când aceasta poate fi determinată din CNP.
     </div>
-
 </section>
 
-
-
-<!-- 9 -->
-
-<section
-    class="section"
-    id="profil"
->
-
+<section class="section" id="profil">
     <div class="step">
-
         <div class="number">9</div>
-
-        <h2>
-            Profilul zilierului
-        </h2>
-
+        <h2>Profilul zilierului</h2>
     </div>
-
-
-    <p>
-        Pagina de profil este locul în care sunt
-        centralizate datele permanente ale zilierului
-        și în care profilul poate fi adus treptat la
-        completare maximă.
-    </p>
-
-
-    <p>
-        Disponibilitatea săptămânală nu este inclusă
-        aici, deoarece este o informație volatilă și
-        este gestionată separat prin calendar.
-    </p>
-
-
-    <h3>
-        Zona de interes
-    </h3>
-
-    <p>
-        Zona principală poate fi modificată dacă dorești
-        să lucrezi într-o altă localitate sau într-o altă
-        zonă.
-    </p>
-
-
-    <h3>
-        Activitățile
-    </h3>
-
-    <p>
-        Profilul permite stabilirea a trei preferințe:
-    </p>
-
-    <ul>
-
-        <li>
-            grupa și activitatea principală;
-        </li>
-
-        <li>
-            grupa și activitatea secundară;
-        </li>
-
-        <li>
-            grupa și a doua activitate secundară.
-        </li>
-
-    </ul>
-
-
-    <p>
-        Acestea ajută agentul să găsească mai multe
-        variante de lucru potrivite profilului tău.
-    </p>
-
-
-    <h3>
-        Raza de deplasare
-    </h3>
-
-    <p>
-        Poți stabili cât de departe ești dispus să te
-        deplasezi față de zona ta de interes.
-    </p>
-
-
+    <p>Pagina de profil este locul în care sunt centralizate datele permanente ale zilierului și în care profilul poate fi adus treptat la completare maximă.</p>
+    <h3>Zona de interes</h3>
+    <p>Zona principală poate fi modificată dacă dorești să lucrezi într-o altă localitate sau într-o altă zonă.</p>
+    <h3>Activitățile</h3>
+    <p>Profilul permite stabilirea a trei preferințe (activitatea principală și două secundare).</p>
+    <h3>Raza de deplasare</h3>
+    <p>Poți stabili cât de departe ești dispus să te deplasezi față de zona ta de interes.</p>
     <div class="why">
-
         <strong>De ce este importantă raza?</strong>
-
-        <p>
-            Două persoane din aceeași localitate pot avea
-            disponibilități foarte diferite privind
-            deplasarea. Agentul poate folosi această
-            informație pentru a evita propuneri aflate
-            prea departe.
-        </p>
-
+        <p>Agentul poate folosi această informație pentru a evita propuneri aflate prea departe de domiciliul tău.</p>
     </div>
-
 </section>
 
-
-
-<!-- 10 -->
-
-<section
-    class="section"
-    id="efort"
->
-
+<section class="section" id="efort">
     <div class="step">
-
         <div class="number">10</div>
-
-        <h2>
-            Capacitatea de efort
-        </h2>
-
+        <h2>Capacitatea de efort</h2>
     </div>
-
-
-    <p>
-        În profil poți indica nivelul de efort pe care
-        îl poți susține și tipul de activitate fizică
-        pe care îl consideri potrivit pentru tine.
-    </p>
-
-
-    <p>
-        Alegerea se face după nivelurile existente în
-        nomenclator:
-    </p>
-
-
+    <p>În profil poți indica nivelul de efort pe care îl poți susține și tipul de activitate fizică pe care îl consideri potrivit pentru tine.</p>
     <ul>
-
-        <li>
-            Activitate preponderent statică sau cu deplasări
-            ocazionale — greutăți până la 3 kg.
-        </li>
-
-        <li>
-            Activitate cu deplasări frecvente și efort fizic
-            redus — greutăți până la 10 kg.
-        </li>
-
-        <li>
-            Activitate fizică desfășurată constant pe durata
-            programului — greutăți între 10 și 20 kg.
-        </li>
-
-        <li>
-            Activitate fizică intensă pe aproape întreaga
-            durată a programului — greutăți între 20 și 30 kg.
-        </li>
-
-        <li>
-            Activitate foarte solicitantă, cu efort susținut —
-            greutăți peste 30 kg sau manipulare repetată.
-        </li>
-
+        <li>Activitate preponderent statică — greutăți până la 3 kg.</li>
+        <li>Activitate cu efort fizic redus — greutăți până la 10 kg.</li>
+        <li>Activitate fizică desfășurată constant — greutăți între 10 și 20 kg.</li>
+        <li>Activitate fizică intensă — greutăți între 20 și 30 kg.</li>
+        <li>Activitate foarte solicitantă — greutăți peste 30 kg.</li>
     </ul>
-
-
     <div class="why">
-
         <strong>De ce solicităm această informație?</strong>
-
-        <p>
-            Pentru ca agentul să poată evita propunerea
-            unor activități care nu corespund capacității
-            de efort declarate.
-        </p>
-
+        <p>Pentru ca agentul să poată evita propunerea unor activități care nu corespund capacității de efort declarate.</p>
     </div>
-
 </section>
 
-
-
-<!-- 11 -->
-
-<section
-    class="section"
-    id="minor"
->
-
+<section class="section" id="minor">
     <div class="step">
-
         <div class="number">11</div>
-
-        <h2>
-            Înscrierea unui minor de 16–18 ani
-        </h2>
-
+        <h2>Înscrierea unui minor de 16–18 ani</h2>
     </div>
-
-
-    <p>
-        Dacă ești reprezentantul legal al unui minor
-        cu vârsta între 16 și 18 ani, poți iniția
-        înscrierea lui prin opțiunea
-        <strong>Înscrie un minor</strong>.
-    </p>
-
-
-    <p>
-        Minorul este tratat în baza de date ca un zilier
-        propriu, cu propriul ID de zilier și propriul
-        profil.
-    </p>
-
-
-    <p>
-        În același timp, rămâne legat de reprezentantul
-        legal prin identificatorul acestuia.
-    </p>
-
-
-    <div class="why">
-
-        <strong>De ce are minorul propriul profil?</strong>
-
-        <p>
-            Pentru ca agentul să poată trata minorul ca
-            persoană distinctă în ceea ce privește
-            activitatea, zona și disponibilitatea, păstrând
-            în același timp legătura cu reprezentantul legal.
-        </p>
-
-    </div>
-
-
+    <p>Dacă ești reprezentantul legal al unui minor cu vârsta între 16 și 18 ani, poți iniția înscrierea lui prin opțiunea <strong>Înscrie un minor</strong>.</p>
+    <p>Minorul este tratat în baza de date ca un zilier propriu, dar rămâne legat de reprezentantul legal prin identificatorul acestuia.</p>
     <div class="info">
-
-        Pagina dedicată minorului este accesată separat
-        din profilul reprezentantului și este destinată
-        acestui circuit distinct.
-
+        Pagina dedicată minorului este accesată separat din profilul reprezentantului.
     </div>
-
 </section>
 
-
-
-<!-- 12 -->
-
-<section
-    class="section"
-    id="echipa"
->
-
+<section class="section" id="echipa">
     <div class="step">
-
         <div class="number">12</div>
-
-        <h2>
-            Formarea unei echipe
-        </h2>
-
+        <h2>Formarea unei echipe</h2>
     </div>
-
-
-    <p>
-        În anumite activități poate fi mai utilă
-        constituirea unei echipe decât găsirea individuală
-        a zilierilor.
-    </p>
-
-
-    <p>
-        Un zilier cu cont confirmat poate iniția formarea
-        unei echipe dacă sunt îndeplinite condițiile
-        stabilite pentru acest mecanism.
-    </p>
-
-
-    <ul>
-
-        <li>
-            inițiatorul trebuie să aibă cont confirmat;
-        </li>
-
-        <li>
-            persoanele propuse trebuie să aibă conturi
-            confirmate;
-        </li>
-
-        <li>
-            membrii trebuie să declare o activitate
-            principală;
-        </li>
-
-        <li>
-            membrii trebuie să aibă o zonă principală;
-        </li>
-
-        <li>
-            membrii trebuie să declare o disponibilitate
-            certă;
-        </li>
-
-        <li>
-            trebuie furnizate numele și telefoanele
-            membrilor echipei.
-        </li>
-
-    </ul>
-
-
-    <div class="why">
-
-        <strong>De ce există acest mecanism?</strong>
-
-        <p>
-            Unele lucrări pot necesita mai multe persoane
-            disponibile în același timp. Echipa permite
-            agentului să trateze această situație ca pe
-            o posibilă ofertă colectivă, fără să amestece
-            datele permanente ale membrilor.
-        </p>
-
-    </div>
-
+    <p>În anumite activități poate fi mai utilă constituirea unei echipe decât găsirea individuală a zilierilor.</p>
+    <p>Un zilier cu cont confirmat poate iniția formarea unei echipe dacă toți membrii au conturi confirmate, zonă și disponibilitate declarate.</p>
 </section>
 
-
-
-<!-- 13 -->
-
-<section
-    class="section"
-    id="final"
->
-
+<section class="section" id="final">
     <div class="step">
-
         <div class="number">13</div>
-
-        <h2>
-            Ce se întâmplă după completare?
-        </h2>
-
+        <h2>Ce se întâmplă după completare?</h2>
     </div>
-
-
-    <p>
-        Odată ce ai parcurs etapele importante, platforma
-        are suficiente informații pentru ca agentul să
-        poată lucra cu profilul tău.
-    </p>
-
-
-    <p>
-        Agentul folosește în principal datele din profil
-        pentru a identifica posibilități compatibile:
-    </p>
-
-
-    <ul>
-
-        <li>
-            zona principală și raza de deplasare;
-        </li>
-
-        <li>
-            activitatea principală și activitățile secundare;
-        </li>
-
-        <li>
-            capacitatea de efort;
-        </li>
-
-        <li>
-            statutul și nivelul de completare al contului;
-        </li>
-
-        <li>
-            disponibilitatea declarată pentru perioada
-            respectivă.
-        </li>
-
-    </ul>
-
-
-    <p>
-        Informațiile despre disponibilitate sunt actualizate
-        separat, deoarece se pot schimba permanent.
-    </p>
-
-
-    <div class="why">
-
-        <strong>Principiul platformei</strong>
-
-        <p>
-            Nu trebuie să completezi totul pentru a începe.
-            Platforma adună informațiile treptat, iar
-            informațiile suplimentare sunt solicitate atunci
-            când există un motiv concret pentru ele.
-        </p>
-
-    </div>
-
-
+    <p>Odată ce ai parcurs etapele importante, platforma are suficiente informații pentru ca agentul să poată lucra cu profilul tău și să facă potriviri cât mai precise.</p>
     <div class="info">
-
-        <strong>
-            Cu cât profilul este mai complet, cu atât
-            agentul poate face potriviri mai precise.
-        </strong>
-
-        Totuși, completarea profilului nu înseamnă că
-        trebuie să repeți informațiile pe care platforma
-        le are deja.
-
+        <strong>Cu cât profilul este mai complet, cu atât agentul poate face potriviri mai precise.</strong>
     </div>
-
 </section>
-
 
 </main>
-
 </div>
 
-
-
-<!-- =========================
-     FOOTER
-     ========================= -->
-
+<!-- FOOTER -->
 <footer>
-
-    <div>
-        STRICT<span style="color:#d9873d;">ZILIER</span>.ro
-    </div>
-
-    <div>
-        <a href="index.html">
-            Înapoi la pagina principală
-        </a>
-    </div>
-
+    <div>STRICT<span style="color:#f59e0b;">ZILIER</span>.ro</div>
+    <div><a href="index.html">Înapoi la pagina principală</a></div>
 </footer>
-
 
 </body>
 </html>
-```
