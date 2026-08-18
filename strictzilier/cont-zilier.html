@@ -56,7 +56,7 @@
               <p class="text-xs font-semibold text-slate-400 mt-0.5">Săptămâna curentă</p>
             </div>
             <div id="user-welcome" class="text-sm font-bold text-amber-600 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-100">
-              Se încarcă profilul...
+              Bun venit!
             </div>
           </div>
 
@@ -96,19 +96,19 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                 <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Județ</span>
-                <span id="judetValue" class="block text-xs font-bold text-slate-800">Se încarcă...</span>
+                <span id="judetValue" class="block text-xs font-bold text-slate-800">-</span>
               </div>
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                 <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Localitate</span>
-                <span id="localitateValue" class="block text-xs font-bold text-slate-800">Se încarcă...</span>
+                <span id="localitateValue" class="block text-xs font-bold text-slate-800">-</span>
               </div>
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                 <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Grup Activitate</span>
-                <span id="grupActivitateValue" class="block text-xs font-bold text-slate-800">Se încarcă...</span>
+                <span id="grupActivitateValue" class="block text-xs font-bold text-slate-800">-</span>
               </div>
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                 <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Activitate Preferată</span>
-                <span id="activitatePreferataValue" class="block text-xs font-bold text-slate-800">Se încarcă...</span>
+                <span id="activitatePreferataValue" class="block text-xs font-bold text-slate-800">-</span>
               </div>
             </div>
 
@@ -504,6 +504,9 @@
 
       try {
         currentUserSession = JSON.parse(sessionData);
+        if (currentUserSession && currentUserSession.nume) {
+          document.getElementById("user-welcome").textContent = `Bun venit, ${currentUserSession.nume}!`;
+        }
       } catch (e) {
         console.error("Eroare la citirea sesiunii:", e);
       }
@@ -512,7 +515,7 @@
       loadUserProfileFromDatabase();
     });
 
-    // 1. ÎNCĂRCAREA AUTOMATĂ A PROFILEI DIN BAZA DE DATE VIA MAKE
+    // 1. ÎNCĂRCAREA AUTOMATĂ A PROFILULUI DIN BAZA DE DATE VIA MAKE
     async function loadUserProfileFromDatabase() {
       if (!currentUserSession || !currentUserSession.id) return;
 
@@ -523,40 +526,35 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ ID_zilier: currentUserSession.id })
           });
-          const data = await res.json();
+          
+          if (res.ok) {
+            const data = await res.json();
+            if (data) {
+              if (data.nume) {
+                document.getElementById("user-welcome").textContent = `Bun venit, ${data.nume}!`;
+              }
+              if (data.procent_completare) {
+                document.getElementById("progress-percent").textContent = `${data.procent_completare}%`;
+                document.getElementById("progress-bar").style.width = `${data.procent_completare}%`;
+              }
+              document.getElementById("judetValue").textContent = data.judet || "-";
+              document.getElementById("localitateValue").textContent = data.localitate || "-";
+              document.getElementById("judet").value = data.judet || "Bacău";
+              document.getElementById("localitate").value = data.localitate || "";
 
-          if (data) {
-            // Nume și Welcome
-            if (data.nume) {
-              document.getElementById("user-welcome").textContent = `Bun venit, ${data.nume}!`;
+              const codGrup = data.cod_grup_activitate || "GA005";
+              const numeGrup = NUME_GRUPE[codGrup] || data.denumire_grup_activitate || "-";
+              const actPref = data.activitate_preferata || "Toate activitățile din grupa aleasă";
+
+              document.getElementById("grupActivitateValue").textContent = numeGrup;
+              document.getElementById("activitatePreferataValue").textContent = actPref;
+
+              document.getElementById("grupActivitate").value = codGrup;
+              updateActivitiesDropdown(codGrup, actPref);
             }
-
-            // Progres cont
-            if (data.procent_completare) {
-              document.getElementById("progress-percent").textContent = `${data.procent_completare}%`;
-              document.getElementById("progress-bar").style.width = `${data.procent_completare}%`;
-            }
-
-            // Județ și Localitate
-            document.getElementById("judetValue").textContent = data.judet || "Bacău";
-            document.getElementById("localitateValue").textContent = data.localitate || "Bacău";
-            document.getElementById("judet").value = data.judet || "Bacău";
-            document.getElementById("localitate").value = data.localitate || "Bacău";
-
-            // Grup Activitate și Activitate Preferată
-            const codGrup = data.cod_grup_activitate || "GA005";
-            const numeGrup = NUME_GRUPE[codGrup] || data.denumire_grup_activitate || "Alimentație, ospitalitate și cazare";
-            const actPref = data.activitate_preferata || "Toate activitățile din grupa aleasă";
-
-            document.getElementById("grupActivitateValue").textContent = numeGrup;
-            document.getElementById("activitatePreferataValue").textContent = actPref;
-
-            document.getElementById("grupActivitate").value = codGrup;
-            updateActivitiesDropdown(codGrup, actPref);
           }
         } else {
-          // Fallback date locale de prezentare
-          document.getElementById("user-welcome").textContent = `Bun venit, ${currentUserSession.nume || "Ion Popescu"}!`;
+          // Date fallback pentru previzualizare locală
           document.getElementById("progress-percent").textContent = "64%";
           document.getElementById("progress-bar").style.width = "64%";
           document.getElementById("judetValue").textContent = "Bacău";
