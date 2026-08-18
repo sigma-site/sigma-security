@@ -99,8 +99,8 @@
                 <span id="judetValue" class="block text-xs font-bold text-slate-800">-</span>
               </div>
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
-                <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Localitate</span>
-                <span id="localitateValue" class="block text-xs font-bold text-slate-800">-</span>
+                <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Zona preferată</span>
+                <span id="zonaPreferataValue" class="block text-xs font-bold text-slate-800">-</span>
               </div>
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                 <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Grup Activitate</span>
@@ -133,8 +133,8 @@
                   </select>
                 </div>
                 <div>
-                  <label for="localitate" class="block text-xs font-bold text-slate-700 mb-1">Localitate</label>
-                  <input type="text" id="localitate" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Introdu localitatea...">
+                  <label for="zonaPreferata" class="block text-xs font-bold text-slate-700 mb-1">Zona preferată (Localitate / Raion)</label>
+                  <input type="text" id="zonaPreferata" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Introdu zona sau localitatea preferată...">
                 </div>
               </div>
 
@@ -539,15 +539,15 @@
               document.getElementById("progress-percent").textContent = `${pct}%`;
               document.getElementById("progress-bar").style.width = `${pct}%`;
 
-              // Județ și Localitate (Căutare după denumirea exactă din coloanele Google Sheets)
+              // Județ și Zona Preferată
               const judetReal = data.Judet || data.judet || "-";
-              const localitateReal = data.Localitate_domiciliu || data.localitate || "-";
+              const zonaPreferataReal = data.Zona_preferata || data.zona_preferata || "-";
 
               document.getElementById("judetValue").textContent = judetReal;
-              document.getElementById("localitateValue").textContent = localitateReal;
+              document.getElementById("zonaPreferataValue").textContent = zonaPreferataReal;
               
               if (judetReal !== "-") document.getElementById("judet").value = judetReal;
-              if (localitateReal !== "-") document.getElementById("localitate").value = localitateReal;
+              if (zonaPreferataReal !== "-") document.getElementById("zonaPreferata").value = zonaPreferataReal;
 
               // Grup Activitate și Activitate Preferată
               const codGrup = data.Cod_grup_activitate || data.cod_grup_activitate || "GA001";
@@ -568,7 +568,7 @@
           document.getElementById("progress-percent").textContent = "64%";
           document.getElementById("progress-bar").style.width = "64%";
           document.getElementById("judetValue").textContent = "Bacău";
-          document.getElementById("localitateValue").textContent = "Bacău";
+          document.getElementById("zonaPreferataValue").textContent = "Bacău";
           document.getElementById("grupActivitateValue").textContent = "Agricultură, horticultură și comerț agricol";
           document.getElementById("activitatePreferataValue").textContent = "Toate activitățile din grupa aleasă";
           
@@ -728,13 +728,13 @@
 
     saveButton.addEventListener("click", async () => {
       const judetVal = document.getElementById("judet").value;
-      const localitateVal = document.getElementById("localitate").value;
+      const zonaPreferataVal = document.getElementById("zonaPreferata").value;
       const codGrupVal = document.getElementById("grupActivitate").value;
       const numeGrupVal = NUME_GRUPE[codGrupVal] || codGrupVal;
       const activitatePreferataVal = document.getElementById("activitatePreferata").value;
 
       document.getElementById("judetValue").textContent = judetVal;
-      document.getElementById("localitateValue").textContent = localitateVal;
+      document.getElementById("zonaPreferataValue").textContent = zonaPreferataVal;
       document.getElementById("grupActivitateValue").textContent = numeGrupVal;
       document.getElementById("activitatePreferataValue").textContent = activitatePreferataVal === "ALL" ? "Toate activitățile din grupa aleasă" : activitatePreferataVal;
 
@@ -744,7 +744,7 @@
       const preferencesPayload = {
         ID_zilier: currentUserSession ? currentUserSession.id : null,
         Judet: judetVal,
-        Localitate_domiciliu: localitateVal,
+        Zona_preferata: zonaPreferataVal,
         Cod_grup_activitate: codGrupVal,
         Denumire_grup_activitate: numeGrupVal,
         Activitate_preferata: activitatePreferataVal
