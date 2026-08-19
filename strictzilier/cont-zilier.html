@@ -122,19 +122,56 @@
                 <div>
                   <label for="judet" class="block text-xs font-bold text-slate-700 mb-1">Județ</label>
                   <select id="judet" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="Bacău">Bacău</option>
-                    <option value="Neamț">Neamț</option>
-                    <option value="Iași">Iași</option>
-                    <option value="Vrancea">Vrancea</option>
-                    <option value="Vaslui">Vaslui</option>
-                    <option value="Botoșani">Botoșani</option>
+                    <option value="Alba">Alba</option>
+                    <option value="Arad">Arad</option>
+                    <option value="Arges">Arges</option>
+                    <option value="Bacau">Bacau</option>
+                    <option value="Bihor">Bihor</option>
+                    <option value="Bistrita-Nasaud">Bistrita-Nasaud</option>
+                    <option value="Botosani">Botosani</option>
+                    <option value="Brasov">Brasov</option>
+                    <option value="Braila">Braila</option>
+                    <option value="Bucuresti">Bucuresti</option>
+                    <option value="Buzau">Buzau</option>
+                    <option value="Caras-Severin">Caras-Severin</option>
+                    <option value="Calarasi">Calarasi</option>
+                    <option value="Cluj">Cluj</option>
+                    <option value="Constanta">Constanta</option>
+                    <option value="Covasna">Covasna</option>
+                    <option value="Dambovita">Dambovita</option>
+                    <option value="Dolj">Dolj</option>
+                    <option value="Galati">Galati</option>
+                    <option value="Giurgiu">Giurgiu</option>
+                    <option value="Gorj">Gorj</option>
+                    <option value="Harghita">Harghita</option>
+                    <option value="Hunedoara">Hunedoara</option>
+                    <option value="Ialomita">Ialomita</option>
+                    <option value="Iasi">Iasi</option>
+                    <option value="Ilfov">Ilfov</option>
+                    <option value="Maramures">Maramures</option>
+                    <option value="Mehedinti">Mehedinti</option>
+                    <option value="Mures">Mures</option>
+                    <option value="Neamt">Neamt</option>
+                    <option value="Olt">Olt</option>
+                    <option value="Prahova">Prahova</option>
+                    <option value="Satu Mare">Satu Mare</option>
+                    <option value="Salaj">Salaj</option>
+                    <option value="Sibiu">Sibiu</option>
                     <option value="Suceava">Suceava</option>
-                    <option value="Galați">Galați</option>
+                    <option value="Teleorman">Teleorman</option>
+                    <option value="Timis">Timis</option>
+                    <option value="Tulcea">Tulcea</option>
+                    <option value="Vaslui">Vaslui</option>
+                    <option value="Valcea">Valcea</option>
+                    <option value="Vrancea">Vrancea</option>
                   </select>
                 </div>
-                <div>
+                <div class="relative">
                   <label for="zonaPreferata" class="block text-xs font-bold text-slate-700 mb-1">Zona preferată (Localitate / Raion)</label>
-                  <input type="text" id="zonaPreferata" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Introdu zona sau localitatea preferată...">
+                  <input type="text" id="zonaPreferata" autocomplete="off" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Scrie localitatea...">
+                  
+                  <!-- Casetă de sugestii Autocomplete -->
+                  <div id="locSuggestions" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50 divide-y divide-slate-100 text-xs"></div>
                 </div>
               </div>
 
@@ -404,14 +441,28 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ BAZĂ DE DATE, ACTIVITĂȚI & WEBHOOKS -->
+  <!-- SCRIPT LOGICĂ BAZĂ DE DATE, NOMENCLATOR, ACTIVITĂȚI & WEBHOOKS -->
   <script>
     // WEBHOOKS MAKE.COM
     const WEBHOOK_INCARCA_PROFIL = "https://hook.eu1.make.com/5hvlnq2yjkoqm5442907w0kpurgfsn0w";
     const WEBHOOK_SALVEAZA_DISPONIBILITATE = "https://hook.eu1.make.com/g1jq2tkvpsnf068dxms8wub92rvsl4pp";
     const WEBHOOK_SALVEAZA_PREFERINTE = "https://hook.eu1.make.com/zc0h8xunug9ellveej2iaxjvakfz1mjr";
 
-    // NOMENCLATOR ACTIVITĂȚI PE GRUPE (EXACT DIN BAZA DE DATE)
+    // NOMENCLATOR LOCALITĂȚI PE JUDEȚE (FĂRĂ DIACRITICE)
+    const NOMENCLATOR_LOCALITATI = {
+      "Bacau": ["Bacau", "Onesti", "Moinesti", "Comanesti", "Buhusi", "Targu Ocna", "Darmanesti", "Sascut", "Margineni", "Racaciuni", "Cleja", "Podu Turcului", "Balcani", "Corbasca", "Caiuti"],
+      "Neamt": ["Piatra-Neamt", "Roman", "Targu-Neamt", "Bicaz", "Roznov", "Savinesti", "Tarcau", "Borca", "Piatra Soimului", "Vanaatori-Neamt", "Raucesti", "Cordun"],
+      "Iasi": ["Iasi", "Pascani", "Harlau", "Targu Frumos", "Podu Iloaiei", "Tomești", "Ciurea", "Holboca", "Miroslava", "Belcești", "Deleni", "Cotnari"],
+      "Vrancea": ["Focsani", "Adjud", "Marasesti", "Panciu", "Odobesti", "Vidra", "Gugesti", "Homosești", "Soveja", "Tudora", "Macesu"],
+      "Vaslui": ["Vaslui", "Barlad", "Husi", "Negresti", "Murgeni", "Zorleni", "Falciu", "Banca", "Vetrisoaia", "Codaesti"],
+      "Botosani": ["Botosani", "Dorohoi", "Saveni", "Darabani", "Flamanzi", "Bucecea", "Stefanesti", "Vorona", "Trusești"],
+      "Suceava": ["Suceava", "Falticeni", "Radauti", "Campulung Moldovenesc", "Vatra Dornei", "Gura Humorului", "Siret", "Vicovu de Sus", "Dolhasca", "Liteni", "Marginea"],
+      "Galati": ["Galati", "Tecuci", "Targu Bujor", "Beresti", "Ivesti", "Liești", "Pechea", "Matca", "Ghidigeni"],
+      "Bucuresti": ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 5", "Sector 6"],
+      "Ilfov": ["Voluntari", "Otopeni", "Buftea", "Popesti-Leordeni", "Bragadiru", "Chitila", "Magurele", "Pantelimon", "Snagov", "Tunari", "Chiajna"]
+    };
+
+    // NOMENCLATOR ACTIVITĂȚI PE GRUPE
     const ACTIVITATI_PE_GRUPE = {
       "GA001": [
         "Toate activitățile din grupa aleasă",
@@ -488,6 +539,17 @@
 
     let currentUserSession = null;
 
+    // FUNCTIE CURĂȚARE DIACRITICE ȘI SPATII (NORMALIZARE TEXT)
+    function stripDiacritics(str) {
+      if (!str) return "";
+      return str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/ă/g, "a").replace(/â/g, "a").replace(/î/g, "i").replace(/ș/g, "s").replace(/ș/g, "s").replace(/ț/g, "t").replace(/ț/g, "t")
+        .replace(/Ă/g, "A").replace(/Â/g, "A").replace(/Î/g, "I").replace(/Ș/g, "S").replace(/Ș/g, "S").replace(/Ț/g, "T").replace(/Ț/g, "T")
+        .trim();
+    }
+
     document.addEventListener("DOMContentLoaded", () => {
       let sessionData = localStorage.getItem("strictzilier_session");
       
@@ -512,8 +574,75 @@
       }
 
       initCalendar();
+      initAutocomplete();
       loadUserProfileFromDatabase();
     });
+
+    // AUTOCOMPLETE SI SUGGESTIONS PENTRU ZONA PREFERATA
+    function initAutocomplete() {
+      const judetSelect = document.getElementById("judet");
+      const zonaInput = document.getElementById("zonaPreferata");
+      const sugBox = document.getElementById("locSuggestions");
+
+      zonaInput.addEventListener("input", () => {
+        const query = stripDiacritics(zonaInput.value).toLowerCase();
+        const judetVal = stripDiacritics(judetSelect.value);
+        sugBox.innerHTML = "";
+
+        if (!query || query.length < 1) {
+          sugBox.classList.add("hidden");
+          return;
+        }
+
+        const listaLoc = NOMENCLATOR_LOCALITATI[judetVal] || NOMENCLATOR_LOCALITATI["Bacau"];
+        const meciuri = listaLoc.filter(l => stripDiacritics(l).toLowerCase().includes(query));
+
+        if (meciuri.length === 0) {
+          sugBox.classList.add("hidden");
+          return;
+        }
+
+        meciuri.forEach(loc => {
+          const item = document.createElement("div");
+          item.className = "p-2 hover:bg-amber-50 cursor-pointer font-semibold text-slate-700 transition";
+          item.textContent = loc;
+          item.addEventListener("click", () => {
+            zonaInput.value = loc;
+            sugBox.classList.add("hidden");
+          });
+          sugBox.appendChild(item);
+        });
+
+        sugBox.classList.remove("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!zonaInput.contains(e.target) && !sugBox.contains(e.target)) {
+          sugBox.classList.add("hidden");
+        }
+      });
+    }
+
+    // MATCHING AUTOMAT LA SALVARE (MATCHING PE NOMENCLATOR FĂRĂ DIACRITICE)
+    function matchLocalitateAutentica(judet, textIntrodus) {
+      if (!textIntrodus || !textIntrodus.trim()) return textIntrodus || "-";
+
+      const judetClean = stripDiacritics(judet);
+      const textClean = stripDiacritics(textIntrodus).toLowerCase();
+      const listaLoc = NOMENCLATOR_LOCALITATI[judetClean] || NOMENCLATOR_LOCALITATI["Bacau"];
+
+      // 1. Căutare potrivire exactă fără diacritice
+      const potrivireExacta = listaLoc.find(l => stripDiacritics(l).toLowerCase() === textClean);
+      if (potrivireExacta) return potrivireExacta;
+
+      // 2. Căutare potrivire parțială (începe cu textul scris)
+      const potrivirePartiala = listaLoc.find(l => stripDiacritics(l).toLowerCase().startsWith(textClean));
+      if (potrivirePartiala) return potrivirePartiala;
+
+      // 3. Fallback: Returnăm textul curățat de diacritice cu prima literă mare
+      const curatat = stripDiacritics(textIntrodus);
+      return curatat.charAt(0).toUpperCase() + curatat.slice(1);
+    }
 
     // 1. ÎNCĂRCAREA AUTOMATĂ A PROFILULUI DIN BAZA DE DATE VIA MAKE
     async function loadUserProfileFromDatabase() {
@@ -540,8 +669,8 @@
               document.getElementById("progress-bar").style.width = `${pct}%`;
 
               // Județ și Zona Preferată
-              const judetReal = data.Judet || data.judet || "-";
-              const zonaPreferataReal = data.Zona_preferata || data.zona_preferata || "-";
+              const judetReal = stripDiacritics(data.Judet || data.judet || "-");
+              const zonaPreferataReal = stripDiacritics(data.Zona_preferata || data.zona_preferata || data.localitate || "-");
 
               document.getElementById("judetValue").textContent = judetReal;
               document.getElementById("zonaPreferataValue").textContent = zonaPreferataReal;
@@ -564,15 +693,15 @@
             }
           }
         } else {
-          // Date fallback pentru previzualizare locală
+          // Date fallback local
           document.getElementById("progress-percent").textContent = "64%";
           document.getElementById("progress-bar").style.width = "64%";
-          document.getElementById("judetValue").textContent = "Bacău";
-          document.getElementById("zonaPreferataValue").textContent = "Bacău";
+          document.getElementById("judetValue").textContent = "Bacau";
+          document.getElementById("zonaPreferataValue").textContent = "Bacau";
           document.getElementById("grupActivitateValue").textContent = "Agricultură, horticultură și comerț agricol";
           document.getElementById("activitatePreferataValue").textContent = "Toate activitățile din grupa aleasă";
           
-          document.getElementById("grupActivitate").value = "GA001";
+          document.getElementById("grupActivitate").value = "Bacau";
           updateActivitiesDropdown("GA001", "ALL");
         }
       } catch (err) {
@@ -710,7 +839,7 @@
       status.textContent = `Ai selectat ${count} ${count === 1 ? "zi disponibilă" : "zile disponibile"} în această săptămână.`;
     }
 
-    // 4. LOGICĂ EDITARE ȘI SALVARE PREFERINȚE
+    // 4. LOGICĂ EDITARE ȘI SALVARE PREFERINȚE (CU MATCHING DE LOCALITATE AUTENTICĂ FĂRĂ DIACRITICE)
     const editButton = document.getElementById("editPreferences");
     const editArea = document.getElementById("editArea");
     const cancelButton = document.getElementById("cancelPreferences");
@@ -727,8 +856,13 @@
     });
 
     saveButton.addEventListener("click", async () => {
-      const judetVal = document.getElementById("judet").value;
-      const zonaPreferataVal = document.getElementById("zonaPreferata").value;
+      const judetRaw = document.getElementById("judet").value;
+      const zonaRaw = document.getElementById("zonaPreferata").value;
+
+      // Normalizare și potrivire cu nomenclatorul
+      const judetVal = stripDiacritics(judetRaw);
+      const zonaPreferataVal = matchLocalitateAutentica(judetVal, zonaRaw);
+
       const codGrupVal = document.getElementById("grupActivitate").value;
       const numeGrupVal = NUME_GRUPE[codGrupVal] || codGrupVal;
       const activitatePreferataVal = document.getElementById("activitatePreferata").value;
