@@ -59,7 +59,9 @@
             <!-- SECTIUNE DATE PERSONALE SI IDENTIFICARE -->
             <div class="pt-5 border-t border-slate-100">
               <h2 class="text-base font-bold text-slate-900 mb-3">Date personale și identificare</h2>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              
+              <!-- RANDUL 1: NUME, PRENUME, TELEFON -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
                 <div>
                   <label for="nume" class="block text-xs font-bold text-slate-700 mb-1">Nume</label>
                   <input type="text" id="nume" value="Popescu" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
@@ -74,55 +76,97 @@
                   <label for="telefon" class="block text-xs font-bold text-slate-700 mb-1">Telefon WhatsApp</label>
                   <input type="tel" id="telefon" value="07xx xxx xxx" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                 </div>
+              </div>
 
+              <!-- RANDUL 2: CNP, TIP ACT, SERIE SI NUMAR -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
                   <label for="cnp" class="block text-xs font-bold text-slate-700 mb-1">CNP</label>
-                  <input type="text" id="cnp" value="*************" readonly class="w-full h-10 px-3 bg-slate-100 text-slate-500 border border-slate-200 rounded-lg text-xs font-medium outline-none cursor-not-allowed">
+                  <input type="text" id="cnp" value="1801010040011" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="CNP din 13 cifre">
                 </div>
 
                 <div>
-                  <label for="act" class="block text-xs font-bold text-slate-700 mb-1">Act de identitate</label>
-                  <input type="text" id="act" value="CI · XX 123456" readonly class="w-full h-10 px-3 bg-slate-100 text-slate-500 border border-slate-200 rounded-lg text-xs font-medium outline-none cursor-not-allowed">
-                </div>
-
-                <div>
-                  <label for="cetatenie" class="block text-xs font-bold text-slate-700 mb-1">Cetățenie</label>
-                  <select id="cetatenie" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="Română" selected>Română</option>
-                    <option value="Maghiară">Maghiară</option>
-                    <option value="Italiană">Italiană</option>
-                    <option value="Spaniolă">Spaniolă</option>
-                    <option value="Germană">Germană</option>
-                    <option value="Franceză">Franceză</option>
-                    <option value="Altă cetățenie">Altă cetățenie</option>
+                  <label for="tipAct" class="block text-xs font-bold text-slate-700 mb-1">Tip act identitate</label>
+                  <select id="tipAct" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="CI" selected>Carte de Identitate (CI)</option>
+                    <option value="Pasaport">Pașaport</option>
+                    <option value="PermisSedere">Permis de Ședere / Atestat</option>
                   </select>
+                </div>
+
+                <div>
+                  <label for="serieNumar" class="block text-xs font-bold text-slate-700 mb-1">Serie și număr act</label>
+                  <input type="text" id="serieNumar" value="XC 123456" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: XC 123456">
                 </div>
               </div>
             </div>
 
             <!-- SECTIUNE ZONA DE INTERES -->
             <div class="pt-5 border-t border-slate-100">
-              <h2 class="text-base font-bold text-slate-900 mb-3">Zona de interes</h2>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div>
+              <h2 class="text-base font-bold text-slate-900 mb-1">Zona de interes</h2>
+              <p class="text-[11px] text-slate-500 font-medium mb-3">
+                Selectează județul și orașul sau comuna de reședință <span class="text-slate-400">(fără sate componente sau cartiere)</span>.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-start">
+                <div class="sm:col-span-1">
                   <label for="judet" class="block text-xs font-bold text-slate-700 mb-1">Județ</label>
                   <select id="judet" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="Bacău" selected>Bacău</option>
-                    <option value="Neamț">Neamț</option>
-                    <option value="Iași">Iași</option>
-                    <option value="Vrancea">Vrancea</option>
+                    <option value="Alba">Alba</option>
+                    <option value="Arad">Arad</option>
+                    <option value="Arges">Arges</option>
+                    <option value="Bacau" selected>Bacau</option>
+                    <option value="Bihor">Bihor</option>
+                    <option value="Bistrita-Nasaud">Bistrita-Nasaud</option>
+                    <option value="Botosani">Botosani</option>
+                    <option value="Brasov">Brasov</option>
+                    <option value="Braila">Braila</option>
+                    <option value="Bucuresti">Bucuresti</option>
+                    <option value="Buzau">Buzau</option>
+                    <option value="Caras-Severin">Caras-Severin</option>
+                    <option value="Calarasi">Calarasi</option>
+                    <option value="Cluj">Cluj</option>
+                    <option value="Constanta">Constanta</option>
+                    <option value="Covasna">Covasna</option>
+                    <option value="Dambovita">Dambovita</option>
+                    <option value="Dolj">Dolj</option>
+                    <option value="Galati">Galati</option>
+                    <option value="Giurgiu">Giurgiu</option>
+                    <option value="Gorj">Gorj</option>
+                    <option value="Harghita">Harghita</option>
+                    <option value="Hunedoara">Hunedoara</option>
+                    <option value="Ialomita">Ialomita</option>
+                    <option value="Iasi">Iasi</option>
+                    <option value="Ilfov">Ilfov</option>
+                    <option value="Maramures">Maramures</option>
+                    <option value="Mehedinti">Mehedinti</option>
+                    <option value="Mures">Mures</option>
+                    <option value="Neamt">Neamt</option>
+                    <option value="Olt">Olt</option>
+                    <option value="Prahova">Prahova</option>
+                    <option value="Satu Mare">Satu Mare</option>
+                    <option value="Salaj">Salaj</option>
+                    <option value="Sibiu">Sibiu</option>
                     <option value="Suceava">Suceava</option>
+                    <option value="Teleorman">Teleorman</option>
+                    <option value="Timis">Timis</option>
+                    <option value="Tulcea">Tulcea</option>
                     <option value="Vaslui">Vaslui</option>
+                    <option value="Valcea">Valcea</option>
+                    <option value="Vrancea">Vrancea</option>
                   </select>
                 </div>
 
-                <div>
-                  <label for="localitate" class="block text-xs font-bold text-slate-700 mb-1">Localitate</label>
-                  <input type="text" id="localitate" value="Bacău" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                <div class="sm:col-span-2 relative">
+                  <label for="localitate" class="block text-xs font-bold text-slate-700 mb-1">Orașul sau Comuna</label>
+                  <input type="text" id="localitate" value="Bacau" autocomplete="off" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Scrie orașul sau comuna (ex: Targu Ocna, Sascut)...">
+                  
+                  <!-- Casetă de sugestii Autocomplete -->
+                  <div id="locSuggestions" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50 divide-y divide-slate-100 text-xs"></div>
                 </div>
 
-                <div>
-                  <label for="raza" class="block text-xs font-bold text-slate-700 mb-1">Raza maximă de deplasare</label>
+                <div class="sm:col-span-1">
+                  <label for="raza" class="block text-xs font-bold text-slate-700 mb-1">Rază deplasare</label>
                   <select id="raza" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                     <option value="5">5 km</option>
                     <option value="10">10 km</option>
@@ -135,124 +179,144 @@
               </div>
             </div>
 
-            <!-- SECTIUNE ACTIVITĂȚI -->
+            <!-- SECTIUNE ACTIVITĂȚI (3 PERECHI DINAMICE) -->
             <div class="pt-5 border-t border-slate-100">
-              <h2 class="text-base font-bold text-slate-900 mb-3">Activități</h2>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label for="activitatePrincipala" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">ACTIVITATE PRINCIPALĂ</label>
-                  <select id="activitatePrincipala" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="Agricultură">Agricultură</option>
-                    <option value="Lucrări în spații verzi">Lucrări în spații verzi</option>
-                    <option value="Catering">Catering</option>
-                    <option value="Silvicultură">Silvicultură</option>
-                    <option value="Peisagistică">Peisagistică</option>
-                    <option value="Sport și agrement">Sport și agrement</option>
-                  </select>
+              <h2 class="text-base font-bold text-slate-900 mb-1">Activități preferate</h2>
+              <p class="text-[11px] text-slate-500 font-medium mb-3">
+                Alege până la 3 domenii și activități specifice pentru care ești disponibil.
+              </p>
+
+              <div class="space-y-3">
+                <!-- PERECHEA 1 -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-50/80 rounded-xl border border-slate-200/60">
+                  <div>
+                    <label for="grupActivitate1" class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Domeniu Activitate 1</label>
+                    <select id="grupActivitate1" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                      <option value="GA001">Agricultură, horticultură și comerț agricol</option>
+                      <option value="GA002">Silvicultură, pescuit și creșterea animalelor</option>
+                      <option value="GA003">Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                      <option value="GA004">Natură, biodiversitate și agrement în aer liber</option>
+                      <option value="GA005">Alimentație, ospitalitate și cazare</option>
+                      <option value="GA006">Evenimente, spectacole și comunicare</option>
+                      <option value="GA007">Sport și agrement</option>
+                      <option value="GA008">Cercetare și studii de piață</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="activitatePreferata1" class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Activitate Preferată 1</label>
+                    <select id="activitatePreferata1" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none"></select>
+                  </div>
                 </div>
 
-                <div>
-                  <label for="grupaPrincipala" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">GRUPĂ ACTIVITATE PRINCIPALĂ</label>
-                  <select id="grupaPrincipala" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="GA001">Agricultură, horticultură și comerț agricol</option>
-                    <option value="GA002">Silvicultură, pescuit și creșterea animalelor</option>
-                    <option value="GA003">Peisagistică, spații verzi și gestionarea deșeurilor</option>
-                    <option value="GA004">Natură, biodiversitate și agrement în aer liber</option>
-                    <option value="GA005">Alimentație, ospitalitate și cazare</option>
-                    <option value="GA007">Sport și agrement</option>
-                  </select>
+                <!-- PERECHEA 2 -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-50/80 rounded-xl border border-slate-200/60">
+                  <div>
+                    <label for="grupActivitate2" class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Domeniu Activitate 2</label>
+                    <select id="grupActivitate2" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                      <option value="NONE">Niciun al doilea domeniu</option>
+                      <option value="GA001">Agricultură, horticultură și comerț agricol</option>
+                      <option value="GA002">Silvicultură, pescuit și creșterea animalelor</option>
+                      <option value="GA003" selected>Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                      <option value="GA004">Natură, biodiversitate și agrement în aer liber</option>
+                      <option value="GA005">Alimentație, ospitalitate și cazare</option>
+                      <option value="GA006">Evenimente, spectacole și comunicare</option>
+                      <option value="GA007">Sport și agrement</option>
+                      <option value="GA008">Cercetare și studii de piață</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="activitatePreferata2" class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Activitate Preferată 2</label>
+                    <select id="activitatePreferata2" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none"></select>
+                  </div>
                 </div>
 
-                <div>
-                  <label for="activitateSec1" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">ACTIVITATE SECUNDARĂ 1</label>
-                  <select id="activitateSec1" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="Lucrări în spații verzi">Lucrări în spații verzi</option>
-                    <option value="Agricultură">Agricultură</option>
-                    <option value="Catering">Catering</option>
-                    <option value="Silvicultură">Silvicultură</option>
-                    <option value="Nicio activitate">Nicio activitate</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label for="activitateSec2" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">ACTIVITATE SECUNDARĂ 2</label>
-                  <select id="activitateSec2" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="Catering">Catering</option>
-                    <option value="Agricultură">Agricultură</option>
-                    <option value="Lucrări în spații verzi">Lucrări în spații verzi</option>
-                    <option value="Silvicultură">Silvicultură</option>
-                    <option value="Nicio activitate">Nicio activitate</option>
-                  </select>
+                <!-- PERECHEA 3 -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 p-3 bg-slate-50/80 rounded-xl border border-slate-200/60">
+                  <div>
+                    <label for="grupActivitate3" class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Domeniu Activitate 3</label>
+                    <select id="grupActivitate3" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                      <option value="NONE" selected>Niciun al treilea domeniu</option>
+                      <option value="GA001">Agricultură, horticultură și comerț agricol</option>
+                      <option value="GA002">Silvicultură, pescuit și creșterea animalelor</option>
+                      <option value="GA003">Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                      <option value="GA004">Natură, biodiversitate și agrement în aer liber</option>
+                      <option value="GA005">Alimentație, ospitalitate și cazare</option>
+                      <option value="GA006">Evenimente, spectacole și comunicare</option>
+                      <option value="GA007">Sport și agrement</option>
+                      <option value="GA008">Cercetare și studii de piață</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="activitatePreferata3" class="block text-[11px] font-bold text-slate-600 uppercase mb-1">Activitate Preferată 3</label>
+                    <select id="activitatePreferata3" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none"></select>
+                  </div>
                 </div>
               </div>
             </div>
 
-            <!-- SECTIUNE CALIFICĂRI SI ABILITĂȚI -->
+            <!-- SECTIUNE CALIFICĂRI SI EXPERIENȚĂ -->
             <div class="pt-5 border-t border-slate-100">
-              <h2 class="text-base font-bold text-slate-900 mb-3">Calificări și abilități</h2>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
-                  <label for="calificare" class="block text-xs font-bold text-slate-700 mb-1">Calificare principală</label>
-                  <select id="calificare" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="Fără calificare">Fără calificare</option>
-                    <option value="Lucrător agricol">Lucrător agricol</option>
-                    <option value="Grădinar">Grădinar</option>
-                    <option value="Bucătar">Bucătar</option>
-                    <option value="Ospătar">Ospătar</option>
-                    <option value="Electrician">Electrician</option>
-                    <option value="Zugrav">Zugrav</option>
-                    <option value="Șofer">Șofer</option>
-                    <option value="Altă calificare">Altă calificare</option>
-                  </select>
+              <h2 class="text-base font-bold text-slate-900 mb-3">Calificări și experiență</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div class="sm:col-span-2">
+                  <label for="calificariText" class="block text-xs font-bold text-slate-700 mb-1">Calificări / Ce știi să faci (Descriere liberă)</label>
+                  <input type="text" id="calificariText" value="Lucrător agricol, am experiență la cules, tuns pomi și grădinărit" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: zugrav, tractorist, am lucrat în catering...">
                 </div>
 
-                <div>
-                  <label for="experienta" class="block text-xs font-bold text-slate-700 mb-1">Experiență</label>
+                <div class="sm:col-span-1">
+                  <label for="experienta" class="block text-xs font-bold text-slate-700 mb-1">Nivel experiență</label>
                   <select id="experienta" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                     <option value="Fără experiență">Fără experiență</option>
-                    <option value="Sub 1 an">Sub 1 an</option>
-                    <option value="1–3 ani">1–3 ani</option>
-                    <option value="3–5 ani">3–5 ani</option>
-                    <option value="Peste 5 ani">Peste 5 ani</option>
+                    <option value="Mică (sub 1 an)">Mică (sub 1 an)</option>
+                    <option value="Medie (1–3 ani)" selected>Medie (1–3 ani)</option>
+                    <option value="Mare (peste 3 ani)">Mare (peste 3 ani)</option>
                   </select>
                 </div>
               </div>
             </div>
 
-            <!-- SECTIUNE CAPACITATE DE EFORT -->
+            <!-- SECTIUNE CAPACITATE DE EFORT (SISTEM REDIMENSIONAT 2:3:7 CU DESCHIDERE LA CLICK) -->
             <div class="pt-5 border-t border-slate-100">
-              <h2 class="text-base font-bold text-slate-900 mb-3">Capacitate de efort</h2>
-              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                <div>
-                  <label for="efort" class="block text-xs font-bold text-slate-700 mb-1">Nivel de efort</label>
-                  <select id="efort" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="EF001">Ușor (Foarte redusă)</option>
+              <h2 class="text-base font-bold text-slate-900 mb-1">Capacitate de efort</h2>
+              <p class="text-[11px] text-slate-500 font-medium mb-3">
+                Alege nivelul de efort fizic declarat. Apasă pe caseta de definiție pentru vizualizare extinsă.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-start">
+                
+                <!-- 1. NIVEL EFORT (2 COLOANE - TEXT SCURT) -->
+                <div class="sm:col-span-2">
+                  <label for="efort" class="block text-xs font-bold text-slate-700 mb-1">Nivel efort</label>
+                  <select id="efort" class="w-full h-10 px-2 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="EF001">Foarte redusă</option>
                     <option value="EF002">Redusă</option>
-                    <option value="EF003" selected>Moderat (Medie)</option>
-                    <option value="EF004">Ridicală</option>
+                    <option value="EF003" selected>Medie</option>
+                    <option value="EF004">Ridicată</option>
                     <option value="EF005">Foarte ridicată</option>
                   </select>
                 </div>
 
-                <div>
-                  <label for="greutate" class="block text-xs font-bold text-slate-700 mb-1">Greutate manipulată</label>
-                  <select id="greutate" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="Până la 5 kg">Până la 5 kg</option>
-                    <option value="5–10 kg">5–10 kg</option>
-                    <option value="10–20 kg" selected>10–20 kg</option>
-                    <option value="20–30 kg">20–30 kg</option>
-                    <option value="Peste 30 kg">Peste 30 kg</option>
-                  </select>
+                <!-- 2. VALORI ASOCIATE (3 COLOANE - GREUTĂȚI) -->
+                <div class="sm:col-span-3">
+                  <label for="greutateExplicativa" class="block text-xs font-bold text-slate-500 mb-1">Valori asociate</label>
+                  <input type="text" id="greutateExplicativa" value="Greutăți între 10 și 20 kg" readonly class="w-full h-10 px-3 bg-slate-100 text-slate-700 border border-slate-200 rounded-lg text-xs font-semibold outline-none cursor-not-allowed">
                 </div>
 
-                <div>
-                  <label for="activitateFizica" class="block text-xs font-bold text-slate-700 mb-1">Activitate fizică</label>
-                  <select id="activitateFizica" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="Ocazională">Ocazională</option>
-                    <option value="Periodic">Periodic</option>
-                    <option value="Constantă" selected>Constantă</option>
-                  </select>
+                <!-- 3. DEFINIȚIE EFORT (7 COLOANE - LARGA SI EXTENSIBILA LA CLICK) -->
+                <div class="sm:col-span-7 relative">
+                  <label for="activitateFizicaExplicativa" class="block text-xs font-bold text-slate-500 mb-1 flex justify-between items-center">
+                    <span>Definiție efort</span>
+                    <span class="text-[10px] text-amber-600 font-bold cursor-pointer hover:underline" onclick="toggleDefinitieExtinsa()">[Apasă pt. text complet]</span>
+                  </label>
+                  <input type="text" id="activitateFizicaExplicativa" value="Activitate fizică desfășurată constant pe durata programului." readonly onclick="toggleDefinitieExtinsa()" class="w-full h-10 px-3 bg-amber-50/60 hover:bg-amber-100/60 text-slate-800 border border-amber-200 rounded-lg text-xs font-medium outline-none cursor-pointer transition truncate" title="Apasă pentru a vedea definiția completă">
                 </div>
+
+              </div>
+
+              <!-- CASUTA EXPLICATIVA EXTENSIBILA LA CLICK -->
+              <div id="boxDefinitieExtinsa" class="hidden mt-2 p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs font-medium text-slate-800 leading-relaxed shadow-sm transition">
+                <span class="block text-[10px] font-bold text-amber-700 uppercase tracking-wider mb-0.5">Definiție completă efort:</span>
+                <span id="textDefinitieExtinsa">Activitate fizică desfășurată constant pe durata programului.</span>
               </div>
             </div>
 
@@ -265,44 +329,16 @@
                   <select id="studii" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                     <option value="Fără studii">Fără studii</option>
                     <option value="Primare">Primare</option>
-                    <option value="Secundare" selected>Secundare</option>
+                    <option value="Secundare (Liceu / Școală prof.)" selected>Secundare (Liceu / Școală prof.)</option>
                     <option value="Postliceale">Postliceale</option>
                     <option value="Superioare">Superioare</option>
                   </select>
                 </div>
 
                 <div>
-                  <label for="email" class="block text-xs font-bold text-slate-700 mb-1">Email</label>
+                  <label for="email" class="block text-xs font-bold text-slate-700 mb-1">Email (Opțional)</label>
                   <input type="email" id="email" value="" placeholder="nume@exemplu.ro" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                 </div>
-              </div>
-            </div>
-
-            <!-- SECTIUNE ECHIPĂ -->
-            <div class="pt-5 border-t border-slate-100">
-              <h2 class="text-base font-bold text-slate-900 mb-3">Echipă</h2>
-              <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                  <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Status echipă</span>
-                  <strong class="block text-xs font-bold text-slate-800">Nu există o asociere activă</strong>
-                </div>
-                <button type="button" onclick="location.href='formare-echipa.html'" class="w-full sm:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
-                  FORMEAZĂ O ECHIPĂ
-                </button>
-              </div>
-            </div>
-
-            <!-- SECTIUNE MINOR 16-18 ANI -->
-            <div class="pt-5 border-t border-slate-100">
-              <h2 class="text-base font-bold text-slate-900 mb-3">Minor 16–18 ani</h2>
-              <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                  <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Status minor</span>
-                  <strong class="block text-xs font-bold text-slate-800">Nu există un minor asociat</strong>
-                </div>
-                <button type="button" onclick="location.href='inscriere-minor.html'" class="w-full sm:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
-                  ÎNSCRIE UN MINOR
-                </button>
               </div>
             </div>
 
@@ -320,7 +356,7 @@
 
           <!-- STATUS / SUCCESS -->
           <div id="success" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 leading-relaxed">
-            Profilul a fost salvat cu succes în baza de date!
+            Profilul a fost salvat cu succes! Procentul de completare a fost actualizat în baza de date.
           </div>
 
         </section>
@@ -388,7 +424,10 @@
     </div>
   </footer>
 
-  <!-- SCRIPT INTEGRARE VAPI & PIE.HOST -->
+  <!-- 1. ÎNCĂRCARE NOMENCLATOR NATIONAL DIN GITHUB / SERVER -->
+  <script src="nomenclator-romania.js"></script>
+
+  <!-- 2. SCRIPT INTEGRARE VAPI & PIE.HOST -->
   <script type="module">
     import Vapi from "https://esm.sh/@vapi-ai/web";
 
@@ -528,22 +567,103 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ PROFIL, BAZĂ DE DATE & WEBHOOK MAKE.COM -->
+  <!-- 3. SCRIPT LOGICĂ BAZĂ DE DATE, AUTOCOMPLETE, EFORT NOMENCLATOR & CALCUL COMPLETARE -->
   <script>
     const WEBHOOK_SALVEAZA_PROFIL = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_PROFIL";
 
+    const ACTIVITATI_PE_GRUPE = {
+      "NONE": ["Selectează un domeniu mai întâi"],
+      "GA001": [
+        "Toate activitățile din grupa aleasă",
+        "Agricultură, vânătoare și servicii anexe",
+        "Creșterea materialului săditor",
+        "Creșterea plantelor ornamentale",
+        "Gazon pentru transplantare",
+        "Operațiuni de îngrijire și curățare a pomilor",
+        "Activități ale pepinierelor (cu excepția pepinierelor forestiere)",
+        "Comerţ cu ridicata al produselor agricole brute şi al animalelor vii"
+      ],
+      "GA002": [
+        "Toate activitățile din grupa aleasă",
+        "Silvicultură, cu excepția exploatărilor forestiere",
+        "Pescuit și acvacultură",
+        "Creșterea și reproducția animalelor semidomesticite și a altor animale"
+      ],
+      "GA003": [
+        "Toate activitățile din grupa aleasă",
+        "Activități de întreținere peisagistică cu excepția facilității de locuit particulare",
+        "Plantarea, îngrijirea și întreținerea de parcuri și grădini",
+        "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale",
+        "Colectarea, tratarea şi eliminarea deşeurilor nepericuloase",
+        "Recuperarea materialelor"
+      ],
+      "GA004": [
+        "Toate activitățile din grupa aleasă",
+        "Activități ale grădinilor zoologice",
+        "Activități ale grădinilor botanice",
+        "Activități ale rezervațiilor naturale"
+      ],
+      "GA005": [
+        "Toate activitățile din grupa aleasă",
+        "Activități de alimentație (catering) pentru evenimente",
+        "Restaurante",
+        "Baruri și alte activități de servire a băuturilor",
+        "Hoteluri și alte facilități de cazare",
+        "Tabere de copii organizate de Ministerul Tineretului și Sportului",
+        "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"
+      ],
+      "GA006": [
+        "Toate activitățile din grupa aleasă",
+        "Activități de organizare a expozițiilor, târgurilor și congreselor",
+        "Publicitate",
+        "Activități de interpretare artistică – spectacole",
+        "Activități-suport pentru interpretarea artistică – spectacole",
+        "Activități de gestionare a sălilor de spectacole"
+      ],
+      "GA007": [
+        "Toate activitățile din grupa aleasă",
+        "Activități ale bazelor sportive",
+        "Activități ale cluburilor sportive"
+      ],
+      "GA008": [
+        "Toate activitățile din grupa aleasă",
+        "Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)",
+        "Activități de studiere a pieței",
+        "Activități de sondare a opiniei publice",
+        "Activităţi de cercetare-dezvoltare în biotehnologie",
+        "Activităţi de cercetare-dezvoltare în alte ştiinţe naturale şi inginerie"
+      ]
+    };
+
+    // VALORI SI DEFINITII DIN BAZA DE DATE (NOMENCLATOR)
+    const DETALII_EFORT = {
+      "EF001": { greutate: "Greutăți până la 3 kg", activitate: "Activitate preponderent statică sau cu deplasări ocazionale." },
+      "EF002": { greutate: "Greutăți până la 10 kg", activitate: "Activitate cu deplasări frecvente și efort fizic redus." },
+      "EF003": { greutate: "Greutăți între 10 și 20 kg", activitate: "Activitate fizică desfășurată constant pe durata programului." },
+      "EF004": { greutate: "Greutăți între 20 și 30 kg", activitate: "Activitate fizică intensă pe aproape întreaga durată a programului." },
+      "EF005": { greutate: "Greutăți peste 30 kg", activitate: "Activitate foarte solicitantă, cu efort susținut." }
+    };
+
     let currentUserSession = null;
+
+    function stripDiacritics(str) {
+      if (!str) return "";
+      return str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/ă/gi, "a").replace(/â/gi, "a").replace(/î/gi, "i").replace(/ș/gi, "s").replace(/ț/gi, "t")
+        .replace(/[-_]/g, " ")
+        .trim();
+    }
 
     document.addEventListener("DOMContentLoaded", () => {
       let sessionData = localStorage.getItem("strictzilier_session");
-      
       if (!sessionData) {
         const demoSession = {
           role: 'zilier',
-          id: 'Z000001',
+          id: 'Z100001',
           nume: 'Popescu',
-          prenume: 'Ion',
-          startOfWeek: new Date().toISOString().split('T')[0]
+          prenume: 'Ion'
         };
         localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
         sessionData = JSON.stringify(demoSession);
@@ -551,38 +671,193 @@
 
       try {
         currentUserSession = JSON.parse(sessionData);
-        if (currentUserSession.nume) {
-          document.getElementById("nume").value = currentUserSession.nume || "Popescu";
-        }
-        if (currentUserSession.prenume) {
-          document.getElementById("prenume").value = currentUserSession.prenume || "Ion";
-        }
       } catch (e) {
-        console.error("Eroare la citirea sesiunii:", e);
+        console.error("Eroare la citire sesiune:", e);
       }
+
+      initAutocomplete();
+      initGroupActivityEvents();
+      initEfortEvent();
     });
 
+    // 1. AUTOCOMPLETE LOCALITATE
+    function initAutocomplete() {
+      const judetSelect = document.getElementById("judet");
+      const zonaInput = document.getElementById("localitate");
+      const sugBox = document.getElementById("locSuggestions");
+
+      judetSelect.addEventListener("change", () => {
+        zonaInput.value = "";
+        sugBox.classList.add("hidden");
+      });
+
+      zonaInput.addEventListener("input", () => {
+        const query = stripDiacritics(zonaInput.value).toLowerCase();
+        const judetSelectat = judetSelect.value;
+        const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judetSelectat).toLowerCase()) : null;
+
+        sugBox.innerHTML = "";
+
+        if (!query || query.length < 1 || !cheieJudet) {
+          sugBox.classList.add("hidden");
+          return;
+        }
+
+        const listaLoc = NOMENCLATOR[cheieJudet] || [];
+        const meciuri = listaLoc.filter(l => stripDiacritics(l).toLowerCase().includes(query));
+
+        if (meciuri.length === 0) {
+          sugBox.classList.add("hidden");
+          return;
+        }
+
+        meciuri.forEach(loc => {
+          const item = document.createElement("div");
+          item.className = "p-2 hover:bg-amber-50 cursor-pointer font-semibold text-slate-700 transition";
+          item.textContent = loc;
+          item.addEventListener("click", () => {
+            zonaInput.value = loc;
+            sugBox.classList.add("hidden");
+          });
+          sugBox.appendChild(item);
+        });
+
+        sugBox.classList.remove("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!zonaInput.contains(e.target) && !sugBox.contains(e.target)) {
+          sugBox.classList.add("hidden");
+        }
+      });
+    }
+
+    function matchLocalitateAutentica(judet, textIntrodus) {
+      if (!textIntrodus || !textIntrodus.trim()) return textIntrodus || "-";
+      const query = stripDiacritics(textIntrodus).toLowerCase();
+      const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judet).toLowerCase()) : null;
+      const listaLoc = (cheieJudet && NOMENCLATOR[cheieJudet]) ? NOMENCLATOR[cheieJudet] : [];
+
+      let gasit = listaLoc.find(l => stripDiacritics(l).toLowerCase() === query);
+      if (!gasit) gasit = listaLoc.find(l => stripDiacritics(l).toLowerCase().startsWith(query));
+      if (!gasit) {
+        const curatat = stripDiacritics(textIntrodus);
+        gasit = curatat.charAt(0).toUpperCase() + curatat.slice(1);
+      }
+      return gasit;
+    }
+
+    // 2. ACTIVITĂȚI DINAMICE PE GRUPE
+    function populateSubActivities(groupSelectId, subSelectId) {
+      const gCode = document.getElementById(groupSelectId).value;
+      const subSelect = document.getElementById(subSelectId);
+      subSelect.innerHTML = "";
+
+      const lista = ACTIVITATI_PE_GRUPE[gCode] || ["Toate activitățile din grupa aleasă"];
+      lista.forEach(act => {
+        const opt = document.createElement("option");
+        opt.value = act === "Toate activitățile din grupa aleasă" ? "ALL" : act;
+        opt.textContent = act;
+        subSelect.appendChild(opt);
+      });
+    }
+
+    function initGroupActivityEvents() {
+      ['1', '2', '3'].forEach(idx => {
+        const gSelect = document.getElementById(`grupActivitate${idx}`);
+        gSelect.addEventListener("change", () => populateSubActivities(`grupActivitate${idx}`, `activitatePreferata${idx}`));
+        populateSubActivities(`grupActivitate${idx}`, `activitatePreferata${idx}`);
+      });
+    }
+
+    // 3. CAPACITATE DE EFORT DINAMICĂ SI EXTENSIBILĂ
+    function initEfortEvent() {
+      const efortSelect = document.getElementById("efort");
+      const greutateInput = document.getElementById("greutateExplicativa");
+      const activitateInput = document.getElementById("activitateFizicaExplicativa");
+      const textExtins = document.getElementById("textDefinitieExtinsa");
+
+      function updateDetaliiEfort() {
+        const val = efortSelect.value;
+        const detalii = DETALII_EFORT[val] || DETALII_EFORT["EF003"];
+        greutateInput.value = detalii.greutate;
+        activitateInput.value = detalii.activitate;
+        activitateInput.title = detalii.activitate;
+        textExtins.textContent = detalii.activitate;
+      }
+
+      efortSelect.addEventListener("change", updateDetaliiEfort);
+      updateDetaliiEfort();
+    }
+
+    function toggleDefinitieExtinsa() {
+      const box = document.getElementById("boxDefinitieExtinsa");
+      box.classList.toggle("hidden");
+    }
+
+    // 4. ALGORITM DE CALCUL PROCENT DE COMPLETARE PROFIL
+    function calculeazaProcentCompletare() {
+      let puncte = 0;
+
+      // Date personale (max 30%)
+      if (document.getElementById("nume").value.trim().length > 1) puncte += 5;
+      if (document.getElementById("prenume").value.trim().length > 1) puncte += 5;
+      if (document.getElementById("telefon").value.trim().length > 5) puncte += 10;
+      if (document.getElementById("cnp").value.trim().length >= 13) puncte += 10;
+
+      // Zona de interes (max 20%)
+      if (document.getElementById("judet").value) puncte += 10;
+      if (document.getElementById("localitate").value.trim().length > 1) puncte += 10;
+
+      // Activități preferate (max 20%)
+      if (document.getElementById("grupActivitate1").value !== "NONE") puncte += 10;
+      if (document.getElementById("activitatePreferata1").value) puncte += 10;
+
+      // Calificări și experiență (max 15%)
+      if (document.getElementById("calificariText").value.trim().length > 2) puncte += 10;
+      if (document.getElementById("experienta").value) puncte += 5;
+
+      // Efort & Studii (max 15%)
+      if (document.getElementById("efort").value) puncte += 10;
+      if (document.getElementById("studii").value) puncte += 5;
+
+      return Math.min(100, puncte);
+    }
+
+    // 5. SALVARE PROFIL ȘI TRANSMITERE ÎN MAKE
     async function salveazaProfil() {
+      const judetVal = stripDiacritics(document.getElementById("judet").value);
+      const locRaw = document.getElementById("localitate").value;
+      const locVal = matchLocalitateAutentica(judetVal, locRaw);
+
+      const procentCalculat = calculeazaProcentCompletare();
+
       const profilPayload = {
         ID_zilier: currentUserSession ? currentUserSession.id : null,
         Nume: document.getElementById("nume").value.trim(),
         Prenume: document.getElementById("prenume").value.trim(),
         Telefon: document.getElementById("telefon").value.trim(),
-        Cetatenie: document.getElementById("cetatenie").value,
-        Judet: document.getElementById("judet").value,
-        Localitate_domiciliu: document.getElementById("localitate").value.trim(),
+        CNP: document.getElementById("cnp").value.trim(),
+        Tip_act: document.getElementById("tipAct").value,
+        Serie_si_numar: document.getElementById("serieNumar").value.trim(),
+        Judet: judetVal,
+        Localitate_domiciliu: locVal,
         Raza_maxima_deplasare_km: document.getElementById("raza").value,
-        Activitate_preferata: document.getElementById("activitatePrincipala").value,
-        Cod_grup_activitate: document.getElementById("grupaPrincipala").value,
-        Activitate_2: document.getElementById("activitateSec1").value,
-        Activitate_3: document.getElementById("activitateSec2").value,
-        Calificari: document.getElementById("calificare").value,
+        
+        Cod_grup_activitate_1: document.getElementById("grupActivitate1").value,
+        Activitate_preferata_1: document.getElementById("activitatePreferata1").value,
+        Cod_grup_activitate_2: document.getElementById("grupActivitate2").value,
+        Activitate_preferata_2: document.getElementById("activitatePreferata2").value,
+        Cod_grup_activitate_3: document.getElementById("grupActivitate3").value,
+        Activitate_preferata_3: document.getElementById("activitatePreferata3").value,
+
+        Calificari: document.getElementById("calificariText").value.trim(),
         Experienta: document.getElementById("experienta").value,
         Capacitate_efort_declarata: document.getElementById("efort").value,
-        Greutate_manipulata: document.getElementById("greutate").value,
-        Activitate_fizica: document.getElementById("activitateFizica").value,
-        Studii: document.getElementById("studii").value,
-        Email: document.getElementById("email").value.trim()
+        Nivel_studii: document.getElementById("studii").value,
+        Email: document.getElementById("email").value.trim(),
+        
+        Procent_completare_cont: procentCalculat
       };
 
       try {
@@ -595,6 +870,7 @@
         }
 
         const success = document.getElementById("success");
+        success.textContent = `Profilul a fost salvat cu succes! Gradul de completare al profilului tău este de ${procentCalculat}%.`;
         success.classList.remove("hidden");
         success.scrollIntoView({ behavior: "smooth", block: "nearest" });
       } catch (err) {
