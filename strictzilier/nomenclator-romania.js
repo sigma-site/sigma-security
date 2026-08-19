@@ -13,92 +13,57 @@
     "Carand", "Cermei", "Chisineu-Cris", "Conop", "Covasint", "Craiva", "Curtici", "Dezna", "Dieci", "Dorobanti", 
     "Felnac", "Ghiris", "Gurahont", "Halmagiu", "Halmagel", "Hasmas", "Iratosu", "Ineu", "Lipova", "Livada", 
     "Macea", "Maderat", "Moneasa", "Nadlac", "Olari", "Paulis", "Pecica", "Peregu Mare", "Petris", "Pilu", 
-
     "Plecani", "Sagu", "Santana", "Savarsin", "Sebis", "Secusigiu", "Seleus", "Semlac", "Sintea Mare", "Socodor", 
-
-    "Sohodol", "Sagu", "Sepreus", "Sicula", "Simand", "Siria", "Sistarovat", "Taut", "Targova", "Tisa Noua", 
-
+    "Sohodol", "Sepreus", "Sicula", "Simand", "Siria", "Sistarovat", "Taut", "Targova", "Tisa Noua", 
     "Vinga", "Varadia de Mures", "Varpalota", "Vladimirescu", "Zabrani", "Zarand", "Zorleni"
   ],
   "Arges": [
     "Pitesti", "Albestii de Arges", "Albestii de Muscel", "Aninoasa", "Arefu", "Bascov", "Babat", "Balanesti", "Berevoesti", 
     "Bogati", "Boteni", "Botesti", "Bradu", "Bragadiru", "Bratesti", "Bucov", "Bugiulesti", "Buzoesti", "Caldararu", 
-
     "Calinesti", "Campulung", "Cateasca", "Cepari", "Cetaneni", "Ciofrangeni", "Ciomagasti", "Cocu", "Corbeni", 
-
     "Corbi", "Cotmeana", "Crasna", "Cucerai", "Curtea de Arges", "Davidesti", "Dambovicioara", "Darmanesti", "Dobresti", 
-
     "Domnestii", "Draganu", "Dragoslavele", "Iratosu", "Leordeni", "Leresti", "Malu cu Flori", "Maracineni", "Mioveni", 
-
     "Miroslovestii", "Mosoaia", "Mozaceni", "Musalesti", "Nucsoara", "Oarja", "Pietrosani", "Poienarii de Arges", 
-
     "Poienarii de Muscel", "Priboieni", "Rtesti", "Rucar", "Salatrucu", "Sapata", "Schiatu", "Slobozia", "Stalpeni", 
-
     "Stefanesti", "Stefan cel Mare", "Stoenesti", "Stolnici", "Teiu", "Tigveni", "Topoloveni", "Uda", "Ungheni", 
-
     "Valea Danului", "Valea Iasului", "Valea Mare-Pravat", "Vedea", "Vladesti", "Vulturesti"
   ],
   "Bacau": [
     "Bacau", "Agas", "Ardeoani", "Asau", "Balcani", "Barsanesti", "Beresti-Bistrita", "Beresti-Tazlau", "Berzunti", 
     "Blagesti", "Bogdanesti", "Brusturoasa", "Buhusi", "Caiuti", "Casin", "Cleja", "Colonesti", "Comanesti", 
-
     "Corbasca", "Cotofanesti", "Damienesti", "Darmanesti", "Dealu Morii", "Dofteana", "Faraoani", "Filipeni", 
-
     "Filipesti", "Gaiiceana", "Garleni", "Ghimes-Faget", "Gioseni", "Glavanesti", "Gura Vaii", "Hemeius", "Huruiesti", 
-
     "Itesti", "Izvoru Berheciului", "Luncani", "Manastirea Casin", "Margineni", "Moinesti", "Negri", "Nicolae Balcescu", 
-
     "Oituz", "Onesti", "Orbeni", "Palanca", "Parava", "Parincea", "Pargaresti", "Pancesti", "Podu Turcului", "Poduri", 
-
     "Pralea", "Racaciuni", "Racova", "Rosiori", "Sascut", "Saucesti", "Scorteni", "Secuieni", "Solont", "Strugari", 
-
     "Stefan cel Mare", "Targu Ocna", "Targu Trotus", "Tataresti", "Traian", "Ungureni", "Valea Seaca", "Vultureni", "Zemes"
   ],
   "Bihor": [
     "Oradea", "Alesd", "Astamp", "Auseu", "Avram Iancu", "Balc", "Bratca", "Brusturi", "Budureasa", "Buduslau", 
-
     "Biharia", "Beius", "Buntesti", "Cabalesti", "Campani", "Capalna", "Carpinet", "Cefa", "Ceica", "Cetariu", 
-
     "Cherechiu", "Chislaz", "Ciuhoi", "Cociuba Mare", "Copacel", "Crestur", "Cristioru de Jos", "Curatele", "Curtuiseni", 
-
     "Derna", "Diosig", "Dobresti", "Draganesti", "Dragesti", "Finis", "Gepiu", "Girisu de Cris", "Hidiselu de Sus", 
-
     "Holod", "Husasau de Tinca", "Ineu", "Lazuri de Beius", "Lugasu de Jos", "Lunca", "Madaras", "Marghita", "Nojorid", 
-
     "Nucet", "Olcea", "Osorhei", "Plopis", "Pocola", "Pomezeu", "Posoloaca", "Remetea", "Rieni", "Rosia", "Rosiori", 
-
     "Sabbato", "Sacadat", "Sacueni", "Salacea", "Salard", "Salajeni", "Salonta", "Sanmartin", "Sannicolau Roman", 
-
-    "Santandrei", "Sarbi", "Simleu Silvaniei", "Sinteu", "Soimi", "Suncuius", "Tarbackground", "Tarcaia", "Tauteu", "Tileagd", 
-
+    "Santandrei", "Sarbi", "Simleu Silvaniei", "Sinteu", "Soimi", "Suncuius", "Tarcaia", "Tauteu", "Tileagd", 
     "Tinca", "Toboliu", "Tulca", "Tetchea", "Uileacu de Beius", "Vadu Crisului", "Valea lui Mihai", "Varzarii de Jos", 
-
     "Varzarii de Sus", "Viisoara"
   ],
   "Bistrita-Nasaud": [
     "Bistrita", "Beclean", "Bistrita Bargaului", "Budacu de Jos", "Budesti", "Caianu Mic", "Cetate", "Ciceu-Giurgesti", 
-
     "Ciceu-Mihaiesti", "Chiochis", "Chiuza", "Cosbuc", "Dumitra", "Dumitrita", "Felru", "Galatii Bistritei", "Ilva Mare", 
-
     "Ilva Mica", "Josenii Bargaului", "Lechinta", "Lesu", "Livezile", "Maieru", "Matei", "Magura Ilvei", "Mariselu", 
-
     "Micestii de Campie", "Milas", "Monor", "Nasaud", "Negrilesti", "Nimigea", "Nuseni", "Parva", "Petru Rares", 
-
     "Prundu Bargaului", "Rebra", "Rebrisoara", "Runcu Salvei", "Salva", "Sangeorz-Bai", "Sanmihaiu de Campie", "Silivasu de Campie", 
-
     "Sotrile", "Spermezeu", "Sieu", "Sieu-Magherus", "Sieu-Odorhei", "Sieut", "Sintereag", "Tarlisua", "Teaca", "Telciu", 
-
     "Tiha Bargaului", "Uriu", "Urmenis", "Zagra"
   ],
   "Botosani": [
     "Botosani", "Adaseni", "Albesti", "Avram Iancu", "Avrameni", "Baluseni", "Blandesti", "Bucecea", "Braesti", 
-
     "Broscauti", "Calarasi", "Candesti", "Concestii", "Copalau", "Cordareni", "Corlateni", "Corni", "Cosula", 
-
     "Cotusca", "Cristesti", "Cristinesti", "Curtesti", "Dangeni", "Darabani", "Dersca", "Dorohoi", "Draguseni", 
-
     "Durlesti", "Flamanzi", "Frumusica", "Gorbanesti", "Havarna", "Hanesti", "Hiliseu-Horia", "Hlipiceni", "Hudesti", 
-
     "Ibanesti", "Leorda", "Liveni", "Manoleasa", "Mihai Eminescu", "Mihaileni", "Mihalaseni", "Mileanca", "Mitoc", 
 
     "Nicseni", "Paltinis", "Pomarla", "Prajeni", "Rachiti", "Radauti-Prut", "Rauseni", "Ripiceni", "Roma", 
@@ -111,7 +76,6 @@
   ],
   "Brasov": [
     "Brasov", "Apata", "Beclean", "Bod", "Bran", "Budila", "Bumbesti-Jiu", "Bunesti", "Cata", "Cincu", 
-
     "Codlea", "Comana", "Cristian", "Crizbav", "Dragus", "Dumbravita", "Fagaras", "Feldioara", "Fundata", 
 
     "Halchiu", "Harman", "Harseni", "Hoghiz", "Holbav", "Homorod", "Jibert", "Lisa", "Mandra", "Moieciu", 
@@ -157,11 +121,31 @@
 
     "Zarnesti", "Ziduri"
   ],
+  "Calarasi": [
+    "Calarasi", "Alexandru Odobescu", "Belciugatele", "Borcea", "Budesti", "Cascioarele", "Chiselet", "Crivat", 
+    "Curcani", "Cuza Voda", "Dichiseni", "Dor Marunt", "Dorobantu", "Frumusani", "Fundeni", "Fundulea", 
+    "Galbinasi", "Gradistea", "Gurbanesti", "Ileana", "Independenta", "Jegalia", "Lehliu", "Lehliu Gara", 
+    "Luica", "Lupsanu", "Manastirea", "Mitreni", "Modelu", "Nana", "Nicolae Balcescu", "Oltenita", 
+    "Plataresti", "Radovanu", "Roseti", "Sarulesti", "Sohatu", "Spantov", "Stefan cel Mare", "Stefan Voda", 
+    "Tamasdau", "Ulmeni", "Ulmu", "Unirea", "Valcelele", "Valea Argovei", "Vasilati", "Vlad Tepes"
+  ],
+  "Caras-Severin": [
+    "Resita", "Caransebes", "Bocsa", "Moldova Noua", "Oravita", "Otelu Rosu", "Anina", "Baile Herculane", 
+    "Armenis", "Bania", "Bautar", "Berliște", "Berzasca", "Berzovia", "Bolvasnița", "Bozovici", "Brebu", 
+    "Buchin", "Bucoșnița", "Carașova", "Cărbunari", "Ciclova Română", "Ciuchici", "Ciudanovița", "Constantin Daicoviciu", 
+    "Copiș", "Cornea", "Cornereva", "Coronini", "Cozla", "Dalboșeț", "Doclin", "Dognecea", "Domașnea", 
+    "Ezeriș", "Fârliug", "Forotic", "Gârnic", "Glimboca", "Goruia", "Iablanița", "Lăpușnicel", "Lăpușnicu Mare", 
+    "Luncavița", "Lupac", "Marga", "Măureni", "Mehadia", "Mehadica", "Naidăș", "Obreja", "Ocna de Fier", 
+
+    "Păltiniș", "Pojejena", "Prigor", "Ramna", "Răcășdia", "Sasca Montană", "Sicăvița", "Slatina-Timiș", 
+
+    "Socol", "Șopotu Nou", "Târnova", "Terezian", "Ticvaniu Mare", "Topleț", "Turnu Ruieni", "Văliug", 
+
+    "Vărădia", "Vermeș", "Vrana", "Zăvoi", "Zorlențu Mare"
+  ],
   "Cluj": [
     "Cluj-Napoca", "Aghiresu", "Aiton", "Alunis", "Apsani", "Baciu", "Baisoara", "Belis", "Bobalna", "Bontida", 
-
     "Borsa", "Buza", "Caianu", "Calarasi", "Calatea", "Capusu Mare", "Catina", "Campia Turzii", "Caseiu", 
-
     "Chinteni", "Chiuiesti", "Ciucea", "Ciurila", "Cojocna", "Cornesti", "Cuzdrioara", "Dabaca", "Dej", 
 
     "Feleacu", "Fizesu Gherlii", "Floresti", "Frata", "Gherla", "Gilau", "Garbau", "Iara", "Iclod", "Izvoru Crisului", 
@@ -176,7 +160,6 @@
   ],
   "Constanta": [
     "Constanta", "23 August", "Adamclisi", "Agigea", "Albesti", "Aliman", "Amzacea", "Baneasa", "Baraganu", 
-
     "Castelu", "Cerchezu", "Cernavoda", "Ciobanu", "Ciocarlia", "Cobadin", "Cogealac", "Comana", "Corbu", 
 
     "Costinesti", "Cumpana", "Cuza Voda", "Dobromir", "Dumbraveni", "Eforie", "Garliciu", "Ghindaresti", 
@@ -193,7 +176,6 @@
   ],
   "Covasna": [
     "Sfantu Gheorghe", "Aita Mare", "Aninoasa", "Barcani", "Baraolt", "Batani", "Belin", "Bixad", "Bodoc", 
-
     "Borosneu Mare", "Bradut", "Brates", "Bretcu", "Catalina", "Cernat", "Chichis", "Comandau", "Covasna", 
 
     "Dobarlau", "Ghelinta", "Ghidfalau", "Haghig", "Ilieni", "Intorsura Buzaului", "Lemnia", "Malnas", 
@@ -202,7 +184,6 @@
   ],
   "Dambovita": [
     "Targoviste", "Aninoasa", "Baleni", "Barbuletu", "Bezdead", "Bilciuresti", "Branistea", "Branesti", 
-
     "Brezoaele", "Buciumeni", "Bucsani", "Butimanu", "Candesti", "Ciocanesti", "Cobita", "Cojasca", "Comisani", 
 
     "Corbii Mari", "Cornatelu", "Cornesti", "Costestii din Vale", "Crangurile", "Crevedia", "Darmanesti", 
@@ -223,7 +204,6 @@
   ],
   "Dolj": [
     "Craiova", "Afumati", "Almaj", "Amarastii de Jos", "Amarastii de Sus", "Apele Vii", "Argetoaia", 
-
     "Bailesti", "Bralostita", "Bratovoesti", "Breasta", "Bucovat", "Bulzesti", "Calafat", "Calopar", 
 
     "Caraula", "Carcea", "Carna", "Castranova", "Catane", "Celaru", "Cerat", "Cernatesti", "Cetate", 
@@ -248,7 +228,6 @@
   ],
   "Galati": [
     "Galati", "Balabanesti", "Balasesti", "Baleni", "Baneasa", "Beresti", "Beresti-Meria", "Branistea", 
-
     "Buciumeni", "Cavadinesti", "Certesti", "Cosmesti", "Costache Negri", "Cudalbi", "Cuza Voda", 
 
     "Draganesti", "Draguseni", "Fartanesti", "Folk", "Ghidigeni", "Gohor", "Grivita", "Independenta", 
@@ -263,7 +242,6 @@
   ],
   "Giurgiu": [
     "Giurgiu", "Adunatii-Copaceni", "Baneasa", "Bolintin-Deal", "Bolintin-Vale", "Bucsani", "Bulbucata", 
-
     "Calugareni", "Clejani", "Colibasi", "Comana", "Crevedia Mare", "Daia", "Floresti-Stoenesti", "Fratesti", 
 
     "Gaujani", "Ghimpati", "Gogosari", "Gostinari", "Gostinu", "Gradinari", "Iepuresti", "Izvoarele", 
@@ -276,7 +254,6 @@
   ],
   "Gorj": [
     "Targu Jiu", "Albeni", "Alimpesti", "Aninoasa", "Arcani", "Baia de Fier", "Balanesti", "Balesti", 
-
     "Barbatesti", "Berlesti", "Bilteni", "Bolbosi", "Borbanesti", "Bumbesti-Jiu", "Bumbesti-Pitic", 
 
     "Busteri", "Capreni", "Catunele", "Ciuperceni", "Crasna", "Cruset", "Danciulesti", "Danesti", 
@@ -295,7 +272,6 @@
   ],
   "Harghita": [
     "Miercurea Ciuc", "Atid", "Avramesti", "Balan", "Bilesti", "Borsec", "Bradesti", "Capalnita", 
-
     "Ciumani", "Corund", "Cozmeni", "Cristuru Secuiesc", "Danesti", "Dealu", "Ditrau", "Feliceni", 
 
     "Frumoasa", "Galautas", "Gheorgheni", "Lazarea", "Leliceni", "Lueta", "Luncani", "Lupeni", "Martinis", 
@@ -310,7 +286,6 @@
   ],
   "Hunedoara": [
     "Deva", "Aninoasa", "Baia de Cris", "Bacia", "Baita", "Banita", "Baru", "Batrana", "Beriu", 
-
     "Blajeni", "Bosorod", "Brad", "Bretea Romana", "Buces", "Bucuresci", "Bulzestii de Sus", "Bunila", 
 
     "Burcheret", "Calan", "Carjiti", "Certs", "Criscior", "Densus", "Dobra", "Ghelari", "Gothatea", 
@@ -325,7 +300,6 @@
   ],
   "Ialomita": [
     "Slobozia", "Adancata", "Albesti", "Alexeni", "Amara", "Andrasesti", "Armasesti", "Axintele", 
-
     "Balaciu", "Barcanesti", "Borcea", "Bordusani", "Brazii", "Buces", "Bucu", "Ciochina", "Ciulnita", 
 
     "Cocorasti", "Cosambesti", "Cosereni", "Dragoesti", "Dridu", "Facaeni", "Fetesti", "Fierbinti-Targ", 
@@ -342,7 +316,6 @@
   ],
   "Iasi": [
     "Iasi", "Alexandru I. Cuza", "Andrieseni", "Aroneanu", "Bals", "Baltati", "Barnova", "Belcesti", 
-
     "Bivolari", "Braesti", "Butea", "Ceplenita", "Ciohorani", "Ciortesti", "Ciurea", "Coarnele Caprei", 
 
     "Comarna", "Costuleni", "Costesti", "Cotnari", "Cozmesti", "Cristesti", "Cucuteni", "Dagata", 
@@ -365,18 +338,16 @@
   ],
   "Ilfov": [
     "Voluntari", "1 Decembrie", "Afumati", "Balotesti", "Berceni", "Bragadiru", "Branesti", "Buftea", 
-
     "Cernica", "Chiajna", "Chitila", "Ciolpani", "Ciorogarla", "Clinceni", "Copaceni", "Corbeanca", 
 
     "Cornetu", "Darasti-Ilfov", "Dascalu", "Dobroesti", "Domnesti", "Ganeasa", "Glina", "Gradistea", 
 
     "Gruiu", "Jilava", "Magurele", "Moara Vlasiei", "Mogosoaia", "Nuci", "Otopeni", "Pantelimon", 
 
-    "Petrechioaia", "Popesti-Leordeni", "Stefanestii de Jos", "Snagov", "Tunari", "Vidra"
+    "Petrechioaia", "Popești-Leordeni", "Stefanestii de Jos", "Snagov", "Tunari", "Vidra"
   ],
   "Maramures": [
     "Baia Mare", "Ardusat", "Arinis", "Asuaju de Sus", "Baita de sub Codru", "Baiut", "Barsana", "Basesti", 
-
     "Bicaz", "Bistra", "Bocicoiu Mare", "Bogdan Voda", "Boiu Mare", "Borsa", "Botiza", "Budesti", 
 
     "Calinesti", "Campulung la Tisa", "Cernesti", "Cicarlau", "Copas", "Coas", "Coltau", "Desesti", 
@@ -393,7 +364,6 @@
   ],
   "Mehedinti": [
     "Drobeta-Turnu Severin", "Balacita", "Baltati", "Bacles", "Balvanesti", "Branistea", "Breznita-Ocol", 
-
     "Breznita-Motru", "Brosteni", "Burila Mare", "Cazanesti", "Ciresu", "Corcova", "Corlatel", "Cujmir", 
 
     "Darvari", "Devesel", "Dubova", "Dumbrava", "Eselnita", "Floresti", "Garla Mare", "Godeanu", "Gogosu", 
@@ -410,7 +380,6 @@
   ],
   "Mures": [
     "Targu Mures", "Acatari", "Adamus", "Albesti", "Alunis", "Apold", "Atintis", "Bagaciu", "Bala", 
-
     "Balauseri", "Band", "Batos", "Beica de Jos", "Bereni", "Bichris", "Bogata", "Brancovenesti", 
 
     "Breaza", "Ceuasu de Campie", "Chetani", "Chibed", "Chiheru de Jos", "Corunca", "Coroisanmartin", 
@@ -435,7 +404,6 @@
   ],
   "Neamt": [
     "Piatra-Neamt", "Agapia", "Alexandru cel Bun", "Bahna", "Baltatesti", "Bargauani", "Bicaz", "Bicaz-Chei", 
-
     "Bicaz-Ardelean", "Bodesti", "Boghicea", "Borca", "Borlestii", "Botesti", "Bozieni", "Brusturi", "Ceahlau", 
 
     "Candesti", "Cordun", "Costsa", "Cracaoani", "Dobreni", "Dochia", "Doljesti", "Draganesti", "Dulcesti", 
@@ -454,7 +422,6 @@
   ],
   "Olt": [
     "Slatina", "Babiciu", "Balteni", "Baltati", "Barasti", "Barza", "Babiciu", "Barbatesti", "Bobicesti", 
-
     "Brastavatu", "Brancoveni", "Brebeni", "Bucinisu", "Calui", "Caracal", "Carlogani", "Cezieni", "Cilieni", 
 
     "Colonesti", "Corabia", "Corbu", "Coteana", "Crampoia", "Cungra", "Curtisoara", "Daneasa", "Deveselu", 
@@ -477,7 +444,6 @@
   ],
   "Prahova": [
     "Ploiesti", "Adunati", "Albesti-Paleologu", "Alunis", "Apostolache", "Aricestii Rahtivani", "Aricestii Zeletin", 
-
     "Azuga", "Baicoi", "Baltesti", "Barcanesti", "Batrani", "Bertea", "Blejoi", "Boldesti-Gradistea", "Boldesti-Scaeni", 
 
     "Breaza", "Brebu", "Bucecea", "Bucov", "Busteni", "Calinesti", "Carbunesti", "Ceptura", "Cerasu", "Chiojdeanca", 
@@ -500,7 +466,6 @@
   ],
   "Satu Mare": [
     "Satu Mare", "Acas", "Agris", "Andrid", "Apa", "Ardud", "Batarci", "Batarci", "Beltiug", "Berveni", "Bixad", 
-
     "Bogdand", "Botiz", "Calinesti-Oas", "Capleni", "Cauas", "Cehal", "Cernesti", "Ciumesti", "Craidorolot", 
 
     "Crucisor", "Culciu", "Doba", "Dorolt", "Foieni", "Halmeu", "Hodod", "Homoroade", "Lazaresti", "Livada", 
@@ -513,7 +478,6 @@
   ],
   "Salaj": [
     "Zalau", "Agrij", "Alparea", "Almasu", "Babeni", "Balan", "Banisor", "Benesat", "Bobota", "Bocsa", 
-
     "Boghis", "Buciumi", "Carastelec", "Cehu Silvaniei", "Chiesd", "Cizer", "Cozla", "Creaca", "Criseni", 
 
     "Cristolt", "Cuzaplac", "Dobrin", "Dragu", "Fildu de Jos", "Garbou", "Halmasd", "Hida", "Horoatu Crasnei", 
@@ -526,7 +490,6 @@
   ],
   "Sibiu": [
     "Sibiu", "Agnita", "Alma", "Altina", "Apos", "Arpasu de Jos", "Atel", "Avrig", "Axente Sever", "Bazna", 
-
     "Biertan", "Barghis", "Blajel", "Boita", "Bradeni", "Brateiu", "Bruiu", "Cisnadie", "Cristian", "Darlos", 
 
     "Gura Raului", "Hoghilag", "Iacobeni", "Jina", "Ludos", "Marpod", "Medias", "Miercurea Sibiului", "Mihaileni", 
@@ -539,7 +502,6 @@
   ],
   "Suceava": [
     "Suceava", "Adancata", "Arbore", "Baia", "Balaceana", "Balcauti", "Berchisesti", "Bilca", "Bogdanesti", 
-
     "Botosana", "Breaza", "Brodina", "Burlesti", "Calinesti", "Campulung Moldovenesc", "Capu Campului", "Carlibaba", 
 
     "Ciprian Porumbescu", "Comanesti", "Cornu Luncii", "Cosna", "Crucea", "Darmanesti", "Dolhasca", "Dolhesti", 
@@ -564,7 +526,6 @@
   ],
   "Teleorman": [
     "Alexandria", "Babaita", "Balaci", "Beciu", "Beuca", "Blejesti", "Bogdana", "Botoroaga", "Bragadiru", 
-
     "Branceni", "Buzescu", "Calinesti", "Calmatuiu", "Calmatuiu de Sus", "Cervenia", "Ciolanesti", "Ciuperceni", 
 
     "Cosmesti", "Contesti", "Crangeni", "Crangu", "Crevenicu", "Didesti", "Dobrotesti", "Draganesti de Vede", 
@@ -587,7 +548,6 @@
   ],
   "Timis": [
     "Timisoara", "Balint", "Banloc", "Bara", "Barna", "Beba Veche", "Becicherecu Mic", "Belint", "Bethausen", 
-
     "Biled", "Birda", "Bogda", "Boldur", "Brestovat", "Buzias", "Carpinis", "Cenei", "Checea", "Cheveresu Mare", 
 
     "Comlosu Mare", "Costeiu", "Criciova", "Curtea", "Darova", "Denta", "Deta", "Discott", "Dudestii Noi", 
@@ -610,7 +570,6 @@
   ],
   "Tulcea": [
     "Tulcea", "Baia", "Babadag", "Beidaud", "Bestepe", "C.A. Rosetti", "Carcaliu", "Casimcea", "Ceamurlia de Jos", 
-
     "Cerna", "Chilia Veche", "Ciucurova", "Crisan", "Daeni", "Dorobantu", "Frecatei", "Greci", "Grindu", 
 
     "Hamcearca", "Horia", "I.C. Bratianu", "Isaccea", "Izvoarele", "Jijila", "Jurilovca", "Luncavita", 
@@ -623,7 +582,6 @@
   ],
   "Vaslui": [
     "Vaslui", "Albesti", "Alexandru Vlahuta", "Arsura", "Bacani", "Bacesti", "Barlad", "Balteni", "Banca", 
-
     "Berezeni", "Bogdana", "Bogdanesti", "Bogdanita", "Botesti", "Bottsani", "Gherghesti", "Gherghesti", 
 
     "Grivita", "Husi", "Iana", "Ibanesti", "Laza", "Lipovat", "Lunca Banului", "Malusteni", "Miclesti", 
@@ -638,7 +596,6 @@
   ],
   "Valcea": [
     "Ramnicu Valcea", "Alunu", "Amarasti", "Babeni", "Baile Govora", "Baile Olanesti", "Balcesti", "Barbatesti", 
-
     "Berbesti", "Berislavesti", "Boisoara", "Budesti", "Bujoreni", "Bunesti", "Calimanesti", "Caineni", 
 
     "Cernisoara", "Copaceni", "Costesti", "Creteni", "Daesti", "Danicei", "Diculesti", "Dragasani", 
@@ -659,10 +616,9 @@
   ],
   "Vrancea": [
     "Focsani", "Adjud", "Andreiasu de Jos", "Balanesti", "Barsesti", "Bercesti", "Boghesti", "Bolotesti", 
-
     "Bordesti", "Brosteni", "Campuri", "Campineanca", "Chiojdeni", "Ciorasti", "Cotesti", "Covasna", 
 
-    "Dumbraveni", "Dumitresti", "Fitionesti", "Garoafa", "Golesti", "Gologanu", "Gugesti", "Homocea", 
+    "Dumbraveni", "Dumitresti", "Fitionesti", "Garoafa", "Golesti", "Gologanu", "Gugeesti", "Homocea", 
 
     "Jitia", "Jorasti", "Macaresti", "Marculesti", "Marasesti", "Mera", "Movilita", "Nereju", "Negrilesti", 
 
