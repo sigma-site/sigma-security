@@ -1,969 +1,607 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>STRICTZILIER.ro – Profil zilier</title>
-
-<style>
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f4f6f8;
-    color:#263238;
-}
-
-header{
-    height:68px;
-    background:#fff;
-    border-bottom:1px solid #ddd;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:0 28px;
-}
-
-.logo{
-    font-size:24px;
-    font-weight:800;
-}
-
-.logo span{
-    color:#f28c28;
-}
-
-.guide-top-btn{
-    background:transparent;
-    border:1px solid #f28c28;
-    color:#d86f0b;
-    border-radius:6px;
-    padding:6px 10px;
-    font-size:12px;
-    font-weight:bold;
-    cursor:pointer;
-}
-
-.main{
-    max-width:1180px;
-    margin:18px auto;
-    padding:0 18px;
-
-    display:grid;
-    grid-template-columns:minmax(0,1.55fr) minmax(320px,.75fr);
-    gap:20px;
-}
-
-.content,
-.agent{
-    background:#fff;
-    border-radius:12px;
-    box-shadow:0 2px 8px rgba(0,0,0,.06);
-}
-
-.content{
-    padding:23px;
-}
-
-h1{
-    margin:0 0 6px;
-    font-size:25px;
-}
-
-.subtitle{
-    color:#6d7880;
-    margin-bottom:18px;
-    line-height:1.45;
-    font-size:14px;
-}
-
-.section{
-    margin-bottom:16px;
-    padding-bottom:14px;
-    border-bottom:1px solid #e5e7e9;
-}
-
-.section:last-of-type{
-    border-bottom:none;
-    margin-bottom:8px;
-}
-
-.section h2{
-    margin:0 0 11px;
-    font-size:17px;
-}
-
-.info-grid{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:11px;
-}
-
-.info{
-    background:#f7f8f9;
-    border:1px solid #e4e7e9;
-    border-radius:7px;
-    padding:10px 11px;
-}
-
-.info label{
-    display:block;
-    font-size:11px;
-    color:#737d83;
-    margin-bottom:5px;
-}
-
-.info input,
-.info select{
-    display:block;
-    width:100%;
-    min-width:0;
-
-    border:1px solid #ccd3d6;
-    border-radius:5px;
-
-    background:#fff;
-    color:#263238;
-
-    padding:7px 8px;
-
-    font-family:Arial,sans-serif;
-    font-size:13px;
-
-    outline:none;
-}
-
-.info input:focus,
-.info select:focus{
-    border-color:#f28c28;
-    box-shadow:0 0 0 2px rgba(242,140,40,.10);
-}
-
-.info input[readonly]{
-    background:#f0f1f2;
-    color:#5f6b70;
-}
-
-.verified{
-    color:#27776e;
-    font-size:10px;
-    font-weight:700;
-}
-
-.buttons{
-    display:flex;
-    gap:10px;
-    margin-top:18px;
-}
-
-.buttons button{
-    flex:1;
-    border:none;
-    border-radius:7px;
-    padding:11px 14px;
-    cursor:pointer;
-    font-size:13px;
-    font-weight:bold;
-}
-
-.primary{
-    background:#f28c28;
-    color:#fff;
-}
-
-.secondary{
-    background:#263238;
-    color:#fff;
-}
-
-.primary:hover,
-.secondary:hover{
-    opacity:.92;
-}
-
-/* =========================
-   ACTIVITATI
-   ========================= */
-
-.activity-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:11px;
-}
-
-.activity-item{
-    background:#f7f8f9;
-    border:1px solid #e4e7e9;
-    border-radius:7px;
-    padding:10px 11px;
-}
-
-.activity-item label{
-    display:block;
-    font-size:11px;
-    color:#737d83;
-    margin-bottom:5px;
-}
-
-.activity-item select{
-    width:100%;
-    border:1px solid #ccd3d6;
-    border-radius:5px;
-    background:#fff;
-    color:#263238;
-    padding:7px 8px;
-    font-size:13px;
-    outline:none;
-}
-
-/* =========================
-   EFORT / STUDII
-   ========================= */
-
-.profile-select{
-    width:100%;
-    border:1px solid #ccd3d6;
-    border-radius:5px;
-    background:#fff;
-    color:#263238;
-    padding:8px;
-    font-size:13px;
-    outline:none;
-}
-
-.profile-select:focus{
-    border-color:#f28c28;
-}
-
-/* =========================
-   ACTIUNI
-   ========================= */
-
-.action-buttons{
-    display:flex;
-    gap:10px;
-    margin-top:18px;
-}
-
-.action-buttons button{
-    flex:1;
-    border:none;
-    border-radius:7px;
-    padding:11px 14px;
-    cursor:pointer;
-    font-size:13px;
-    font-weight:bold;
-}
-
-/* =========================
-   AGENT
-   ========================= */
-
-.agent{
-    min-height:560px;
-    display:flex;
-    flex-direction:column;
-}
-
-.agent-header{
-    padding:16px 18px;
-    border-bottom:1px solid #ddd;
-    font-weight:bold;
-    font-size:14px;
-}
-
-.chat{
-    flex:1;
-    padding:17px;
-    background:#fafafa;
-}
-
-.chat-message{
-    background:#fff;
-    border:1px solid #ddd;
-    border-radius:9px;
-    padding:12px;
-    font-size:13px;
-    line-height:1.45;
-}
-
-.chat-input{
-    padding:12px;
-    border-top:1px solid #ddd;
-    display:flex;
-    gap:7px;
-}
-
-.chat-input input{
-    flex:1;
-    min-width:0;
-    padding:9px;
-    border:1px solid #ccc;
-    border-radius:7px;
-    font-size:13px;
-}
-
-.chat-input button{
-    border:none;
-    border-radius:7px;
-    padding:9px 13px;
-    cursor:pointer;
-    font-weight:bold;
-    font-size:13px;
-}
-
-/* =========================
-   RESPONSIVE
-   ========================= */
-
-@media(max-width:800px){
-
-    .main{
-        grid-template-columns:1fr;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profil zilier - STRICTZILIER.ro</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .custom-scroll::-webkit-scrollbar { width: 5px; }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
     }
-
-    .info-grid{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .agent{
-        min-height:420px;
-    }
-
-}
-
-@media(max-width:520px){
-
-    header{
-        padding:0 16px;
-    }
-
-    .logo{
-        font-size:20px;
-    }
-
-    .content{
-        padding:18px;
-    }
-
-    .info-grid{
-        grid-template-columns:1fr;
-    }
-
-    .activity-grid{
-        grid-template-columns:1fr;
-    }
-
-    .buttons,
-    .action-buttons{
-        flex-direction:column;
-    }
-
-}
-
-</style>
+  </style>
 </head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
+  <!-- Header Permanent -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+        <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
+      </a>
 
-<body>
+      <!-- Link Ghid Zilier -->
+      <a href="ghid-zilier.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition">
+        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>GHID ZILIER</span>
+      </a>
 
-
-<header>
-
-    <div class="logo">
-        STRICT<span>ZILIER</span>.ro
     </div>
+  </header>
 
-    <button
-        class="guide-top-btn"
-        onclick="location.href='ghid-zilier.html'">
-        Ghid zilier
-    </button>
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+      
+      <!-- COLOANA STANGA & CENTRU: CARDUL PRINCIPAL -->
+      <div class="lg:col-span-2 space-y-6">
+        <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
+          
+          <h1 class="text-2xl font-black text-slate-900 tracking-tight">Profil zilier</h1>
+          <p class="text-xs font-medium text-slate-500 mt-1 mb-6 leading-relaxed">
+            Datele profilului dumneavoastră și informațiile utilizate de platformă pentru identificarea activităților potrivite.
+          </p>
 
-</header>
+          <form id="form-profil" onsubmit="event.preventDefault(); salveazaProfil();" class="space-y-6">
 
+            <!-- SECTIUNE DATE PERSONALE SI IDENTIFICARE -->
+            <div class="pt-5 border-t border-slate-100">
+              <h2 class="text-base font-bold text-slate-900 mb-3">Date personale și identificare</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label for="nume" class="block text-xs font-bold text-slate-700 mb-1">Nume</label>
+                  <input type="text" id="nume" value="Popescu" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                </div>
 
-<div class="main">
+                <div>
+                  <label for="prenume" class="block text-xs font-bold text-slate-700 mb-1">Prenume</label>
+                  <input type="text" id="prenume" value="Ion" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                </div>
 
+                <div>
+                  <label for="telefon" class="block text-xs font-bold text-slate-700 mb-1">Telefon WhatsApp</label>
+                  <input type="tel" id="telefon" value="07xx xxx xxx" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                </div>
 
-<section class="content">
+                <div>
+                  <label for="cnp" class="block text-xs font-bold text-slate-700 mb-1">CNP</label>
+                  <input type="text" id="cnp" value="*************" readonly class="w-full h-10 px-3 bg-slate-100 text-slate-500 border border-slate-200 rounded-lg text-xs font-medium outline-none cursor-not-allowed">
+                </div>
 
-    <h1>Profil zilier</h1>
+                <div>
+                  <label for="act" class="block text-xs font-bold text-slate-700 mb-1">Act de identitate</label>
+                  <input type="text" id="act" value="CI · XX 123456" readonly class="w-full h-10 px-3 bg-slate-100 text-slate-500 border border-slate-200 rounded-lg text-xs font-medium outline-none cursor-not-allowed">
+                </div>
 
-    <div class="subtitle">
-        Datele profilului dumneavoastră și informațiile utilizate
-        de platformă pentru identificarea activităților potrivite.
-    </div>
-
-
-    <!-- =========================
-         DATE PERSONALE
-         ========================= -->
-
-    <div class="section">
-
-        <h2>Date personale și identificare</h2>
-
-        <div class="info-grid">
-
-            <div class="info">
-                <label>Nume</label>
-                <input
-                    type="text"
-                    id="nume"
-                    value="Popescu">
+                <div>
+                  <label for="cetatenie" class="block text-xs font-bold text-slate-700 mb-1">Cetățenie</label>
+                  <select id="cetatenie" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Română" selected>Română</option>
+                    <option value="Maghiară">Maghiară</option>
+                    <option value="Italiană">Italiană</option>
+                    <option value="Spaniolă">Spaniolă</option>
+                    <option value="Germană">Germană</option>
+                    <option value="Franceză">Franceză</option>
+                    <option value="Altă cetățenie">Altă cetățenie</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
-            <div class="info">
-                <label>Prenume</label>
-                <input
-                    type="text"
-                    id="prenume"
-                    value="Ion">
+            <!-- SECTIUNE ZONA DE INTERES -->
+            <div class="pt-5 border-t border-slate-100">
+              <h2 class="text-base font-bold text-slate-900 mb-3">Zona de interes</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label for="judet" class="block text-xs font-bold text-slate-700 mb-1">Județ</label>
+                  <select id="judet" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Bacău" selected>Bacău</option>
+                    <option value="Neamț">Neamț</option>
+                    <option value="Iași">Iași</option>
+                    <option value="Vrancea">Vrancea</option>
+                    <option value="Suceava">Suceava</option>
+                    <option value="Vaslui">Vaslui</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="localitate" class="block text-xs font-bold text-slate-700 mb-1">Localitate</label>
+                  <input type="text" id="localitate" value="Bacău" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                </div>
+
+                <div>
+                  <label for="raza" class="block text-xs font-bold text-slate-700 mb-1">Raza maximă de deplasare</label>
+                  <select id="raza" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="5">5 km</option>
+                    <option value="10">10 km</option>
+                    <option value="20">20 km</option>
+                    <option value="30" selected>30 km</option>
+                    <option value="50">50 km</option>
+                    <option value="100">100 km</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
-            <div class="info">
-                <label>Telefon WhatsApp</label>
-                <input
-                    type="tel"
-                    id="telefon"
-                    value="07xx xxx xxx">
+            <!-- SECTIUNE ACTIVITĂȚI -->
+            <div class="pt-5 border-t border-slate-100">
+              <h2 class="text-base font-bold text-slate-900 mb-3">Activități</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="activitatePrincipala" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">ACTIVITATE PRINCIPALĂ</label>
+                  <select id="activitatePrincipala" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Agricultură">Agricultură</option>
+                    <option value="Lucrări în spații verzi">Lucrări în spații verzi</option>
+                    <option value="Catering">Catering</option>
+                    <option value="Silvicultură">Silvicultură</option>
+                    <option value="Peisagistică">Peisagistică</option>
+                    <option value="Sport și agrement">Sport și agrement</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="grupaPrincipala" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">GRUPĂ ACTIVITATE PRINCIPALĂ</label>
+                  <select id="grupaPrincipala" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="GA001">Agricultură, horticultură și comerț agricol</option>
+                    <option value="GA002">Silvicultură, pescuit și creșterea animalelor</option>
+                    <option value="GA003">Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                    <option value="GA004">Natură, biodiversitate și agrement în aer liber</option>
+                    <option value="GA005">Alimentație, ospitalitate și cazare</option>
+                    <option value="GA007">Sport și agrement</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="activitateSec1" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">ACTIVITATE SECUNDARĂ 1</label>
+                  <select id="activitateSec1" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Lucrări în spații verzi">Lucrări în spații verzi</option>
+                    <option value="Agricultură">Agricultură</option>
+                    <option value="Catering">Catering</option>
+                    <option value="Silvicultură">Silvicultură</option>
+                    <option value="Nicio activitate">Nicio activitate</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="activitateSec2" class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">ACTIVITATE SECUNDARĂ 2</label>
+                  <select id="activitateSec2" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Catering">Catering</option>
+                    <option value="Agricultură">Agricultură</option>
+                    <option value="Lucrări în spații verzi">Lucrări în spații verzi</option>
+                    <option value="Silvicultură">Silvicultură</option>
+                    <option value="Nicio activitate">Nicio activitate</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
-            <div class="info">
-                <label>CNP</label>
-                <input
-                    type="text"
-                    id="cnp"
-                    value="*************">
+            <!-- SECTIUNE CALIFICĂRI SI ABILITĂȚI -->
+            <div class="pt-5 border-t border-slate-100">
+              <h2 class="text-base font-bold text-slate-900 mb-3">Calificări și abilități</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="calificare" class="block text-xs font-bold text-slate-700 mb-1">Calificare principală</label>
+                  <select id="calificare" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Fără calificare">Fără calificare</option>
+                    <option value="Lucrător agricol">Lucrător agricol</option>
+                    <option value="Grădinar">Grădinar</option>
+                    <option value="Bucătar">Bucătar</option>
+                    <option value="Ospătar">Ospătar</option>
+                    <option value="Electrician">Electrician</option>
+                    <option value="Zugrav">Zugrav</option>
+                    <option value="Șofer">Șofer</option>
+                    <option value="Altă calificare">Altă calificare</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="experienta" class="block text-xs font-bold text-slate-700 mb-1">Experiență</label>
+                  <select id="experienta" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Fără experiență">Fără experiență</option>
+                    <option value="Sub 1 an">Sub 1 an</option>
+                    <option value="1–3 ani">1–3 ani</option>
+                    <option value="3–5 ani">3–5 ani</option>
+                    <option value="Peste 5 ani">Peste 5 ani</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
-            <div class="info">
-                <label>Act de identitate</label>
-                <input
-                    type="text"
-                    id="act"
-                    value="CI · XX 123456">
+            <!-- SECTIUNE CAPACITATE DE EFORT -->
+            <div class="pt-5 border-t border-slate-100">
+              <h2 class="text-base font-bold text-slate-900 mb-3">Capacitate de efort</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div>
+                  <label for="efort" class="block text-xs font-bold text-slate-700 mb-1">Nivel de efort</label>
+                  <select id="efort" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="EF001">Ușor (Foarte redusă)</option>
+                    <option value="EF002">Redusă</option>
+                    <option value="EF003" selected>Moderat (Medie)</option>
+                    <option value="EF004">Ridicală</option>
+                    <option value="EF005">Foarte ridicată</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="greutate" class="block text-xs font-bold text-slate-700 mb-1">Greutate manipulată</label>
+                  <select id="greutate" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Până la 5 kg">Până la 5 kg</option>
+                    <option value="5–10 kg">5–10 kg</option>
+                    <option value="10–20 kg" selected>10–20 kg</option>
+                    <option value="20–30 kg">20–30 kg</option>
+                    <option value="Peste 30 kg">Peste 30 kg</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label for="activitateFizica" class="block text-xs font-bold text-slate-700 mb-1">Activitate fizică</label>
+                  <select id="activitateFizica" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Ocazională">Ocazională</option>
+                    <option value="Periodic">Periodic</option>
+                    <option value="Constantă" selected>Constantă</option>
+                  </select>
+                </div>
+              </div>
             </div>
 
-            <div class="info">
-                <label>Cetățenie</label>
+            <!-- SECTIUNE STUDII SI DATE SUPLIMENTARE -->
+            <div class="pt-5 border-t border-slate-100">
+              <h2 class="text-base font-bold text-slate-900 mb-3">Studii și date suplimentare</h2>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label for="studii" class="block text-xs font-bold text-slate-700 mb-1">Nivel de studii</label>
+                  <select id="studii" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Fără studii">Fără studii</option>
+                    <option value="Primare">Primare</option>
+                    <option value="Secundare" selected>Secundare</option>
+                    <option value="Postliceale">Postliceale</option>
+                    <option value="Superioare">Superioare</option>
+                  </select>
+                </div>
 
-                <select id="cetatenie">
-
-                    <option selected>Română</option>
-                    <option>Maghiară</option>
-                    <option>Italiană</option>
-                    <option>Spaniolă</option>
-                    <option>Germană</option>
-                    <option>Franceză</option>
-                    <option>Altă cetățenie</option>
-
-                </select>
-
+                <div>
+                  <label for="email" class="block text-xs font-bold text-slate-700 mb-1">Email</label>
+                  <input type="email" id="email" value="" placeholder="nume@exemplu.ro" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                </div>
+              </div>
             </div>
 
+            <!-- SECTIUNE ECHIPĂ -->
+            <div class="pt-5 border-t border-slate-100">
+              <h2 class="text-base font-bold text-slate-900 mb-3">Echipă</h2>
+              <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Status echipă</span>
+                  <strong class="block text-xs font-bold text-slate-800">Nu există o asociere activă</strong>
+                </div>
+                <button type="button" onclick="location.href='formare-echipa.html'" class="w-full sm:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+                  FORMEAZĂ O ECHIPĂ
+                </button>
+              </div>
+            </div>
+
+            <!-- SECTIUNE MINOR 16-18 ANI -->
+            <div class="pt-5 border-t border-slate-100">
+              <h2 class="text-base font-bold text-slate-900 mb-3">Minor 16–18 ani</h2>
+              <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div>
+                  <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Status minor</span>
+                  <strong class="block text-xs font-bold text-slate-800">Nu există un minor asociat</strong>
+                </div>
+                <button type="button" onclick="location.href='inscriere-minor.html'" class="w-full sm:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+                  ÎNSCRIE UN MINOR
+                </button>
+              </div>
+            </div>
+
+            <!-- BUTTONS ACTION -->
+            <div class="pt-5 border-t border-slate-100 flex flex-col sm:flex-row gap-2.5">
+              <button type="submit" class="w-full sm:w-1/2 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+                SALVEAZĂ PROFILUL
+              </button>
+              <button type="button" onclick="location.href='cont-zilier.html'" class="w-full sm:w-1/2 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">
+                ÎNAPOI LA CONT
+              </button>
+            </div>
+
+          </form>
+
+          <!-- STATUS / SUCCESS -->
+          <div id="success" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 leading-relaxed">
+            Profilul a fost salvat cu succes în baza de date!
+          </div>
+
+        </section>
+      </div>
+
+      <!-- COLOANA DREAPTA: AGENT VAPI INTEGRAT DIRECT -->
+      <aside id="strictzilierAgent" class="bg-gradient-to-b from-slate-900 to-blue-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl border border-blue-900 flex flex-col justify-between h-[580px] text-center">
+        <div>
+          <p class="text-xs text-slate-300 mb-2 leading-tight max-w-xs mx-auto pt-1">
+            Spune ce cauți sau de ce ai nevoie. Agentul mediază întâlnirea dintre zilieri și angajatori.
+          </p>
+
+          <div id="conversation" class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
+            <div class="bg-white/10 text-slate-100 p-2 rounded-lg text-xs leading-relaxed max-w-[88%] border-l-2 border-blue-500">
+              <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>
+              Bun venit. Alege modul vocal sau scris pentru a începe conversația.
+            </div>
+          </div>
         </div>
 
-    </div>
-
-
-    <!-- =========================
-         ZONA
-         ========================= -->
-
-    <div class="section">
-
-        <h2>Zona de interes</h2>
-
-        <div class="info-grid">
-
-            <div class="info">
-
-                <label>Județ</label>
-
-                <select id="judet">
-
-                    <option>Bacău</option>
-                    <option>Neamț</option>
-                    <option>Iași</option>
-                    <option>Vrancea</option>
-                    <option>Suceava</option>
-                    <option>Vaslui</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="info">
-
-                <label>Localitate</label>
-
-                <input
-                    type="text"
-                    id="localitate"
-                    value="Bacău">
-
-            </div>
-
-
-            <div class="info">
-
-                <label>Raza maximă de deplasare</label>
-
-                <select id="raza">
-
-                    <option>5 km</option>
-                    <option>10 km</option>
-                    <option>20 km</option>
-                    <option selected>30 km</option>
-                    <option>50 km</option>
-                    <option>100 km</option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         ACTIVITATI
-         ========================= -->
-
-    <div class="section">
-
-        <h2>Activități</h2>
-
-        <div class="activity-grid">
-
-            <div class="activity-item">
-
-                <label>ACTIVITATE PRINCIPALĂ</label>
-
-                <select id="activitatePrincipala">
-
-                    <option>Agricultură</option>
-                    <option>Lucrări în spații verzi</option>
-                    <option>Catering</option>
-                    <option>Silvicultură</option>
-                    <option>Peisagistică</option>
-                    <option>Sport și agrement</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="activity-item">
-
-                <label>GRUPĂ ACTIVITATE PRINCIPALĂ</label>
-
-                <select id="grupaPrincipala">
-
-                    <option>Agricultură, horticultură și comerț agricol</option>
-                    <option>Silvicultură, pescuit și creșterea animalelor</option>
-                    <option>Peisagistică, spații verzi și gestionarea deșeurilor</option>
-                    <option>Natură, biodiversitate și agrement în aer liber</option>
-                    <option>Alimentație, ospitalitate și cazare</option>
-                    <option>Sport și agrement</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="activity-item">
-
-                <label>ACTIVITATE SECUNDARĂ 1</label>
-
-                <select id="activitateSec1">
-
-                    <option>Lucrări în spații verzi</option>
-                    <option>Agricultură</option>
-                    <option>Catering</option>
-                    <option>Silvicultură</option>
-                    <option>Nicio activitate</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="activity-item">
-
-                <label>ACTIVITATE SECUNDARĂ 2</label>
-
-                <select id="activitateSec2">
-
-                    <option>Catering</option>
-                    <option>Agricultură</option>
-                    <option>Lucrări în spații verzi</option>
-                    <option>Silvicultură</option>
-                    <option>Nicio activitate</option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         CALIFICARI
-         ========================= -->
-
-    <div class="section">
-
-        <h2>Calificări și abilități</h2>
-
-        <div class="info-grid">
-
-            <div class="info">
-
-                <label>Calificare principală</label>
-
-                <select id="calificare">
-
-                    <option>Fără calificare</option>
-                    <option>Lucrător agricol</option>
-                    <option>Grădinar</option>
-                    <option>Bucătar</option>
-                    <option>Ospătar</option>
-                    <option>Electrician</option>
-                    <option>Zugrav</option>
-                    <option>Șofer</option>
-                    <option>Altă calificare</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="info">
-
-                <label>Experiență</label>
-
-                <select id="experienta">
-
-                    <option>Fără experiență</option>
-                    <option>Sub 1 an</option>
-                    <option>1–3 ani</option>
-                    <option>3–5 ani</option>
-                    <option>Peste 5 ani</option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         EFORT
-         ========================= -->
-
-    <div class="section">
-
-        <h2>Capacitate de efort</h2>
-
-        <div class="info-grid">
-
-            <div class="info">
-
-                <label>Nivel de efort</label>
-
-                <select id="efort">
-
-                    <option>Ușor</option>
-                    <option selected>Moderat</option>
-                    <option>Ridicat</option>
-                    <option>Foarte ridicat</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="info">
-
-                <label>Greutate manipulată</label>
-
-                <select id="greutate">
-
-                    <option>Până la 5 kg</option>
-                    <option>5–10 kg</option>
-                    <option selected>10–20 kg</option>
-                    <option>20–30 kg</option>
-                    <option>Peste 30 kg</option>
-
-                </select>
-
-            </div>
-
-
-            <div class="info">
-
-                <label>Activitate fizică</label>
-
-                <select id="activitateFizica">
-
-                    <option>Ocazională</option>
-                    <option>Periodic</option>
-                    <option selected>Constantă</option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         STUDII
-         ========================= -->
-
-    <div class="section">
-
-        <h2>Studii</h2>
-
-        <div class="info-grid">
-
-            <div class="info">
-
-                <label>Nivel de studii</label>
-
-                <select id="studii">
-
-                    <option>Fără studii</option>
-                    <option>Primare</option>
-                    <option selected>Secundare</option>
-                    <option>Postliceale</option>
-                    <option>Superioare</option>
-
-                </select>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         EMAIL
-         ========================= -->
-
-    <div class="section">
-
-        <h2>Date suplimentare</h2>
-
-        <div class="info-grid">
-
-            <div class="info">
-
-                <label>Email</label>
-
-                <input
-                    type="email"
-                    id="email"
-                    value="">
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         ECHIPA
-         ========================= -->
-
-    <div class="section">
-
-        <h2>Echipă</h2>
-
-        <div class="info-grid">
-
-            <div class="info">
-
-                <label>Status echipă</label>
-
-                <strong>
-                    Nu există o asociere activă
-                </strong>
-
-            </div>
-
-        </div>
-
-
-        <div class="action-buttons">
-
-            <button
-                class="primary"
-                onclick="location.href='formare-echipa.html'">
-                FORMEAZĂ O ECHIPĂ
+        <div>
+          <div class="w-full max-w-[340px] mx-auto grid grid-cols-[1fr_34px_1fr] gap-1.5 items-center mb-1.5">
+            <button id="voiceModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">
+              VOCAL
             </button>
-
-        </div>
-
-    </div>
-
-
-    <!-- =========================
-         MINOR
-         ========================= -->
-
-    <div class="section">
-
-        <h2>Minor 16–18 ani</h2>
-
-        <div class="info-grid">
-
-            <div class="info">
-
-                <label>Status minor</label>
-
-                <strong>
-                    Nu există un minor asociat
-                </strong>
-
+            <div id="agentOrb" class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs text-white">
+              ✦
             </div>
-
-        </div>
-
-
-        <div class="action-buttons">
-
-            <button
-                class="primary"
-                onclick="location.href='inscriere-minor.html'">
-                ÎNSCRIE UN MINOR
+            <button id="textModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center">
+              SCRIS
             </button>
+          </div>
 
+          <div id="voicePanel" class="w-full max-w-[340px] mx-auto">
+            <button id="agentButton" type="button" class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">
+              PORNEȘTE CONVERSAȚIA
+            </button>
+            <div id="status" class="min-h-[14px] mt-1 text-[10px] font-bold text-emerald-400"></div>
+          </div>
+
+          <div id="textPanel" class="w-full max-w-[340px] mx-auto hidden">
+            <div class="flex gap-1.5">
+              <input id="messageInput" type="text" placeholder="Scrieți mesajul..." autocomplete="off" class="flex-1 min-w-0 h-11 px-3 bg-white text-slate-900 rounded-lg text-xs outline-none">
+              <button id="sendButton" type="button" class="w-[76px] h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-lg transition flex-shrink-0 flex items-center justify-center">
+                TRIMITE
+              </button>
+            </div>
+            <div id="chatStatus" class="min-h-[14px] mt-1 text-[10px] font-bold text-blue-300"></div>
+          </div>
         </div>
+      </aside>
 
     </div>
+  </main>
 
-
-    <!-- =========================
-         BUTOANE
-         ========================= -->
-
-    <div class="buttons">
-
-        <button
-            class="primary"
-            onclick="salveazaProfil()">
-            SALVEAZĂ PROFILUL
-        </button>
-
-        <button
-            class="secondary"
-            onclick="location.href='cont-zilier.html'">
-            ÎNAPOI LA CONT
-        </button>
-
+  <!-- FOOTER STANDARD -->
+  <footer class="bg-white border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>© 2026 STRICTZILIER.ro · Toate drepturile rezervate. Conform Legii 52/2011.</div>
+      <div class="flex flex-wrap gap-4 font-medium">
+        <a href="#termeni" class="hover:text-slate-800 transition">Termeni și Condiții</a>
+        <a href="#confidentialitate" class="hover:text-slate-800 transition">Politică de Confidențialitate</a>
+        <a href="https://anpc.ro" target="_blank" rel="noopener" class="hover:text-slate-800 transition">ANPC</a>
+      </div>
     </div>
+  </footer>
 
+  <!-- SCRIPT INTEGRARE VAPI & PIE.HOST -->
+  <script type="module">
+    import Vapi from "https://esm.sh/@vapi-ai/web";
 
-</section>
+    const PUBLIC_KEY = "ab245358-61ea-4876-b767-8e4ad159627d";
+    const ASSISTANT_ID = "970da2f1-89c8-438c-ac8c-30abfa04528e";
+    const CHAT_URL = "https://2.pie.host/chat.php";
 
+    const vapi = new Vapi(PUBLIC_KEY);
 
-<!-- =========================
-     AGENT
-     ========================= -->
+    const voiceModeButton = document.getElementById("voiceModeButton");
+    const textModeButton = document.getElementById("textModeButton");
+    const voicePanel = document.getElementById("voicePanel");
+    const textPanel = document.getElementById("textPanel");
+    const button = document.getElementById("agentButton");
+    const status = document.getElementById("status");
+    const conversation = document.getElementById("conversation");
+    const input = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
+    const chatStatus = document.getElementById("chatStatus");
 
-<aside class="agent">
+    let conversationActive = false;
+    let previousChatId = null;
+    let currentMode = "voice";
 
-    <div class="agent-header">
-        Asistent STRICTZILIER
-    </div>
+    function addMessage(type, text) {
+      if (!text || !text.trim()) return;
 
-    <div class="chat">
+      const message = document.createElement("div");
+      message.className = "max-w-[88%] p-2 rounded-lg text-xs leading-relaxed " + 
+        (type === "user" ? "bg-amber-500 text-white ml-auto" : "bg-white/10 text-slate-100 mr-auto border-l-2 border-blue-500");
 
-        <div class="chat-message">
-            Bun venit! Vă pot ajuta cu profilul,
-            activitățile, zona de lucru, echipa sau
-            înscrierea unui minor.
-        </div>
+      const label = document.createElement("span");
+      label.className = "block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider";
+      label.textContent = type === "user" ? "TU" : "AGENT";
 
-    </div>
+      const content = document.createElement("div");
+      content.textContent = text;
 
-    <div class="chat-input">
+      message.appendChild(label);
+      message.appendChild(content);
+      conversation.appendChild(message);
 
-        <input
-            type="text"
-            id="agentInput"
-            placeholder="Scrieți întrebarea...">
-
-        <button
-            class="primary"
-            onclick="trimiteAgent()">
-            Trimite
-        </button>
-
-    </div>
-
-</aside>
-
-
-</div>
-
-
-<script>
-
-function salveazaProfil(){
-
-    alert(
-        "Profilul a fost pregătit pentru salvare.\n\n" +
-        "În versiunea funcțională, datele vor fi transmise " +
-        "către baza de date."
-    );
-
-}
-
-
-function trimiteAgent(){
-
-    const input =
-        document.getElementById("agentInput");
-
-    const text =
-        input.value.trim();
-
-    if(!text){
-        return;
+      conversation.scrollTop = conversation.scrollHeight;
     }
 
-    alert(
-        "În versiunea funcțională, întrebarea va fi transmisă " +
-        "către Asistentul STRICTZILIER."
-    );
+    function setMode(mode) {
+      if (mode === currentMode) return;
 
-    input.value="";
+      if (mode === "text" && conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
+      }
 
-}
+      currentMode = mode;
+      const voice = mode === "voice";
 
-</script>
+      voiceModeButton.classList.toggle("bg-amber-500", voice);
+      voiceModeButton.classList.toggle("border-amber-500", voice);
+      voiceModeButton.classList.toggle("text-white", voice);
+      voiceModeButton.classList.toggle("bg-white/10", !voice);
+      voiceModeButton.classList.toggle("text-blue-200", !voice);
 
+      textModeButton.classList.toggle("bg-amber-500", !voice);
+      textModeButton.classList.toggle("border-amber-500", !voice);
+      textModeButton.classList.toggle("text-white", !voice);
+      textModeButton.classList.toggle("bg-white/10", voice);
+      textModeButton.classList.toggle("text-blue-200", voice);
 
+      voicePanel.classList.toggle("hidden", !voice);
+      textPanel.classList.toggle("hidden", voice);
+
+      if (!voice) input.focus();
+    }
+
+    voiceModeButton.addEventListener("click", () => setMode("voice"));
+    textModeButton.addEventListener("click", () => setMode("text"));
+
+    vapi.on("message", (message) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        addMessage(message.role === "user" ? "user" : "agent", message.transcript);
+      }
+    });
+
+    button.addEventListener("click", async () => {
+      if (conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
+        return;
+      }
+
+      status.textContent = "Se conectează...";
+
+      try {
+        await vapi.start(ASSISTANT_ID);
+        conversationActive = true;
+        button.textContent = "ÎNCHIDE CONVERSAȚIA";
+        status.textContent = "Conversația vocală este activă.";
+      } catch (error) {
+        console.error("Eroare Vapi:", error);
+        status.textContent = "Nu s-a putut porni conversația.";
+      }
+    });
+
+    async function sendTextMessage() {
+      const message = input.value.trim();
+      if (!message) return;
+
+      addMessage("user", message);
+      input.value = "";
+      sendButton.disabled = true;
+      chatStatus.textContent = "Se contactează agentul...";
+
+      try {
+        const response = await fetch(CHAT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message, previousChatId: previousChatId })
+        });
+
+        const data = await response.json();
+        if (data.chatId) previousChatId = data.chatId;
+        addMessage("agent", data.reply || "Agentul nu a returnat un răspuns.");
+        chatStatus.textContent = "";
+      } catch (error) {
+        addMessage("agent", "Eroare de conectare:\n" + error.message);
+      } finally {
+        sendButton.disabled = false;
+        input.focus();
+      }
+    }
+
+    sendButton.addEventListener("click", sendTextMessage);
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
+  </script>
+
+  <!-- SCRIPT LOGICĂ PROFIL, BAZĂ DE DATE & WEBHOOK MAKE.COM -->
+  <script>
+    const WEBHOOK_SALVEAZA_PROFIL = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_PROFIL";
+
+    let currentUserSession = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      let sessionData = localStorage.getItem("strictzilier_session");
+      
+      if (!sessionData) {
+        const demoSession = {
+          role: 'zilier',
+          id: 'Z000001',
+          nume: 'Popescu',
+          prenume: 'Ion',
+          startOfWeek: new Date().toISOString().split('T')[0]
+        };
+        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
+        sessionData = JSON.stringify(demoSession);
+      }
+
+      try {
+        currentUserSession = JSON.parse(sessionData);
+        if (currentUserSession.nume) {
+          document.getElementById("nume").value = currentUserSession.nume || "Popescu";
+        }
+        if (currentUserSession.prenume) {
+          document.getElementById("prenume").value = currentUserSession.prenume || "Ion";
+        }
+      } catch (e) {
+        console.error("Eroare la citirea sesiunii:", e);
+      }
+    });
+
+    async function salveazaProfil() {
+      const profilPayload = {
+        ID_zilier: currentUserSession ? currentUserSession.id : null,
+        Nume: document.getElementById("nume").value.trim(),
+        Prenume: document.getElementById("prenume").value.trim(),
+        Telefon: document.getElementById("telefon").value.trim(),
+        Cetatenie: document.getElementById("cetatenie").value,
+        Judet: document.getElementById("judet").value,
+        Localitate_domiciliu: document.getElementById("localitate").value.trim(),
+        Raza_maxima_deplasare_km: document.getElementById("raza").value,
+        Activitate_preferata: document.getElementById("activitatePrincipala").value,
+        Cod_grup_activitate: document.getElementById("grupaPrincipala").value,
+        Activitate_2: document.getElementById("activitateSec1").value,
+        Activitate_3: document.getElementById("activitateSec2").value,
+        Calificari: document.getElementById("calificare").value,
+        Experienta: document.getElementById("experienta").value,
+        Capacitate_efort_declarata: document.getElementById("efort").value,
+        Greutate_manipulata: document.getElementById("greutate").value,
+        Activitate_fizica: document.getElementById("activitateFizica").value,
+        Studii: document.getElementById("studii").value,
+        Email: document.getElementById("email").value.trim()
+      };
+
+      try {
+        if (!WEBHOOK_SALVEAZA_PROFIL.includes("SOT_AICI")) {
+          await fetch(WEBHOOK_SALVEAZA_PROFIL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(profilPayload)
+          });
+        }
+
+        const success = document.getElementById("success");
+        success.classList.remove("hidden");
+        success.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } catch (err) {
+        console.error("Eroare salvare profil:", err);
+        alert("A apărut o eroare la salvarea profilului.");
+      }
+    }
+  </script>
 </body>
 </html>
-```
