@@ -118,8 +118,15 @@
 
             <!-- FORMULAR EDITARE PREFERINȚE -->
             <div id="editArea" class="hidden mt-4 p-4 bg-slate-100/70 rounded-xl border border-slate-200 space-y-3">
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div>
+              
+              <!-- TEXT EXPLICATIV PE UN SINGUR RÂND -->
+              <p class="text-[11px] text-slate-500 font-medium mb-1">
+                Selectează județul și orașul sau comuna de reședință <span class="text-slate-400">(fără sate componente sau cartiere)</span>.
+              </p>
+
+              <!-- CASETE LOCALIZARE ALINIATE PERFECT (RAPORT 1:2) -->
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-start">
+                <div class="sm:col-span-1">
                   <label for="judet" class="block text-xs font-bold text-slate-700 mb-1">Județ</label>
                   <select id="judet" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                     <option value="Alba">Alba</option>
@@ -166,9 +173,8 @@
                     <option value="Vrancea">Vrancea</option>
                   </select>
                 </div>
-                <div class="relative">
-                  <label for="zonaPreferata" class="block text-xs font-bold text-slate-700 mb-0.5">Orașul sau Comuna</label>
-                  <span class="block text-[10px] text-slate-500 mb-1">Alege orașul sau comuna de reședință (fără sate componente sau cartiere).</span>
+                <div class="sm:col-span-2 relative">
+                  <label for="zonaPreferata" class="block text-xs font-bold text-slate-700 mb-1">Orașul sau Comuna</label>
                   <input type="text" id="zonaPreferata" autocomplete="off" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Scrie orașul sau comuna (ex: Targu Ocna, Sascut)...">
                   
                   <!-- Casetă de sugestii Autocomplete -->
@@ -176,7 +182,8 @@
                 </div>
               </div>
 
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <!-- CASETE ACTIVITĂȚI -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 <div>
                   <label for="grupActivitate" class="block text-xs font-bold text-slate-700 mb-1">Grup Activitate</label>
                   <select id="grupActivitate" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
@@ -442,15 +449,15 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- 1. ÎNCĂRCARE NOMENCLATOR EXTERNAL DE PE GITHUB / SERVER -->
+  <!-- 1. ÎNCĂRCARE NOMENCLATOR EXTERN DIN ACELAȘI FOLDER/GITHUB -->
   <script src="nomenclator-romania.js"></script>
 
   <!-- 2. SCRIPT LOGICĂ BAZĂ DE DATE, ACTIVITĂȚI & WEBHOOKS -->
   <script>
     // WEBHOOKS MAKE.COM
-    const WEBHOOK_INCARCA_PROFIL = "https://hook.eu1.make.com/5hvlnq2yjkoqm5442907w0kpurgfsn0w";
+    const WEBHOOK_INCARCA_PROFIL = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_INCARCA_PROFIL";
     const WEBHOOK_SALVEAZA_DISPONIBILITATE = "https://hook.eu1.make.com/g1jq2tkvpsnf068dxms8wub92rvsl4pp";
-    const WEBHOOK_SALVEAZA_PREFERINTE = "https://hook.eu1.make.com/zc0h8xunug9ellveej2iaxjvakfz1mjr";
+    const WEBHOOK_SALVEAZA_PREFERINTE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_PREFERINTE";
 
     // NOMENCLATOR ACTIVITĂȚI PE GRUPE
     const ACTIVITATI_PE_GRUPE = {
