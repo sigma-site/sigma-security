@@ -1,4 +1,581 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Date registru - STRICTZILIER.ro</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .custom-scroll::-webkit-scrollbar { width: 5px; }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
+
+  <!-- Header Permanent -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+        <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
+      </a>
+
+      <!-- Link Ghid Zilier -->
+      <a href="ghid-zilier.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition">
+        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>GHID ZILIER</span>
+      </a>
+
+    </div>
+  </header>
+
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+      
+      <!-- COLOANA STANGA & CENTRU: CARDUL PRINCIPAL -->
+      <div class="lg:col-span-2 space-y-6">
+        <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
+          
+          <h1 class="text-2xl font-black text-slate-900 tracking-tight">Date pentru registru</h1>
+          <p class="text-xs font-medium text-slate-500 mt-1 mb-6 leading-relaxed">
+            Pentru activitatea acceptată avem nevoie de datele tale oficiale de identificare. Le poți introduce manual sau poți fotografia cartea de identitate.
+          </p>
+
+          <!-- ALEGERE METODĂ -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+            <button id="manualBtn" type="button" onclick="chooseMethod('manual')" class="p-4 border border-slate-200 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-400 text-left transition group">
+              <strong class="block text-xs font-bold text-slate-800 group-hover:text-amber-700 mb-1">Completez manual</strong>
+              <span class="block text-[11px] text-slate-500 leading-snug">Introduci datele exact ca în actul de identitate.</span>
+            </button>
+
+            <button id="ocrBtn" type="button" onclick="chooseMethod('ocr')" class="p-4 border border-slate-200 rounded-xl bg-slate-50 hover:bg-amber-50 hover:border-amber-400 text-left transition group">
+              <strong class="block text-xs font-bold text-slate-800 group-hover:text-amber-700 mb-1">Fotografiez cartea de identitate</strong>
+              <span class="block text-[11px] text-slate-500 leading-snug">Datele sunt preluate automat și apoi verificate de tine.</span>
+            </button>
+          </div>
+
+          <!-- ÎNCĂRCARE CI -->
+          <div id="upload" class="hidden p-4 mb-6 border-2 border-dashed border-slate-300 rounded-xl bg-slate-50 space-y-3">
+            <div class="flex flex-wrap items-center gap-3">
+              <label for="identityFile" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg cursor-pointer transition shadow-sm">
+                Alege fotografia CI
+              </label>
+              <input id="identityFile" type="file" accept="image/*" capture="environment" class="hidden">
+              <span id="fileStatus" class="text-xs text-slate-500 font-medium">Fotografia trebuie să fie clară și completă.</span>
+            </div>
+
+            <img id="preview" class="hidden max-h-48 rounded-lg border border-slate-300 shadow-sm mt-2" alt="Previzualizare CI">
+
+            <div id="photoActions" class="hidden pt-2">
+              <button id="sendPhoto" type="button" onclick="sendPhoto()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+                TRIMITE FOTOGRAFIA
+              </button>
+              <div id="uploadStatus" class="mt-2 text-xs font-medium text-slate-500"></div>
+            </div>
+          </div>
+
+          <!-- FORMULAR DATE DE IDENTIFICARE -->
+          <h2 class="text-base font-bold text-slate-900 mb-4 pt-2 border-t border-slate-100">Date de identificare</h2>
+
+          <form id="form-registru" onsubmit="event.preventDefault(); saveData();" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="nume" class="block text-xs font-bold text-slate-700 mb-1">Nume *</label>
+                <input id="nume" type="text" autocomplete="family-name" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+
+              <div>
+                <label for="prenume" class="block text-xs font-bold text-slate-700 mb-1">Prenume *</label>
+                <input id="prenume" type="text" autocomplete="given-name" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="cnp" class="block text-xs font-bold text-slate-700 mb-1">CNP *</label>
+                <input id="cnp" type="text" inputmode="numeric" maxlength="13" autocomplete="off" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                <span class="block text-[10px] text-slate-400 mt-1">Data nașterii va putea fi determinată din CNP.</span>
+              </div>
+
+              <div>
+                <label for="citizenship" class="block text-xs font-bold text-slate-700 mb-1">Cetățenie *</label>
+                <select id="citizenship" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                  <option value="">Selectează</option>
+                  <option value="Română">Română</option>
+                  <option value="Altă cetățenie">Altă cetățenie</option>
+                  <option value="Apatrid">Apatrid</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- TIP ACT / SERIE / NUMAR -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <div>
+                <label for="actType" class="block text-xs font-bold text-slate-700 mb-1">Tip act *</label>
+                <select id="actType" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                  <option value="">Selectează</option>
+                  <option value="Carte de identitate">Carte de identitate</option>
+                  <option value="Carte de identitate provizorie">Carte de identitate provizorie</option>
+                  <option value="Pașaport">Pașaport</option>
+                </select>
+              </div>
+
+              <div>
+                <label for="series" class="block text-xs font-bold text-slate-700 mb-1">Serie *</label>
+                <input id="series" type="text" maxlength="2" autocomplete="off" placeholder="AB" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none uppercase">
+              </div>
+
+              <div>
+                <label for="number" class="block text-xs font-bold text-slate-700 mb-1">Număr *</label>
+                <input id="number" type="text" inputmode="numeric" maxlength="6" autocomplete="off" placeholder="123456" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              </div>
+            </div>
+
+            <div>
+              <label for="address" class="block text-xs font-bold text-slate-700 mb-1">Domiciliu</label>
+              <input id="address" type="text" autocomplete="street-address" placeholder="Domiciliul înscris în act" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+            </div>
+
+            <!-- NOTĂ -->
+            <div class="p-3 bg-amber-50/70 border border-amber-200 rounded-xl text-xs text-amber-900 leading-relaxed">
+              Verifică atent toate datele înainte de confirmare. Dacă ai folosit fotografia CI, câmpurile au fost precompletate automat și trebuie verificate de tine.
+            </div>
+
+            <!-- CONFIRMARE -->
+            <label class="flex items-start gap-2.5 pt-1 cursor-pointer select-none">
+              <input id="confirm" type="checkbox" onchange="toggleSave()" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500">
+              <span class="text-xs font-medium text-slate-700 leading-tight">
+                Confirm că datele introduse corespund actului meu de identitate.
+              </span>
+            </label>
+
+            <!-- BUTON SALVARE -->
+            <div class="pt-2 flex justify-end">
+              <button id="saveBtn" type="submit" disabled class="w-full sm:w-auto px-6 py-2.5 bg-amber-500 hover:bg-amber-600 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-xs rounded-lg transition shadow-sm">
+                Confirmă și salvează datele
+              </button>
+            </div>
+          </form>
+
+          <!-- SUCCESS -->
+          <div id="success" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 leading-relaxed">
+            Datele au fost confirmate și transmise cu succes către sistem.
+          </div>
+
+        </section>
+      </div>
+
+      <!-- COLOANA DREAPTA: AGENT VAPI INTEGRAT DIRECT -->
+      <aside id="strictzilierAgent" class="bg-gradient-to-b from-slate-900 to-blue-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl border border-blue-900 flex flex-col justify-between h-[580px] text-center">
+        <div>
+          <p class="text-xs text-slate-300 mb-2 leading-tight max-w-xs mx-auto pt-1">
+            Spune ce cauți sau de ce ai nevoie. Agentul mediază întâlnirea dintre zilieri și angajatori.
+          </p>
+
+          <div id="conversation" class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
+            <div class="bg-white/10 text-slate-100 p-2 rounded-lg text-xs leading-relaxed max-w-[88%] border-l-2 border-blue-500">
+              <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>
+              Bun venit. Alege modul vocal sau scris pentru a începe conversația.
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="w-full max-w-[340px] mx-auto grid grid-cols-[1fr_34px_1fr] gap-1.5 items-center mb-1.5">
+            <button id="voiceModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">
+              VOCAL
+            </button>
+            <div id="agentOrb" class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs text-white">
+              ✦
+            </div>
+            <button id="textModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center">
+              SCRIS
+            </button>
+          </div>
+
+          <div id="voicePanel" class="w-full max-w-[340px] mx-auto">
+            <button id="agentButton" type="button" class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">
+              PORNEȘTE CONVERSAȚIA
+            </button>
+            <div id="status" class="min-h-[14px] mt-1 text-[10px] font-bold text-emerald-400"></div>
+          </div>
+
+          <div id="textPanel" class="w-full max-w-[340px] mx-auto hidden">
+            <div class="flex gap-1.5">
+              <input id="messageInput" type="text" placeholder="Scrieți mesajul..." autocomplete="off" class="flex-1 min-w-0 h-11 px-3 bg-white text-slate-900 rounded-lg text-xs outline-none">
+              <button id="sendButton" type="button" class="w-[76px] h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-lg transition flex-shrink-0 flex items-center justify-center">
+                TRIMITE
+              </button>
+            </div>
+            <div id="chatStatus" class="min-h-[14px] mt-1 text-[10px] font-bold text-blue-300"></div>
+          </div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- FOOTER STANDARD -->
+  <footer class="bg-white border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>© 2026 STRICTZILIER.ro · Toate drepturile rezervate. Conform Legii 52/2011.</div>
+      <div class="flex flex-wrap gap-4 font-medium">
+        <a href="#termeni" class="hover:text-slate-800 transition">Termeni și Condiții</a>
+        <a href="#confidentialitate" class="hover:text-slate-800 transition">Politică de Confidențialitate</a>
+        <a href="https://anpc.ro" target="_blank" rel="noopener" class="hover:text-slate-800 transition">ANPC</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- SCRIPT INTEGRARE VAPI & PIE.HOST -->
+  <script type="module">
+    import Vapi from "https://esm.sh/@vapi-ai/web";
+
+    const PUBLIC_KEY = "ab245358-61ea-4876-b767-8e4ad159627d";
+    const ASSISTANT_ID = "970da2f1-89c8-438c-ac8c-30abfa04528e";
+    const CHAT_URL = "https://2.pie.host/chat.php";
+
+    const vapi = new Vapi(PUBLIC_KEY);
+
+    const voiceModeButton = document.getElementById("voiceModeButton");
+    const textModeButton = document.getElementById("textModeButton");
+    const voicePanel = document.getElementById("voicePanel");
+    const textPanel = document.getElementById("textPanel");
+    const button = document.getElementById("agentButton");
+    const status = document.getElementById("status");
+    const conversation = document.getElementById("conversation");
+    const input = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
+    const chatStatus = document.getElementById("chatStatus");
+
+    let conversationActive = false;
+    let previousChatId = null;
+    let currentMode = "voice";
+
+    function addMessage(type, text) {
+      if (!text || !text.trim()) return;
+
+      const message = document.createElement("div");
+      message.className = "max-w-[88%] p-2 rounded-lg text-xs leading-relaxed " + 
+        (type === "user" ? "bg-amber-500 text-white ml-auto" : "bg-white/10 text-slate-100 mr-auto border-l-2 border-blue-500");
+
+      const label = document.createElement("span");
+      label.className = "block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider";
+      label.textContent = type === "user" ? "TU" : "AGENT";
+
+      const content = document.createElement("div");
+      content.textContent = text;
+
+      message.appendChild(label);
+      message.appendChild(content);
+      conversation.appendChild(message);
+
+      conversation.scrollTop = conversation.scrollHeight;
+    }
+
+    function setMode(mode) {
+      if (mode === currentMode) return;
+
+      if (mode === "text" && conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
+      }
+
+      currentMode = mode;
+      const voice = mode === "voice";
+
+      voiceModeButton.classList.toggle("bg-amber-500", voice);
+      voiceModeButton.classList.toggle("border-amber-500", voice);
+      voiceModeButton.classList.toggle("text-white", voice);
+      voiceModeButton.classList.toggle("bg-white/10", !voice);
+      voiceModeButton.classList.toggle("text-blue-200", !voice);
+
+      textModeButton.classList.toggle("bg-amber-500", !voice);
+      textModeButton.classList.toggle("border-amber-500", !voice);
+      textModeButton.classList.toggle("text-white", !voice);
+      textModeButton.classList.toggle("bg-white/10", voice);
+      textModeButton.classList.toggle("text-blue-200", voice);
+
+      voicePanel.classList.toggle("hidden", !voice);
+      textPanel.classList.toggle("hidden", voice);
+
+      if (!voice) input.focus();
+    }
+
+    voiceModeButton.addEventListener("click", () => setMode("voice"));
+    textModeButton.addEventListener("click", () => setMode("text"));
+
+    vapi.on("message", (message) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        addMessage(message.role === "user" ? "user" : "agent", message.transcript);
+      }
+    });
+
+    button.addEventListener("click", async () => {
+      if (conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
+        return;
+      }
+
+      status.textContent = "Se conectează...";
+
+      try {
+        await vapi.start(ASSISTANT_ID);
+        conversationActive = true;
+        button.textContent = "ÎNCHIDE CONVERSAȚIA";
+        status.textContent = "Conversația vocală este activă.";
+      } catch (error) {
+        console.error("Eroare Vapi:", error);
+        status.textContent = "Nu s-a putut porni conversația.";
+      }
+    });
+
+    async function sendTextMessage() {
+      const message = input.value.trim();
+      if (!message) return;
+
+      addMessage("user", message);
+      input.value = "";
+      sendButton.disabled = true;
+      chatStatus.textContent = "Se contactează agentul...";
+
+      try {
+        const response = await fetch(CHAT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message, previousChatId: previousChatId })
+        });
+
+        const data = await response.json();
+        if (data.chatId) previousChatId = data.chatId;
+        addMessage("agent", data.reply || "Agentul nu a returnat un răspuns.");
+        chatStatus.textContent = "";
+      } catch (error) {
+        addMessage("agent", "Eroare de conectare:\n" + error.message);
+      } finally {
+        sendButton.disabled = false;
+        input.focus();
+      }
+    }
+
+    sendButton.addEventListener("click", sendTextMessage);
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
+  </script>
+
+  <!-- SCRIPT LOGICĂ BAZĂ DE DATE, OCR & WEBHOOK MAKE.COM -->
+  <script>
+    const WEBHOOK_SALVEAZA_REGISTRU = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_REGISTRU";
+    const WEBHOOK_TRIMITE_FOTO_CI = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_OCR_CI";
+
+    let currentUserSession = null;
+    let method = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      let sessionData = localStorage.getItem("strictzilier_session");
+      
+      if (!sessionData) {
+        const demoSession = {
+          role: 'zilier',
+          id: 'Z000001',
+          nume: 'Ion Popescu',
+          startOfWeek: new Date().toISOString().split('T')[0]
+        };
+        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
+        sessionData = JSON.stringify(demoSession);
+      }
+
+      try {
+        currentUserSession = JSON.parse(sessionData);
+      } catch (e) {
+        console.error("Eroare la citirea sesiunii:", e);
+      }
+    });
+
+    function chooseMethod(value) {
+      method = value;
+      const manualBtn = document.getElementById("manualBtn");
+      const ocrBtn = document.getElementById("ocrBtn");
+      const upload = document.getElementById("upload");
+
+      manualBtn.classList.remove("bg-amber-50", "border-amber-500");
+      ocrBtn.classList.remove("bg-amber-50", "border-amber-500");
+
+      if (value === "manual") {
+        manualBtn.classList.add("bg-amber-50", "border-amber-500");
+        upload.classList.add("hidden");
+      } else if (value === "ocr") {
+        ocrBtn.classList.add("bg-amber-50", "border-amber-500");
+        upload.classList.remove("hidden");
+      }
+    }
+
+    document.getElementById("identityFile").addEventListener("change", function() {
+      const file = this.files[0];
+      const preview = document.getElementById("preview");
+      const photoActions = document.getElementById("photoActions");
+      const uploadStatus = document.getElementById("uploadStatus");
+      const fileStatus = document.getElementById("fileStatus");
+
+      if (!file) {
+        preview.classList.add("hidden");
+        photoActions.classList.add("hidden");
+        uploadStatus.textContent = "";
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
+        fileStatus.textContent = "Alege un fișier imagine.";
+        this.value = "";
+        photoActions.classList.add("hidden");
+        return;
+      }
+
+      if (file.size > 12 * 1024 * 1024) {
+        fileStatus.textContent = "Fotografia este prea mare (max 12MB).";
+        this.value = "";
+        photoActions.classList.add("hidden");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        preview.src = event.target.result;
+        preview.classList.remove("hidden");
+        photoActions.classList.remove("hidden");
+        uploadStatus.textContent = "Fotografia este pregătită pentru trimitere.";
+      };
+      reader.readAsDataURL(file);
+      fileStatus.textContent = "Fotografia a fost selectată.";
+    });
+
+    async function sendPhoto() {
+      const fileInput = document.getElementById("identityFile");
+      const file = fileInput.files[0];
+      if (!file) return;
+
+      const sendButton = document.getElementById("sendPhoto");
+      const uploadStatus = document.getElementById("uploadStatus");
+
+      sendButton.disabled = true;
+      sendButton.textContent = "SE TRIMITE...";
+      uploadStatus.textContent = "Se procesează fotografia prin OCR...";
+
+      const formData = new FormData();
+      formData.append("ID_zilier", currentUserSession ? currentUserSession.id : "");
+      formData.append("foto_ci", file);
+
+      try {
+        if (!WEBHOOK_TRIMITE_FOTO_CI.includes("SOT_AICI")) {
+          const response = await fetch(WEBHOOK_TRIMITE_FOTO_CI, {
+            method: "POST",
+            body: formData
+          });
+          const data = await response.json();
+          if (data && data.nume) {
+            document.getElementById("nume").value = data.nume || "";
+            document.getElementById("prenume").value = data.prenume || "";
+            document.getElementById("cnp").value = data.cnp || "";
+            document.getElementById("series").value = data.serie || "";
+            document.getElementById("number").value = data.numar || "";
+            document.getElementById("address").value = data.domiciliu || "";
+            uploadStatus.textContent = "Datele au fost extrase automat! Te rugăm să le verifici mai jos.";
+          }
+        } else {
+          setTimeout(() => {
+            uploadStatus.textContent = "Fotografia a fost trimisă pentru procesare OCR.";
+          }, 800);
+        }
+      } catch (err) {
+        console.error("Eroare trimitere foto:", err);
+        uploadStatus.textContent = "Eroare la procesarea fotografiei.";
+      } finally {
+        sendButton.disabled = false;
+        sendButton.textContent = "TRIMITE FOTOGRAFIA";
+      }
+    }
+
+    function toggleSave() {
+      document.getElementById("saveBtn").disabled = !document.getElementById("confirm").checked;
+    }
+
+    async function saveData() {
+      const cnp = document.getElementById("cnp").value.trim();
+      if (!/^\d{13}$/.test(cnp)) {
+        alert("CNP-ul trebuie să conțină exact 13 cifre.");
+        document.getElementById("cnp").focus();
+        return;
+      }
+
+      const series = document.getElementById("series").value.trim();
+      if (!/^[A-Za-zĂÂÎȘȚăâîșț]{2}$/.test(series)) {
+        alert("Seria actului trebuie să conțină două litere.");
+        document.getElementById("series").focus();
+        return;
+      }
+
+      const number = document.getElementById("number").value.trim();
+      if (!/^\d{6}$/.test(number)) {
+        alert("Numărul actului trebuie să conțină șase cifre.");
+        document.getElementById("number").focus();
+        return;
+      }
+
+      const registruPayload = {
+        ID_zilier: currentUserSession ? currentUserSession.id : null,
+        Nume: document.getElementById("nume").value.trim(),
+        Prenume: document.getElementById("prenume").value.trim(),
+        CNP: cnp,
+        Cetatenie: document.getElementById("citizenship").value,
+        Tip_act: document.getElementById("actType").value,
+        Serie_si_numar: `${series.toUpperCase()}${number}`,
+        Localitate_domiciliu: document.getElementById("address").value.trim()
+      };
+
+      const saveBtn = document.getElementById("saveBtn");
+      saveBtn.disabled = true;
+      saveBtn.textContent = "Se salvează...";
+
+      try {
+        if (!WEBHOOK_SALVEAZA_REGISTRU.includes("SOT_AICI")) {
+          await fetch(WEBHOOK_SALVEAZA_REGISTRU, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(registruPayload)
+          });
+        }
+        
+        const successEl = document.getElementById("success");
+        successEl.classList.remove("hidden");
+        successEl.scrollIntoView({ behavior: "smooth" });
+      } catch (err) {
+        console.error("Eroare salvare registru:", err);
+        alert("A apărut o eroare la salvarea datelor.");
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = "Confirmă și salvează datele";
+      }
+    }
+  </script>
+</body>
+</html>
 <html lang="ro">
 <head>
 
