@@ -119,12 +119,10 @@
             </div>
           </div>
 
-          <!-- NOTIFICARE SUCCES -->
-          <div id="success" class="hidden mt-6 p-5 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-semibold text-emerald-800 leading-relaxed shadow-sm">
-            <div class="flex items-center gap-2 mb-1 text-emerald-900 font-black text-sm">
-              <span>✓</span> Confirmare Reușită
-            </div>
-            Fotografia a fost procesată, iar datele s-au potrivit cu profilul tău. Agentul îți poate trimite acum adresa și instrucțiunile de lucru.
+          <!-- NOTIFICARE DINAMICĂ (SUCCES / EROARE) -->
+          <div id="success" class="hidden mt-6 p-5 rounded-2xl text-xs font-semibold leading-relaxed shadow-sm">
+            <div id="successTitle" class="flex items-center gap-2 mb-1 font-black text-sm"></div>
+            <div id="successMessage"></div>
           </div>
 
         </section>
@@ -415,10 +413,10 @@
       fileStatus.textContent = "Fotografie selectată.";
     });
 
-    // TRANSMITERE FOTO ȘI PROMOVARE
+    // TRANSMITERE FOTO ȘI VALIDARE (GUEST/RESPONSE VALIDATION)
     async function salveazaSiValideaza() {
       const fileInput = document.getElementById("identityFile");
-      const file = fileInput.files[0];
+      const file = fileInput ? fileInput.files[0] : null;
       if (!file) {
         alert("Te rugăm să faci sau să alegi mai întâi o fotografie a actului de identitate!");
         return;
@@ -426,10 +424,14 @@
 
       const sendBtn = document.getElementById("sendPhoto");
       const uploadStatus = document.getElementById("uploadStatus");
+      const successEl = document.getElementById("success");
+      const successTitle = document.getElementById("successTitle");
+      const successMessage = document.getElementById("successMessage");
 
       sendBtn.disabled = true;
       sendBtn.textContent = "SE TRIMITE ȘI SE PROCESEAZĂ...";
       uploadStatus.textContent = "Se trimite fotografia pentru verificare...";
+      successEl.classList.add("hidden");
 
       const formData = new FormData();
       formData.append("ID_zilier", currentZilierId);
@@ -437,22 +439,57 @@
       formData.append("foto_ci", file);
 
       try {
-        await fetch(WEBHOOK_VALIDARE_FOTO, {
+        const response = await fetch(WEBHOOK_VALIDARE_FOTO, {
           method: "POST",
           body: formData
         });
 
-        uploadStatus.textContent = "✓ Trimis cu succes!";
-        
-        const successEl = document.getElementById("success");
+        let data = {};
+        try {
+          data = await response.json();
+        } catch (e) {
+          data = {};
+        }
+
+        if (response.ok && data.success) {
+          // HTTP 200: APROBAT (Match CNP)
+          uploadStatus.textContent = "✓ Validat cu succes!";
+          
+          successEl.className = "mt-6 p-5 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-semibold text-emerald-800 leading-relaxed shadow-sm";
+          successTitle.className = "flex items-center gap-2 mb-1 text-emerald-900 font-black text-sm";
+          successTitle.innerHTML = "<span>✓</span> Confirmare Reușită";
+          successMessage.textContent = data.message || "Fotografia a fost procesată, iar datele s-au potrivit cu profilul tău. Agentul îți poate trimite acum adresa și instrucțiunile de lucru.";
+          
+          sendBtn.disabled = true;
+          sendBtn.textContent = "VALIDARE COMPLETATĂ";
+        } else {
+          // HTTP 400 sau alt cod de eroare: RESPINS (Fallback / Mismatch / Neclar)
+          uploadStatus.textContent = "✕ Validare eșuată";
+          
+          successEl.className = "mt-6 p-5 bg-rose-50 border border-rose-200 rounded-2xl text-xs font-semibold text-rose-800 leading-relaxed shadow-sm";
+          successTitle.className = "flex items-center gap-2 mb-1 text-rose-900 font-black text-sm";
+          successTitle.innerHTML = "<span>✕</span> Validare Eșuată";
+          successMessage.textContent = data.message || "CNP-ul din imagine nu se potrivește cu datele din dosar sau poza este neclară.";
+          
+          sendBtn.disabled = false;
+          sendBtn.textContent = "REÎNCEARCĂ TRIMITEREA";
+        }
+
         successEl.classList.remove("hidden");
         successEl.scrollIntoView({ behavior: "smooth" });
 
       } catch (err) {
-        console.error("Eroare trimitere foto:", err);
-        document.getElementById("success").classList.remove("hidden");
-        document.getElementById("success").scrollIntoView({ behavior: "smooth" });
-      } finally {
+        console.error("Eroare conexiune webhook:", err);
+        uploadStatus.textContent = "✕ Eroare de conexiune";
+        
+        successEl.className = "mt-6 p-5 bg-rose-50 border border-rose-200 rounded-2xl text-xs font-semibold text-rose-800 leading-relaxed shadow-sm";
+        successTitle.className = "flex items-center gap-2 mb-1 text-rose-900 font-black text-sm";
+        successTitle.innerHTML = "<span>✕</span> Eroare Rețea";
+        successMessage.textContent = "A apărut o eroare de conexiune cu serverul. Verifică rețeaua și încearcă din nou.";
+        
+        successEl.classList.remove("hidden");
+        successEl.scrollIntoView({ behavior: "smooth" });
+
         sendBtn.disabled = false;
         sendBtn.textContent = "CONFIRMĂ ȘI TRIMITE PENTRU PROCESARE";
       }
