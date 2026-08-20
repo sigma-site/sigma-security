@@ -85,22 +85,68 @@
               </div>
             </div>
 
-            <!-- SECTIUNE ZONA PRINCIPALĂ (NOMENCLATOR DINAMIC) -->
+            <!-- SECTIUNE ZONA PRINCIPALĂ (EXACT DUPA MODEL) -->
             <div class="pt-5 border-t border-slate-100">
-              <h2 class="text-lg font-bold text-slate-900 mb-4">Zona principală</h2>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
+              <h2 class="text-lg font-bold text-slate-900 mb-2">Zona principală</h2>
+              <p class="text-xs text-slate-500 font-medium mb-4">
+                Selectează județul și orașul sau comuna de reședință <span class="text-slate-400">(fără sate componente sau cartiere)</span>.
+              </p>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-start">
+                <div class="sm:col-span-1">
                   <label for="judet" class="block text-xs font-bold text-slate-700 mb-1">JUDEȚ *</label>
-                  <select id="judet" required onchange="incarcaLocalitatiJudet()" class="w-full h-11 px-3.5 bg-white border border-slate-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="">Se încarcă județele...</option>
+                  <select id="judet" required class="w-full h-11 px-3.5 bg-white border border-slate-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                    <option value="Alba">Alba</option>
+                    <option value="Arad">Arad</option>
+                    <option value="Arges">Arges</option>
+                    <option value="Bacau" selected>Bacau</option>
+                    <option value="Bihor">Bihor</option>
+                    <option value="Bistrita-Nasaud">Bistrita-Nasaud</option>
+                    <option value="Botosani">Botosani</option>
+                    <option value="Brasov">Brasov</option>
+                    <option value="Braila">Braila</option>
+                    <option value="Bucuresti">Bucuresti</option>
+                    <option value="Buzau">Buzau</option>
+                    <option value="Caras-Severin">Caras-Severin</option>
+                    <option value="Calarasi">Calarasi</option>
+                    <option value="Cluj">Cluj</option>
+                    <option value="Constanta">Constanta</option>
+                    <option value="Covasna">Covasna</option>
+                    <option value="Dambovita">Dambovita</option>
+                    <option value="Dolj">Dolj</option>
+                    <option value="Galati">Galati</option>
+                    <option value="Giurgiu">Giurgiu</option>
+                    <option value="Gorj">Gorj</option>
+                    <option value="Harghita">Harghita</option>
+                    <option value="Hunedoara">Hunedoara</option>
+                    <option value="Ialomita">Ialomita</option>
+                    <option value="Iasi">Iasi</option>
+                    <option value="Ilfov">Ilfov</option>
+                    <option value="Maramures">Maramures</option>
+                    <option value="Mehedinti">Mehedinti</option>
+                    <option value="Mures">Mures</option>
+                    <option value="Neamt">Neamt</option>
+                    <option value="Olt">Olt</option>
+                    <option value="Prahova">Prahova</option>
+                    <option value="Satu Mare">Satu Mare</option>
+                    <option value="Salaj">Salaj</option>
+                    <option value="Sibiu">Sibiu</option>
+                    <option value="Suceava">Suceava</option>
+                    <option value="Teleorman">Teleorman</option>
+                    <option value="Timis">Timis</option>
+                    <option value="Tulcea">Tulcea</option>
+                    <option value="Vaslui">Vaslui</option>
+                    <option value="Valcea">Valcea</option>
+                    <option value="Vrancea">Vrancea</option>
                   </select>
                 </div>
 
-                <div>
-                  <label for="localitate" class="block text-xs font-bold text-slate-700 mb-1">LOCALITATE *</label>
-                  <select id="localitate" required class="w-full h-11 px-3.5 bg-white border border-slate-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="">Selectează mai întâi județul</option>
-                  </select>
+                <div class="sm:col-span-2 relative">
+                  <label for="localitate" class="block text-xs font-bold text-slate-700 mb-1">ORAȘUL SAU COMUNA *</label>
+                  <input type="text" id="localitate" required autocomplete="off" class="w-full h-11 px-3.5 bg-white border border-slate-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Scrie orașul sau comuna (ex: Targu Ocna, Sascut)...">
+                  
+                  <!-- Casetă de sugestii Autocomplete -->
+                  <div id="locSuggestions" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50 divide-y divide-slate-100 text-xs"></div>
                 </div>
               </div>
             </div>
@@ -349,11 +395,25 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- LOGICĂ NOMENCLATOR DINAMIC, BIFE & WEBHOOK MAKE.COM -->
+  <!-- 1. NOMENCLATOR ROMÂNIA (FIȘIER LOCAL EXTERN) -->
+  <script src="nomenclator-romania.js"></script>
+
+  <!-- 2. LOGICĂ AUTOCOMPLETE, VALIDARE BIFE & WEBHOOK -->
   <script>
     const WEBHOOK_ZILIER1 = "https://hook.eu1.make.com/frhrfhb9lccwlskplycob1qmjte1fa6e";
 
     let currentUserSession = null;
+
+    // CURĂȚARE DIACRITICE ȘI UNIFORMIZARE
+    function stripDiacritics(str) {
+      if (!str) return "";
+      return str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/ă/gi, "a").replace(/â/gi, "a").replace(/î/gi, "i").replace(/ș/gi, "s").replace(/ț/gi, "t")
+        .replace(/[-_]/g, " ")
+        .trim();
+    }
 
     document.addEventListener("DOMContentLoaded", () => {
       const sessionData = localStorage.getItem("strictzilier_session");
@@ -371,88 +431,84 @@
         document.getElementById("rep-name").textContent = "Utilizator neautentificat";
       }
 
-      // Inițializare Nomenclator Județe din API
-      incarcaJudete();
+      initAutocomplete();
     });
 
-    // 1. ÎNCĂRCARE JUDEȚE DIN API
-    async function incarcaJudete() {
+    // NOMENCLATOR AUTOCOMPLETE DIN MODEL
+    function initAutocomplete() {
       const judetSelect = document.getElementById("judet");
-      try {
-        const res = await fetch("https://roli.rolip.ro/api/v1/judete");
-        let judete = [];
+      const localitateInput = document.getElementById("localitate");
+      const sugBox = document.getElementById("locSuggestions");
 
-        if (res.ok) {
-          judete = await res.json();
-        } else {
-          // Fallback direct dacă API-ul are întârziere
-          const fallbackRes = await fetch("https://raw.githubusercontent.com/roweb/judete-orase-romania/master/judete.json");
-          judete = await fallbackRes.json();
+      judetSelect.addEventListener("change", () => {
+        localitateInput.value = "";
+        sugBox.classList.add("hidden");
+      });
+
+      localitateInput.addEventListener("input", () => {
+        const query = stripDiacritics(localitateInput.value).toLowerCase();
+        const judetSelectat = judetSelect.value;
+        const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judetSelectat).toLowerCase()) : null;
+
+        sugBox.innerHTML = "";
+
+        if (!query || query.length < 1 || !cheieJudet) {
+          sugBox.classList.add("hidden");
+          return;
         }
 
-        judetSelect.innerHTML = '<option value="">Selectează județul</option>';
-        judete.forEach(j => {
-          const numeJudet = j.nume || j.auto || j;
-          const opt = document.createElement("option");
-          opt.value = numeJudet;
-          opt.textContent = numeJudet;
-          judetSelect.appendChild(opt);
-        });
-      } catch (err) {
-        console.warn("Eroare încărcare API județe, se folosește lista de rezervă:", err);
-        const judeteFixe = ["Alba", "Arad", "Argeș", "Bacău", "Bihor", "Bistrița-Năsăud", "Botoșani", "Brașov", "Brăila", "București", "Buzău", "Caraș-Severin", "Călărași", "Cluj", "Constanța", "Covasna", "Dâmbovița", "Dolj", "Galați", "Giurgiu", "Gorj", "Harghita", "Hunedoara", "Ialomița", "Iași", "Ilfov", "Maramureș", "Mehedinți", "Mureș", "Neamț", "Olt", "Prahova", "Satu Mare", "Sălaj", "Sibiu", "Suceava", "Teleorman", "Timiș", "Tulcea", "Vaslui", "Vâlcea", "Vrancea"];
-        
-        judetSelect.innerHTML = '<option value="">Selectează județul</option>';
-        judeteFixe.forEach(j => {
-          const opt = document.createElement("option");
-          opt.value = j;
-          opt.textContent = j;
-          judetSelect.appendChild(opt);
-        });
-      }
-    }
+        const listaLoc = NOMENCLATOR[cheieJudet] || [];
+        const meciuri = listaLoc.filter(l => stripDiacritics(l).toLowerCase().includes(query));
 
-    // 2. ÎNCĂRCARE LOCALITĂȚI DINAMIC DUPĂ JUDEȚ
-    async function incarcaLocalitatiJudet() {
-      const judetSelectat = document.getElementById("judet").value;
-      const localitateSelect = document.getElementById("localitate");
+        if (meciuri.length === 0) {
+          sugBox.classList.add("hidden");
+          return;
+        }
 
-      localitateSelect.innerHTML = '<option value="">Se încarcă localitățile...</option>';
-
-      if (!judetSelectat) {
-        localitateSelect.innerHTML = '<option value="">Selectează mai întâi județul</option>';
-        return;
-      }
-
-      try {
-        const res = await fetch(`https://roli.rolip.ro/api/v1/localitati/${encodeURIComponent(judetSelectat)}`);
-        if (res.ok) {
-          const localitati = await res.json();
-          localitateSelect.innerHTML = '<option value="">Selectează localitatea</option>';
-          localitati.forEach(loc => {
-            const numeLoc = loc.nume || loc;
-            const opt = document.createElement("option");
-            opt.value = numeLoc;
-            opt.textContent = numeLoc;
-            localitateSelect.appendChild(opt);
+        meciuri.forEach(loc => {
+          const item = document.createElement("div");
+          item.className = "p-2.5 hover:bg-amber-50 cursor-pointer font-semibold text-slate-700 transition";
+          item.textContent = loc;
+          item.addEventListener("click", () => {
+            localitateInput.value = loc;
+            sugBox.classList.add("hidden");
           });
-        } else {
-          throw new Error("Eroare răspuns API localități");
+          sugBox.appendChild(item);
+        });
+
+        sugBox.classList.remove("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!localitateInput.contains(e.target) && !sugBox.contains(e.target)) {
+          sugBox.classList.add("hidden");
         }
-      } catch (err) {
-        console.warn("Eroare API localități, se trece pe modul de introducere manuală:", err);
-        localitateSelect.innerHTML = '<option value="">Selectează localitatea</option>';
-        
-        // În caz de eroare de rețea API, permitem scrierea directă
-        const parentDiv = localitateSelect.parentElement;
-        parentDiv.innerHTML = `
-          <label for="localitate" class="block text-xs font-bold text-slate-700 mb-1">LOCALITATE *</label>
-          <input id="localitate" type="text" placeholder="Scrie localitatea" required class="w-full h-11 px-3.5 bg-white border border-slate-300 rounded-lg text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-        `;
-      }
+      });
     }
 
-    // 3. VALIDARE BIFE PENTRU DEBLOCARE BUTON
+    // MATCHING AUTOMAT LA SALVARE
+    function matchLocalitateAutentica(judet, textIntrodus) {
+      if (!textIntrodus || !textIntrodus.trim()) return textIntrodus || "";
+
+      const query = stripDiacritics(textIntrodus).toLowerCase();
+      const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judet).toLowerCase()) : null;
+
+      const listaLoc = (cheieJudet && NOMENCLATOR[cheieJudet]) ? NOMENCLATOR[cheieJudet] : [];
+
+      let gasit = listaLoc.find(l => stripDiacritics(l).toLowerCase() === query);
+      if (!gasit) {
+        gasit = listaLoc.find(l => stripDiacritics(l).toLowerCase().startsWith(query));
+      }
+
+      if (!gasit) {
+        const curatat = stripDiacritics(textIntrodus);
+        gasit = curatat.charAt(0).toUpperCase() + curatat.slice(1);
+      }
+
+      return gasit;
+    }
+
+    // VALIDARE BIFE PENTRU DEBLOCARE BUTON
     function valideazaBife() {
       const legal = document.getElementById("legal").checked;
       const age = document.getElementById("age").checked;
@@ -468,7 +524,7 @@
       }
     }
 
-    // 4. TRANSMITERE FORMULAR CĂTRE WEBHOOK
+    // TRANSMITERE FORMULAR CĂTRE WEBHOOK
     async function creeazaProfilMinor() {
       const legal = document.getElementById("legal").checked;
       const age = document.getElementById("age").checked;
@@ -479,11 +535,13 @@
       const nume = document.getElementById("nume").value.trim();
       const prenume = document.getElementById("prenume").value.trim();
       const telefon = document.getElementById("telefon").value.trim();
-      const judet = document.getElementById("judet").value;
-      const localitateInput = document.getElementById("localitate");
-      const localitate = localitateInput ? localitateInput.value.trim() : "";
+      const judetRaw = document.getElementById("judet").value;
+      const localitateRaw = document.getElementById("localitate").value;
 
-      if (!nume || !prenume || !telefon || !judet || !localitate) {
+      const judetVal = stripDiacritics(judetRaw);
+      const localitateVal = matchLocalitateAutentica(judetVal, localitateRaw);
+
+      if (!nume || !prenume || !telefon || !judetVal || !localitateVal) {
         alert("Te rugăm să completezi toate câmpurile obligatorii.");
         return;
       }
@@ -498,8 +556,8 @@
         nume: nume,
         prenume: prenume,
         telefon: telefon,
-        judet: judet,
-        localitate: localitate,
+        judet: judetVal,
+        localitate: localitateVal,
         minor: "DA",
         id_reprezentant_legal: currentUserSession ? currentUserSession.id : ""
       };
