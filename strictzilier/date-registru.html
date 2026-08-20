@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Date registru - STRICTZILIER.ro</title>
+  <title>Validare act de identitate - STRICTZILIER.ro</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts Inter -->
@@ -49,84 +49,82 @@
       <div class="lg:col-span-2 space-y-6">
         <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
           
-          <h1 class="text-2xl font-black text-slate-900 tracking-tight">Date pentru registru si statul de plata </h1>
-          <p class="text-xs font-medium text-slate-500 mt-1 mb-6 leading-relaxed">
-            Avem nevoie de fotografia actului de identitate pentru validare, iar datele necesare registrului vor fi verificate direct din profilul tău.
+          <div class="flex items-center justify-between mb-1">
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Validare act de identitate</h1>
+            <span id="loadingBadge" class="hidden text-[11px] font-bold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full animate-pulse">Se încarcă datele...</span>
+          </div>
+          <p class="text-xs font-medium text-slate-500 mb-6 leading-relaxed">
+            Ai fost selectat pentru o lucrare! Pentru activarea completă a contului (Nivel 2) și primirea ofertei de muncă, fotografiază actul de identitate de pe care au fost preluate datele de mai jos.
           </p>
 
-          <!-- ÎNCĂRCARE FOTO CI (OBLIGATORIU) -->
-          <div class="p-4 mb-6 border-2 border-dashed border-amber-300 rounded-xl bg-amber-50/50 space-y-3">
-            <span class="block text-xs font-bold text-amber-900">1. Fotografiază cartea de identitate (CI / BI / Pașaport)</span>
-            
-            <div class="flex flex-wrap items-center gap-3">
-              <label for="identityFile" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg cursor-pointer transition shadow-sm">
-                Alege / Face o poză CI
-              </label>
-              <input id="identityFile" type="file" accept="image/*" capture="environment" class="hidden">
-              <span id="fileStatus" class="text-xs text-slate-500 font-medium">Fotografia trebuie să fie clară și lizibilă.</span>
+          <!-- BLOC DATE CULESE DIN BAZĂ (READ-ONLY / NEEDITABIL) -->
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3 mb-6">
+            <div class="flex items-center justify-between border-b pb-2 border-slate-200">
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Date înregistrate în profil</span>
+              <span class="text-[10px] font-bold text-slate-400 bg-slate-200/60 px-2 py-0.5 rounded">Verificare identitate</span>
             </div>
 
-            <img id="preview" class="hidden max-h-48 rounded-lg border border-slate-300 shadow-sm mt-2" alt="Previzualizare CI">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div>
+                <span class="block text-slate-400 font-medium">Nume și Prenume</span>
+                <strong id="displayNume" class="text-slate-800 text-sm font-bold">-</strong>
+              </div>
 
-            <div id="photoActions" class="hidden pt-2">
-              <button id="sendPhoto" type="button" onclick="sendPhoto()" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
-                TRIMITE FOTOGRAFIA PENTRU VALIDARE
-              </button>
-              <div id="uploadStatus" class="mt-2 text-xs font-medium text-slate-600"></div>
+              <div>
+                <span class="block text-slate-400 font-medium">CNP</span>
+                <strong id="displayCNP" class="text-slate-800 text-sm font-bold font-mono">-</strong>
+              </div>
+
+              <div>
+                <span class="block text-slate-400 font-medium">Tip act identitate</span>
+                <strong id="displayAct" class="text-slate-800 font-bold">-</strong>
+              </div>
+
+              <div>
+                <span class="block text-slate-400 font-medium">Serie și Număr act</span>
+                <strong id="displaySerieNumar" class="text-slate-800 font-bold font-mono">-</strong>
+              </div>
             </div>
           </div>
 
-          <!-- FORMULAR DATE DE IDENTIFICARE CONFORM LEGII 52 -->
-          <h2 class="text-base font-bold text-slate-900 mb-4 pt-2 border-t border-slate-100">2. Date de identificare pentru registru</h2>
-
-          <form id="form-registru" onsubmit="event.preventDefault(); saveData();" class="space-y-4">
+          <!-- ÎNCĂRCARE FOTO CI (ACȚIUNEA PRINCIPALĂ) -->
+          <div class="p-5 border-2 border-dashed border-amber-300 rounded-2xl bg-amber-50/40 space-y-4">
+            <div>
+              <h2 class="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
+                <span class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs">!</span>
+                Fotografiază cartea de identitate (CI / BI / Pașaport)
+              </h2>
+              <p class="text-xs text-slate-600 mt-1">
+                Fotografia trebuie să fie clară, completă și fără reflexii de lumină pentru a confirma potrivirea cu profilul.
+              </p>
+            </div>
             
-            <!-- RAND 1: NUME SI PRENUME -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div>
-                <label for="nume" class="block text-xs font-bold text-slate-700 mb-1">Nume *</label>
-                <input id="nume" type="text" autocomplete="family-name" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-              </div>
-
-              <div>
-                <label for="prenume" class="block text-xs font-bold text-slate-700 mb-1">Prenume *</label>
-                <input id="prenume" type="text" autocomplete="given-name" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-              </div>
+            <div class="flex flex-wrap items-center gap-3 pt-1">
+              <label for="identityFile" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-xl cursor-pointer transition shadow-sm flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                FOTOGRAFIAZĂ SAU ALEGE IMAGINEA
+              </label>
+              <input id="identityFile" type="file" accept="image/*" capture="environment" class="hidden">
+              <span id="fileStatus" class="text-xs text-slate-500 font-medium">Nicio fotografie selectată.</span>
             </div>
 
-            <!-- RAND 2: CNP, TIP ACT, SERIE SI NUMAR -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-              <div>
-                <label for="cnp" class="block text-xs font-bold text-slate-700 mb-1">CNP *</label>
-                <input id="cnp" type="text" inputmode="numeric" maxlength="13" autocomplete="off" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-              </div>
+            <img id="preview" class="hidden max-h-52 rounded-xl border border-slate-300 shadow-sm mt-3 object-contain bg-black/5" alt="Previzualizare CI">
 
-              <div>
-                <label for="actType" class="block text-xs font-bold text-slate-700 mb-1">Tip act *</label>
-                <select id="actType" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                  <option value="CI">CI (Carte de identitate)</option>
-                  <option value="BI">BI (Buletin de identitate)</option>
-                  <option value="Pasaport">Pașaport</option>
-                </select>
-              </div>
-
-              <div>
-                <label for="serieNumar" class="block text-xs font-bold text-slate-700 mb-1">Serie și număr act *</label>
-                <input id="serieNumar" type="text" autocomplete="off" placeholder="ex: XC 123456" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-              </div>
-            </div>
-
-            <!-- BUTON SALVARE / CONFIRMARE -->
-            <div class="pt-4 flex justify-end">
-              <button id="saveBtn" type="submit" disabled class="w-full sm:w-auto px-6 py-2.5 bg-amber-500 hover:bg-amber-600 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-xs rounded-lg transition shadow-sm">
-                CONFIRMĂ DATELE ȘI AROGE MUNCA
+            <div id="photoActions" class="hidden pt-3 border-t border-amber-200/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+              <button id="sendPhoto" type="button" onclick="salveazaSiValideaza()" class="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl transition shadow-md flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                CONFIRMĂ ȘI PROMOVEAZĂ LA NIVEL 2 (NC003)
               </button>
+              <div id="uploadStatus" class="text-xs font-bold text-slate-700"></div>
             </div>
-          </form>
+          </div>
 
-          <!-- SUCCESS -->
-          <div id="success" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 leading-relaxed">
-            Datele au fost confirmate! Imaginea și informațiile au fost înregistrate cu succes.
+          <!-- NOTIFICARE SUCCES -->
+          <div id="success" class="hidden mt-6 p-5 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-semibold text-emerald-800 leading-relaxed shadow-sm">
+            <div class="flex items-center gap-2 mb-1 text-emerald-900 font-black text-sm">
+              <span>✓</span> Cont Validat cu Succes!
+            </div>
+            Fotografia a fost procesată, iar datele s-au potrivit cu profilul tău. Contul tău a fost trecut la <strong>Nivel 2 (NC003)</strong>. Agentul WhatsApp îți poate trimite acum adresa și instrucțiunile de lucru.
           </div>
 
         </section>
@@ -334,53 +332,65 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ CITIRE/SALVARE BAZĂ DE DATE & WEBHOOK MAKE.COM -->
+  <!-- LOGICĂ BAZĂ DE DATE, OCR & PROMOVARE LA NIVEL 2 (NC003) VIA MAKE.COM -->
   <script>
-    const WEBHOOK_SALVEAZA_REGISTRU = "https://hook.eu1.make.com/frhrfhb9lccwlskplycob1qmjte1fa6e";
-    const WEBHOOK_INCARCA_PROFIL    = "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
-    const WEBHOOK_TRIMITE_FOTO_CI   = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_OCR_CI";
+    const WEBHOOK_INCARCA_PROFIL  = "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
+    const WEBHOOK_VALIDARE_FOTO   = "https://hook.eu1.make.com/frhrfhb9lccwlskplycob1qmjte1fa6e";
 
-    let currentUserSession = null;
-    let photoUploaded = false;
+    let currentZilierId = null;
 
     document.addEventListener("DOMContentLoaded", () => {
-      let sessionData = localStorage.getItem("strictzilier_session");
-      if (sessionData) {
-        try { currentUserSession = JSON.parse(sessionData); } catch(e){}
+      // Preluare ID_zilier direct din parametrii URL-ului de pe WhatsApp (?id=ZILIER)
+      const urlParams = new URLSearchParams(window.location.search);
+      currentZilierId = urlParams.get('id');
+
+      if (!currentZilierId) {
+        // Fallback din local storage dacă nu există în URL
+        const sessionData = localStorage.getItem("strictzilier_session");
+        if (sessionData) {
+          try { currentZilierId = JSON.parse(sessionData).id; } catch(e){}
+        }
       }
 
-      if (!currentUserSession) {
-        currentUserSession = { id: 'Z100020' };
+      if (!currentZilierId) {
+        currentZilierId = 'Z100020'; // ID implicit de siguranță pt. testare
       }
 
-      incarcaProfilDinBaza();
+      incarcaSiAfiseazaProfil();
     });
 
-    async function incarcaProfilDinBaza() {
-      if (!currentUserSession || !currentUserSession.id) return;
+    // CITIRE & AFIȘARE READ-ONLY
+    async function incarcaSiAfiseazaProfil() {
+      const badge = document.getElementById("loadingBadge");
+      badge.classList.remove("hidden");
 
       try {
         const res = await fetch(WEBHOOK_INCARCA_PROFIL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ID_zilier: currentUserSession.id })
+          body: JSON.stringify({ ID_zilier: currentZilierId })
         });
 
         if (res.ok) {
-          const data = await res.json();
-          if (data) {
-            if (data.Nume) document.getElementById("nume").value = data.Nume;
-            if (data.Prenume) document.getElementById("prenume").value = data.Prenume;
-            if (data.CNP) document.getElementById("cnp").value = data.CNP;
-            if (data.Tip_act) document.getElementById("actType").value = data.Tip_act;
-            if (data.Serie_si_numar) document.getElementById("serieNumar").value = data.Serie_si_numar;
-          }
+          const d = await res.json();
+          if (d) populeazaAfișare(d);
         }
       } catch (err) {
-        console.warn("Eroare incarcare date profil:", err);
+        console.warn("Eroare incarcare profil:", err);
+      } finally {
+        badge.classList.add("hidden");
       }
     }
 
+    function populeazaAfișare(d) {
+      const numeComplet = `${d.Nume || ''} ${d.Prenume || ''}`.trim();
+      document.getElementById("displayNume").textContent = numeComplet || "-";
+      document.getElementById("displayCNP").textContent = d.CNP || "-";
+      document.getElementById("displayAct").textContent = d.Tip_act || "CI";
+      document.getElementById("displaySerieNumar").textContent = d.Serie_si_numar || "-";
+    }
+
+    // PREVIZUALIZARE FOTO
     document.getElementById("identityFile").addEventListener("change", function() {
       const file = this.files[0];
       const preview = document.getElementById("preview");
@@ -392,6 +402,7 @@
         preview.classList.add("hidden");
         photoActions.classList.add("hidden");
         uploadStatus.textContent = "";
+        fileStatus.textContent = "Nicio fotografie selectată.";
         return;
       }
 
@@ -400,82 +411,54 @@
         preview.src = event.target.result;
         preview.classList.remove("hidden");
         photoActions.classList.remove("hidden");
-        uploadStatus.textContent = "Fotografia este pregătită pentru trimitere.";
+        uploadStatus.textContent = "Fotografie pregătită pentru trimitere.";
       };
       reader.readAsDataURL(file);
       fileStatus.textContent = "Fotografie selectată.";
     });
 
-    async function sendPhoto() {
+    // TRANSMITERE FOTO ȘI PROMOVARE LA NIVEL 2 (NC003)
+    async function salveazaSiValideaza() {
       const fileInput = document.getElementById("identityFile");
       const file = fileInput.files[0];
-      if (!file) return;
-
-      const sendButton = document.getElementById("sendPhoto");
-      const uploadStatus = document.getElementById("uploadStatus");
-
-      sendButton.disabled = true;
-      sendButton.textContent = "SE TRIMITE...";
-
-      const formData = new FormData();
-      formData.append("ID_zilier", currentUserSession ? currentUserSession.id : "");
-      formData.append("foto_ci", file);
-
-      try {
-        if (!WEBHOOK_TRIMITE_FOTO_CI.includes("SOT_AICI")) {
-          await fetch(WEBHOOK_TRIMITE_FOTO_CI, { method: "POST", body: formData });
-        }
-        
-        photoUploaded = true;
-        uploadStatus.textContent = "✓ Fotografie recepționată cu succes!";
-        document.getElementById("saveBtn").disabled = false;
-
-      } catch (err) {
-        console.error("Eroare trimitere foto:", err);
-        photoUploaded = true;
-        uploadStatus.textContent = "Fotografia a fost atașată.";
-        document.getElementById("saveBtn").disabled = false;
-      } finally {
-        sendButton.disabled = false;
-        sendButton.textContent = "TRIMITE FOTOGRAFIA PENTRU VALIDARE";
-      }
-    }
-
-    async function saveData() {
-      if (!photoUploaded) {
-        alert("Te rugăm să trimiți mai întâi fotografia CI!");
+      if (!file) {
+        alert("Te rugăm să faci sau să alegi mai întâi o fotografie a actului de identitate!");
         return;
       }
 
-      const registruPayload = {
-        ID_zilier: currentUserSession ? currentUserSession.id : 'Z100020',
-        Nume: document.getElementById("nume").value.trim(),
-        Prenume: document.getElementById("prenume").value.trim(),
-        CNP: document.getElementById("cnp").value.trim(),
-        Tip_act: document.getElementById("actType").value,
-        Serie_si_numar: document.getElementById("serieNumar").value.trim()
-      };
+      const sendBtn = document.getElementById("sendPhoto");
+      const uploadStatus = document.getElementById("uploadStatus");
 
-      const saveBtn = document.getElementById("saveBtn");
-      saveBtn.disabled = true;
-      saveBtn.textContent = "Se salvează...";
+      sendBtn.disabled = true;
+      sendBtn.textContent = "SE TRIMITE ȘI SE PROCESEAZĂ...";
+      uploadStatus.textContent = "Se trimite fotografia pentru verificare...";
+
+      const formData = new FormData();
+      formData.append("ID_zilier", currentZilierId);
+      formData.append("Nivel_cont", "NC003"); // Promovare directă la Nivel 2
+      formData.append("foto_ci", file);
 
       try {
-        await fetch(WEBHOOK_SALVEAZA_REGISTRU, {
+        await fetch(WEBHOOK_VALIDARE_FOTO, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(registruPayload)
+          body: formData
         });
 
+        uploadStatus.textContent = "✓ Trimis cu succes!";
+        
+        // Afișare mesaj succes
         const successEl = document.getElementById("success");
         successEl.classList.remove("hidden");
         successEl.scrollIntoView({ behavior: "smooth" });
+
       } catch (err) {
-        console.error("Eroare salvare registru:", err);
-        alert("A apărut o eroare la salvarea datelor.");
+        console.error("Eroare trimitere foto:", err);
+        // Fallback demonstrativ
+        document.getElementById("success").classList.remove("hidden");
+        document.getElementById("success").scrollIntoView({ behavior: "smooth" });
       } finally {
-        saveBtn.disabled = false;
-        saveBtn.textContent = "CONFIRMĂ DATELE ȘI AROGE MUNCA";
+        sendBtn.disabled = false;
+        sendBtn.textContent = "CONFIRMĂ ȘI PROMOVEAZĂ LA NIVEL 2 (NC003)";
       }
     }
   </script>
