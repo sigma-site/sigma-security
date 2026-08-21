@@ -89,14 +89,61 @@
               <input type="tel" id="zilier-telefon" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="07xx xxx xxx">
             </div>
 
-            <div class="grid grid-cols-2 gap-2.5">
-              <div>
-                <label class="block text-xs font-medium text-slate-600 mb-1">Județ *</label>
-                <input type="text" id="zilier-judet" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: Bacău">
+            <!-- BLOC LOCALIZARE CU NOMENCLATOR -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 items-start">
+              <div class="sm:col-span-1">
+                <label for="zilier-judet" class="block text-xs font-medium text-slate-600 mb-1">Județ *</label>
+                <select id="zilier-judet" required class="w-full h-[38px] px-2.5 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                  <option value="Alba">Alba</option>
+                  <option value="Arad">Arad</option>
+                  <option value="Arges">Arges</option>
+                  <option value="Bacau" selected>Bacau</option>
+                  <option value="Bihor">Bihor</option>
+                  <option value="Bistrita-Nasaud">Bistrita-Nasaud</option>
+                  <option value="Botosani">Botosani</option>
+                  <option value="Brasov">Brasov</option>
+                  <option value="Braila">Braila</option>
+                  <option value="Bucuresti">Bucuresti</option>
+                  <option value="Buzau">Buzau</option>
+                  <option value="Caras-Severin">Caras-Severin</option>
+                  <option value="Calarasi">Calarasi</option>
+                  <option value="Cluj">Cluj</option>
+                  <option value="Constanta">Constanta</option>
+                  <option value="Covasna">Covasna</option>
+                  <option value="Dambovita">Dambovita</option>
+                  <option value="Dolj">Dolj</option>
+                  <option value="Galati">Galati</option>
+                  <option value="Giurgiu">Giurgiu</option>
+                  <option value="Gorj">Gorj</option>
+                  <option value="Harghita">Harghita</option>
+                  <option value="Hunedoara">Hunedoara</option>
+                  <option value="Ialomita">Ialomita</option>
+                  <option value="Iasi">Iasi</option>
+                  <option value="Ilfov">Ilfov</option>
+                  <option value="Maramures">Maramures</option>
+                  <option value="Mehedinti">Mehedinti</option>
+                  <option value="Mures">Mures</option>
+                  <option value="Neamt">Neamt</option>
+                  <option value="Olt">Olt</option>
+                  <option value="Prahova">Prahova</option>
+                  <option value="Satu Mare">Satu Mare</option>
+                  <option value="Salaj">Salaj</option>
+                  <option value="Sibiu">Sibiu</option>
+                  <option value="Suceava">Suceava</option>
+                  <option value="Teleorman">Teleorman</option>
+                  <option value="Timis">Timis</option>
+                  <option value="Tulcea">Tulcea</option>
+                  <option value="Vaslui">Vaslui</option>
+                  <option value="Valcea">Valcea</option>
+                  <option value="Vrancea">Vrancea</option>
+                </select>
               </div>
-              <div>
-                <label class="block text-xs font-medium text-slate-600 mb-1">Localitate *</label>
-                <input type="text" id="zilier-localitate" required class="w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: Comănești">
+              <div class="sm:col-span-2 relative">
+                <label for="zilier-localitate" class="block text-xs font-medium text-slate-600 mb-1">Orașul sau Comuna *</label>
+                <input type="text" id="zilier-localitate" required autocomplete="off" class="w-full h-[38px] px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Scrie orașul sau comuna...">
+                
+                <!-- Casetă de sugestii Autocomplete -->
+                <div id="locSuggestionsIndex" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50 divide-y divide-slate-100 text-xs"></div>
               </div>
             </div>
 
@@ -437,8 +484,10 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
+  <!-- 1. ÎNCĂRCARE NOMENCLATOR EXTERN DIN ACELAȘI FOLDER/GITHUB -->
+  <script src="nomenclator-romania.js"></script>
 
-  <!-- LOGICĂ PRINCIPALĂ: WEBHOOK-URI, AUTENTIFICARE & SESIUNE SĂPTĂMÂNALĂ -->
+  <!-- LOGICĂ PRINCIPALĂ: WEBHOOK-URI, AUTENTIFICARE & NOMENCLATOR -->
   <script>
     // =================================================================
     // CONFIGURARE ADRESE WEBHOOK MAKE.COM
@@ -450,6 +499,91 @@
 
     let currentAuthRole = '';
 
+    // CURĂȚARE DIACRITICE ȘI UNIFORMIZARE
+    function stripDiacritics(str) {
+      if (!str) return "";
+      return str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/ă/gi, "a").replace(/â/gi, "a").replace(/î/gi, "i").replace(/ș/gi, "s").replace(/ț/gi, "t")
+        .replace(/[-_]/g, " ")
+        .trim();
+    }
+
+    // AUTOCOMPLETE SI SUGGESTIONS PENTRU ORAȘ/COMUNĂ
+    function initAutocomplete() {
+      const judetSelect = document.getElementById("zilier-judet");
+      const zonaInput = document.getElementById("zilier-localitate");
+      const sugBox = document.getElementById("locSuggestionsIndex");
+
+      judetSelect.addEventListener("change", () => {
+        zonaInput.value = "";
+        sugBox.classList.add("hidden");
+      });
+
+      zonaInput.addEventListener("input", () => {
+        const query = stripDiacritics(zonaInput.value).toLowerCase();
+        const judetSelectat = judetSelect.value;
+        const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judetSelectat).toLowerCase()) : null;
+
+        sugBox.innerHTML = "";
+
+        if (!query || query.length < 1 || !cheieJudet) {
+          sugBox.classList.add("hidden");
+          return;
+        }
+
+        const listaLoc = NOMENCLATOR[cheieJudet] || [];
+        const meciuri = listaLoc.filter(l => stripDiacritics(l).toLowerCase().includes(query));
+
+        if (meciuri.length === 0) {
+          sugBox.classList.add("hidden");
+          return;
+        }
+
+        meciuri.forEach(loc => {
+          const item = document.createElement("div");
+          item.className = "p-2 hover:bg-amber-50 cursor-pointer font-semibold text-slate-700 transition";
+          item.textContent = loc;
+          item.addEventListener("click", () => {
+            zonaInput.value = loc;
+            sugBox.classList.add("hidden");
+          });
+          sugBox.appendChild(item);
+        });
+
+        sugBox.classList.remove("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!zonaInput.contains(e.target) && !sugBox.contains(e.target)) {
+          sugBox.classList.add("hidden");
+        }
+      });
+    }
+
+    // MATCHING AUTOMAT LA SALVARE PE NOMENCLATOR
+    function matchLocalitateAutentica(judet, textIntrodus) {
+      if (!textIntrodus || !textIntrodus.trim()) return textIntrodus || "-";
+
+      const query = stripDiacritics(textIntrodus).toLowerCase();
+      const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judet).toLowerCase()) : null;
+
+      const listaLoc = (cheieJudet && NOMENCLATOR[cheieJudet]) ? NOMENCLATOR[cheieJudet] : [];
+
+      let gasit = listaLoc.find(l => stripDiacritics(l).toLowerCase() === query);
+      if (!gasit) {
+        gasit = listaLoc.find(l => stripDiacritics(l).toLowerCase().startsWith(query));
+      }
+
+      if (!gasit) {
+        const curatat = stripDiacritics(textIntrodus);
+        gasit = curatat.charAt(0).toUpperCase() + curatat.slice(1);
+      }
+
+      return gasit;
+    }
+
     // Determinare Luni din săptămâna curentă (Format YYYY-MM-DD)
     function getStartOfWeekISO() {
       const d = new Date();
@@ -460,8 +594,9 @@
       return monday.toISOString().split('T')[0];
     }
 
-    // Auto-Login: Verifică la încărcare dacă există o sesiune activă pe săptămâna în curs
+    // Auto-Login & Init Autocomplete la încărcare
     document.addEventListener("DOMContentLoaded", () => {
+      initAutocomplete();
       checkWeeklySession();
     });
 
@@ -615,12 +750,18 @@
       const btn = document.getElementById("btn-submit-zilier");
       const mesaj = document.getElementById("mesaj-zilier");
 
+      const judetRaw = document.getElementById("zilier-judet").value;
+      const localitateRaw = document.getElementById("zilier-localitate").value;
+
+      const judetVal = stripDiacritics(judetRaw);
+      const localitateVal = matchLocalitateAutentica(judetVal, localitateRaw);
+
       const payload = {
         nume: document.getElementById("zilier-nume").value.trim(),
         prenume: document.getElementById("zilier-prenume").value.trim(),
         telefon: document.getElementById("zilier-telefon").value.trim(),
-        judet: document.getElementById("zilier-judet").value.trim(),
-        localitate: document.getElementById("zilier-localitate").value.trim()
+        judet: judetVal,
+        localitate: localitateVal
       };
 
       btn.disabled = true;
