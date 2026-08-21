@@ -200,7 +200,7 @@
                 <div>
                   <label for="activitatePreferata" class="block text-xs font-bold text-slate-700 mb-1">Activitate Preferată</label>
                   <select id="activitatePreferata" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <!-- Se populează dinamic în funcție de grupul ales -->
+                    <!-- Se populează dinamic prin JS -->
                   </select>
                 </div>
               </div>
@@ -572,6 +572,11 @@
 
       initCalendar();
       initAutocomplete();
+      
+      // POPULARE IMEDIATĂ PENTRU GRUPA IMPLICITĂ (GA001) LA ÎNCĂRCAREA PAGINII
+      const initialGrup = document.getElementById("grupActivitate").value || "GA001";
+      updateActivitiesDropdown(initialGrup);
+
       loadUserProfileFromDatabase();
     });
 
@@ -849,6 +854,11 @@
     const saveButton = document.getElementById("savePreferences");
 
     editButton.addEventListener("click", () => {
+      // RE-POPULARE SIGURĂ A DROP-DOWN-ULUI LA DESCHIDERE
+      const currentGrup = document.getElementById("grupActivitate").value || "GA001";
+      const currentAct = document.getElementById("activitatePreferata").value || "ALL";
+      updateActivitiesDropdown(currentGrup, currentAct);
+
       editArea.classList.remove("hidden");
       editButton.classList.add("hidden");
     });
