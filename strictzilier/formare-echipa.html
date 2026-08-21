@@ -1,1169 +1,483 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Formează o echipă – STRICTZILIER.ro</title>
-
-<style>
-
-*{
-    box-sizing:border-box;
-}
-
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f4f6f8;
-    color:#263238;
-}
-
-
-/* =========================
-   HEADER
-   ========================= */
-
-header{
-    height:68px;
-    background:#fff;
-    border-bottom:1px solid #ddd;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 28px;
-}
-
-.logo{
-    font-size:24px;
-    font-weight:800;
-}
-
-.logo span{
-    color:#f28c28;
-}
-
-.header-right{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.profile-btn{
-    background:transparent;
-    border:1px solid #f28c28;
-    color:#d86f0b;
-
-    border-radius:6px;
-    padding:6px 10px;
-
-    font-size:12px;
-    font-weight:bold;
-
-    cursor:pointer;
-}
-
-.guide-top-btn{
-    background:transparent;
-    border:1px solid #f28c28;
-    color:#d86f0b;
-
-    border-radius:6px;
-    padding:6px 10px;
-
-    font-size:12px;
-    font-weight:bold;
-
-    cursor:pointer;
-}
-
-
-/* =========================
-   STRUCTURA PRINCIPALA
-   ========================= */
-
-.main{
-    max-width:1180px;
-
-    margin:18px auto;
-
-    padding:0 18px;
-
-    display:grid;
-
-    grid-template-columns:
-        minmax(0,1.55fr)
-        minmax(320px,.75fr);
-
-    gap:20px;
-}
-
-
-/* =========================
-   CONTINUT
-   ========================= */
-
-.content,
-.agent{
-    background:#fff;
-    border-radius:12px;
-
-    box-shadow:
-        0 2px 8px rgba(0,0,0,.06);
-}
-
-.content{
-    padding:23px;
-}
-
-
-/* =========================
-   TITLU
-   ========================= */
-
-h1{
-    margin:0 0 6px;
-    font-size:25px;
-}
-
-.subtitle{
-    color:#6d7880;
-
-    margin-bottom:18px;
-
-    line-height:1.45;
-
-    font-size:14px;
-}
-
-
-/* =========================
-   INITIATOR
-   ========================= */
-
-.initiator{
-    background:#fff8ef;
-
-    border:1px solid #f1d4b1;
-
-    border-radius:8px;
-
-    padding:12px 14px;
-
-    margin-bottom:18px;
-}
-
-.initiator-label{
-    color:#8a765f;
-
-    font-size:10px;
-
-    font-weight:800;
-
-    text-transform:uppercase;
-
-    margin-bottom:5px;
-}
-
-.initiator-name{
-    font-size:14px;
-    font-weight:800;
-}
-
-.initiator-info{
-    color:#737d83;
-
-    font-size:11px;
-
-    margin-top:4px;
-}
-
-
-/* =========================
-   SECTIUNI
-   ========================= */
-
-.section{
-    margin-bottom:16px;
-
-    padding-bottom:14px;
-
-    border-bottom:1px solid #e5e7e9;
-}
-
-.section:last-of-type{
-    border-bottom:none;
-    margin-bottom:8px;
-}
-
-.section h2{
-    margin:0 0 11px;
-
-    font-size:17px;
-}
-
-
-/* =========================
-   CONDITII
-   ========================= */
-
-.conditions{
-    display:grid;
-
-    grid-template-columns:1fr 1fr;
-
-    gap:10px;
-}
-
-.condition{
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:9px;
-
-    padding:11px;
-
-    background:#f7f8f9;
-
-    border:1px solid #e4e7e9;
-
-    border-radius:7px;
-}
-
-.condition-icon{
-    width:22px;
-    height:22px;
-
-    border-radius:50%;
-
-    background:#f28c28;
-    color:#fff;
-
-    display:flex;
-
-    align-items:center;
-    justify-content:center;
-
-    font-size:11px;
-    font-weight:800;
-
-    flex-shrink:0;
-}
-
-.condition-text{
-    font-size:12px;
-
-    line-height:1.4;
-}
-
-.condition-text strong{
-    font-weight:800;
-}
-
-
-/* =========================
-   MEMBRI
-   ========================= */
-
-.member-list{
-    display:grid;
-
-    gap:10px;
-}
-
-.member{
-    display:grid;
-
-    grid-template-columns:
-        minmax(0,1fr)
-        minmax(0,1fr)
-        38px;
-
-    gap:10px;
-
-    padding:11px;
-
-    background:#f7f8f9;
-
-    border:1px solid #e4e7e9;
-
-    border-radius:7px;
-}
-
-.field{
-    display:flex;
-    flex-direction:column;
-}
-
-.field label{
-    display:block;
-
-    margin-bottom:5px;
-
-    font-size:11px;
-
-    color:#737d83;
-
-    font-weight:700;
-}
-
-input{
-    width:100%;
-
-    height:39px;
-
-    padding:0 10px;
-
-    border:1px solid #cbd6da;
-
-    border-radius:7px;
-
-    background:#fff;
-
-    color:#263238;
-
-    font-family:inherit;
-
-    font-size:13px;
-}
-
-input:focus{
-    outline:none;
-
-    border-color:#f28c28;
-
-    box-shadow:
-        0 0 0 2px rgba(242,140,40,.10);
-}
-
-.remove-btn{
-    align-self:end;
-
-    width:38px;
-    height:39px;
-
-    border:1px solid #d8dfe0;
-
-    border-radius:7px;
-
-    background:#fff;
-
-    color:#8b6666;
-
-    font-size:17px;
-
-    cursor:pointer;
-}
-
-.remove-btn:hover{
-    background:#fff6f6;
-}
-
-.add-member{
-    margin-top:11px;
-
-    width:100%;
-
-    min-height:40px;
-
-    border:1px dashed #d5b78f;
-
-    border-radius:7px;
-
-    background:#fff;
-
-    color:#d86f0b;
-
-    font-size:12px;
-
-    font-weight:800;
-
-    cursor:pointer;
-}
-
-.add-member:hover{
-    background:#fff9f2;
-}
-
-
-/* =========================
-   INFO
-   ========================= */
-
-.info-box{
-    background:#f7f8f9;
-
-    border:1px solid #e4e7e9;
-
-    border-radius:7px;
-
-    padding:12px 13px;
-
-    color:#65747a;
-
-    font-size:12px;
-
-    line-height:1.5;
-}
-
-
-/* =========================
-   DECLARATIE
-   ========================= */
-
-.declaration{
-    display:flex;
-
-    align-items:flex-start;
-
-    gap:10px;
-
-    padding:12px;
-
-    background:#f7f8f9;
-
-    border:1px solid #e4e7e9;
-
-    border-radius:7px;
-}
-
-.declaration input{
-    width:17px;
-    height:17px;
-
-    margin:1px 0 0;
-
-    flex-shrink:0;
-}
-
-.declaration label{
-    margin:0;
-
-    color:#39484d;
-
-    font-size:12px;
-
-    line-height:1.45;
-
-    font-weight:600;
-}
-
-
-/* =========================
-   ACTIUNI
-   ========================= */
-
-.actions{
-    display:flex;
-
-    gap:10px;
-
-    margin-top:18px;
-}
-
-.actions button{
-    flex:1;
-
-    border:none;
-
-    border-radius:7px;
-
-    padding:11px 14px;
-
-    cursor:pointer;
-
-    font-size:13px;
-
-    font-weight:bold;
-}
-
-.back-btn{
-    background:#263238;
-    color:#fff;
-}
-
-.submit-btn{
-    background:#f28c28;
-    color:#fff;
-}
-
-.submit-btn:hover{
-    background:#d97816;
-}
-
-
-/* =========================
-   AGENT
-   ========================= */
-
-.agent{
-    min-height:560px;
-
-    display:flex;
-
-    flex-direction:column;
-}
-
-.agent-header{
-    padding:16px 18px;
-
-    border-bottom:1px solid #ddd;
-
-    font-weight:bold;
-
-    font-size:14px;
-}
-
-.chat{
-    flex:1;
-
-    padding:17px;
-
-    background:#fafafa;
-}
-
-.chat-message{
-    background:#fff;
-
-    border:1px solid #ddd;
-
-    border-radius:9px;
-
-    padding:12px;
-
-    font-size:13px;
-
-    line-height:1.45;
-}
-
-.chat-input{
-    padding:12px;
-
-    border-top:1px solid #ddd;
-
-    display:flex;
-
-    gap:7px;
-}
-
-.chat-input input{
-    flex:1;
-
-    min-width:0;
-
-    height:38px;
-
-    padding:9px;
-
-    border:1px solid #ccc;
-
-    border-radius:7px;
-
-    font-size:13px;
-}
-
-.chat-input button{
-    border:none;
-
-    border-radius:7px;
-
-    padding:9px 13px;
-
-    cursor:pointer;
-
-    font-weight:bold;
-
-    font-size:13px;
-}
-
-
-/* =========================
-   RESPONSIVE
-   ========================= */
-
-@media(max-width:800px){
-
-    .main{
-        grid-template-columns:1fr;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formează o echipă - STRICTZILIER.ro</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .custom-scroll::-webkit-scrollbar { width: 5px; }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
     }
-
-    .conditions{
-        grid-template-columns:1fr;
-    }
-
-    .agent{
-        min-height:420px;
-    }
-
-}
-
-
-@media(max-width:520px){
-
-    header{
-        padding:0 16px;
-    }
-
-    .logo{
-        font-size:20px;
-    }
-
-    .header-right{
-        gap:6px;
-    }
-
-    .profile-btn{
-        display:none;
-    }
-
-    .content{
-        padding:18px;
-    }
-
-    .member{
-        grid-template-columns:1fr;
-    }
-
-    .remove-btn{
-        width:100%;
-    }
-
-    .actions{
-        flex-direction:column;
-    }
-
-    .actions button{
-        width:100%;
-    }
-
-}
-
-</style>
+  </style>
 </head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
+  <!-- Header Permanent -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+        <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
+      </a>
 
-<body>
-
-
-<header>
-
-    <div class="logo">
-        STRICT<span>ZILIER</span>.ro
-    </div>
-
-
-    <div class="header-right">
-
-        <button
-            class="profile-btn"
-            onclick="location.href='profil-zilier.html'"
-        >
-            Profilul meu
-        </button>
-
-        <button
-            class="guide-top-btn"
-            onclick="location.href='ghid-zilier.html'"
-        >
-            Ghid zilier
-        </button>
+      <!-- Header Right Buttons -->
+      <div class="flex items-center gap-2">
+        <a href="profil-zilier.html" class="hidden sm:inline-flex items-center px-3 py-1.5 bg-white hover:bg-amber-50 text-amber-600 border border-amber-500 rounded-lg text-xs font-bold transition">
+          Profilul meu
+        </a>
+        <a href="ghid-zilier.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition">
+          <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span>GHID ZILIER</span>
+        </a>
+      </div>
 
     </div>
+  </header>
 
-</header>
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+      
+      <!-- COLOANA STANGA & CENTRU: CARDUL PRINCIPAL -->
+      <div class="lg:col-span-2 space-y-6">
+        <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
+          
+          <h1 class="text-2xl font-black text-slate-900 tracking-tight">Formează o echipă</h1>
+          <p class="text-xs font-medium text-slate-500 mt-1 mb-5 leading-relaxed">
+            Poți propune alți zilieri pentru o echipă atunci când doriți să lucrați împreună la aceleași activități.
+          </p>
 
+          <!-- CARD INITIATOR -->
+          <div class="p-4 bg-amber-50/60 border border-amber-200 rounded-xl mb-6">
+            <span class="block text-[10px] font-black uppercase tracking-wider text-amber-800 mb-0.5">Inițiatorul echipei</span>
+            <div id="initiator-name" class="text-sm font-bold text-slate-900">Ion Popescu</div>
+            <div class="text-xs text-slate-500 mt-0.5">Cont confirmat · Activitate și zonă principală declarate</div>
+          </div>
 
-<div class="main">
+          <!-- SECTIUNE CONDIȚII -->
+          <div class="pt-5 border-t border-slate-100">
+            <h2 class="text-base font-bold text-slate-900 mb-3">Condiții pentru formarea echipei</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
+              <div class="flex items-start gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                <div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</div>
+                <div class="text-xs text-slate-600 leading-snug"><strong class="text-slate-900 font-bold">Cont confirmat.</strong> Fiecare membru trebuie să aibă un cont confirmat.</div>
+              </div>
 
+              <div class="flex items-start gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                <div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</div>
+                <div class="text-xs text-slate-600 leading-snug"><strong class="text-slate-900 font-bold">Activitate principală.</strong> Fiecare membru trebuie să aibă declarată o activitate principală.</div>
+              </div>
 
-<section class="content">
+              <div class="flex items-start gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                <div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</div>
+                <div class="text-xs text-slate-600 leading-snug"><strong class="text-slate-900 font-bold">Zonă principală.</strong> Fiecare membru trebuie să aibă o zonă principală declarată.</div>
+              </div>
 
-
-    <h1>
-        Formează o echipă
-    </h1>
-
-
-    <div class="subtitle">
-        Poți propune alți zilieri pentru o echipă atunci când
-        doriți să lucrați împreună la aceleași activități.
-    </div>
-
-
-    <!-- INITIATOR -->
-
-    <div class="initiator">
-
-        <div class="initiator-label">
-            Inițiatorul echipei
-        </div>
-
-        <div class="initiator-name">
-            Ion Popescu
-        </div>
-
-        <div class="initiator-info">
-            Cont confirmat · Activitate și zonă principală declarate
-        </div>
-
-    </div>
-
-
-    <!-- CONDITII -->
-
-    <div class="section">
-
-        <h2>
-            Condiții pentru formarea echipei
-        </h2>
-
-
-        <div class="conditions">
-
-
-            <div class="condition">
-
-                <div class="condition-icon">
-                    ✓
-                </div>
-
-                <div class="condition-text">
-                    <strong>Cont confirmat.</strong>
-                    Fiecare membru trebuie să aibă un cont confirmat.
-                </div>
-
+              <div class="flex items-start gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                <div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</div>
+                <div class="text-xs text-slate-600 leading-snug"><strong class="text-slate-900 font-bold">Disponibilitate.</strong> Membrii trebuie să poată confirma disponibilitatea pentru perioada în care este necesară echipa.</div>
+              </div>
             </div>
+          </div>
 
+          <!-- SECTIUNE MEMBRI ECHIPA -->
+          <div class="pt-5 border-t border-slate-100">
+            <h2 class="text-base font-bold text-slate-900 mb-1">Membrii echipei</h2>
+            <p class="text-xs text-slate-500 mb-4">
+              Introdu numele și numărul de telefon al persoanelor pe care dorești să le propui. Platforma va verifica dacă acestea au conturi confirmate.
+            </p>
 
-            <div class="condition">
-
-                <div class="condition-icon">
-                    ✓
+            <div id="memberList" class="space-y-3">
+              <div class="member flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                <div class="flex-1">
+                  <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME</label>
+                  <input type="text" placeholder="Numele membrului" class="member-nume w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                 </div>
-
-                <div class="condition-text">
-                    <strong>Activitate principală.</strong>
-                    Fiecare membru trebuie să aibă declarată o activitate principală.
+                <div class="flex-1">
+                  <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON</label>
+                  <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                 </div>
-
-            </div>
-
-
-            <div class="condition">
-
-                <div class="condition-icon">
-                    ✓
-                </div>
-
-                <div class="condition-text">
-                    <strong>Zonă principală.</strong>
-                    Fiecare membru trebuie să aibă o zonă principală declarată.
-                </div>
-
-            </div>
-
-
-            <div class="condition">
-
-                <div class="condition-icon">
-                    ✓
-                </div>
-
-                <div class="condition-text">
-                    <strong>Disponibilitate.</strong>
-                    Membrii trebuie să poată confirma disponibilitatea pentru
-                    perioada în care este necesară echipa.
-                </div>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-    <!-- MEMBRI -->
-
-    <div class="section">
-
-        <h2>
-            Membrii echipei
-        </h2>
-
-
-        <div class="subtitle" style="margin-bottom:12px;">
-            Introdu numele și numărul de telefon al persoanelor
-            pe care dorești să le propui. Platforma va verifica
-            dacă acestea au conturi confirmate.
-        </div>
-
-
-        <div
-            id="memberList"
-            class="member-list"
-        >
-
-
-            <div class="member">
-
-                <div class="field">
-
-                    <label>
-                        NUME
-                    </label>
-
-                    <input
-                        type="text"
-                        placeholder="Numele membrului"
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label>
-                        TELEFON
-                    </label>
-
-                    <input
-                        type="tel"
-                        placeholder="07xx xxx xxx"
-                    >
-
-                </div>
-
-
-                <button
-                    class="remove-btn"
-                    onclick="removeMember(this)"
-                    title="Elimină"
-                >
-                    ×
+                <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
+                  ×
                 </button>
-
+              </div>
             </div>
 
+            <button type="button" onclick="addMember()" class="w-full mt-3 py-2.5 bg-white hover:bg-amber-50 text-amber-600 border-2 border-dashed border-amber-300 hover:border-amber-400 font-bold text-xs rounded-xl transition">
+              + Adaugă un membru
+            </button>
 
-        </div>
+            <div class="mt-3 p-3 bg-slate-100/70 border border-slate-200 rounded-xl text-xs text-slate-600 leading-relaxed">
+              Nu este necesar să introduci date suplimentare despre membrii propuși. După trimitere, fiecare persoană va trebui să accepte asocierea. Un membru care nu acceptă nu va fi considerat membru al echipei.
+            </div>
+          </div>
 
+          <!-- SECTIUNE CUM FUNCȚIONEAZĂ -->
+          <div class="pt-5 mt-5 border-t border-slate-100">
+            <h2 class="text-base font-bold text-slate-900 mb-2">Cum funcționează asocierea</h2>
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600 leading-relaxed space-y-2">
+              <p>Formarea echipei nu modifică profilurile individuale ale membrilor. Fiecare persoană își păstrează propriul cont, activitatea, zona și disponibilitatea.</p>
+              <p>Echipa reprezintă o asociere între aceste conturi și poate fi folosită de Agent atunci când caută mai mulți zilieri disponibili pentru aceeași lucrare.</p>
+            </div>
+          </div>
 
-        <button
-            class="add-member"
-            onclick="addMember()"
-        >
-            + Adaugă un membru
-        </button>
-
-
-        <div
-            class="info-box"
-            style="margin-top:13px;"
-        >
-            Nu este necesar să introduci date suplimentare despre
-            membrii propuși. După trimitere, fiecare persoană va
-            trebui să accepte asocierea. Un membru care nu acceptă
-            nu va fi considerat membru al echipei.
-        </div>
-
-    </div>
-
-
-    <!-- FUNCTIONAREA ECHIPEI -->
-
-    <div class="section">
-
-        <h2>
-            Cum funcționează asocierea
-        </h2>
-
-        <div class="info-box">
-
-            Formarea echipei nu modifică profilurile individuale
-            ale membrilor. Fiecare persoană își păstrează propriul
-            cont, activitatea, zona și disponibilitatea.
-
-            <br><br>
-
-            Echipa reprezintă o asociere între aceste conturi și
-            poate fi folosită de Agent atunci când caută mai mulți
-            zilieri disponibili pentru aceeași lucrare.
-
-        </div>
-
-    </div>
-
-
-    <!-- CONFIRMARE -->
-
-    <div class="section">
-
-        <h2>
-            Confirmarea inițiatorului
-        </h2>
-
-
-        <div class="declaration">
-
-            <input
-                type="checkbox"
-                id="confirm"
-            >
-
-            <label for="confirm">
-
-                Confirm că persoanele introduse sunt cele pe care
-                doresc să le propun pentru această asociere și că
-                am acordul lor pentru a fi contactate în acest scop.
-
+          <!-- SECTIUNE CONFIRMARE INITIATOR -->
+          <div class="pt-5 mt-5 border-t border-slate-100">
+            <h2 class="text-base font-bold text-slate-900 mb-3">Confirmarea inițiatorului</h2>
+            <label class="flex items-start gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer select-none">
+              <input type="checkbox" id="confirm" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500 flex-shrink-0">
+              <span class="text-xs font-medium text-slate-700 leading-relaxed">
+                Confirm că persoanele introduse sunt cele pe care doresc să le propun pentru această asociere și că am acordul lor pentru a fi contactate în acest scop.
+              </span>
             </label>
+          </div>
 
+          <!-- ACTION BUTTONS -->
+          <div class="pt-5 mt-5 border-t border-slate-100 flex flex-col sm:flex-row gap-2.5">
+            <button type="button" onclick="window.location.href='profil-zilier.html'" class="w-full sm:w-1/2 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">
+              Înapoi la profil
+            </button>
+            <button type="button" onclick="createTeam()" class="w-full sm:w-1/2 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+              Trimite propunerile
+            </button>
+          </div>
+
+          <!-- STATUS / SUCCESS -->
+          <div id="success" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 leading-relaxed">
+            Propunerile de echipă au fost trimise cu succes către sistem!
+          </div>
+
+        </section>
+      </div>
+
+      <!-- COLOANA DREAPTA: AGENT VAPI INTEGRAT DIRECT -->
+      <aside id="strictzilierAgent" class="bg-gradient-to-b from-slate-900 to-blue-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl border border-blue-900 flex flex-col justify-between h-[580px] text-center">
+        <div>
+          <p class="text-xs text-slate-300 mb-2 leading-tight max-w-xs mx-auto pt-1">
+            Spune ce cauți sau de ce ai nevoie. Agentul mediază întâlnirea dintre zilieri și angajatori.
+          </p>
+
+          <div id="conversation" class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
+            <div class="bg-white/10 text-slate-100 p-2 rounded-lg text-xs leading-relaxed max-w-[88%] border-l-2 border-blue-500">
+              <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>
+              Bun venit. Alege modul vocal sau scris pentru a începe conversația.
+            </div>
+          </div>
         </div>
 
-    </div>
+        <div>
+          <div class="w-full max-w-[340px] mx-auto grid grid-cols-[1fr_34px_1fr] gap-1.5 items-center mb-1.5">
+            <button id="voiceModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">
+              VOCAL
+            </button>
+            <div id="agentOrb" class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs text-white">
+              ✦
+            </div>
+            <button id="textModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center">
+              SCRIS
+            </button>
+          </div>
 
+          <div id="voicePanel" class="w-full max-w-[340px] mx-auto">
+            <button id="agentButton" type="button" class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">
+              PORNEȘTE CONVERSAȚIA
+            </button>
+            <div id="status" class="min-h-[14px] mt-1 text-[10px] font-bold text-emerald-400"></div>
+          </div>
 
-    <!-- ACTIUNI -->
-
-    <div class="actions">
-
-        <button
-            class="back-btn"
-            onclick="window.location.href='profil-zilier.html'"
-        >
-            Înapoi la profil
-        </button>
-
-
-        <button
-            class="submit-btn"
-            onclick="createTeam()"
-        >
-            Trimite propunerile
-        </button>
-
-    </div>
-
-
-</section>
-
-
-<!-- =========================
-     AGENT
-     ========================= -->
-
-<aside class="agent">
-
-    <div class="agent-header">
-        Asistent STRICTZILIER
-    </div>
-
-
-    <div class="chat">
-
-        <div class="chat-message">
-            Bun venit! Vă pot ajuta cu formarea echipei,
-            verificarea membrilor propuși sau cu modul
-            în care funcționează asocierea dintre zilieri.
+          <div id="textPanel" class="w-full max-w-[340px] mx-auto hidden">
+            <div class="flex gap-1.5">
+              <input id="messageInput" type="text" placeholder="Scrieți mesajul..." autocomplete="off" class="flex-1 min-w-0 h-11 px-3 bg-white text-slate-900 rounded-lg text-xs outline-none">
+              <button id="sendButton" type="button" class="w-[76px] h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-lg transition flex-shrink-0 flex items-center justify-center">
+                TRIMITE
+              </button>
+            </div>
+            <div id="chatStatus" class="min-h-[14px] mt-1 text-[10px] font-bold text-blue-300"></div>
+          </div>
         </div>
+      </aside>
 
     </div>
+  </main>
 
-
-    <div class="chat-input">
-
-        <input
-            type="text"
-            placeholder="Scrieți întrebarea..."
-        >
-
-
-        <button class="submit-btn">
-            Trimite
-        </button>
-
+  <!-- FOOTER STANDARD -->
+  <footer class="bg-white border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>© 2026 STRICTZILIER.ro · Toate drepturile rezervate. Conform Legii 52/2011.</div>
+      <div class="flex flex-wrap gap-4 font-medium">
+        <a href="#termeni" class="hover:text-slate-800 transition">Termeni și Condiții</a>
+        <a href="#confidentialitate" class="hover:text-slate-800 transition">Politică de Confidențialitate</a>
+        <a href="https://anpc.ro" target="_blank" rel="noopener" class="hover:text-slate-800 transition">ANPC</a>
+      </div>
     </div>
+  </footer>
 
-</aside>
+  <!-- SCRIPT INTEGRARE VAPI & PIE.HOST -->
+  <script type="module">
+    import Vapi from "https://esm.sh/@vapi-ai/web";
 
+    const PUBLIC_KEY = "ab245358-61ea-4876-b767-8e4ad159627d";
+    const ASSISTANT_ID = "970da2f1-89c8-438c-ac8c-30abfa04528e";
+    const CHAT_URL = "https://2.pie.host/chat.php";
 
-</div>
+    const vapi = new Vapi(PUBLIC_KEY);
 
+    const voiceModeButton = document.getElementById("voiceModeButton");
+    const textModeButton = document.getElementById("textModeButton");
+    const voicePanel = document.getElementById("voicePanel");
+    const textPanel = document.getElementById("textPanel");
+    const button = document.getElementById("agentButton");
+    const status = document.getElementById("status");
+    const conversation = document.getElementById("conversation");
+    const input = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
+    const chatStatus = document.getElementById("chatStatus");
 
-<script>
+    let conversationActive = false;
+    let previousChatId = null;
+    let currentMode = "voice";
 
+    function addMessage(type, text) {
+      if (!text || !text.trim()) return;
 
-/* =========================
-   MEMBRI
-   ========================= */
+      const message = document.createElement("div");
+      message.className = "max-w-[88%] p-2 rounded-lg text-xs leading-relaxed " + 
+        (type === "user" ? "bg-amber-500 text-white ml-auto" : "bg-white/10 text-slate-100 mr-auto border-l-2 border-blue-500");
 
-function addMember(){
+      const label = document.createElement("span");
+      label.className = "block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider";
+      label.textContent = type === "user" ? "TU" : "AGENT";
 
-    const list =
-        document.getElementById("memberList");
+      const content = document.createElement("div");
+      content.textContent = text;
 
+      message.appendChild(label);
+      message.appendChild(content);
+      conversation.appendChild(message);
 
-    const member =
-        document.createElement("div");
-
-
-    member.className =
-        "member";
-
-
-    member.innerHTML = `
-
-        <div class="field">
-
-            <label>
-                NUME
-            </label>
-
-            <input
-                type="text"
-                placeholder="Numele membrului"
-            >
-
-        </div>
-
-
-        <div class="field">
-
-            <label>
-                TELEFON
-            </label>
-
-            <input
-                type="tel"
-                placeholder="07xx xxx xxx"
-            >
-
-        </div>
-
-
-        <button
-            class="remove-btn"
-            onclick="removeMember(this)"
-            title="Elimină"
-        >
-            ×
-        </button>
-
-    `;
-
-
-    list.appendChild(member);
-
-}
-
-
-/* =========================
-   ELIMINARE MEMBRU
-   ========================= */
-
-function removeMember(button){
-
-    const list =
-        document.getElementById("memberList");
-
-
-    const members =
-        list.querySelectorAll(".member");
-
-
-    if(members.length <= 1){
-
-        alert(
-            "Trebuie să existe cel puțin un membru propus."
-        );
-
-        return;
+      conversation.scrollTop = conversation.scrollHeight;
     }
 
+    function setMode(mode) {
+      if (mode === currentMode) return;
 
-    button.parentElement.remove();
+      if (mode === "text" && conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
+      }
 
-}
+      currentMode = mode;
+      const voice = mode === "voice";
 
+      voiceModeButton.classList.toggle("bg-amber-500", voice);
+      voiceModeButton.classList.toggle("border-amber-500", voice);
+      voiceModeButton.classList.toggle("text-white", voice);
+      voiceModeButton.classList.toggle("bg-white/10", !voice);
+      voiceModeButton.classList.toggle("text-blue-200", !voice);
 
-/* =========================
-   TRIMITERE
-   ========================= */
+      textModeButton.classList.toggle("bg-amber-500", !voice);
+      textModeButton.classList.toggle("border-amber-500", !voice);
+      textModeButton.classList.toggle("text-white", !voice);
+      textModeButton.classList.toggle("bg-white/10", voice);
+      textModeButton.classList.toggle("text-blue-200", voice);
 
-function createTeam(){
+      voicePanel.classList.toggle("hidden", !voice);
+      textPanel.classList.toggle("hidden", voice);
 
-    const confirmed =
-        document
-            .getElementById("confirm")
-            .checked;
-
-
-    if(!confirmed){
-
-        alert(
-            "Pentru a continua trebuie să confirmați propunerea membrilor."
-        );
-
-        return;
+      if (!voice) input.focus();
     }
 
+    voiceModeButton.addEventListener("click", () => setMode("voice"));
+    textModeButton.addEventListener("click", () => setMode("text"));
 
-    const members =
-        document.querySelectorAll(".member");
-
-
-    let valid = true;
-
-
-    members.forEach(function(member){
-
-        const inputs =
-            member.querySelectorAll("input");
-
-
-        const nume =
-            inputs[0].value.trim();
-
-
-        const telefon =
-            inputs[1].value.trim();
-
-
-        if(!nume || !telefon){
-
-            valid = false;
-
-        }
-
+    vapi.on("message", (message) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        addMessage(message.role === "user" ? "user" : "agent", message.transcript);
+      }
     });
 
-
-    if(!valid){
-
-        alert(
-            "Completați numele și telefonul tuturor membrilor propuși."
-        );
-
+    button.addEventListener("click", async () => {
+      if (conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
         return;
+      }
+
+      status.textContent = "Se conectează...";
+
+      try {
+        await vapi.start(ASSISTANT_ID);
+        conversationActive = true;
+        button.textContent = "ÎNCHIDE CONVERSAȚIA";
+        status.textContent = "Conversația vocală este activă.";
+      } catch (error) {
+        console.error("Eroare Vapi:", error);
+        status.textContent = "Nu s-a putut porni conversația.";
+      }
+    });
+
+    async function sendTextMessage() {
+      const message = input.value.trim();
+      if (!message) return;
+
+      addMessage("user", message);
+      input.value = "";
+      sendButton.disabled = true;
+      chatStatus.textContent = "Se contactează agentul...";
+
+      try {
+        const response = await fetch(CHAT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message, previousChatId: previousChatId })
+        });
+
+        const data = await response.json();
+        if (data.chatId) previousChatId = data.chatId;
+        addMessage("agent", data.reply || "Agentul nu a returnat un răspuns.");
+        chatStatus.textContent = "";
+      } catch (error) {
+        addMessage("agent", "Eroare de conectare:\n" + error.message);
+      } finally {
+        sendButton.disabled = false;
+        input.focus();
+      }
     }
 
+    sendButton.addEventListener("click", sendTextMessage);
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
+  </script>
 
-    alert(
-        "Propunerile au fost pregătite.\n\n" +
-        "În versiunea funcțională, platforma va verifica " +
-        "conturile membrilor și le va trimite solicitarea " +
-        "de asociere."
-    );
+  <!-- SCRIPT LOGICĂ ECHIPĂ, BAZĂ DE DATE & WEBHOOK MAKE.COM -->
+  <script>
+    const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_ECHIPA";
 
-}
+    let currentUserSession = null;
 
-</script>
+    document.addEventListener("DOMContentLoaded", () => {
+      let sessionData = localStorage.getItem("strictzilier_session");
+      
+      if (!sessionData) {
+        const demoSession = {
+          role: 'zilier',
+          id: 'Z000001',
+          nume: 'Ion Popescu',
+          startOfWeek: new Date().toISOString().split('T')[0]
+        };
+        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
+        sessionData = JSON.stringify(demoSession);
+      }
 
+      try {
+        currentUserSession = JSON.parse(sessionData);
+        if (currentUserSession.nume) {
+          document.getElementById("initiator-name").textContent = currentUserSession.nume;
+        }
+      } catch (e) {
+        console.error("Eroare la citirea sesiunii:", e);
+      }
+    });
 
+    function addMember() {
+      const list = document.getElementById("memberList");
+      const member = document.createElement("div");
+      member.className = "member flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl";
+      member.innerHTML = `
+        <div class="flex-1">
+          <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME</label>
+          <input type="text" placeholder="Numele membrului" class="member-nume w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        </div>
+        <div class="flex-1">
+          <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON</label>
+          <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        </div>
+        <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
+          ×
+        </button>
+      `;
+      list.appendChild(member);
+    }
+
+    function removeMember(button) {
+      const list = document.getElementById("memberList");
+      const members = list.querySelectorAll(".member");
+      if (members.length <= 1) {
+        alert("Trebuie să existe cel puțin un membru propus.");
+        return;
+      }
+      button.parentElement.remove();
+    }
+
+    async function createTeam() {
+      const confirmed = document.getElementById("confirm").checked;
+      if (!confirmed) {
+        alert("Pentru a continua trebuie să confirmați propunerea membrilor.");
+        return;
+      }
+
+      const membersElements = document.querySelectorAll(".member");
+      let valid = true;
+      const membriPayload = [];
+
+      membersElements.forEach(function(memberEl) {
+        const nume = memberEl.querySelector(".member-nume").value.trim();
+        const telefon = memberEl.querySelector(".member-telefon").value.trim();
+
+        if (!nume || !telefon) {
+          valid = false;
+        } else {
+          membriPayload.push({
+            nume_membru: nume,
+            telefon_membru: telefon
+          });
+        }
+      });
+
+      if (!valid) {
+        alert("Completați numele și telefonul tuturor membrilor propuși.");
+        return;
+      }
+
+      const teamPayload = {
+        ID_initiator: currentUserSession ? currentUserSession.id : null,
+        Nume_initiator: currentUserSession ? currentUserSession.nume : "",
+        Membri_propuși: membriPayload,
+        Nr_membri_planificat: membriPayload.length + 1
+      };
+
+      try {
+        if (!WEBHOOK_SALVEAZA_ECHIPA.includes("SOT_AICI")) {
+          await fetch(WEBHOOK_SALVEAZA_ECHIPA, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(teamPayload)
+          });
+        }
+
+        const successEl = document.getElementById("success");
+        successEl.classList.remove("hidden");
+        successEl.scrollIntoView({ behavior: "smooth" });
+      } catch (err) {
+        console.error("Eroare salvare echipă:", err);
+        alert("A apărut o eroare la trimiterea propunerilor.");
+      }
+    }
+  </script>
 </body>
 </html>
-```
