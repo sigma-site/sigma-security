@@ -115,14 +115,14 @@
               <div>
                 <label for="grupActivitateEchipa" class="block text-xs font-bold text-slate-700 mb-1">Grup Activitate</label>
                 <select id="grupActivitateEchipa" class="w-full h-9 px-2 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                  <option value="GA001">GA001 - Agricultură, horticultură și comerț agricol</option>
-                  <option value="GA002">GA002 - Silvicultură, pescuit și creșterea animalelor</option>
-                  <option value="GA003">GA003 - Peisagistică, spații verzi și gestionarea deșeurilor</option>
-                  <option value="GA004">GA004 - Natură, biodiversitate și agrement în aer liber</option>
-                  <option value="GA005">GA005 - Alimentație, ospitalitate și cazare</option>
-                  <option value="GA006">GA006 - Evenimente, spectacole și comunicare</option>
-                  <option value="GA007">GA007 - Sport și agrement</option>
-                  <option value="GA008">GA008 - Cercetare și studii de piață</option>
+                  <option value="Agricultură, horticultură și comerț agricol">Agricultură, horticultură și comerț agricol</option>
+                  <option value="Silvicultură, pescuit și creșterea animalelor">Silvicultură, pescuit și creșterea animalelor</option>
+                  <option value="Peisagistică, spații verzi și gestionarea deșeurilor">Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                  <option value="Natură, biodiversitate și agrement în aer liber">Natură, biodiversitate și agrement în aer liber</option>
+                  <option value="Alimentație, ospitalitate și cazare">Alimentație, ospitalitate și cazare</option>
+                  <option value="Evenimente, spectacole și comunicare">Evenimente, spectacole și comunicare</option>
+                  <option value="Sport și agrement">Sport și agrement</option>
+                  <option value="Cercetare și studii de piață">Cercetare și studii de piață</option>
                 </select>
               </div>
               <div>
@@ -430,20 +430,20 @@
 
   <!-- 2. SCRIPT LOGICĂ INTEGRATĂ FORMARE ȘI ADMINISTRARE ECHIPĂ -->
   <script>
-    // URL WEBHOOK CITIRE PROFIL DIN SCENARIUL MAKE.COM DE CITIRE
-    const WEBHOOK_CITESTE_PROFIL = "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
-    const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/m0ygv3sl1fhpp73nlsfz6ktwqk94wwdo";
+    const WEBHOOK_CITESTE_PROFIL = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_CITIRE_PROFIL";
+    const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_ECHIPA";
     const WEBHOOK_RETRIMITE_INVITATII = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RETRIMITE";
 
+    // Structura activităților mapate direct pe DENUMIRILE de grupă
     const ACTIVITATI_PE_GRUPE = {
-      "GA001": ["Toate activitățile din grupa aleasă", "Agricultură, vânătoare și servicii anexe", "Creșterea materialului săditor", "Creșterea plantelor ornamentale", "Gazon pentru transplantare", "Operațiuni de îngrijire și curățare a pomilor", "Activități ale pepinierelor (cu excepția pepinierelor forestiere)", "Comerţ cu ridicata al produselor agricole brute şi al animalelor vii"],
-      "GA002": ["Toate activitățile din grupa aleasă", "Silvicultură, cu excepția exploatărilor forestiere", "Pescuit și acvacultură", "Creșterea și reproducția animalelor semidomesticite și a altor animale"],
-      "GA003": ["Toate activitățile din grupa aleasă", "Activități de întreținere peisagistică cu excepția facilității de locuit particulare", "Plantarea, îngrijirea și întreținerea de parcuri și grădini", "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale", "Colectarea, tratarea şi eliminarea deşeurilor nepericuloase", "Recuperarea materialelor"],
-      "GA004": ["Toate activitățile din grupa aleasă", "Activități ale grădinilor zoologice", "Activități ale grădinilor botanice", "Activități ale rezervațiilor naturale"],
-      "GA005": ["Toate activitățile din grupa aleasă", "Activități de alimentație (catering) pentru evenimente", "Restaurante", "Baruri și alte activități de servire a băuturilor", "Hoteluri și alte facilități de cazare", "Tabere de copii organizate de Ministerul Tineretului și Sportului", "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"],
-      "GA006": ["Toate activitățile din grupa aleasă", "Activități de organizare a expozițiilor, târgurilor și congreselor", "Publicitate", "Activități de interpretare artistică – spectacoles", "Activități-suport pentru interpretarea artistică – spectacoles", "Activități de gestionare a sălilor de spectacole"],
-      "GA007": ["Toate activitățile din grupa aleasă", "Activități ale bazelor sportive", "Activități ale cluburilor sportive"],
-      "GA008": ["Toate activitățile din grupa aleasă", "Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)", "Activități de studiere a pieței", "Activități de sondare a opiniei publice", "Activităţi de cercetare-dezvoltare în biotehnologie", "Activităţi de cercetare-dezvoltare în alte ştiinţe naturale şi inginerie"]
+      "Agricultură, horticultură și comerț agricol": ["Toate activitățile din grupa aleasă", "Agricultură, vânătoare și servicii anexe", "Creșterea materialului săditor", "Creșterea plantelor ornamentale", "Gazon pentru transplantare", "Operațiuni de îngrijire și curățare a pomilor", "Activități ale pepinierelor (cu excepția pepinierelor forestiere)", "Comerţ cu ridicata al produselor agricole brute şi al animalelor vii"],
+      "Silvicultură, pescuit și creșterea animalelor": ["Toate activitățile din grupa aleasă", "Silvicultură, cu excepția exploatărilor forestiere", "Pescuit și acvacultură", "Creșterea și reproducția animalelor semidomesticite și a altor animale"],
+      "Peisagistică, spații verzi și gestionarea deșeurilor": ["Toate activitățile din grupa aleasă", "Activități de întreținere peisagistică cu excepția facilității de locuit particulare", "Plantarea, îngrijirea și întreținerea de parcuri și grădini", "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale", "Colectarea, tratarea şi eliminarea deşeurilor nepericuloase", "Recuperarea materialelor"],
+      "Natură, biodiversitate și agrement în aer liber": ["Toate activitățile din grupa aleasă", "Activități ale grădinilor zoologice", "Activități ale grădinilor botanice", "Activități ale rezervațiilor naturale"],
+      "Alimentație, ospitalitate și cazare": ["Toate activitățile din grupa aleasă", "Activități de alimentație (catering) pentru evenimente", "Restaurante", "Baruri și alte activități de servire a băuturilor", "Hoteluri și alte facilități de cazare", "Tabere de copii organizate de Ministerul Tineretului și Sportului", "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"],
+      "Evenimente, spectacole și comunicare": ["Toate activitățile din grupa aleasă", "Activități de organizare a expozițiilor, târgurilor și congreselor", "Publicitate", "Activități de interpretare artistică – spectacoles", "Activități-suport pentru interpretarea artistică – spectacoles", "Activități de gestionare a sălilor de spectacole"],
+      "Sport și agrement": ["Toate activitățile din grupa aleasă", "Activități ale bazelor sportive", "Activități ale cluburilor sportive"],
+      "Cercetare și studii de piață": ["Toate activitățile din grupa aleasă", "Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)", "Activități de studiere a pieței", "Activități de sondare a opiniei publice", "Activităţi de cercetare-dezvoltare în biotehnologie", "Activităţi de cercetare-dezvoltare în alte ştiinţe naturale şi inginerie"]
     };
 
     let currentUserSession = null;
@@ -467,7 +467,7 @@
 
       const idZilier = currentUserSession ? currentUserSession.id : "Z100001";
 
-      // 2. Apel direct la Make.com pentru încărcare profil complet
+      // 2. Apel direct la Make.com
       try {
         if (!WEBHOOK_CITESTE_PROFIL.includes("SOT_AICI")) {
           const response = await fetch(WEBHOOK_CITESTE_PROFIL, {
@@ -483,7 +483,9 @@
             const tel = data.Telefon || "0740123456";
             const jud = data.Judet || "Bacau";
             const loc = data.Localitate_domiciliu || "Bacau";
-            const codGrup = data.Cod_grup_activitate || "GA001";
+            
+            // Preluăm denumirea grupului de activitate direct
+            const denumireGrup = data.Denumire_grup_activitate || "Agricultură, horticultură și comerț agricol";
             const actPref = data.Activitate_preferata || "ALL";
 
             document.getElementById("initiator-name").textContent = numeComplet;
@@ -494,12 +496,12 @@
 
             document.getElementById("judetEchipa").value = jud;
             document.getElementById("zonaEchipa").value = loc;
-            document.getElementById("grupActivitateEchipa").value = codGrup;
+            document.getElementById("grupActivitateEchipa").value = denumireGrup;
 
-            updateActivitiesDropdownTeam(codGrup, actPref);
+            updateActivitiesDropdownTeam(denumireGrup, actPref);
           }
         } else {
-          // Fallback demo dacă Webhook-ul nu e lipit încă
+          // Fallback local dacă Webhook nu e conectat
           const demoNume = currentUserSession ? currentUserSession.nume : "Ion Popescu";
           const demoTel = currentUserSession ? currentUserSession.telefon : "0740123456";
           
@@ -508,7 +510,7 @@
           document.getElementById("sef-nume-input").value = demoNume;
           document.getElementById("sef-telefon-input").value = demoTel;
           document.getElementById("numeEchipa").value = `Echipa ${demoNume}`;
-          updateActivitiesDropdownTeam("GA001");
+          updateActivitiesDropdownTeam("Agricultură, horticultură și comerț agricol");
         }
       } catch (err) {
         console.error("Eroare citire profil din Make:", err);
@@ -569,11 +571,11 @@
       });
     }
 
-    function updateActivitiesDropdownTeam(codGrup, selectedAct = null) {
+    function updateActivitiesDropdownTeam(grupDenumire, selectedAct = null) {
       const actSelect = document.getElementById("activitatePreferataEchipa");
       actSelect.innerHTML = "";
 
-      const lista = ACTIVITATI_PE_GRUPE[codGrup] || ["Toate activitățile din grupa aleasă"];
+      const lista = ACTIVITATI_PE_GRUPE[grupDenumire] || ["Toate activitățile din grupa aleasă"];
       
       lista.forEach(act => {
         const opt = document.createElement("option");
@@ -743,7 +745,7 @@
         Telefon_contact_echipa: sefTelefon,
         Judet: stripDiacritics(document.getElementById("judetEchipa").value),
         Zona_principala: stripDiacritics(document.getElementById("zonaEchipa").value),
-        Cod_grup_activitate: document.getElementById("grupActivitateEchipa").value,
+        Denumire_grup_activitate: document.getElementById("grupActivitateEchipa").value,
         Activitate_preferata: document.getElementById("activitatePreferataEchipa").value,
         Transport_propriu: document.getElementById("transportPropriu").checked ? "DA" : "NU",
         Membri_propuși: membriPayload
