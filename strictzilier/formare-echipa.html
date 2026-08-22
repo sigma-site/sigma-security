@@ -460,48 +460,44 @@
     document.addEventListener("DOMContentLoaded", () => {
       // 1. Citire Sesiune Utilizator
       let sessionData = localStorage.getItem("strictzilier_session");
-      if (!sessionData) {
-        const demoSession = {
-          role: 'zilier',
-          id: 'Z100001',
-          nume: 'Ion Popescu',
-          telefon: '0740123456'
-        };
-        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
-        sessionData = JSON.stringify(demoSession);
+      if (sessionData) {
+        try { currentUserSession = JSON.parse(sessionData); } catch (e) { console.error("Eroare sesiune:", e); }
       }
-      try { currentUserSession = JSON.parse(sessionData); } catch (e) { console.error("Eroare sesiune:", e); }
 
-      // 2. Citire Profil Complet transmis din profil-zilier.html
-      let profileDataRaw = localStorage.getItem("strictzilier_profile_data");
+      // 2. Citire Profil Complet din localStorage (verificam toate cheile posibile)
+      let profileDataRaw = localStorage.getItem("strictzilier_profile_data") || localStorage.getItem("zilier_profile");
       if (profileDataRaw) {
         try { currentUserProfile = JSON.parse(profileDataRaw); } catch (e) { console.error("Eroare profil:", e); }
       }
 
-      // 3. Pre-completare date în ecran
-      const numeNume = currentUserProfile && currentUserProfile.nume ? currentUserProfile.nume : (currentUserSession ? currentUserSession.nume : "Ion Popescu");
-      const telefonTelefon = currentUserProfile && currentUserProfile.telefon ? currentUserProfile.telefon : (currentUserSession ? currentUserSession.telefon : "0740123456");
+      // Extragere inteligenta a datelor din Profil sau Sesiune
+      const nume = (currentUserProfile && (currentUserProfile.nume || currentUserProfile.NumeComplet || (currentUserProfile.Nume ? currentUserProfile.Nume + ' ' + (currentUserProfile.Prenume || '') : null))) || 
+                   (currentUserSession && currentUserSession.nume) || 
+                   "Ion Popescu";
 
-      document.getElementById("initiator-name").textContent = numeNume;
-      document.getElementById("initiator-phone").textContent = telefonTelefon;
+      const telefon = (currentUserProfile && (currentUserProfile.telefon || currentUserProfile.Telefon)) || 
+                     (currentUserSession && currentUserSession.telefon) || 
+                     "0740123456";
+
+      const judet = (currentUserProfile && (currentUserProfile.judet || currentUserProfile.Judet)) || "Bacau";
+      const localitate = (currentUserProfile && (currentUserProfile.localitate || currentUserProfile.Zona_principala || currentUserProfile.Localitate)) || "Bacau";
+      const grupAct = (currentUserProfile && (currentUserProfile.grupActivitate || currentUserProfile.ID_grup_activitate || currentUserProfile.Cod_grup_activitate)) || "GA001";
+      const actPref = (currentUserProfile && (currentUserProfile.activitatePreferata || currentUserProfile.Activitate_preferata)) || "ALL";
+
+      // 3. Pre-completare campuri in ecran
+      document.getElementById("initiator-name").textContent = nume;
+      document.getElementById("initiator-phone").textContent = telefon;
       
-      document.getElementById("sef-nume-input").value = numeNume;
-      document.getElementById("sef-telefon-input").value = telefonTelefon;
-      document.getElementById("numeEchipa").value = `Echipa ${numeNume}`;
+      document.getElementById("sef-nume-input").value = nume;
+      document.getElementById("sef-telefon-input").value = telefon;
+      document.getElementById("numeEchipa").value = `Echipa ${nume}`;
 
-      if (currentUserProfile) {
-        if (currentUserProfile.judet) document.getElementById("judetEchipa").value = currentUserProfile.judet;
-        if (currentUserProfile.localitate) document.getElementById("zonaEchipa").value = currentUserProfile.localitate;
-        if (currentUserProfile.grupActivitate) {
-          document.getElementById("grupActivitateEchipa").value = currentUserProfile.grupActivitate;
-          updateActivitiesDropdownTeam(currentUserProfile.grupActivitate, currentUserProfile.activitatePreferata);
-        } else {
-          updateActivitiesDropdownTeam("GA001");
-        }
-      } else {
-        updateActivitiesDropdownTeam("GA001");
-      }
-
+      // Setare Cadrul de Lucru
+      document.getElementById("judetEchipa").value = judet;
+      document.getElementById("zonaEchipa").value = localitate;
+      document.getElementById("grupActivitateEchipa").value = grupAct;
+      
+      updateActivitiesDropdownTeam(grupAct, actPref);
       initAutocompleteTeam();
       renderMembriMock();
     });
@@ -610,12 +606,12 @@
       document.getElementById("memberList").innerHTML = "";
       addMemberRow();
       
-      const numeNume = currentUserProfile && currentUserProfile.nume ? currentUserProfile.nume : (currentUserSession ? currentUserSession.nume : "Ion Popescu");
-      const telefonTelefon = currentUserProfile && currentUserProfile.telefon ? currentUserProfile.telefon : (currentUserSession ? currentUserSession.telefon : "0740123456");
+      const nume = document.getElementById("initiator-name").textContent;
+      const telefon = document.getElementById("initiator-phone").textContent;
 
-      document.getElementById("sef-nume-input").value = numeNume;
-      document.getElementById("sef-telefon-input").value = telefonTelefon;
-      document.getElementById("numeEchipa").value = `Echipa ${numeNume}`;
+      document.getElementById("sef-nume-input").value = nume;
+      document.getElementById("sef-telefon-input").value = telefon;
+      document.getElementById("numeEchipa").value = `Echipa ${nume}`;
       
       const msg = document.getElementById("statusMessage");
       msg.className = "hidden";
@@ -625,8 +621,8 @@
     function renderMembriMock() {
       const sefNume = document.getElementById("sef-nume-input").value || "Șef Echipă";
       const sefTel = document.getElementById("sef-telefon-input").value || "-";
-      const initiatorNume = currentUserProfile && currentUserProfile.nume ? currentUserProfile.nume : (currentUserSession ? currentUserSession.nume : "Ion Popescu");
-      const initiatorTel = currentUserProfile && currentUserProfile.telefon ? currentUserProfile.telefon : (currentUserSession ? currentUserSession.telefon : "0740123456");
+      const initiatorNume = document.getElementById("initiator-name").textContent;
+      const initiatorTel = document.getElementById("initiator-phone").textContent;
 
       const listConfirmați = document.getElementById("listaConfirmati");
       listConfirmați.innerHTML = `
@@ -719,8 +715,8 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Se trimit invitațiile...";
 
-      const initiatorNumeVal = currentUserProfile && currentUserProfile.nume ? currentUserProfile.nume : (currentUserSession ? currentUserSession.nume : "");
-      const initiatorTelVal = currentUserProfile && currentUserProfile.telefon ? currentUserProfile.telefon : (currentUserSession ? currentUserSession.telefon : "");
+      const initiatorNumeVal = document.getElementById("initiator-name").textContent;
+      const initiatorTelVal = document.getElementById("initiator-phone").textContent;
 
       const teamPayload = {
         Nume_echipa: stripDiacritics(numeEchipa),
