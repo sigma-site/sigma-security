@@ -430,7 +430,7 @@
 
   <!-- 2. SCRIPT LOGICĂ INTEGRATĂ FORMARE ȘI ADMINISTRARE ECHIPĂ -->
   <script>
-    const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/m0ygv3sl1fhpp73nlsfz6ktwqk94wwdo";
+    const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_ECHIPA";
     const WEBHOOK_RETRIMITE_INVITATII = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RETRIMITE";
 
     const ACTIVITATI_PE_GRUPE = {
@@ -439,12 +439,13 @@
       "GA003": ["Toate activitățile din grupa aleasă", "Activități de întreținere peisagistică cu excepția facilității de locuit particulare", "Plantarea, îngrijirea și întreținerea de parcuri și grădini", "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale", "Colectarea, tratarea şi eliminarea deşeurilor nepericuloase", "Recuperarea materialelor"],
       "GA004": ["Toate activitățile din grupa aleasă", "Activități ale grădinilor zoologice", "Activități ale grădinilor botanice", "Activități ale rezervațiilor naturale"],
       "GA005": ["Toate activitățile din grupa aleasă", "Activități de alimentație (catering) pentru evenimente", "Restaurante", "Baruri și alte activități de servire a băuturilor", "Hoteluri și alte facilități de cazare", "Tabere de copii organizate de Ministerul Tineretului și Sportului", "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"],
-      "GA006": ["Toate activitățile din grupa aleasă", "Activități de organizare a expozițiilor, târgurilor și congreselor", "Publicitate", "Activități de interpretare artistică – spectacoles", "Activități-suport pentru interpretarea artistică – spectacole", "Activități de gestionare a sălilor de spectacole"],
+      "GA006": ["Toate activitățile din grupa aleasă", "Activități de organizare a expozițiilor, târgurilor și congreselor", "Publicitate", "Activități de interpretare artistică – spectacoles", "Activități-suport pentru interpretarea artistică – spectacoles", "Activități de gestionare a sălilor de spectacole"],
       "GA007": ["Toate activitățile din grupa aleasă", "Activități ale bazelor sportive", "Activități ale cluburilor sportive"],
       "GA008": ["Toate activitățile din grupa aleasă", "Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)", "Activități de studiere a pieței", "Activități de sondare a opiniei publice", "Activităţi de cercetare-dezvoltare în biotehnologie", "Activităţi de cercetare-dezvoltare în alte ştiinţe naturale şi inginerie"]
     };
 
     let currentUserSession = null;
+    let currentUserProfile = null;
 
     function stripDiacritics(str) {
       if (!str) return "";
@@ -457,8 +458,8 @@
     }
 
     document.addEventListener("DOMContentLoaded", () => {
+      // 1. Citire Sesiune Utilizator
       let sessionData = localStorage.getItem("strictzilier_session");
-      
       if (!sessionData) {
         const demoSession = {
           role: 'zilier',
@@ -469,23 +470,39 @@
         localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
         sessionData = JSON.stringify(demoSession);
       }
+      try { currentUserSession = JSON.parse(sessionData); } catch (e) { console.error("Eroare sesiune:", e); }
 
-      try {
-        currentUserSession = JSON.parse(sessionData);
-        if (currentUserSession && currentUserSession.nume) {
-          document.getElementById("initiator-name").textContent = currentUserSession.nume;
-          document.getElementById("initiator-phone").textContent = currentUserSession.telefon || "07xx xxx xxx";
-          
-          document.getElementById("sef-nume-input").value = currentUserSession.nume;
-          document.getElementById("sef-telefon-input").value = currentUserSession.telefon || "";
-          document.getElementById("numeEchipa").value = `Echipa ${currentUserSession.nume}`;
+      // 2. Citire Profil Complet transmis din profil-zilier.html
+      let profileDataRaw = localStorage.getItem("strictzilier_profile_data");
+      if (profileDataRaw) {
+        try { currentUserProfile = JSON.parse(profileDataRaw); } catch (e) { console.error("Eroare profil:", e); }
+      }
+
+      // 3. Pre-completare date în ecran
+      const numeNume = currentUserProfile && currentUserProfile.nume ? currentUserProfile.nume : (currentUserSession ? currentUserSession.nume : "Ion Popescu");
+      const telefonTelefon = currentUserProfile && currentUserProfile.telefon ? currentUserProfile.telefon : (currentUserSession ? currentUserSession.telefon : "0740123456");
+
+      document.getElementById("initiator-name").textContent = numeNume;
+      document.getElementById("initiator-phone").textContent = telefonTelefon;
+      
+      document.getElementById("sef-nume-input").value = numeNume;
+      document.getElementById("sef-telefon-input").value = telefonTelefon;
+      document.getElementById("numeEchipa").value = `Echipa ${numeNume}`;
+
+      if (currentUserProfile) {
+        if (currentUserProfile.judet) document.getElementById("judetEchipa").value = currentUserProfile.judet;
+        if (currentUserProfile.localitate) document.getElementById("zonaEchipa").value = currentUserProfile.localitate;
+        if (currentUserProfile.grupActivitate) {
+          document.getElementById("grupActivitateEchipa").value = currentUserProfile.grupActivitate;
+          updateActivitiesDropdownTeam(currentUserProfile.grupActivitate, currentUserProfile.activitatePreferata);
+        } else {
+          updateActivitiesDropdownTeam("GA001");
         }
-      } catch (e) {
-        console.error("Eroare la citirea sesiunii:", e);
+      } else {
+        updateActivitiesDropdownTeam("GA001");
       }
 
       initAutocompleteTeam();
-      updateActivitiesDropdownTeam("GA001");
       renderMembriMock();
     });
 
@@ -593,11 +610,12 @@
       document.getElementById("memberList").innerHTML = "";
       addMemberRow();
       
-      if (currentUserSession) {
-        document.getElementById("sef-nume-input").value = currentUserSession.nume;
-        document.getElementById("sef-telefon-input").value = currentUserSession.telefon || "";
-        document.getElementById("numeEchipa").value = `Echipa ${currentUserSession.nume}`;
-      }
+      const numeNume = currentUserProfile && currentUserProfile.nume ? currentUserProfile.nume : (currentUserSession ? currentUserSession.nume : "Ion Popescu");
+      const telefonTelefon = currentUserProfile && currentUserProfile.telefon ? currentUserProfile.telefon : (currentUserSession ? currentUserSession.telefon : "0740123456");
+
+      document.getElementById("sef-nume-input").value = numeNume;
+      document.getElementById("sef-telefon-input").value = telefonTelefon;
+      document.getElementById("numeEchipa").value = `Echipa ${numeNume}`;
       
       const msg = document.getElementById("statusMessage");
       msg.className = "hidden";
@@ -607,6 +625,8 @@
     function renderMembriMock() {
       const sefNume = document.getElementById("sef-nume-input").value || "Șef Echipă";
       const sefTel = document.getElementById("sef-telefon-input").value || "-";
+      const initiatorNume = currentUserProfile && currentUserProfile.nume ? currentUserProfile.nume : (currentUserSession ? currentUserSession.nume : "Ion Popescu");
+      const initiatorTel = currentUserProfile && currentUserProfile.telefon ? currentUserProfile.telefon : (currentUserSession ? currentUserSession.telefon : "0740123456");
 
       const listConfirmați = document.getElementById("listaConfirmati");
       listConfirmați.innerHTML = `
@@ -619,38 +639,15 @@
         </div>
         <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
           <div class="flex items-center gap-2">
-            <span class="font-bold text-slate-800">${currentUserSession ? currentUserSession.nume : 'Ion Popescu'}</span>
+            <span class="font-bold text-slate-800">${initiatorNume}</span>
             <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">Inițiator</span>
           </div>
-          <span class="font-mono text-slate-600">${currentUserSession ? currentUserSession.telefon : ''}</span>
-        </div>
-        <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-slate-800">Popa Ion</span>
-            <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">Adult responsabil</span>
-          </div>
-          <span class="font-mono text-slate-600">0741234567</span>
-        </div>
-        <div class="flex items-center justify-between p-2.5 bg-amber-50/40 border border-amber-200/80 rounded-xl text-xs pl-6 relative">
-          <span class="absolute left-2.5 top-2.5 text-amber-500 font-bold">↳</span>
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-slate-800">Popa Elena</span>
-            <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">Minor · Părinte: Popa Ion</span>
-          </div>
-          <span class="font-mono text-slate-600">0742345678</span>
+          <span class="font-mono text-slate-600">${initiatorTel}</span>
         </div>
       `;
 
       const listAșteptare = document.getElementById("listaAsteptare");
-      listAșteptare.innerHTML = `
-        <div class="flex items-center justify-between p-2.5 bg-amber-50/50 border border-amber-200/80 rounded-xl text-xs">
-          <div class="flex items-center gap-2">
-            <span class="font-medium text-slate-700">Gheorghe Radu</span>
-            <span class="text-[10px] font-bold text-amber-600">În așteptare WhatsApp...</span>
-          </div>
-          <span class="font-mono text-slate-500">0745 xxx xxx</span>
-        </div>
-      `;
+      listAșteptare.innerHTML = "";
     }
 
     async function retrimiteInvitatii() {
@@ -722,11 +719,14 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Se trimit invitațiile...";
 
+      const initiatorNumeVal = currentUserProfile && currentUserProfile.nume ? currentUserProfile.nume : (currentUserSession ? currentUserSession.nume : "");
+      const initiatorTelVal = currentUserProfile && currentUserProfile.telefon ? currentUserProfile.telefon : (currentUserSession ? currentUserSession.telefon : "");
+
       const teamPayload = {
         Nume_echipa: stripDiacritics(numeEchipa),
         ID_initiator: currentUserSession ? currentUserSession.id : null,
-        Nume_initiator: currentUserSession ? stripDiacritics(currentUserSession.nume) : "",
-        Telefon_initiator: currentUserSession ? currentUserSession.telefon : "",
+        Nume_initiator: stripDiacritics(initiatorNumeVal),
+        Telefon_initiator: initiatorTelVal,
         Nume_sef_echipa: stripDiacritics(sefNume),
         Telefon_contact_echipa: sefTelefon,
         Judet: stripDiacritics(document.getElementById("judetEchipa").value),
