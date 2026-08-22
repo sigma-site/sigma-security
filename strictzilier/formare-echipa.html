@@ -75,8 +75,8 @@
             <!-- CARD INIȚIATOR -->
             <div class="p-3.5 bg-amber-50/60 border border-amber-200 rounded-xl">
               <span class="block text-[10px] font-black uppercase tracking-wider text-amber-800 mb-1">Inițiatorul Echipei</span>
-              <div id="initiator-name" class="text-xs font-bold text-slate-900">-</div>
-              <div id="initiator-phone" class="text-[11px] font-semibold text-slate-500 mt-0.5">-</div>
+              <div id="initiator-name" class="text-xs font-bold text-slate-900">Se încarcă...</div>
+              <div id="initiator-phone" class="text-[11px] font-semibold text-slate-500 mt-0.5">...</div>
             </div>
 
             <!-- CARD ȘEF ECHIPĂ -->
@@ -430,6 +430,8 @@
 
   <!-- 2. SCRIPT LOGICĂ INTEGRATĂ FORMARE ȘI ADMINISTRARE ECHIPĂ -->
   <script>
+    // URL WEBHOOK CITIRE PROFIL DIN SCENARIUL MAKE.COM DE CITIRE
+    const WEBHOOK_CITESTE_PROFIL = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_CITIRE_PROFIL";
     const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_ECHIPA";
     const WEBHOOK_RETRIMITE_INVITATII = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RETRIMITE";
 
@@ -445,7 +447,6 @@
     };
 
     let currentUserSession = null;
-    let currentUserProfile = null;
 
     function stripDiacritics(str) {
       if (!str) return "";
@@ -457,47 +458,62 @@
         .trim();
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("DOMContentLoaded", async () => {
       // 1. Citire Sesiune Utilizator
       let sessionData = localStorage.getItem("strictzilier_session");
       if (sessionData) {
         try { currentUserSession = JSON.parse(sessionData); } catch (e) { console.error("Eroare sesiune:", e); }
       }
 
-      // 2. Citire Profil Complet extras din Make.com
-      let profileDataRaw = localStorage.getItem("strictzilier_profile_data") || localStorage.getItem("zilier_profile");
-      if (profileDataRaw) {
-        try { currentUserProfile = JSON.parse(profileDataRaw); } catch (e) { console.error("Eroare profil:", e); }
+      const idZilier = currentUserSession ? currentUserSession.id : "Z100001";
+
+      // 2. Apel direct la Make.com pentru încărcare profil complet
+      try {
+        if (!WEBHOOK_CITESTE_PROFIL.includes("SOT_AICI")) {
+          const response = await fetch(WEBHOOK_CITESTE_PROFIL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ID_zilier: idZilier })
+          });
+
+          const data = await response.json();
+
+          if (data) {
+            const numeComplet = ((data.Nume || '') + ' ' + (data.Prenume || '')).trim() || "Ion Popescu";
+            const tel = data.Telefon || "0740123456";
+            const jud = data.Judet || "Bacau";
+            const loc = data.Localitate_domiciliu || "Bacau";
+            const codGrup = data.Cod_grup_activitate || "GA001";
+            const actPref = data.Activitate_preferata || "ALL";
+
+            document.getElementById("initiator-name").textContent = numeComplet;
+            document.getElementById("initiator-phone").textContent = tel;
+            document.getElementById("sef-nume-input").value = numeComplet;
+            document.getElementById("sef-telefon-input").value = tel;
+            document.getElementById("numeEchipa").value = `Echipa ${numeComplet}`;
+
+            document.getElementById("judetEchipa").value = jud;
+            document.getElementById("zonaEchipa").value = loc;
+            document.getElementById("grupActivitateEchipa").value = codGrup;
+
+            updateActivitiesDropdownTeam(codGrup, actPref);
+          }
+        } else {
+          // Fallback demo dacă Webhook-ul nu e lipit încă
+          const demoNume = currentUserSession ? currentUserSession.nume : "Ion Popescu";
+          const demoTel = currentUserSession ? currentUserSession.telefon : "0740123456";
+          
+          document.getElementById("initiator-name").textContent = demoNume;
+          document.getElementById("initiator-phone").textContent = demoTel;
+          document.getElementById("sef-nume-input").value = demoNume;
+          document.getElementById("sef-telefon-input").value = demoTel;
+          document.getElementById("numeEchipa").value = `Echipa ${demoNume}`;
+          updateActivitiesDropdownTeam("GA001");
+        }
+      } catch (err) {
+        console.error("Eroare citire profil din Make:", err);
       }
 
-      // Extragere strict pe denumirile din răspunsul Make.com: Nume, Prenume, Telefon, Judet, Localitate_domiciliu, Cod_grup_activitate, Activitate_preferata
-      const numeComplet = currentUserProfile ? 
-        ((currentUserProfile.Nume || '') + ' ' + (currentUserProfile.Prenume || '')).trim() : 
-        (currentUserSession ? currentUserSession.nume : '');
-
-      const tel = (currentUserProfile && currentUserProfile.Telefon) || (currentUserSession && currentUserSession.telefon) || '';
-      const jud = (currentUserProfile && currentUserProfile.Judet) || 'Bacau';
-      const loc = (currentUserProfile && currentUserProfile.Localitate_domiciliu) || 'Bacau';
-      const codGrup = (currentUserProfile && currentUserProfile.Cod_grup_activitate) || 'GA001';
-      const actPref = (currentUserProfile && currentUserProfile.Activitate_preferata) || 'ALL';
-
-      // 3. Populare Câmpuri din ecran
-      if (numeComplet) {
-        document.getElementById("initiator-name").textContent = numeComplet;
-        document.getElementById("sef-nume-input").value = numeComplet;
-        document.getElementById("numeEchipa").value = `Echipa ${numeComplet}`;
-      }
-
-      if (tel) {
-        document.getElementById("initiator-phone").textContent = tel;
-        document.getElementById("sef-telefon-input").value = tel;
-      }
-
-      document.getElementById("judetEchipa").value = jud;
-      document.getElementById("zonaEchipa").value = loc;
-      document.getElementById("grupActivitateEchipa").value = codGrup;
-
-      updateActivitiesDropdownTeam(codGrup, actPref);
       initAutocompleteTeam();
       renderMembriMock();
     });
