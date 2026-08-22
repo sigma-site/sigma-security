@@ -464,40 +464,40 @@
         try { currentUserSession = JSON.parse(sessionData); } catch (e) { console.error("Eroare sesiune:", e); }
       }
 
-      // 2. Citire Profil Complet din localStorage (verificam toate cheile posibile)
+      // 2. Citire Profil Complet extras din Make.com
       let profileDataRaw = localStorage.getItem("strictzilier_profile_data") || localStorage.getItem("zilier_profile");
       if (profileDataRaw) {
         try { currentUserProfile = JSON.parse(profileDataRaw); } catch (e) { console.error("Eroare profil:", e); }
       }
 
-      // Extragere inteligenta a datelor din Profil sau Sesiune
-      const nume = (currentUserProfile && (currentUserProfile.nume || currentUserProfile.NumeComplet || (currentUserProfile.Nume ? currentUserProfile.Nume + ' ' + (currentUserProfile.Prenume || '') : null))) || 
-                   (currentUserSession && currentUserSession.nume) || 
-                   "Ion Popescu";
+      // Extragere strict pe denumirile din răspunsul Make.com: Nume, Prenume, Telefon, Judet, Localitate_domiciliu, Cod_grup_activitate, Activitate_preferata
+      const numeComplet = currentUserProfile ? 
+        ((currentUserProfile.Nume || '') + ' ' + (currentUserProfile.Prenume || '')).trim() : 
+        (currentUserSession ? currentUserSession.nume : '');
 
-      const telefon = (currentUserProfile && (currentUserProfile.telefon || currentUserProfile.Telefon)) || 
-                     (currentUserSession && currentUserSession.telefon) || 
-                     "0740123456";
+      const tel = (currentUserProfile && currentUserProfile.Telefon) || (currentUserSession && currentUserSession.telefon) || '';
+      const jud = (currentUserProfile && currentUserProfile.Judet) || 'Bacau';
+      const loc = (currentUserProfile && currentUserProfile.Localitate_domiciliu) || 'Bacau';
+      const codGrup = (currentUserProfile && currentUserProfile.Cod_grup_activitate) || 'GA001';
+      const actPref = (currentUserProfile && currentUserProfile.Activitate_preferata) || 'ALL';
 
-      const judet = (currentUserProfile && (currentUserProfile.judet || currentUserProfile.Judet)) || "Bacau";
-      const localitate = (currentUserProfile && (currentUserProfile.localitate || currentUserProfile.Zona_principala || currentUserProfile.Localitate)) || "Bacau";
-      const grupAct = (currentUserProfile && (currentUserProfile.grupActivitate || currentUserProfile.ID_grup_activitate || currentUserProfile.Cod_grup_activitate)) || "GA001";
-      const actPref = (currentUserProfile && (currentUserProfile.activitatePreferata || currentUserProfile.Activitate_preferata)) || "ALL";
+      // 3. Populare Câmpuri din ecran
+      if (numeComplet) {
+        document.getElementById("initiator-name").textContent = numeComplet;
+        document.getElementById("sef-nume-input").value = numeComplet;
+        document.getElementById("numeEchipa").value = `Echipa ${numeComplet}`;
+      }
 
-      // 3. Pre-completare campuri in ecran
-      document.getElementById("initiator-name").textContent = nume;
-      document.getElementById("initiator-phone").textContent = telefon;
-      
-      document.getElementById("sef-nume-input").value = nume;
-      document.getElementById("sef-telefon-input").value = telefon;
-      document.getElementById("numeEchipa").value = `Echipa ${nume}`;
+      if (tel) {
+        document.getElementById("initiator-phone").textContent = tel;
+        document.getElementById("sef-telefon-input").value = tel;
+      }
 
-      // Setare Cadrul de Lucru
-      document.getElementById("judetEchipa").value = judet;
-      document.getElementById("zonaEchipa").value = localitate;
-      document.getElementById("grupActivitateEchipa").value = grupAct;
-      
-      updateActivitiesDropdownTeam(grupAct, actPref);
+      document.getElementById("judetEchipa").value = jud;
+      document.getElementById("zonaEchipa").value = loc;
+      document.getElementById("grupActivitateEchipa").value = codGrup;
+
+      updateActivitiesDropdownTeam(codGrup, actPref);
       initAutocompleteTeam();
       renderMembriMock();
     });
