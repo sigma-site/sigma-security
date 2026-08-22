@@ -32,8 +32,8 @@
 
       <!-- Header Right Buttons -->
       <div class="flex items-center gap-2">
-        <a href="profil-zilier.html" class="hidden sm:inline-flex items-center px-3 py-1.5 bg-white hover:bg-amber-50 text-amber-600 border border-amber-500 rounded-lg text-xs font-bold transition">
-          Profilul meu
+        <a href="cont-zilier.html" class="hidden sm:inline-flex items-center px-3 py-1.5 bg-white hover:bg-amber-50 text-amber-600 border border-amber-500 rounded-lg text-xs font-bold transition">
+          Contul meu
         </a>
         <a href="ghid-zilier.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition">
           <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,59 +54,147 @@
       <div class="lg:col-span-2 space-y-6">
         <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
           
-          <h1 class="text-2xl font-black text-slate-900 tracking-tight">Formează o echipă</h1>
-          <p class="text-xs font-medium text-slate-500 mt-1 mb-5 leading-relaxed">
-            Poți propune alți zilieri pentru o echipă atunci când doriți să lucrați împreună la aceleași activități.
-          </p>
-
-          <!-- CARD INITIATOR -->
-          <div class="p-4 bg-amber-50/60 border border-amber-200 rounded-xl mb-6">
-            <span class="block text-[10px] font-black uppercase tracking-wider text-amber-800 mb-0.5">Inițiatorul echipei</span>
-            <div id="initiator-name" class="text-sm font-bold text-slate-900">Ion Popescu</div>
-            <div class="text-xs text-slate-500 mt-0.5">Cont confirmat · Activitate și zonă principală declarate</div>
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
+            <div>
+              <h1 class="text-2xl font-black text-slate-900 tracking-tight">Formare & Administrare Echipă</h1>
+              <p class="text-xs font-medium text-slate-500 mt-0.5">Gestionează componența și invitațiile echipei în timp real.</p>
+            </div>
+            <button type="button" onclick="resetForNewTeam()" class="inline-flex items-center justify-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition border border-slate-300">
+              + Formează o nouă echipă
+            </button>
           </div>
 
-          <!-- SECTIUNE CONDIȚII -->
-          <div class="pt-5 border-t border-slate-100">
-            <h2 class="text-base font-bold text-slate-900 mb-3">Condiții pentru formarea echipei</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-6">
-              <div class="flex items-start gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                <div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</div>
-                <div class="text-xs text-slate-600 leading-snug"><strong class="text-slate-900 font-bold">Cont confirmat.</strong> Fiecare membru trebuie să aibă un cont confirmat.</div>
-              </div>
+          <!-- NUME ECHIPĂ EDITABIL -->
+          <div class="mb-5">
+            <label for="numeEchipa" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Denumire Echipă</label>
+            <input type="text" id="numeEchipa" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: Echipa Bacău Construcții">
+          </div>
 
-              <div class="flex items-start gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                <div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</div>
-                <div class="text-xs text-slate-600 leading-snug"><strong class="text-slate-900 font-bold">Activitate principală.</strong> Fiecare membru trebuie să aibă declarată o activitate principală.</div>
-              </div>
+          <!-- ROLURI PRINCIPALE: INIȚIATOR & ȘEF ECHIPĂ EDITABIL -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+            <!-- CARD INIȚIATOR -->
+            <div class="p-3.5 bg-amber-50/60 border border-amber-200 rounded-xl">
+              <span class="block text-[10px] font-black uppercase tracking-wider text-amber-800 mb-1">Inițiatorul Echipei</span>
+              <div id="initiator-name" class="text-xs font-bold text-slate-900">-</div>
+              <div id="initiator-phone" class="text-[11px] font-semibold text-slate-500 mt-0.5">-</div>
+            </div>
 
-              <div class="flex items-start gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                <div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</div>
-                <div class="text-xs text-slate-600 leading-snug"><strong class="text-slate-900 font-bold">Zonă principală.</strong> Fiecare membru trebuie să aibă o zonă principală declarată.</div>
+            <!-- CARD ȘEF ECHIPĂ -->
+            <div class="p-3.5 bg-blue-50/60 border border-blue-200 rounded-xl space-y-2">
+              <span class="block text-[10px] font-black uppercase tracking-wider text-blue-800">Șef de Echipă (Lider)</span>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Nume complet</label>
+                <input type="text" id="sef-nume-input" class="w-full h-8 px-2 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-900 focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="Nume Prenume Șef">
               </div>
-
-              <div class="flex items-start gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                <div class="w-5 h-5 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0 mt-0.5">✓</div>
-                <div class="text-xs text-slate-600 leading-snug"><strong class="text-slate-900 font-bold">Disponibilitate.</strong> Membrii trebuie să poată confirma disponibilitatea pentru perioada în care este necesară echipa.</div>
+              <div>
+                <label class="block text-[10px] font-bold text-slate-500 uppercase mb-0.5">Telefon Contact Echipă (WhatsApp)</label>
+                <input type="tel" id="sef-telefon-input" class="w-full h-8 px-2 bg-white border border-slate-300 rounded-lg text-xs font-bold text-slate-900 focus:ring-2 focus:ring-blue-500 focus:outline-none" placeholder="07xx xxx xxx">
               </div>
             </div>
           </div>
 
-          <!-- SECTIUNE MEMBRI ECHIPA -->
+          <!-- LOCALIZARE ȘI ACTIVITATE ECHIPĂ -->
+          <div class="p-4 bg-slate-50/70 border border-slate-200 rounded-xl mb-5 space-y-3">
+            <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Cadrul de Lucru al Echipei</h3>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-start">
+              <div class="sm:col-span-1">
+                <label for="judetEchipa" class="block text-xs font-bold text-slate-700 mb-1">Județ Echipă</label>
+                <select id="judetEchipa" class="w-full h-9 px-2 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                  <option value="Alba">Alba</option><option value="Arad">Arad</option><option value="Arges">Arges</option><option value="Bacau" selected>Bacau</option><option value="Bihor">Bihor</option><option value="Bistrita-Nasaud">Bistrita-Nasaud</option><option value="Botosani">Botosani</option><option value="Brasov">Brasov</option><option value="Braila">Braila</option><option value="Bucuresti">Bucuresti</option><option value="Buzau">Buzau</option><option value="Caras-Severin">Caras-Severin</option><option value="Calarasi">Calarasi</option><option value="Cluj">Cluj</option><option value="Constanta">Constanta</option><option value="Covasna">Covasna</option><option value="Dambovita">Dambovita</option><option value="Dolj">Dolj</option><option value="Galati">Galati</option><option value="Giurgiu">Giurgiu</option><option value="Gorj">Gorj</option><option value="Harghita">Harghita</option><option value="Hunedoara">Hunedoara</option><option value="Ialomita">Ialomita</option><option value="Iasi">Iasi</option><option value="Ilfov">Ilfov</option><option value="Maramures">Maramures</option><option value="Mehedinti">Mehedinti</option><option value="Mures">Mures</option><option value="Neamt">Neamt</option><option value="Olt">Olt</option><option value="Prahova">Prahova</option><option value="Satu Mare">Satu Mare</option><option value="Salaj">Salaj</option><option value="Sibiu">Sibiu</option><option value="Suceava">Suceava</option><option value="Teleorman">Teleorman</option><option value="Timis">Timis</option><option value="Tulcea">Tulcea</option><option value="Vaslui">Vaslui</option><option value="Valcea">Valcea</option><option value="Vrancea">Vrancea</option>
+                </select>
+              </div>
+              <div class="sm:col-span-2 relative">
+                <label for="zonaEchipa" class="block text-xs font-bold text-slate-700 mb-1">Orașul sau Comuna</label>
+                <input type="text" id="zonaEchipa" autocomplete="off" class="w-full h-9 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Scrie orașul sau comuna...">
+                <div id="locSuggestionsTeam" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50 divide-y divide-slate-100 text-xs"></div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div>
+                <label for="grupActivitateEchipa" class="block text-xs font-bold text-slate-700 mb-1">Grup Activitate</label>
+                <select id="grupActivitateEchipa" class="w-full h-9 px-2 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                  <option value="GA001">GA001 - Agricultură, horticultură și comerț agricol</option>
+                  <option value="GA002">GA002 - Silvicultură, pescuit și creșterea animalelor</option>
+                  <option value="GA003">GA003 - Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                  <option value="GA004">GA004 - Natură, biodiversitate și agrement în aer liber</option>
+                  <option value="GA005">GA005 - Alimentație, ospitalitate și cazare</option>
+                  <option value="GA006">GA006 - Evenimente, spectacole și comunicare</option>
+                  <option value="GA007">GA007 - Sport și agrement</option>
+                  <option value="GA008">GA008 - Cercetare și studii de piață</option>
+                </select>
+              </div>
+              <div>
+                <label for="activitatePreferataEchipa" class="block text-xs font-bold text-slate-700 mb-1">Activitate Preferată Echipă</label>
+                <select id="activitatePreferataEchipa" class="w-full h-9 px-2 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- OPȚIUNE TRANSPORT PROPRIU -->
+          <div class="mb-5 p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
+            <div>
+              <strong class="block text-xs font-bold text-slate-800">Transport Propriu</strong>
+              <span class="text-[11px] text-slate-500">Echipa deține un mijloc de transport (mașină / microbuz).</span>
+            </div>
+            <label class="relative inline-flex items-center cursor-pointer select-none">
+              <input type="checkbox" id="transportPropriu" class="w-5 h-5 text-amber-500 rounded border-slate-300 focus:ring-amber-500">
+            </label>
+          </div>
+
+          <!-- NOTĂ CONDIȚII SIMPLIFICATĂ -->
+          <div class="p-3 bg-slate-100/70 border border-slate-200 rounded-xl mb-6 text-xs text-slate-600 space-y-1">
+            <p>• Șeful de echipă trebuie să aibă profilul verificat prin actul de identitate (CI).</p>
+            <p>• Membrii minori (16-18 ani) pot fi adăugați doar împreună cu părintele sau reprezentantul legal în aceeași echipă.</p>
+          </div>
+
+          <!-- BLOC 1: MEMBRII CONFIRMAȚI -->
           <div class="pt-5 border-t border-slate-100">
-            <h2 class="text-base font-bold text-slate-900 mb-1">Membrii echipei</h2>
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <div>
+                <h2 class="text-base font-bold text-slate-900">Membrii Confirmați ai Echipei</h2>
+                <p class="text-xs text-slate-500">Persoanele care au acceptat invitația. Primul rând este Șeful de Echipă.</p>
+              </div>
+            </div>
+
+            <div id="listaConfirmati" class="space-y-2 min-h-[40px]">
+            </div>
+          </div>
+
+          <!-- BLOC 2: INVITAȚII ÎN AȘTEPTARE -->
+          <div class="pt-6 mt-6 border-t border-slate-100">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h2 class="text-base font-bold text-slate-900">Invitații trimise / În așteptare</h2>
+                <p class="text-xs text-slate-500">Persoane care au primit link-ul pe WhatsApp dar nu au răspuns încă.</p>
+              </div>
+            </div>
+
+            <div id="listaAsteptare" class="space-y-2 mb-3 min-h-[30px]">
+            </div>
+
+            <button type="button" id="btnRetrimiteToti" onclick="retrimiteInvitatii()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold text-xs rounded-lg transition">
+              🔄 Retrimite invitația tuturor celor în așteptare
+            </button>
+          </div>
+
+          <!-- BLOC 3: ADAUGĂ MEMBRII NOI -->
+          <div class="pt-6 mt-6 border-t border-slate-100">
+            <h2 class="text-base font-bold text-slate-900 mb-1">Adaugă membri noi în echipă</h2>
             <p class="text-xs text-slate-500 mb-4">
-              Introdu numele și numărul de telefon al persoanelor pe care dorești să le propui. Platforma va verifica dacă acestea au conturi confirmate.
+              Introdu numele complet și numărul de telefon al persoanelor propuse.
             </p>
 
             <div id="memberList" class="space-y-3">
               <div class="member flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
                 <div class="flex-1">
-                  <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME</label>
+                  <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME MEMBRU</label>
                   <input type="text" placeholder="Numele membrului" class="member-nume w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                 </div>
                 <div class="flex-1">
-                  <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON</label>
+                  <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON WHATSAPP</label>
                   <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                 </div>
                 <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
@@ -115,49 +203,22 @@
               </div>
             </div>
 
-            <button type="button" onclick="addMember()" class="w-full mt-3 py-2.5 bg-white hover:bg-amber-50 text-amber-600 border-2 border-dashed border-amber-300 hover:border-amber-400 font-bold text-xs rounded-xl transition">
-              + Adaugă un membru
+            <button type="button" onclick="addMemberRow()" class="w-full mt-3 py-2.5 bg-white hover:bg-amber-50 text-amber-600 border-2 border-dashed border-amber-300 hover:border-amber-400 font-bold text-xs rounded-xl transition">
+              + Adaugă încă un rând
             </button>
-
-            <div class="mt-3 p-3 bg-slate-100/70 border border-slate-200 rounded-xl text-xs text-slate-600 leading-relaxed">
-              Nu este necesar să introduci date suplimentare despre membrii propuși. După trimitere, fiecare persoană va trebui să accepte asocierea. Un membru care nu acceptă nu va fi considerat membru al echipei.
-            </div>
-          </div>
-
-          <!-- SECTIUNE CUM FUNCȚIONEAZĂ -->
-          <div class="pt-5 mt-5 border-t border-slate-100">
-            <h2 class="text-base font-bold text-slate-900 mb-2">Cum funcționează asocierea</h2>
-            <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-600 leading-relaxed space-y-2">
-              <p>Formarea echipei nu modifică profilurile individuale ale membrilor. Fiecare persoană își păstrează propriul cont, activitatea, zona și disponibilitatea.</p>
-              <p>Echipa reprezintă o asociere între aceste conturi și poate fi folosită de Agent atunci când caută mai mulți zilieri disponibili pentru aceeași lucrare.</p>
-            </div>
-          </div>
-
-          <!-- SECTIUNE CONFIRMARE INITIATOR -->
-          <div class="pt-5 mt-5 border-t border-slate-100">
-            <h2 class="text-base font-bold text-slate-900 mb-3">Confirmarea inițiatorului</h2>
-            <label class="flex items-start gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer select-none">
-              <input type="checkbox" id="confirm" class="mt-0.5 w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500 flex-shrink-0">
-              <span class="text-xs font-medium text-slate-700 leading-relaxed">
-                Confirm că persoanele introduse sunt cele pe care doresc să le propun pentru această asociere și că am acordul lor pentru a fi contactate în acest scop.
-              </span>
-            </label>
           </div>
 
           <!-- ACTION BUTTONS -->
-          <div class="pt-5 mt-5 border-t border-slate-100 flex flex-col sm:flex-row gap-2.5">
-            <button type="button" onclick="window.location.href='profil-zilier.html'" class="w-full sm:w-1/2 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">
+          <div class="pt-6 mt-6 border-t border-slate-100 flex flex-col sm:flex-row gap-2.5">
+            <button type="button" onclick="window.location.href='profil-zilier.html'" class="w-full sm:w-1/3 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">
               Înapoi la profil
             </button>
-            <button type="button" onclick="createTeam()" class="w-full sm:w-1/2 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
-              Trimite propunerile
+            <button type="button" onclick="trimitePropuneriEchipa()" class="w-full sm:w-2/3 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+              Trimite Invitațiile pe WhatsApp
             </button>
           </div>
 
-          <!-- STATUS / SUCCESS -->
-          <div id="success" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 leading-relaxed">
-            Propunerile de echipă au fost trimise cu succes către sistem!
-          </div>
+          <div id="statusMessage" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 leading-relaxed"></div>
 
         </section>
       </div>
@@ -364,11 +425,36 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ ECHIPĂ, BAZĂ DE DATE & WEBHOOK MAKE.COM -->
+  <!-- 1. NOMENCLATOR EXTERN -->
+  <script src="nomenclator-romania.js"></script>
+
+  <!-- 2. SCRIPT LOGICĂ INTEGRATĂ FORMARE ȘI ADMINISTRARE ECHIPĂ -->
   <script>
     const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_ECHIPA";
+    const WEBHOOK_RETRIMITE_INVITATII = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RETRIMITE";
+
+    const ACTIVITATI_PE_GRUPE = {
+      "GA001": ["Toate activitățile din grupa aleasă", "Agricultură, vânătoare și servicii anexe", "Creșterea materialului săditor", "Creșterea plantelor ornamentale", "Gazon pentru transplantare", "Operațiuni de îngrijire și curățare a pomilor", "Activități ale pepinierelor (cu excepția pepinierelor forestiere)", "Comerţ cu ridicata al produselor agricole brute şi al animalelor vii"],
+      "GA002": ["Toate activitățile din grupa aleasă", "Silvicultură, cu excepția exploatărilor forestiere", "Pescuit și acvacultură", "Creșterea și reproducția animalelor semidomesticite și a altor animale"],
+      "GA003": ["Toate activitățile din grupa aleasă", "Activități de întreținere peisagistică cu excepția facilității de locuit particulare", "Plantarea, îngrijirea și întreținerea de parcuri și grădini", "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale", "Colectarea, tratarea şi eliminarea deşeurilor nepericuloase", "Recuperarea materialelor"],
+      "GA004": ["Toate activitățile din grupa aleasă", "Activități ale grădinilor zoologice", "Activități ale grădinilor botanice", "Activități ale rezervațiilor naturale"],
+      "GA005": ["Toate activitățile din grupa aleasă", "Activități de alimentație (catering) pentru evenimente", "Restaurante", "Baruri și alte activități de servire a băuturilor", "Hoteluri și alte facilități de cazare", "Tabere de copii organizate de Ministerul Tineretului și Sportului", "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"],
+      "GA006": ["Toate activitățile din grupa aleasă", "Activități de organizare a expozițiilor, târgurilor și congreselor", "Publicitate", "Activități de interpretare artistică – spectacoles", "Activități-suport pentru interpretarea artistică – spectacole", "Activități de gestionare a sălilor de spectacole"],
+      "GA007": ["Toate activitățile din grupa aleasă", "Activități ale bazelor sportive", "Activități ale cluburilor sportive"],
+      "GA008": ["Toate activitățile din grupa aleasă", "Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)", "Activități de studiere a pieței", "Activități de sondare a opiniei publice", "Activităţi de cercetare-dezvoltare în biotehnologie", "Activităţi de cercetare-dezvoltare în alte ştiinţe naturale şi inginerie"]
+    };
 
     let currentUserSession = null;
+
+    function stripDiacritics(str) {
+      if (!str) return "";
+      return str
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/ă/gi, "a").replace(/â/gi, "a").replace(/î/gi, "i").replace(/ș/gi, "s").replace(/ț/gi, "t")
+        .replace(/[-_]/g, " ")
+        .trim();
+    }
 
     document.addEventListener("DOMContentLoaded", () => {
       let sessionData = localStorage.getItem("strictzilier_session");
@@ -376,9 +462,9 @@
       if (!sessionData) {
         const demoSession = {
           role: 'zilier',
-          id: 'Z000001',
+          id: 'Z100001',
           nume: 'Ion Popescu',
-          startOfWeek: new Date().toISOString().split('T')[0]
+          telefon: '0740123456'
         };
         localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
         sessionData = JSON.stringify(demoSession);
@@ -386,25 +472,108 @@
 
       try {
         currentUserSession = JSON.parse(sessionData);
-        if (currentUserSession.nume) {
+        if (currentUserSession && currentUserSession.nume) {
           document.getElementById("initiator-name").textContent = currentUserSession.nume;
+          document.getElementById("initiator-phone").textContent = currentUserSession.telefon || "07xx xxx xxx";
+          
+          document.getElementById("sef-nume-input").value = currentUserSession.nume;
+          document.getElementById("sef-telefon-input").value = currentUserSession.telefon || "";
+          document.getElementById("numeEchipa").value = `Echipa ${currentUserSession.nume}`;
         }
       } catch (e) {
         console.error("Eroare la citirea sesiunii:", e);
       }
+
+      initAutocompleteTeam();
+      updateActivitiesDropdownTeam("GA001");
+      renderMembriMock();
     });
 
-    function addMember() {
+    function initAutocompleteTeam() {
+      const judetSelect = document.getElementById("judetEchipa");
+      const zonaInput = document.getElementById("zonaEchipa");
+      const sugBox = document.getElementById("locSuggestionsTeam");
+
+      judetSelect.addEventListener("change", () => {
+        zonaInput.value = "";
+        sugBox.classList.add("hidden");
+      });
+
+      zonaInput.addEventListener("input", () => {
+        const query = stripDiacritics(zonaInput.value).toLowerCase();
+        const judetSelectat = judetSelect.value;
+        const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judetSelectat).toLowerCase()) : null;
+
+        sugBox.innerHTML = "";
+
+        if (!query || query.length < 1 || !cheieJudet) {
+          sugBox.classList.add("hidden");
+          return;
+        }
+
+        const listaLoc = NOMENCLATOR[cheieJudet] || [];
+        const meciuri = listaLoc.filter(l => stripDiacritics(l).toLowerCase().includes(query));
+
+        if (meciuri.length === 0) {
+          sugBox.classList.add("hidden");
+          return;
+        }
+
+        meciuri.forEach(loc => {
+          const item = document.createElement("div");
+          item.className = "p-2 hover:bg-amber-50 cursor-pointer font-semibold text-slate-700 transition";
+          item.textContent = loc;
+          item.addEventListener("click", () => {
+            zonaInput.value = loc;
+            sugBox.classList.add("hidden");
+          });
+          sugBox.appendChild(item);
+        });
+
+        sugBox.classList.remove("hidden");
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!zonaInput.contains(e.target) && !sugBox.contains(e.target)) {
+          sugBox.classList.add("hidden");
+        }
+      });
+    }
+
+    function updateActivitiesDropdownTeam(codGrup, selectedAct = null) {
+      const actSelect = document.getElementById("activitatePreferataEchipa");
+      actSelect.innerHTML = "";
+
+      const lista = ACTIVITATI_PE_GRUPE[codGrup] || ["Toate activitățile din grupa aleasă"];
+      
+      lista.forEach(act => {
+        const opt = document.createElement("option");
+        const val = (act === "Toate activitățile din grupa aleasă") ? "ALL" : act;
+        opt.value = val;
+        opt.textContent = act;
+        
+        if (selectedAct && (val === selectedAct || act === selectedAct)) {
+          opt.selected = true;
+        }
+        actSelect.appendChild(opt);
+      });
+    }
+
+    document.getElementById("grupActivitateEchipa").addEventListener("change", (e) => {
+      updateActivitiesDropdownTeam(e.target.value);
+    });
+
+    function addMemberRow() {
       const list = document.getElementById("memberList");
       const member = document.createElement("div");
       member.className = "member flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl";
       member.innerHTML = `
         <div class="flex-1">
-          <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME</label>
+          <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME MEMBRU</label>
           <input type="text" placeholder="Numele membrului" class="member-nume w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
         </div>
         <div class="flex-1">
-          <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON</label>
+          <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON WHATSAPP</label>
           <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
         </div>
         <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
@@ -415,50 +584,157 @@
     }
 
     function removeMember(button) {
-      const list = document.getElementById("memberList");
-      const members = list.querySelectorAll(".member");
-      if (members.length <= 1) {
-        alert("Trebuie să existe cel puțin un membru propus.");
-        return;
-      }
       button.parentElement.remove();
     }
 
-    async function createTeam() {
-      const confirmed = document.getElementById("confirm").checked;
-      if (!confirmed) {
-        alert("Pentru a continua trebuie să confirmați propunerea membrilor.");
+    function resetForNewTeam() {
+      document.getElementById("numeEchipa").value = "";
+      document.getElementById("transportPropriu").checked = false;
+      document.getElementById("memberList").innerHTML = "";
+      addMemberRow();
+      
+      if (currentUserSession) {
+        document.getElementById("sef-nume-input").value = currentUserSession.nume;
+        document.getElementById("sef-telefon-input").value = currentUserSession.telefon || "";
+        document.getElementById("numeEchipa").value = `Echipa ${currentUserSession.nume}`;
+      }
+      
+      const msg = document.getElementById("statusMessage");
+      msg.className = "hidden";
+      alert("S-a pregătit un formular nou pentru o altă echipă.");
+    }
+
+    function renderMembriMock() {
+      const sefNume = document.getElementById("sef-nume-input").value || "Șef Echipă";
+      const sefTel = document.getElementById("sef-telefon-input").value || "-";
+
+      const listConfirmați = document.getElementById("listaConfirmati");
+      listConfirmați.innerHTML = `
+        <div class="flex items-center justify-between p-2.5 bg-blue-50/80 border border-blue-200 rounded-xl text-xs">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-blue-900">👑 ${sefNume}</span>
+            <span class="text-[10px] font-extrabold bg-blue-600 text-white px-1.5 py-0.5 rounded">ȘEF ECHIPĂ</span>
+          </div>
+          <span class="font-mono text-slate-600">${sefTel}</span>
+        </div>
+        <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-slate-800">${currentUserSession ? currentUserSession.nume : 'Ion Popescu'}</span>
+            <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">Inițiator</span>
+          </div>
+          <span class="font-mono text-slate-600">${currentUserSession ? currentUserSession.telefon : ''}</span>
+        </div>
+        <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-slate-800">Popa Ion</span>
+            <span class="text-[10px] font-bold bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded">Adult responsabil</span>
+          </div>
+          <span class="font-mono text-slate-600">0741234567</span>
+        </div>
+        <div class="flex items-center justify-between p-2.5 bg-amber-50/40 border border-amber-200/80 rounded-xl text-xs pl-6 relative">
+          <span class="absolute left-2.5 top-2.5 text-amber-500 font-bold">↳</span>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-slate-800">Popa Elena</span>
+            <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">Minor · Părinte: Popa Ion</span>
+          </div>
+          <span class="font-mono text-slate-600">0742345678</span>
+        </div>
+      `;
+
+      const listAșteptare = document.getElementById("listaAsteptare");
+      listAșteptare.innerHTML = `
+        <div class="flex items-center justify-between p-2.5 bg-amber-50/50 border border-amber-200/80 rounded-xl text-xs">
+          <div class="flex items-center gap-2">
+            <span class="font-medium text-slate-700">Gheorghe Radu</span>
+            <span class="text-[10px] font-bold text-amber-600">În așteptare WhatsApp...</span>
+          </div>
+          <span class="font-mono text-slate-500">0745 xxx xxx</span>
+        </div>
+      `;
+    }
+
+    async function retrimiteInvitatii() {
+      const btn = document.getElementById("btnRetrimiteToti");
+      btn.disabled = true;
+      btn.textContent = "Se retransmit invitațiile...";
+
+      try {
+        if (!WEBHOOK_RETRIMITE_INVITATII.includes("SOT_AICI")) {
+          await fetch(WEBHOOK_RETRIMITE_INVITATII, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ID_initiator: currentUserSession ? currentUserSession.id : null })
+          });
+        }
+        alert("Invitațiile au fost retrimise cu succes către membrii în așteptare!");
+      } catch (e) {
+        alert("A apărut o eroare la re-trimitere.");
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "🔄 Retrimite invitația tuturor celor în așteptare";
+      }
+    }
+
+    async function trimitePropuneriEchipa() {
+      const numeEchipa = document.getElementById("numeEchipa").value.trim();
+      const sefNume = document.getElementById("sef-nume-input").value.trim();
+      const sefTelefon = document.getElementById("sef-telefon-input").value.trim();
+
+      if (!numeEchipa || !sefNume || !sefTelefon) {
+        alert("Te rugăm să introduci Numele Echipei, precum și Numele și Telefonul Șefului de Echipă.");
         return;
       }
 
       const membersElements = document.querySelectorAll(".member");
-      let valid = true;
       const membriPayload = [];
+      const listAsteptareBox = document.getElementById("listaAsteptare");
 
       membersElements.forEach(function(memberEl) {
         const nume = memberEl.querySelector(".member-nume").value.trim();
         const telefon = memberEl.querySelector(".member-telefon").value.trim();
 
-        if (!nume || !telefon) {
-          valid = false;
-        } else {
+        if (nume && telefon) {
+          const numeCurat = stripDiacritics(nume);
           membriPayload.push({
-            nume_membru: nume,
+            nume_membru: numeCurat,
             telefon_membru: telefon
           });
+
+          // Mutare dinamică în Blocul 2 (În Așteptare)
+          const newPendingRow = document.createElement("div");
+          newPendingRow.className = "flex items-center justify-between p-2.5 bg-amber-50/50 border border-amber-200/80 rounded-xl text-xs";
+          newPendingRow.innerHTML = `
+            <div class="flex items-center gap-2">
+              <span class="font-medium text-slate-700">${numeCurat}</span>
+              <span class="text-[10px] font-bold text-amber-600">În așteptare WhatsApp...</span>
+            </div>
+            <span class="font-mono text-slate-500">${telefon}</span>
+          `;
+          listAsteptareBox.appendChild(newPendingRow);
         }
       });
 
-      if (!valid) {
-        alert("Completați numele și telefonul tuturor membrilor propuși.");
-        return;
-      }
+      // Golire câmpuri din Blocul 3 după mutare
+      document.getElementById("memberList").innerHTML = "";
+      addMemberRow();
+
+      const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Se trimit invitațiile...";
 
       const teamPayload = {
+        Nume_echipa: stripDiacritics(numeEchipa),
         ID_initiator: currentUserSession ? currentUserSession.id : null,
-        Nume_initiator: currentUserSession ? currentUserSession.nume : "",
-        Membri_propuși: membriPayload,
-        Nr_membri_planificat: membriPayload.length + 1
+        Nume_initiator: currentUserSession ? stripDiacritics(currentUserSession.nume) : "",
+        Telefon_initiator: currentUserSession ? currentUserSession.telefon : "",
+        Nume_sef_echipa: stripDiacritics(sefNume),
+        Telefon_contact_echipa: sefTelefon,
+        Judet: stripDiacritics(document.getElementById("judetEchipa").value),
+        Zona_principala: stripDiacritics(document.getElementById("zonaEchipa").value),
+        Cod_grup_activitate: document.getElementById("grupActivitateEchipa").value,
+        Activitate_preferata: document.getElementById("activitatePreferataEchipa").value,
+        Transport_propriu: document.getElementById("transportPropriu").checked ? "DA" : "NU",
+        Membri_propuși: membriPayload
       };
 
       try {
@@ -470,12 +746,17 @@
           });
         }
 
-        const successEl = document.getElementById("success");
-        successEl.classList.remove("hidden");
-        successEl.scrollIntoView({ behavior: "smooth" });
+        const msg = document.getElementById("statusMessage");
+        msg.textContent = "Invitațiile au fost trimise cu succes pe WhatsApp! Membrii au fost adăugați în lista de așteptare și vor urca la Membri Confirmați pe măsură ce răspund.";
+        msg.classList.remove("hidden");
+        msg.scrollIntoView({ behavior: "smooth" });
+
       } catch (err) {
-        console.error("Eroare salvare echipă:", err);
-        alert("A apărut o eroare la trimiterea propunerilor.");
+        console.error("Eroare trimitere invitații:", err);
+        alert("A apărut o eroare la transmitere.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Trimite Invitațiile pe WhatsApp";
       }
     }
   </script>
