@@ -64,10 +64,10 @@
             </button>
           </div>
 
-          <!-- NUME ECHIPĂ EDITABIL -->
+          <!-- NUME ECHIPĂ GENERAT AUTOMAT (READ-ONLY) -->
           <div class="mb-5">
-            <label for="numeEchipa" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Denumire Echipă</label>
-            <input type="text" id="numeEchipa" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-xl text-sm font-bold text-slate-900 focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="ex: Echipa Bacău Construcții">
+            <label for="numeEchipa" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Denumire Echipă (Generată automat)</label>
+            <input type="text" id="numeEchipa" readonly class="w-full h-10 px-3 bg-slate-100 border border-slate-300 rounded-xl text-sm font-bold text-slate-700 cursor-not-allowed outline-none" placeholder="Echipa ...">
           </div>
 
           <!-- ROLURI PRINCIPALE: INIȚIATOR & ȘEF ECHIPĂ EDITABIL -->
@@ -434,7 +434,6 @@
     const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/m0ygv3sl1fhpp73nlsfz6ktwqk94wwdo";
     const WEBHOOK_RETRIMITE_INVITATII = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RETRIMITE";
 
-    // Structura activităților mapate direct pe DENUMIRILE de grupă
     const ACTIVITATI_PE_GRUPE = {
       "Agricultură, horticultură și comerț agricol": ["Toate activitățile din grupa aleasă", "Agricultură, vânătoare și servicii anexe", "Creșterea materialului săditor", "Creșterea plantelor ornamentale", "Gazon pentru transplantare", "Operațiuni de îngrijire și curățare a pomilor", "Activități ale pepinierelor (cu excepția pepinierelor forestiere)", "Comerţ cu ridicata al produselor agricole brute şi al animalelor vii"],
       "Silvicultură, pescuit și creșterea animalelor": ["Toate activitățile din grupa aleasă", "Silvicultură, cu excepția exploatărilor forestiere", "Pescuit și acvacultură", "Creșterea și reproducția animalelor semidomesticite și a altor animale"],
@@ -458,8 +457,20 @@
         .trim();
     }
 
+    const sefNumeInput = document.getElementById("sef-nume-input");
+    const sefTelInput = document.getElementById("sef-telefon-input");
+    const numeEchipaInput = document.getElementById("numeEchipa");
+
+    function updateNumeEchipa() {
+      const numeSef = sefNumeInput.value.trim();
+      numeEchipaInput.value = numeSef ? `Echipa ${numeSef}` : "";
+      renderMembriMock();
+    }
+
+    sefNumeInput.addEventListener("input", updateNumeEchipa);
+    sefTelInput.addEventListener("input", renderMembriMock);
+
     document.addEventListener("DOMContentLoaded", async () => {
-      // 1. Citire Sesiune Utilizator
       let sessionData = localStorage.getItem("strictzilier_session");
       if (sessionData) {
         try { currentUserSession = JSON.parse(sessionData); } catch (e) { console.error("Eroare sesiune:", e); }
@@ -467,7 +478,6 @@
 
       const idZilier = currentUserSession ? currentUserSession.id : "Z100001";
 
-      // 2. Apel direct la Make.com
       try {
         if (!WEBHOOK_CITESTE_PROFIL.includes("SOT_AICI")) {
           const response = await fetch(WEBHOOK_CITESTE_PROFIL, {
@@ -484,15 +494,14 @@
             const jud = data.Judet || "Bacau";
             const loc = data.Localitate_domiciliu || "Bacau";
             
-            // Preluăm denumirea grupului de activitate direct
             const denumireGrup = data.Denumire_grup_activitate || "Agricultură, horticultură și comerț agricol";
             const actPref = data.Activitate_preferata || "ALL";
 
             document.getElementById("initiator-name").textContent = numeComplet;
             document.getElementById("initiator-phone").textContent = tel;
-            document.getElementById("sef-nume-input").value = numeComplet;
-            document.getElementById("sef-telefon-input").value = tel;
-            document.getElementById("numeEchipa").value = `Echipa ${numeComplet}`;
+            sefNumeInput.value = numeComplet;
+            sefTelInput.value = tel;
+            updateNumeEchipa();
 
             document.getElementById("judetEchipa").value = jud;
             document.getElementById("zonaEchipa").value = loc;
@@ -501,15 +510,14 @@
             updateActivitiesDropdownTeam(denumireGrup, actPref);
           }
         } else {
-          // Fallback local dacă Webhook nu e conectat
           const demoNume = currentUserSession ? currentUserSession.nume : "Ion Popescu";
           const demoTel = currentUserSession ? currentUserSession.telefon : "0740123456";
           
           document.getElementById("initiator-name").textContent = demoNume;
           document.getElementById("initiator-phone").textContent = demoTel;
-          document.getElementById("sef-nume-input").value = demoNume;
-          document.getElementById("sef-telefon-input").value = demoTel;
-          document.getElementById("numeEchipa").value = `Echipa ${demoNume}`;
+          sefNumeInput.value = demoNume;
+          sefTelInput.value = demoTel;
+          updateNumeEchipa();
           updateActivitiesDropdownTeam("Agricultură, horticultură și comerț agricol");
         }
       } catch (err) {
@@ -619,17 +627,16 @@
     }
 
     function resetForNewTeam() {
-      document.getElementById("numeEchipa").value = "";
       document.getElementById("transportPropriu").checked = false;
       document.getElementById("memberList").innerHTML = "";
       addMemberRow();
       
-      const nume = document.getElementById("initiator-name").textContent;
-      const telefon = document.getElementById("initiator-phone").textContent;
+      const nume = document.getElementById("initiator-name").textContent.trim();
+      const telefon = document.getElementById("initiator-phone").textContent.trim();
 
-      document.getElementById("sef-nume-input").value = nume;
-      document.getElementById("sef-telefon-input").value = telefon;
-      document.getElementById("numeEchipa").value = `Echipa ${nume}`;
+      sefNumeInput.value = nume;
+      sefTelInput.value = telefon;
+      updateNumeEchipa();
       
       const msg = document.getElementById("statusMessage");
       msg.className = "hidden";
@@ -637,31 +644,44 @@
     }
 
     function renderMembriMock() {
-      const sefNume = document.getElementById("sef-nume-input").value || "Șef Echipă";
-      const sefTel = document.getElementById("sef-telefon-input").value || "-";
-      const initiatorNume = document.getElementById("initiator-name").textContent;
-      const initiatorTel = document.getElementById("initiator-phone").textContent;
+      const sefNume = sefNumeInput.value.trim() || "Șef Echipă";
+      const sefTel = sefTelInput.value.trim() || "-";
+      const initiatorNume = document.getElementById("initiator-name").textContent.trim();
+      const initiatorTel = document.getElementById("initiator-phone").textContent.trim();
 
-      const listConfirmați = document.getElementById("listaConfirmati");
-      listConfirmați.innerHTML = `
-        <div class="flex items-center justify-between p-2.5 bg-blue-50/80 border border-blue-200 rounded-xl text-xs">
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-blue-900">👑 ${sefNume}</span>
-            <span class="text-[10px] font-extrabold bg-blue-600 text-white px-1.5 py-0.5 rounded">ȘEF ECHIPĂ</span>
-          </div>
-          <span class="font-mono text-slate-600">${sefTel}</span>
-        </div>
-        <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-          <div class="flex items-center gap-2">
-            <span class="font-bold text-slate-800">${initiatorNume}</span>
-            <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">Inițiator</span>
-          </div>
-          <span class="font-mono text-slate-600">${initiatorTel}</span>
-        </div>
-      `;
+      const listConfirmati = document.getElementById("listaConfirmati");
+      
+      const cleanSefTel = sefTel.replace(/\D/g, "");
+      const cleanInitiatorTel = initiatorTel.replace(/\D/g, "");
 
-      const listAșteptare = document.getElementById("listaAsteptare");
-      listAșteptare.innerHTML = "";
+      if (cleanSefTel && cleanSefTel === cleanInitiatorTel) {
+        listConfirmati.innerHTML = `
+          <div class="flex items-center justify-between p-2.5 bg-blue-50/80 border border-blue-200 rounded-xl text-xs">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-blue-900">👑 ${sefNume}</span>
+              <span class="text-[10px] font-extrabold bg-blue-600 text-white px-1.5 py-0.5 rounded">ȘEF ECHIPĂ & INIȚIATOR</span>
+            </div>
+            <span class="font-mono text-slate-600">${sefTel}</span>
+          </div>
+        `;
+      } else {
+        listConfirmati.innerHTML = `
+          <div class="flex items-center justify-between p-2.5 bg-blue-50/80 border border-blue-200 rounded-xl text-xs">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-blue-900">👑 ${sefNume}</span>
+              <span class="text-[10px] font-extrabold bg-blue-600 text-white px-1.5 py-0.5 rounded">ȘEF ECHIPĂ</span>
+            </div>
+            <span class="font-mono text-slate-600">${sefTel}</span>
+          </div>
+          <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-800">${initiatorNume}</span>
+              <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">Inițiator</span>
+            </div>
+            <span class="font-mono text-slate-600">${initiatorTel}</span>
+          </div>
+        `;
+      }
     }
 
     async function retrimiteInvitatii() {
@@ -687,31 +707,43 @@
     }
 
     async function trimitePropuneriEchipa() {
-      const numeEchipa = document.getElementById("numeEchipa").value.trim();
-      const sefNume = document.getElementById("sef-nume-input").value.trim();
-      const sefTelefon = document.getElementById("sef-telefon-input").value.trim();
+      const numeEchipa = numeEchipaInput.value.trim();
+      const sefNume = sefNumeInput.value.trim();
+      const sefTelefon = sefTelInput.value.trim();
 
       if (!numeEchipa || !sefNume || !sefTelefon) {
-        alert("Te rugăm să introduci Numele Echipei, precum și Numele și Telefonul Șefului de Echipă.");
+        alert("Te rugăm să introduci Numele și Telefonul Șefului de Echipă.");
         return;
       }
 
+      const cleanSefTel = sefTelefon.replace(/\D/g, "");
+      const initiatorTelVal = document.getElementById("initiator-phone").textContent.trim();
+      const cleanInitiatorTel = initiatorTelVal.replace(/\D/g, "");
+
       const membersElements = document.querySelectorAll(".member");
       const membriPayload = [];
+      const adaugateTelefoane = new Set([cleanSefTel, cleanInitiatorTel]);
+
       const listAsteptareBox = document.getElementById("listaAsteptare");
 
       membersElements.forEach(function(memberEl) {
         const nume = memberEl.querySelector(".member-nume").value.trim();
         const telefon = memberEl.querySelector(".member-telefon").value.trim();
+        const cleanTel = telefon.replace(/\D/g, "");
 
         if (nume && telefon) {
+          if (adaugateTelefoane.has(cleanTel)) {
+            return;
+          }
+
+          adaugateTelefoane.add(cleanTel);
+
           const numeCurat = stripDiacritics(nume);
           membriPayload.push({
             nume_membru: numeCurat,
             telefon_membru: telefon
           });
 
-          // Mutare dinamică în Blocul 2 (În Așteptare)
           const newPendingRow = document.createElement("div");
           newPendingRow.className = "flex items-center justify-between p-2.5 bg-amber-50/50 border border-amber-200/80 rounded-xl text-xs";
           newPendingRow.innerHTML = `
@@ -725,7 +757,6 @@
         }
       });
 
-      // Golire câmpuri din Blocul 3 după mutare
       document.getElementById("memberList").innerHTML = "";
       addMemberRow();
 
@@ -734,7 +765,6 @@
       submitBtn.textContent = "Se trimit invitațiile...";
 
       const initiatorNumeVal = document.getElementById("initiator-name").textContent;
-      const initiatorTelVal = document.getElementById("initiator-phone").textContent;
 
       const teamPayload = {
         Nume_echipa: stripDiacritics(numeEchipa),
