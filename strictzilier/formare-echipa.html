@@ -105,7 +105,7 @@
                 </select>
               </div>
               <div class="sm:col-span-2 relative">
-                <label for="zonaEchipa" class="block text-xs font-bold text-slate-700 mb-1">Orașul sau Comuna</label>
+                <label for="zonaEchipa" class="block text-xs font-bold text-slate-700 mb-1">Orașul sau Comuna (Zona Preferată)</label>
                 <input type="text" id="zonaEchipa" autocomplete="off" class="w-full h-9 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Scrie orașul sau comuna...">
                 <div id="locSuggestionsTeam" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50 divide-y divide-slate-100 text-xs"></div>
               </div>
@@ -431,7 +431,7 @@
   <!-- 2. SCRIPT LOGICĂ INTEGRATĂ FORMARE ȘI ADMINISTRARE ECHIPĂ -->
   <script>
     const WEBHOOK_CITESTE_PROFIL = "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
-    const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/p43fhc1oejmwm5yecgfmf3cu31g9t7h9";
+    const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/xy2vy1m7buqfs4wqxdhqcvq1b4xrk67p";
     const WEBHOOK_RETRIMITE_INVITATII = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RETRIMITE";
 
     const ACTIVITATI_PE_GRUPE = {
@@ -492,7 +492,9 @@
             const numeComplet = ((data.Nume || '') + ' ' + (data.Prenume || '')).trim() || "Ion Popescu";
             const tel = data.Telefon || "0740123456";
             const jud = data.Judet || "Bacau";
-            const loc = data.Localitate_domiciliu || "Bacau";
+            
+            // COROLAR: Preluăm explicit Zona_preferata din baza de date
+            const zonaPref = data.Zona_preferata || data.Localitate_domiciliu || "Bacau";
             
             const denumireGrup = data.Denumire_grup_activitate || "Agricultură, horticultură și comerț agricol";
             const actPref = data.Activitate_preferata || "ALL";
@@ -504,7 +506,7 @@
             updateNumeEchipa();
 
             document.getElementById("judetEchipa").value = jud;
-            document.getElementById("zonaEchipa").value = loc;
+            document.getElementById("zonaEchipa").value = zonaPref;
             document.getElementById("grupActivitateEchipa").value = denumireGrup;
 
             updateActivitiesDropdownTeam(denumireGrup, actPref);
@@ -740,7 +742,6 @@
 
           const numeCurat = stripDiacritics(nume);
           
-          // Chei aliniate 1:1 cu coloanele din "MEMBRU_ECHIPA"
           membriPayload.push({
             Nume_membru: numeCurat,
             Telefon: telefon
@@ -766,7 +767,7 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Se trimit invitațiile...";
 
-      // Chei aliniate 1:1 cu cele 19 coloane din "ECHIPE" (fără NU-uri implicite)
+      // Payload corectat - Zona_preferata ia valoarea scrisa/selectata in campul de zona
       const teamPayload = {
         Nume_echipa: stripDiacritics(numeEchipa),
         ID_initiator: currentUserSession ? currentUserSession.id : "Z100001",
