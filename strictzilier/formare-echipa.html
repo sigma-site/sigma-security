@@ -211,7 +211,7 @@
           <!-- ACTION BUTTONS -->
           <div class="pt-6 mt-6 border-t border-slate-100 flex flex-col sm:flex-row gap-2.5">
             <button type="button" onclick="window.location.href='profil-zilier.html'" class="w-full sm:w-1/3 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">
-              În apoi la profil
+              Înapoi la profil
             </button>
             <button type="button" onclick="trimitePropuneriEchipa()" class="w-full sm:w-2/3 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
               Trimite Invitațiile pe WhatsApp
@@ -493,7 +493,7 @@
             const tel = data.Telefon || "0740123456";
             const jud = data.Judet || "Bacau";
             
-            // COROLAR: Preluăm explicit Zona_preferata din baza de date
+            // Preluăm explicit Zona_preferata din baza de date (cu fallback la Localitate_domiciliu)
             const zonaPref = data.Zona_preferata || data.Localitate_domiciliu || "Bacau";
             
             const denumireGrup = data.Denumire_grup_activitate || "Agricultură, horticultură și comerț agricol";
@@ -629,20 +629,34 @@
     }
 
     function resetForNewTeam() {
-      document.getElementById("transportPropriu").checked = false;
+      // 1. Curățăm lista de invitații în așteptare din runda anterioară
+      document.getElementById("listaAsteptare").innerHTML = "";
+
+      // 2. Curățăm rândurile de introducere membri noi și lăsăm un singur rând gol
       document.getElementById("memberList").innerHTML = "";
       addMemberRow();
-      
-      const nume = document.getElementById("initiator-name").textContent.trim();
-      const telefon = document.getElementById("initiator-phone").textContent.trim();
 
-      sefNumeInput.value = nume;
-      sefTelInput.value = telefon;
-      updateNumeEchipa();
+      // 3. Resetează bifa de transport propriu
+      document.getElementById("transportPropriu").checked = false;
+
+      // 4. Re-populăm Șeful de Echipă cu datele Inițiatorului (editabil)
+      const numeInitiator = document.getElementById("initiator-name").textContent.trim();
+      const telInitiator = document.getElementById("initiator-phone").textContent.trim();
+
+      if (numeInitiator && numeInitiator !== "Se încarcă...") {
+        sefNumeInput.value = numeInitiator;
+        sefTelInput.value = telInitiator;
+      }
       
+      updateNumeEchipa(); // Re-generează denumirea echipei și cardul Șefului
+
+      // 5. Ascundem mesajul de status anterior
       const msg = document.getElementById("statusMessage");
-      msg.className = "hidden";
-      alert("S-a pregătit un formular nou pentru o altă echipă.");
+      msg.classList.add("hidden");
+      msg.textContent = "";
+
+      // NOTĂ: Județ, Zona_preferată, Grup_activitate și Activitate_preferată 
+      // RĂMÂN NEATINSE (exact așa cum au fost selectate) pentru lansarea noii echipe.
     }
 
     function renderMembriMock() {
@@ -767,7 +781,6 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Se trimit invitațiile...";
 
-      // Payload corectat - Zona_preferata ia valoarea scrisa/selectata in campul de zona
       const teamPayload = {
         Nume_echipa: stripDiacritics(numeEchipa),
         ID_initiator: currentUserSession ? currentUserSession.id : "Z100001",
