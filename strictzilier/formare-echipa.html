@@ -54,14 +54,22 @@
       <div class="lg:col-span-2 space-y-6">
         <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
           
+          <!-- CÂMP ASCUNS PENTRU STOCARE ID_ECHIPĂ -->
+          <input type="hidden" id="ID_echipa" name="ID_echipa" value="">
+
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
             <div>
               <h1 class="text-2xl font-black text-slate-900 tracking-tight">Formare & Administrare Echipă</h1>
               <p class="text-xs font-medium text-slate-500 mt-0.5">Gestionează componența și invitațiile echipei în timp real.</p>
             </div>
-            <button type="button" onclick="resetForNewTeam()" class="inline-flex items-center justify-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition border border-slate-300">
-              + Formează o nouă echipă
-            </button>
+            <div class="flex flex-wrap items-center gap-2">
+              <button type="button" onclick="location.href='echipe-salvate.html'" class="inline-flex items-center justify-center px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold transition">
+                📁 Administrează echipe
+              </button>
+              <button type="button" onclick="resetForNewTeam()" class="inline-flex items-center justify-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition border border-slate-300">
+                + Formează o nouă echipă
+              </button>
+            </div>
           </div>
 
           <!-- NUME ECHIPĂ GENERAT AUTOMAT (READ-ONLY) -->
@@ -526,6 +534,47 @@
         console.error("Eroare citire profil din Make:", err);
       }
 
+      // PRELUARE DATE ECHIPĂ DIN ARHIVĂ (LOCALSTORAGE STOCAT LA DUBLU-CLICK ÎN ECHIPE-SALVATE.HTML)
+      const selectedTeamStr = localStorage.getItem("selected_team_data");
+      if (selectedTeamStr) {
+        try {
+          const teamData = JSON.parse(selectedTeamStr);
+          
+          if (teamData) {
+            document.getElementById("ID_echipa").value = teamData.ID_echipa || teamData.id || "";
+            if (teamData.Nume_echipa || teamData.numeEchipa || teamData.denumire) {
+              document.getElementById("numeEchipa").value = teamData.Nume_echipa || teamData.numeEchipa || teamData.denumire;
+            }
+            if (teamData.Telefon_contact_echipa) {
+              document.getElementById("sef-telefon-input").value = teamData.Telefon_contact_echipa;
+            }
+            if (teamData.Judet) {
+              document.getElementById("judetEchipa").value = teamData.Judet;
+            }
+            if (teamData.Zona_preferata || teamData.zona) {
+              document.getElementById("zonaEchipa").value = teamData.Zona_preferata || teamData.zona;
+            }
+            if (teamData.Denumire_grup_activitate) {
+              document.getElementById("grupActivitateEchipa").value = teamData.Denumire_grup_activitate;
+            }
+            if (teamData.Activitate_preferata || teamData.activitate) {
+              updateActivitiesDropdownTeam(
+                teamData.Denumire_grup_activitate || document.getElementById("grupActivitateEchipa").value,
+                teamData.Activitate_preferata || teamData.activitate
+              );
+            }
+            if (teamData.Transport_propriu) {
+              document.getElementById("transportPropriu").checked = (teamData.Transport_propriu.toUpperCase() === "DA");
+            }
+          }
+        } catch (e) {
+          console.error("Eroare citire selected_team_data:", e);
+        } finally {
+          // Curățăm stocarea temporară pentru a permite ulterior formarea unei echipe noi neinfluențată
+          localStorage.removeItem("selected_team_data");
+        }
+      }
+
       initAutocompleteTeam();
       renderMembriMock();
     });
@@ -629,6 +678,9 @@
     }
 
     function resetForNewTeam() {
+      // RESETARE VALOARE ID_ECHIPĂ PENTRU MODUL DE CREARE NOUĂ
+      document.getElementById("ID_echipa").value = "";
+
       // 1. Curățăm lista de invitații în așteptare din runda anterioară
       document.getElementById("listaAsteptare").innerHTML = "";
 
@@ -781,7 +833,11 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Se trimit invitațiile...";
 
+      // PRELUAREA ID_ECHIPA DIN CÂMPUL ASCUNS
+      const idEchipaVal = document.getElementById("ID_echipa").value;
+
       const teamPayload = {
+        ID_echipa: idEchipaVal || null,
         Nume_echipa: stripDiacritics(numeEchipa),
         ID_initiator: currentUserSession ? currentUserSession.id : "Z100001",
         ID_lider: currentUserSession ? currentUserSession.id : "Z100001",
