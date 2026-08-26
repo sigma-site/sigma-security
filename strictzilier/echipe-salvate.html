@@ -3,122 +3,332 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Arhivă Echipe - STRICTZILIER.ro</title>
+  <title>Echipe Salvate - STRICTZILIER.ro</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; }
+    .custom-scroll::-webkit-scrollbar { width: 5px; }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+    }
   </style>
 </head>
-<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen">
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
-  <!-- Header -->
+  <!-- Header Permanent -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-2">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2 cursor-pointer">
         <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
       </a>
-      <a href="formare-echipa.html" class="inline-flex items-center gap-1.5 px-3.5 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold transition shadow-sm">
-        ← Înapoi la formular
+
+      <!-- Link Ghid Zilier -->
+      <a href="ghid-zilier.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition">
+        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>GHID ZILIER</span>
       </a>
+
     </div>
   </header>
 
-  <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-    <div class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
       
-      <div class="mb-6">
-        <h1 class="text-2xl font-black text-slate-900 tracking-tight">Echipele mele salvate</h1>
-        <p class="text-xs font-semibold text-amber-600 mt-1.5 bg-amber-50 inline-block px-3 py-1.5 rounded-md border border-amber-200">
-          👉 Selectați o linie din listă pentru a încărca și edita echipa dorită.
-        </p>
+      <!-- COLOANA STANGA & CENTRU: CARDUL PRINCIPAL -->
+      <div class="lg:col-span-2 space-y-6">
+        <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
+          
+          <h1 class="text-2xl font-black text-slate-900 tracking-tight">Arhivă echipe salvate</h1>
+          <p class="text-xs font-medium text-slate-500 mt-1 mb-6 leading-relaxed">
+            Consultați echipele create anterior. Efectuați <strong>dublu-click</strong> pe orice linie din tabel pentru a încărca echipa respectivă în formularul de editare.
+          </p>
+
+          <!-- TOP ACTIONS -->
+          <div class="flex flex-col sm:flex-row justify-between items-stretch sm:items-center gap-3 mb-6">
+            <button type="button" onclick="location.href='formare-echipa.html'" class="px-5 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm flex items-center justify-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+              </svg>
+              <span>Înapoi la formular</span>
+            </button>
+          </div>
+
+          <!-- TABEL ECHIPE SALVATE (4 COLOANE) -->
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                  <th class="p-3">ID Echipă</th>
+                  <th class="p-3">Denumire Echipă</th>
+                  <th class="p-3">Membri Înscriși</th>
+                  <th class="p-3">Data Salvării</th>
+                </tr>
+              </thead>
+              <tbody id="teamsTableBody" class="divide-y divide-slate-100 font-medium">
+                <!-- Se va popula dinamic din JS / Baza de date -->
+              </tbody>
+            </table>
+          </div>
+
+        </section>
       </div>
 
-      <div class="overflow-x-auto rounded-xl border border-slate-200">
-        <table class="w-full text-left border-collapse text-xs">
-          <thead>
-            <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-              <th class="p-3.5">Denumire Echipă</th>
-              <th class="p-3.5">Activitate</th>
-              <th class="p-3.5">Zonă Preferată</th>
-              <th class="p-3.5 text-right">Data Constituire</th>
-            </tr>
-          </thead>
-          <tbody id="teamsTableBody" class="divide-y divide-slate-100 font-medium">
-            <tr>
-              <td colspan="4" class="p-4 text-center text-slate-400">Se încarcă echipele...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      <!-- COLOANA DREAPTA: AGENT VAPI INTEGRAT DIRECT -->
+      <aside id="strictzilierAgent" class="bg-gradient-to-b from-slate-900 to-blue-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl border border-blue-900 flex flex-col justify-between h-[580px] text-center">
+        <div>
+          <p class="text-xs text-slate-300 mb-2 leading-tight max-w-xs mx-auto pt-1">
+            Spune ce cauți sau de ce ai nevoie. Agentul mediază întâlnirea dintre zilieri și angajatori.
+          </p>
+
+          <div id="conversation" class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
+            <div class="bg-white/10 text-slate-100 p-2 rounded-lg text-xs leading-relaxed max-w-[88%] border-l-2 border-blue-500">
+              <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>
+              Pot să vă ajut să găsiți o echipă salvată sau să vă explic cum să gestionați componența grupului.
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div class="w-full max-w-[340px] mx-auto grid grid-cols-[1fr_34px_1fr] gap-1.5 items-center mb-1.5">
+            <button id="voiceModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">
+              VOCAL
+            </button>
+            <div id="agentOrb" class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs text-white">
+              ✦
+            </div>
+            <button id="textModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center">
+              SCRIS
+            </button>
+          </div>
+
+          <div id="voicePanel" class="w-full max-w-[340px] mx-auto">
+            <button id="agentButton" type="button" class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">
+              PORNEȘTE CONVERSAȚIA
+            </button>
+            <div id="status" class="min-h-[14px] mt-1 text-[10px] font-bold text-emerald-400"></div>
+          </div>
+
+          <div id="textPanel" class="w-full max-w-[340px] mx-auto hidden">
+            <div class="flex gap-1.5">
+              <input id="messageInput" type="text" placeholder="Scrieți întrebarea..." autocomplete="off" class="flex-1 min-w-0 h-11 px-3 bg-white text-slate-900 rounded-lg text-xs outline-none">
+              <button id="sendButton" type="button" class="w-[76px] h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-lg transition flex-shrink-0 flex items-center justify-center">
+                TRIMITE
+              </button>
+            </div>
+            <div id="chatStatus" class="min-h-[14px] mt-1 text-[10px] font-bold text-blue-300"></div>
+          </div>
+        </div>
+      </aside>
 
     </div>
   </main>
 
-  <script>
-    // URL-ul Webhook-ului de citire din Make.com
-    const URL_PRELUARE_ECHIPE = "https://hook.eu1.make.com/eh86l1zog2254lwuk0vfpjda31zxfyhy";
+  <!-- FOOTER STANDARD -->
+  <footer class="bg-white border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>© 2026 STRICTZILIER.ro · Toate drepturile rezervate. Conform Legii 52/2011.</div>
+      <div class="flex flex-wrap gap-4 font-medium">
+        <a href="#termeni" class="hover:text-slate-800 transition">Termeni și Condiții</a>
+        <a href="#confidentialitate" class="hover:text-slate-800 transition">Politică de Confidențialitate</a>
+        <a href="https://anpc.ro" target="_blank" rel="noopener" class="hover:text-slate-800 transition">ANPC</a>
+      </div>
+    </div>
+  </footer>
 
-    document.addEventListener("DOMContentLoaded", () => {
-      fetchTeams();
-    });
+  <!-- SCRIPT INTEGRARE VAPI & PIE.HOST -->
+  <script type="module">
+    import Vapi from "https://esm.sh/@vapi-ai/web";
 
-    async function fetchTeams() {
-      const tbody = document.getElementById("teamsTableBody");
-      
-      try {
-        // Trimitem param ID_initiator spre Webhook pentru filtrare
-        const response = await fetch(`${URL_PRELUARE_ECHIPE}?ID_initiator=Z100001`);
-        
-        if (!response.ok) {
-          throw new Error(`Eroare HTTP! Status: ${response.status}`);
-        }
+    const PUBLIC_KEY = "ab245358-61ea-4876-b767-8e4ad159627d";
+    const ASSISTANT_ID = "970da2f1-89c8-438c-ac8c-30abfa04528e";
+    const CHAT_URL = "https://2.pie.host/chat.php";
 
-        const data = await response.json();
-        console.log("Date primite din Make:", data);
+    const vapi = new Vapi(PUBLIC_KEY);
 
-        renderTeamsTable(data);
-      } catch (error) {
-        console.error("Eroare la aducerea datelor:", error);
-        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-red-500 font-bold">A apărut o eroare la conexiunea cu serverul. Verificați consola.</td></tr>`;
-      }
+    const voiceModeButton = document.getElementById("voiceModeButton");
+    const textModeButton = document.getElementById("textModeButton");
+    const voicePanel = document.getElementById("voicePanel");
+    const textPanel = document.getElementById("textPanel");
+    const button = document.getElementById("agentButton");
+    const status = document.getElementById("status");
+    const conversation = document.getElementById("conversation");
+    const input = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
+    const chatStatus = document.getElementById("chatStatus");
+
+    let conversationActive = false;
+    let previousChatId = null;
+    let currentMode = "voice";
+
+    function addMessage(type, text) {
+      if (!text || !text.trim()) return;
+
+      const message = document.createElement("div");
+      message.className = "max-w-[88%] p-2 rounded-lg text-xs leading-relaxed " + 
+        (type === "user" ? "bg-amber-500 text-white ml-auto" : "bg-white/10 text-slate-100 mr-auto border-l-2 border-blue-500");
+
+      const label = document.createElement("span");
+      label.className = "block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider";
+      label.textContent = type === "user" ? "TU" : "AGENT";
+
+      const content = document.createElement("div");
+      content.textContent = text;
+
+      message.appendChild(label);
+      message.appendChild(content);
+      conversation.appendChild(message);
+
+      conversation.scrollTop = conversation.scrollHeight;
     }
 
-    function renderTeamsTable(teams) {
-      const tbody = document.getElementById("teamsTableBody");
-      tbody.innerHTML = "";
+    function setMode(mode) {
+      if (mode === currentMode) return;
 
-      if (!Array.isArray(teams) || teams.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400">Nu s-a găsit nicio echipă salvată.</td></tr>`;
+      if (mode === "text" && conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
+      }
+
+      currentMode = mode;
+      const voice = mode === "voice";
+
+      voiceModeButton.classList.toggle("bg-amber-500", voice);
+      voiceModeButton.classList.toggle("border-amber-500", voice);
+      voiceModeButton.classList.toggle("text-white", voice);
+      voiceModeButton.classList.toggle("bg-white/10", !voice);
+      voiceModeButton.classList.toggle("text-blue-200", !voice);
+
+      textModeButton.classList.toggle("bg-amber-500", !voice);
+      textModeButton.classList.toggle("border-amber-500", !voice);
+      textModeButton.classList.toggle("text-white", !voice);
+      textModeButton.classList.toggle("bg-white/10", voice);
+      textModeButton.classList.toggle("text-blue-200", voice);
+
+      voicePanel.classList.toggle("hidden", !voice);
+      textPanel.classList.toggle("hidden", voice);
+
+      if (!voice) input.focus();
+    }
+
+    voiceModeButton.addEventListener("click", () => setMode("voice"));
+    textModeButton.addEventListener("click", () => setMode("text"));
+
+    vapi.on("message", (message) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        addMessage(message.role === "user" ? "user" : "agent", message.transcript);
+      }
+    });
+
+    button.addEventListener("click", async () => {
+      if (conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
         return;
       }
 
-      teams.forEach(team => {
+      status.textContent = "Se conectează...";
+
+      try {
+        await vapi.start(ASSISTANT_ID);
+        conversationActive = true;
+        button.textContent = "ÎNCHIDE CONVERSAȚIA";
+        status.textContent = "Conversația vocală este activă.";
+      } catch (error) {
+        console.error("Eroare Vapi:", error);
+        status.textContent = "Nu s-a putut porni conversația.";
+      }
+    });
+
+    async function sendTextMessage() {
+      const message = input.value.trim();
+      if (!message) return;
+
+      addMessage("user", message);
+      input.value = "";
+      sendButton.disabled = true;
+      chatStatus.textContent = "Se contactează agentul...";
+
+      try {
+        const response = await fetch(CHAT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message, previousChatId: previousChatId })
+        });
+
+        const data = await response.json();
+        if (data.chatId) previousChatId = data.chatId;
+        addMessage("agent", data.reply || "Agentul nu a returnat un răspuns.");
+        chatStatus.textContent = "";
+      } catch (error) {
+        addMessage("agent", "Eroare de conectare:\n" + error.message);
+      } finally {
+        sendButton.disabled = false;
+        input.focus();
+      }
+    }
+
+    sendButton.addEventListener("click", sendTextMessage);
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
+  </script>
+
+  <!-- SCRIPT LOGICĂ ECHIPE SALVATE & INCĂRCARE IN FORMARE ECHIPĂ -->
+  <script>
+    const savedTeams = [
+      { id: "EQ-00101", denumire: "Echipa Construcții Bacău", membriCount: "4 zilieri", dataSalvarii: "12.08.2026", membriData: [{ nume: "Popescu Ion", telefon: "0722111222" }, { nume: "Ionescu Vasile", telefon: "0733222333" }] },
+      { id: "EQ-00102", denumire: "Echipa Cules Livezi", membriCount: "6 zilieri", dataSalvarii: "18.08.2026", membriData: [{ nume: "Radu Mihai", telefon: "0744333444" }] },
+      { id: "EQ-00103", denumire: "Echipa Catering Evenimente", membriCount: "3 zilieri", dataSalvarii: "24.08.2026", membriData: [{ nume: "Marin Daniel", telefon: "0755444555" }] }
+    ];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderTeamsTable();
+    });
+
+    function renderTeamsTable() {
+      const tbody = document.getElementById("teamsTableBody");
+      tbody.innerHTML = "";
+
+      savedTeams.forEach(team => {
         const tr = document.createElement("tr");
-        tr.className = "hover:bg-amber-50/60 cursor-pointer transition select-none border-b border-slate-100";
+        tr.className = "hover:bg-amber-50/60 cursor-pointer transition selection:bg-none";
+        tr.setAttribute("title", "Dublu click pentru a deschide în formular");
         
         tr.innerHTML = `
-          <td class="p-3.5 font-bold text-slate-900">${team.Nume_echipa || '-'}</td>
-          <td class="p-3.5 text-slate-600">${team.Activitate_preferata || '-'}</td>
-          <td class="p-3.5 text-slate-600">${team.Zona_preferata || '-'}</td>
-          <td class="p-3.5 text-right text-slate-500 font-semibold">${team.Data_constituire || '-'}</td>
+          <td class="p-3 font-bold text-slate-800">${team.id}</td>
+          <td class="p-3 font-semibold text-slate-900">${team.denumire}</td>
+          <td class="p-3 text-slate-600">${team.membriCount}</td>
+          <td class="p-3 text-slate-500">${team.dataSalvarii}</td>
         `;
 
-        tr.addEventListener("click", () => {
-          const selectedTeam = {
-            ID_echipa: team.ID_echipa,
-            Nume_echipa: team.Nume_echipa,
-            Activitate_preferata: team.Activitate_preferata,
-            Membri: team.Membri || []
-          };
-          localStorage.setItem("selected_team_edit", JSON.stringify(selectedTeam));
-          window.location.href = "formare-echipa.html";
+        // DUBLU CLICK PE LINIE
+        tr.addEventListener("dblclick", () => {
+          openInFormareEchipa(team);
         });
 
         tbody.appendChild(tr);
       });
+    }
+
+    function openInFormareEchipa(team) {
+      // Stocăm echipa selectată în localStorage pentru a fi citită în formare-echipa.html
+      localStorage.setItem("selected_team_data", JSON.stringify(team));
+      
+      // Navigăm către pagina de formare echipă
+      window.location.href = "formare-echipa.html?teamId=" + team.id;
     }
   </script>
 </body>
