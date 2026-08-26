@@ -51,7 +51,7 @@
           
           <h1 class="text-2xl font-black text-slate-900 tracking-tight">Arhivă echipe salvate</h1>
           <p class="text-xs font-medium text-slate-500 mt-1 mb-6 leading-relaxed">
-            Consultați echipele create anterior. Efectuați <strong>dublu-click</strong> pe orice linie din tabel pentru a încărca echipa respectivă în formularul de editare.
+            Consultați echipele create anterior din baza de date. Efectuați <strong>dublu-click</strong> pe orice linie din tabel pentru a încărca echipa respectivă în pagina de formare echipă.
           </p>
 
           <!-- TOP ACTIONS -->
@@ -62,10 +62,26 @@
               </svg>
               <span>Înapoi la formular</span>
             </button>
+            <button type="button" onclick="loadSavedTeamsFromWebhook()" class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-lg transition flex items-center justify-center gap-1.5">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+              </svg>
+              <span>Reîmprospătează datele</span>
+            </button>
           </div>
 
           <!-- TABEL ECHIPE SALVATE (4 COLOANE) -->
-          <div class="overflow-x-auto rounded-xl border border-slate-200">
+          <div class="overflow-x-auto rounded-xl border border-slate-200 relative min-h-[160px]">
+            
+            <!-- LOADER CITIRE BAZĂ DE DATE -->
+            <div id="tableLoader" class="absolute inset-0 bg-white/80 backdrop-blur-[1px] z-10 flex flex-col items-center justify-center gap-2">
+              <svg class="animate-spin h-6 w-6 text-amber-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <span class="text-xs font-semibold text-slate-500">Se încarcă echipele salvate...</span>
+            </div>
+
             <table class="w-full text-left border-collapse text-xs">
               <thead>
                 <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
@@ -76,7 +92,7 @@
                 </tr>
               </thead>
               <tbody id="teamsTableBody" class="divide-y divide-slate-100 font-medium">
-                <!-- Se va popula dinamic din JS / Baza de date -->
+                <!-- Se va popula dinamic din Webhook / JS -->
               </tbody>
             </table>
           </div>
@@ -94,7 +110,7 @@
           <div id="conversation" class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
             <div class="bg-white/10 text-slate-100 p-2 rounded-lg text-xs leading-relaxed max-w-[88%] border-l-2 border-blue-500">
               <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>
-              Pot să vă ajut să găsiți o echipă salvată sau să vă explic cum să gestionați componența grupului.
+              Pot să vă ajut să găsiți o echipă salvată din arhivă sau să vă explic cum să o încărcați în formular.
             </div>
           </div>
         </div>
@@ -286,32 +302,95 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ ECHIPE SALVATE & INCĂRCARE IN FORMARE ECHIPĂ -->
+  <!-- SCRIPT LOGICĂ ECHIPE SALVATE & WEBHOOK MAKE.COM -->
   <script>
-    const savedTeams = [
+    const WEBHOOK_CITESTE_ECHIPE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_INCARCA_ECHIPE_SALVATE";
+
+    // Date de rezervă (fallback) în cazul în care serverul nu răspunde
+    const fallbackTeams = [
       { id: "EQ-00101", denumire: "Echipa Construcții Bacău", membriCount: "4 zilieri", dataSalvarii: "12.08.2026", membriData: [{ nume: "Popescu Ion", telefon: "0722111222" }, { nume: "Ionescu Vasile", telefon: "0733222333" }] },
       { id: "EQ-00102", denumire: "Echipa Cules Livezi", membriCount: "6 zilieri", dataSalvarii: "18.08.2026", membriData: [{ nume: "Radu Mihai", telefon: "0744333444" }] },
       { id: "EQ-00103", denumire: "Echipa Catering Evenimente", membriCount: "3 zilieri", dataSalvarii: "24.08.2026", membriData: [{ nume: "Marin Daniel", telefon: "0755444555" }] }
     ];
 
+    let currentUserSession = null;
+
     document.addEventListener("DOMContentLoaded", () => {
-      renderTeamsTable();
+      let sessionData = localStorage.getItem("strictzilier_session");
+      if (!sessionData) {
+        const demoSession = { role: 'zilier', id: 'Z000001', nume: 'Zilier Demo', startOfWeek: new Date().toISOString().split('T')[0] };
+        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
+        sessionData = JSON.stringify(demoSession);
+      }
+      try { 
+        currentUserSession = JSON.parse(sessionData); 
+      } catch (e) { 
+        console.error("Eroare sesiune:", e); 
+      }
+
+      loadSavedTeamsFromWebhook();
     });
 
-    function renderTeamsTable() {
+    async function loadSavedTeamsFromWebhook() {
+      const loader = document.getElementById("tableLoader");
+      loader.classList.remove("hidden");
+
+      let fetchedTeams = [];
+
+      try {
+        if (!WEBHOOK_CITESTE_ECHIPE.includes("SOT_AICI")) {
+          const response = await fetch(WEBHOOK_CITESTE_ECHIPE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              ID_zilier: currentUserSession ? currentUserSession.id : "Z000001",
+              actiune: "GET_ECHIPE_SALVATE"
+            })
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            fetchedTeams = Array.isArray(data) ? data : (data.echipe || []);
+          }
+        }
+      } catch (err) {
+        console.warn("Eroare la conectarea cu webhook-ul Make.com. Se folosesc datele locale de rezervă.", err);
+      } finally {
+        // Dacă serverul nu a returnat date, folosim lista fallback
+        if (!fetchedTeams || fetchedTeams.length === 0) {
+          fetchedTeams = fallbackTeams;
+        }
+
+        renderTeamsTable(fetchedTeams);
+        loader.classList.add("hidden");
+      }
+    }
+
+    function renderTeamsTable(teams) {
       const tbody = document.getElementById("teamsTableBody");
       tbody.innerHTML = "";
 
-      savedTeams.forEach(team => {
+      if (!teams || teams.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="4" class="p-6 text-center text-slate-400 font-medium">
+              Nu aveți nicio echipă salvată în arhivă.
+            </td>
+          </tr>
+        `;
+        return;
+      }
+
+      teams.forEach(team => {
         const tr = document.createElement("tr");
         tr.className = "hover:bg-amber-50/60 cursor-pointer transition selection:bg-none";
         tr.setAttribute("title", "Dublu click pentru a deschide în formular");
         
         tr.innerHTML = `
-          <td class="p-3 font-bold text-slate-800">${team.id}</td>
-          <td class="p-3 font-semibold text-slate-900">${team.denumire}</td>
-          <td class="p-3 text-slate-600">${team.membriCount}</td>
-          <td class="p-3 text-slate-500">${team.dataSalvarii}</td>
+          <td class="p-3 font-bold text-slate-800">${team.id || team.ID_echipa}</td>
+          <td class="p-3 font-semibold text-slate-900">${team.denumire || team.Denumire_echipa}</td>
+          <td class="p-3 text-slate-600">${team.membriCount || (team.Numar_membri + " zilieri")}</td>
+          <td class="p-3 text-slate-500">${team.dataSalvarii || team.Data_salvarii}</td>
         `;
 
         // DUBLU CLICK PE LINIE
@@ -324,11 +403,12 @@
     }
 
     function openInFormareEchipa(team) {
-      // Stocăm echipa selectată în localStorage pentru a fi citită în formare-echipa.html
+      // Salvăm echipa selectată în localStorage pentru a fi preluată în formare-echipa.html
       localStorage.setItem("selected_team_data", JSON.stringify(team));
       
       // Navigăm către pagina de formare echipă
-      window.location.href = "formare-echipa.html?teamId=" + team.id;
+      const teamId = team.id || team.ID_echipa;
+      window.location.href = "formare-echipa.html?teamId=" + encodeURIComponent(teamId);
     }
   </script>
 </body>
