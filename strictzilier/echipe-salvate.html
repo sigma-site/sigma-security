@@ -70,7 +70,7 @@
             </button>
           </div>
 
-          <!-- TABEL ECHIPE SALVATE (COLOANE MODEL STRICT) -->
+          <!-- TABEL ECHIPE SALVATE -->
           <div class="overflow-x-auto rounded-xl border border-slate-200 relative min-h-[160px]">
             
             <!-- LOADER CITIRE BAZĂ DE DATE -->
@@ -92,7 +92,7 @@
                 </tr>
               </thead>
               <tbody id="teamsTableBody" class="divide-y divide-slate-100 font-medium">
-                <!-- Se va popula dinamic din Webhook / JS -->
+                <!-- Se populează dinamic din Webhook / JS -->
               </tbody>
             </table>
           </div>
@@ -306,11 +306,68 @@
   <script>
     const WEBHOOK_CITESTE_ECHIPE = "https://hook.eu1.make.com/eh86l1zog2254lwuk0vfpjda31zxfyhy";
 
-    // Date de rezervă (fallback) cu cele 4 coloane exacte
+    // Structura exactă din baza de date folosită ca rezervă (fallback)
     const fallbackTeams = [
-      { id: "EQ-00101", denumire: "Echipa Construcții Bacău", activitate: "Construcții & Amenajări", zona: "Bacău", dataConstituire: "12.08.2026" },
-      { id: "EQ-00102", denumire: "Echipa Cules Livezi", activitate: "Agricultură & Recoltare", zona: "Mărgineni, Bacău", dataConstituire: "18.08.2026" },
-      { id: "EQ-00103", denumire: "Echipa Catering Evenimente", activitate: "Servire & Alimentație", zona: "Bacău, Comănești", dataConstituire: "24.08.2026" }
+      {
+        ID_echipa: "EQ-00101",
+        Nume_echipa: "Echipa Construcții Bacău",
+        ID_initiator: "Z000001",
+        ID_lider: "Z000001",
+        Telefon_contact_echipa: "0722111222",
+        Tip_initiativa: "Grup",
+        Denumire_grup_activitate: "G01",
+        Activitate_preferata: "Construcții & Amenajări",
+        Judet: "Bacău",
+        Zona_preferata: "Bacău",
+        Disponibilitate_deplasare: "Local",
+        Transport_propriu: "Nu",
+        Contine_minori: "Nu",
+        Nr_membri_planificat: 4,
+        Nr_membri_confirmati: 4,
+        Data_initiere: "10.08.2026",
+        Data_constituire: "12.08.2026",
+        StatusActiv: "Da"
+      },
+      {
+        ID_echipa: "EQ-00102",
+        Nume_echipa: "Echipa Cules Livezi",
+        ID_initiator: "Z000001",
+        ID_lider: "Z000001",
+        Telefon_contact_echipa: "0733222333",
+        Tip_initiativa: "Grup",
+        Denumire_grup_activitate: "G01",
+        Activitate_preferata: "Agricultură & Recoltare",
+        Judet: "Bacău",
+        Zona_preferata: "Mărgineni, Bacău",
+        Disponibilitate_deplasare: "Județ",
+        Transport_propriu: "Da",
+        Contine_minori: "Nu",
+        Nr_membri_planificat: 6,
+        Nr_membri_confirmati: 5,
+        Data_initiere: "15.08.2026",
+        Data_constituire: "18.08.2026",
+        StatusActiv: "Da"
+      },
+      {
+        ID_echipa: "EQ-00103",
+        Nume_echipa: "Echipa Catering Evenimente",
+        ID_initiator: "Z000001",
+        ID_lider: "Z000001",
+        Telefon_contact_echipa: "0744333444",
+        Tip_initiativa: "Grup",
+        Denumire_grup_activitate: "G05",
+        Activitate_preferata: "Servire & Alimentație",
+        Judet: "Bacău",
+        Zona_preferata: "Bacău, Comănești",
+        Disponibilitate_deplasare: "Local",
+        Transport_propriu: "Nu",
+        Contine_minori: "Da",
+        Nr_membri_planificat: 3,
+        Nr_membri_confirmati: 3,
+        Data_initiere: "20.08.2026",
+        Data_constituire: "24.08.2026",
+        StatusActiv: "Da"
+      }
     ];
 
     let currentUserSession = null;
@@ -385,14 +442,20 @@
         tr.className = "hover:bg-amber-50/60 cursor-pointer transition selection:bg-none";
         tr.setAttribute("title", "Dublu click pentru a deschide în formular");
         
+        // Preluăm exact câmpurile din baza de date
+        const numeEchipa = team.Nume_echipa || team.numeEchipa || team.denumire || "-";
+        const activitate = team.Activitate_preferata || team.activitate || "-";
+        const zona = team.Zona_preferata || team.zona || "-";
+        const dataConstituire = team.Data_constituire || team.dataConstituire || "-";
+
         tr.innerHTML = `
-          <td class="p-3 font-bold text-slate-900">${team.denumire || team.Denumire_echipa}</td>
-          <td class="p-3 text-slate-600">${team.activitate || team.Activitate}</td>
-          <td class="p-3 text-slate-600">${team.zona || team.Zona_preferata}</td>
-          <td class="p-3 text-slate-500 font-medium">${team.dataConstituire || team.Data_constituire}</td>
+          <td class="p-3 font-bold text-slate-900">${numeEchipa}</td>
+          <td class="p-3 text-slate-600">${activitate}</td>
+          <td class="p-3 text-slate-600">${zona}</td>
+          <td class="p-3 text-slate-500 font-medium">${dataConstituire}</td>
         `;
 
-        // DUBLU CLICK PE LINIE -> TRIMITE LA FORMARE ECHIPA
+        // DUBLU CLICK PE LINIE -> TRIMITE DATELE COMPLETE LA FORMARE ECHIPĂ
         tr.addEventListener("dblclick", () => {
           openInFormareEchipa(team);
         });
@@ -402,11 +465,11 @@
     }
 
     function openInFormareEchipa(team) {
-      // Stocăm echipa selectată în localStorage
+      // Stocăm întregul obiect de date din baza de date în localStorage
       localStorage.setItem("selected_team_data", JSON.stringify(team));
       
-      // Navigăm către pagina formare-echipa.html
-      const teamId = team.id || team.ID_echipa || team.denumire || team.Denumire_echipa;
+      // Navigăm către pagina formare-echipa.html transmisiind ID-ul echipei
+      const teamId = team.ID_echipa || team.id || team.Nume_echipa;
       window.location.href = "formare-echipa.html?teamId=" + encodeURIComponent(teamId);
     }
   </script>
