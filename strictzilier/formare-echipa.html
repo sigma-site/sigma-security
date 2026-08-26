@@ -63,7 +63,7 @@
               <p class="text-xs font-medium text-slate-500 mt-0.5">Gestionează componența și invitațiile echipei în timp real.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-              <button type="button" onclick="location.href='echipe-salvate.html'" class="inline-flex items-center justify-center px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-lg text-xs font-bold transition">
+              <button type="button" onclick="location.href='echipe-salvate.html'" class="inline-flex items-center justify-center px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-xs font-bold transition shadow-sm gap-1.5">
                 📁 Administrează echipe
               </button>
               <button type="button" onclick="resetForNewTeam()" class="inline-flex items-center justify-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition border border-slate-300">
@@ -196,7 +196,7 @@
             </p>
 
             <div id="memberList" class="space-y-3">
-              <div class="member flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl">
+              <div class="member flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl" data-id-zilier="">
                 <div class="flex-1">
                   <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME MEMBRU</label>
                   <input type="text" placeholder="Numele membrului" class="member-nume w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
@@ -444,7 +444,7 @@
 
     const ACTIVITATI_PE_GRUPE = {
       "Agricultură, horticultură și comerț agricol": ["Toate activitățile din grupa aleasă", "Agricultură, vânătoare și servicii anexe", "Creșterea materialului săditor", "Creșterea plantelor ornamentale", "Gazon pentru transplantare", "Operațiuni de îngrijire și curățare a pomilor", "Activități ale pepinierelor (cu excepția pepinierelor forestiere)", "Comerţ cu ridicata al produselor agricole brute şi al animalelor vii"],
-      "Silvicultură, pescuit și creșterea animalelor": ["Toate activitățile din grupa aleasă", "Silvicultură, cu excepția exploatărilor forestiere", "Pescuit și acvacultură", "Creșterea și reproducția animalelor semidomesticite și a altor animale"],
+      "Silvicultură, pescuit și creșterea animalelor": ["Toate activitățile din grupa aleasă", "Silvicultură, cu excepția exploătărilor forestiere", "Pescuit și acvacultură", "Creșterea și reproducția animalelor semidomesticite și a altor animale"],
       "Peisagistică, spații verzi și gestionarea deșeurilor": ["Toate activitățile din grupa aleasă", "Activități de întreținere peisagistică cu excepția facilității de locuit particulare", "Plantarea, îngrijirea și întreținerea de parcuri și grădini", "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale", "Colectarea, tratarea şi eliminarea deşeurilor nepericuloase", "Recuperarea materialelor"],
       "Natură, biodiversitate și agrement în aer liber": ["Toate activitățile din grupa aleasă", "Activități ale grădinilor zoologice", "Activități ale grădinilor botanice", "Activități ale rezervațiilor naturale"],
       "Alimentație, ospitalitate și cazare": ["Toate activitățile din grupa aleasă", "Activități de alimentație (catering) pentru evenimente", "Restaurante", "Baruri și alte activități de servire a băuturilor", "Hoteluri și alte facilități de cazare", "Tabere de copii organizate de Ministerul Tineretului și Sportului", "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"],
@@ -501,9 +501,7 @@
             const tel = data.Telefon || "0740123456";
             const jud = data.Judet || "Bacau";
             
-            // Preluăm explicit Zona_preferata din baza de date (cu fallback la Localitate_domiciliu)
             const zonaPref = data.Zona_preferata || data.Localitate_domiciliu || "Bacau";
-            
             const denumireGrup = data.Denumire_grup_activitate || "Agricultură, horticultură și comerț agricol";
             const actPref = data.Activitate_preferata || "ALL";
 
@@ -564,13 +562,12 @@
               );
             }
             if (teamData.Transport_propriu) {
-              document.getElementById("transportPropriu").checked = (teamData.Transport_propriu.toUpperCase() === "DA");
+              document.getElementById("transportPropriu").checked = (String(teamData.Transport_propriu).toUpperCase() === "DA");
             }
           }
         } catch (e) {
           console.error("Eroare citire selected_team_data:", e);
         } finally {
-          // Curățăm stocarea temporară pentru a permite ulterior formarea unei echipe noi neinfluențată
           localStorage.removeItem("selected_team_data");
         }
       }
@@ -653,10 +650,11 @@
       updateActivitiesDropdownTeam(e.target.value);
     });
 
-    function addMemberRow() {
+    function addMemberRow(idZilier = "") {
       const list = document.getElementById("memberList");
       const member = document.createElement("div");
       member.className = "member flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl";
+      member.setAttribute("data-id-zilier", idZilier);
       member.innerHTML = `
         <div class="flex-1">
           <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME MEMBRU</label>
@@ -678,20 +676,20 @@
     }
 
     function resetForNewTeam() {
-      // RESETARE VALOARE ID_ECHIPĂ PENTRU MODUL DE CREARE NOUĂ
+      // RESETARE ID_ECHIPĂ PENTRU MODUL CREARE ECHIPĂ NOUĂ
       document.getElementById("ID_echipa").value = "";
 
-      // 1. Curățăm lista de invitații în așteptare din runda anterioară
+      // 1. Curățăm lista de invitații în așteptare
       document.getElementById("listaAsteptare").innerHTML = "";
 
-      // 2. Curățăm rândurile de introducere membri noi și lăsăm un singur rând gol
+      // 2. Curățăm rândurile de membri și lăsăm un rând gol
       document.getElementById("memberList").innerHTML = "";
       addMemberRow();
 
       // 3. Resetează bifa de transport propriu
       document.getElementById("transportPropriu").checked = false;
 
-      // 4. Re-populăm Șeful de Echipă cu datele Inițiatorului (editabil)
+      // 4. Re-populăm Șeful de Echipă cu datele Inițiatorului
       const numeInitiator = document.getElementById("initiator-name").textContent.trim();
       const telInitiator = document.getElementById("initiator-phone").textContent.trim();
 
@@ -700,15 +698,12 @@
         sefTelInput.value = telInitiator;
       }
       
-      updateNumeEchipa(); // Re-generează denumirea echipei și cardul Șefului
+      updateNumeEchipa();
 
       // 5. Ascundem mesajul de status anterior
       const msg = document.getElementById("statusMessage");
       msg.classList.add("hidden");
       msg.textContent = "";
-
-      // NOTĂ: Județ, Zona_preferată, Grup_activitate și Activitate_preferată 
-      // RĂMÂN NEATINSE (exact așa cum au fost selectate) pentru lansarea noii echipe.
     }
 
     function renderMembriMock() {
@@ -798,6 +793,7 @@
         const nume = memberEl.querySelector(".member-nume").value.trim();
         const telefon = memberEl.querySelector(".member-telefon").value.trim();
         const cleanTel = telefon.replace(/\D/g, "");
+        const idZilierAttr = memberEl.getAttribute("data-id-zilier") || null;
 
         if (nume && telefon) {
           if (adaugateTelefoane.has(cleanTel)) {
@@ -808,7 +804,9 @@
 
           const numeCurat = stripDiacritics(nume);
           
+          // INCLUDEREA EXPLICITĂ A CHEII ID_ZILIER ÎN PAYLOAD
           membriPayload.push({
+            ID_zilier: idZilierAttr,
             Nume_membru: numeCurat,
             Telefon: telefon
           });
@@ -833,7 +831,6 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Se trimit invitațiile...";
 
-      // PRELUAREA ID_ECHIPA DIN CÂMPUL ASCUNS
       const idEchipaVal = document.getElementById("ID_echipa").value;
 
       const teamPayload = {
