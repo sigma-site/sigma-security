@@ -784,13 +784,14 @@
     async function verificaMembri() {
       const membersElements = document.querySelectorAll(".member");
       let allValid = true;
+      let hasMembers = false;
 
       for (let memberEl of membersElements) {
-        const numeInput = memberEl.querySelector(".member-nume");
         const telInput = memberEl.querySelector(".member-telefon");
         const telefon = telInput.value.trim();
 
         if (!telefon) continue;
+        hasMembers = true;
 
         const cleanTel = telefon.replace(/\D/g, "");
 
@@ -830,7 +831,7 @@
       }
 
       const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
-      if (allValid && membersElements.length > 0) {
+      if (allValid && hasMembers) {
         submitBtn.disabled = false;
         submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
       } else {
