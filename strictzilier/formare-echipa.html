@@ -192,7 +192,7 @@
           <div class="pt-6 mt-6 border-t border-slate-100">
             <h2 class="text-base font-bold text-slate-900 mb-1">Adaugă membri noi în echipă</h2>
             <p class="text-xs text-slate-500 mb-4">
-              Introdu numele complet și numărul de telefon al persoanelor propuse.
+              Introdu numele și numărul de telefon al persoanelor pe care dorești să le propui. Platforma va verifica dacă acestea au conturi confirmate.
             </p>
 
             <div id="memberList" class="space-y-3">
@@ -203,7 +203,7 @@
                 </div>
                 <div class="flex-1">
                   <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON WHATSAPP</label>
-                  <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                  <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" oninput="resetMemberStatus(this)">
                 </div>
                 <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
                   ×
@@ -221,7 +221,10 @@
             <button type="button" onclick="window.location.href='profil-zilier.html'" class="w-full sm:w-1/3 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">
               Înapoi la profil
             </button>
-            <button type="button" onclick="trimitePropuneriEchipa()" class="w-full sm:w-2/3 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+            <button type="button" onclick="verificaMembri()" class="w-full sm:w-1/3 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition shadow-sm">
+              Verificare membri
+            </button>
+            <button type="button" onclick="trimitePropuneriEchipa()" disabled class="w-full sm:w-1/3 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm opacity-50 cursor-not-allowed">
               Trimite Invitațiile pe WhatsApp
             </button>
           </div>
@@ -440,6 +443,7 @@
   <script>
     const WEBHOOK_CITESTE_PROFIL = "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
     const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/p43fhc1oejmwm5yecgfmf3cu31g9t7h9";
+    const WEBHOOK_VERIFICA_TELEFON = "https://hook.eu1.make.com/9ychvctv5nak17p1vkf6odtvo6hfvp2i";
     const WEBHOOK_RETRIMITE_INVITATII = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RETRIMITE";
 
     const ACTIVITATI_PE_GRUPE = {
@@ -662,7 +666,7 @@
         </div>
         <div class="flex-1">
           <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON WHATSAPP</label>
-          <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" oninput="resetMemberStatus(this)">
         </div>
         <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
           ×
@@ -671,25 +675,30 @@
       list.appendChild(member);
     }
 
+    function resetMemberStatus(inputEl) {
+      const row = inputEl.closest(".member");
+      row.setAttribute("data-id-zilier", "");
+      row.classList.remove("bg-rose-50/60", "border-rose-300", "bg-emerald-50/60", "border-emerald-300");
+      row.classList.add("bg-slate-50", "border-slate-200");
+      const badge = row.querySelector(".text-[11px].font-bold");
+      if (badge) badge.remove();
+      
+      const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
+      submitBtn.disabled = true;
+      submitBtn.classList.add("opacity-50", "cursor-not-allowed");
+    }
+
     function removeMember(button) {
-      button.parentElement.remove();
+      button.closest(".member").remove();
     }
 
     function resetForNewTeam() {
-      // RESETARE ID_ECHIPĂ PENTRU MODUL CREARE ECHIPĂ NOUĂ
       document.getElementById("ID_echipa").value = "";
-
-      // 1. Curățăm lista de invitații în așteptare
       document.getElementById("listaAsteptare").innerHTML = "";
-
-      // 2. Curățăm rândurile de membri și lăsăm un rând gol
       document.getElementById("memberList").innerHTML = "";
       addMemberRow();
-
-      // 3. Resetează bifa de transport propriu
       document.getElementById("transportPropriu").checked = false;
 
-      // 4. Re-populăm Șeful de Echipă cu datele Inițiatorului
       const numeInitiator = document.getElementById("initiator-name").textContent.trim();
       const telInitiator = document.getElementById("initiator-phone").textContent.trim();
 
@@ -700,10 +709,13 @@
       
       updateNumeEchipa();
 
-      // 5. Ascundem mesajul de status anterior
       const msg = document.getElementById("statusMessage");
       msg.classList.add("hidden");
       msg.textContent = "";
+
+      const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
+      submitBtn.disabled = true;
+      submitBtn.classList.add("opacity-50", "cursor-not-allowed");
     }
 
     function renderMembriMock() {
@@ -769,6 +781,64 @@
       }
     }
 
+    async function verificaMembri() {
+      const membersElements = document.querySelectorAll(".member");
+      let allValid = true;
+
+      for (let memberEl of membersElements) {
+        const numeInput = memberEl.querySelector(".member-nume");
+        const telInput = memberEl.querySelector(".member-telefon");
+        const telefon = telInput.value.trim();
+
+        if (!telefon) continue;
+
+        const cleanTel = telefon.replace(/\D/g, "");
+
+        try {
+          const response = await fetch(WEBHOOK_VERIFICA_TELEFON, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ Telefon: cleanTel })
+          });
+          const data = await response.json();
+
+          // Curățăm starea anterioară vizuală
+          memberEl.classList.remove("bg-slate-50", "border-slate-200", "bg-rose-50/60", "border-rose-300", "bg-emerald-50/60", "border-emerald-300");
+          const oldBadge = memberEl.querySelector(".text-[11px].font-bold");
+          if (oldBadge) oldBadge.remove();
+
+          if (data && data.ID_zilier) {
+            memberEl.setAttribute("data-id-zilier", data.ID_zilier);
+            memberEl.classList.add("bg-emerald-50/60", "border-emerald-300");
+            const badge = document.createElement("div");
+            badge.className = "w-full text-[11px] font-bold text-emerald-700 mt-1 flex items-center justify-between";
+            badge.innerHTML = "<span>✓ Cont confirmat</span>";
+            memberEl.appendChild(badge);
+          } else {
+            allValid = false;
+            memberEl.setAttribute("data-id-zilier", "");
+            memberEl.classList.add("bg-rose-50/60", "border-rose-300");
+            const badge = document.createElement("div");
+            badge.className = "w-full text-[11px] font-bold text-rose-600 mt-1 flex items-center justify-between";
+            badge.innerHTML = "<span>⚠️ Telefon negăsit – Corectează sau șterge</span>";
+            memberEl.appendChild(badge);
+          }
+        } catch (err) {
+          allValid = false;
+          console.error("Eroare verificare telefon:", err);
+        }
+      }
+
+      const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
+      if (allValid && membersElements.length > 0) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      } else {
+        submitBtn.disabled = true;
+        submitBtn.classList.add("opacity-50", "cursor-not-allowed");
+      }
+    }
+
     async function trimitePropuneriEchipa() {
       const numeEchipa = numeEchipaInput.value.trim();
       const sefNume = sefNumeInput.value.trim();
@@ -804,7 +874,6 @@
 
           const numeCurat = stripDiacritics(nume);
           
-          // INCLUDEREA EXPLICITĂ A CHEII ID_ZILIER ÎN PAYLOAD
           membriPayload.push({
             ID_zilier: idZilierAttr,
             Nume_membru: numeCurat,
@@ -829,6 +898,7 @@
 
       const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
       submitBtn.disabled = true;
+      submitBtn.classList.add("opacity-50", "cursor-not-allowed");
       submitBtn.textContent = "Se trimit invitațiile...";
 
       const idEchipaVal = document.getElementById("ID_echipa").value;
@@ -869,7 +939,6 @@
         console.error("Eroare trimitere invitații:", err);
         alert("A apărut o eroare la transmitere.");
       } finally {
-        submitBtn.disabled = false;
         submitBtn.textContent = "Trimite Invitațiile pe WhatsApp";
       }
     }
