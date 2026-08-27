@@ -196,18 +196,20 @@
             </p>
 
             <div id="memberList" class="space-y-3">
-              <div class="member flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl" data-id-zilier="">
-                <div class="flex-1">
-                  <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME MEMBRU</label>
-                  <input type="text" placeholder="Numele membrului" class="member-nume w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+              <div class="member flex flex-col p-3 bg-slate-50 border border-slate-200 rounded-xl gap-2.5" data-id-zilier="">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 w-full">
+                  <div class="flex-1">
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME MEMBRU</label>
+                    <input type="text" placeholder="Numele membrului" class="member-nume w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+                  </div>
+                  <div class="flex-1">
+                    <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON WHATSAPP</label>
+                    <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" oninput="resetMemberStatus(this)">
+                  </div>
+                  <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
+                    ×
+                  </button>
                 </div>
-                <div class="flex-1">
-                  <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON WHATSAPP</label>
-                  <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" oninput="resetMemberStatus(this)">
-                </div>
-                <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
-                  ×
-                </button>
               </div>
             </div>
 
@@ -657,20 +659,22 @@
     function addMemberRow(idZilier = "") {
       const list = document.getElementById("memberList");
       const member = document.createElement("div");
-      member.className = "member flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl";
+      member.className = "member flex flex-col p-3 bg-slate-50 border border-slate-200 rounded-xl gap-2.5";
       member.setAttribute("data-id-zilier", idZilier);
       member.innerHTML = `
-        <div class="flex-1">
-          <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME MEMBRU</label>
-          <input type="text" placeholder="Numele membrului" class="member-nume w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 w-full">
+          <div class="flex-1">
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">NUME MEMBRU</label>
+            <input type="text" placeholder="Numele membrului" class="member-nume w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+          </div>
+          <div class="flex-1">
+            <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON WHATSAPP</label>
+            <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" oninput="resetMemberStatus(this)">
+          </div>
+          <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
+            ×
+          </button>
         </div>
-        <div class="flex-1">
-          <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON WHATSAPP</label>
-          <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" oninput="resetMemberStatus(this)">
-        </div>
-        <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
-          ×
-        </button>
       `;
       list.appendChild(member);
     }
@@ -781,10 +785,8 @@
       }
     }
 
-    // VERIFICARE MEMBRI CU SELECTOR ROBUST (FĂRĂ CARACTERE SPECIALE ÎN QUERYSELECTOR)
+    // VERIFICARE MEMBRI CU PAstrarea PERFECTĂ A LAYOUT-ULUI INIȚIAL AL RÂNDURILOR
     async function verificaMembri() {
-      console.log("S-a apasat butonul de verificare!");
-
       const membersElements = document.querySelectorAll(".member");
       const telefoaneDeVerificat = [];
       const mapRanduri = new Map();
@@ -833,7 +835,7 @@
             memberEl.setAttribute("data-id-zilier", gasit.ID_zilier);
             memberEl.classList.add("bg-emerald-50/60", "border-emerald-300");
             const badge = document.createElement("div");
-            badge.className = "member-badge w-full text-[11px] font-bold text-emerald-700 mt-1 flex items-center justify-between";
+            badge.className = "member-badge w-full text-[11px] font-bold text-emerald-700 flex items-center justify-between pt-1 border-t border-emerald-200/60 mt-1";
             badge.innerHTML = "<span>✓ Cont confirmat</span>";
             memberEl.appendChild(badge);
           } else {
@@ -841,7 +843,7 @@
             memberEl.setAttribute("data-id-zilier", "");
             memberEl.classList.add("bg-rose-50/60", "border-rose-300");
             const badge = document.createElement("div");
-            badge.className = "member-badge w-full text-[11px] font-bold text-rose-600 mt-1 flex items-center justify-between";
+            badge.className = "member-badge w-full text-[11px] font-bold text-rose-600 flex items-center justify-between pt-1 border-t border-rose-200/60 mt-1";
             badge.innerHTML = "<span>⚠️ Telefon negăsit – Corectează sau șterge</span>";
             memberEl.appendChild(badge);
           }
