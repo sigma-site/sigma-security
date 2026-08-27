@@ -677,6 +677,7 @@
         </div>
       `;
       list.appendChild(member);
+      checkAllMembersState();
     }
 
     function resetMemberStatus(inputEl) {
@@ -687,13 +688,43 @@
       const badge = row.querySelector(".member-badge");
       if (badge) badge.remove();
       
-      const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
-      submitBtn.disabled = true;
-      submitBtn.classList.add("opacity-50", "cursor-not-allowed");
+      checkAllMembersState();
     }
 
     function removeMember(button) {
       button.closest(".member").remove();
+      checkAllMembersState();
+    }
+
+    // Funcție dedicată care verifică dacă toate rândurile rămase sunt confirmate (verificate cu succes)
+    function checkAllMembersState() {
+      const membersElements = document.querySelectorAll(".member");
+      const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
+      if (!submitBtn) return;
+
+      let hasRows = false;
+      let allConfirmed = true;
+
+      membersElements.forEach(memberEl => {
+        const telefon = memberEl.querySelector(".member-telefon").value.trim();
+        const idZilier = memberEl.getAttribute("data-id-zilier");
+
+        if (telefon) {
+          hasRows = true;
+          if (!idZilier || idZilier.trim() === "") {
+            allConfirmed = false;
+          }
+        }
+      });
+
+      // Dacă avem rânduri completate și TOATE au ID-ul de zilier valid (confirmate), deblocăm butonul
+      if (hasRows && allConfirmed) {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
+      } else {
+        submitBtn.disabled = true;
+        submitBtn.classList.add("opacity-50", "cursor-not-allowed");
+      }
     }
 
     function resetForNewTeam() {
@@ -717,9 +748,7 @@
       msg.classList.add("hidden");
       msg.textContent = "";
 
-      const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
-      submitBtn.disabled = true;
-      submitBtn.classList.add("opacity-50", "cursor-not-allowed");
+      checkAllMembersState();
     }
 
     function renderMembriMock() {
@@ -785,7 +814,7 @@
       }
     }
 
-    // VERIFICARE MEMBRI CU PAstrarea PERFECTĂ A LAYOUT-ULUI INIȚIAL AL RÂNDURILOR
+    // VERIFICARE MEMBRI CU ACTUALIZARE DINAMICĂ A STĂRII BUTONULUI
     async function verificaMembri() {
       const membersElements = document.querySelectorAll(".member");
       const telefoaneDeVerificat = [];
@@ -808,11 +837,9 @@
 
       if (telefoaneDeVerificat.length === 0) {
         alert("Introdu cel puțin un număr de telefon pentru verificare.");
+        checkAllMembersState();
         return;
       }
-
-      const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
-      let allValid = true;
 
       try {
         const response = await fetch(WEBHOOK_VERIFICA_TELEFON, {
@@ -839,7 +866,6 @@
             badge.innerHTML = "<span>✓ Cont confirmat</span>";
             memberEl.appendChild(badge);
           } else {
-            allValid = false;
             memberEl.setAttribute("data-id-zilier", "");
             memberEl.classList.add("bg-rose-50/60", "border-rose-300");
             const badge = document.createElement("div");
@@ -849,17 +875,13 @@
           }
         });
 
-        if (allValid && telefoaneDeVerificat.length > 0) {
-          submitBtn.disabled = false;
-          submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
-        } else {
-          submitBtn.disabled = true;
-          submitBtn.classList.add("opacity-50", "cursor-not-allowed");
-        }
+        // Verificăm starea generală după procesare
+        checkAllMembersState();
 
       } catch (err) {
         console.error("Eroare verificare membri:", err);
         alert("Eroare de comunicare la verificarea membrilor.");
+        checkAllMembersState();
       }
     }
 
