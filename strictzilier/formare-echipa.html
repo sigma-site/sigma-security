@@ -1,5 +1,4 @@
-
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
   <meta charset="UTF-8">
@@ -537,7 +536,7 @@
         console.error("Eroare citire profil din Make:", err);
       }
 
-      // PRELUARE DATE ECHIPĂ DIN ARHIVĂ (LOCALSTORAGE STOCAT LA DUBLU-CLICK ÎN ECHIPE-SALVATE.HTML)
+      // PRELUARE DATE ECHIPĂ DIN ARHIVĂ
       const selectedTeamStr = localStorage.getItem("selected_team_data");
       if (selectedTeamStr) {
         try {
@@ -782,7 +781,7 @@
       }
     }
 
-    // VERIFICARE ROBUSTĂ BAZATĂ PE PACHET (ARRAY DE TELEFOANE)
+    // VERIFICARE ROBUSTĂ PENTRU NOUUL FORMAT JSON DIN MAKE.COM
     async function verificaMembri() {
       const membersElements = document.querySelectorAll(".member");
       const telefoaneDeVerificat = [];
@@ -791,6 +790,12 @@
       membersElements.forEach(memberEl => {
         const telInput = memberEl.querySelector(".member-telefon");
         const telefon = telInput.value.trim();
+        
+        // Curățăm starea anterioară
+        memberEl.classList.remove("bg-slate-50", "border-slate-200", "bg-rose-50/60", "border-rose-300", "bg-emerald-50/60", "border-emerald-300");
+        const oldBadge = memberEl.querySelector(".text-[11px].font-bold");
+        if (oldBadge) oldBadge.remove();
+
         if (telefon) {
           const cleanTel = telefon.replace(/\D/g, "");
           telefoaneDeVerificat.push(cleanTel);
@@ -803,6 +808,9 @@
         return;
       }
 
+      const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
+      let allValid = true;
+
       try {
         const response = await fetch(WEBHOOK_VERIFICA_TELEFON, {
           method: "POST",
@@ -810,20 +818,15 @@
           body: JSON.stringify({ telefoane: telefoaneDeVerificat })
         });
         
-        const results = await response.json();
-        let allValid = true;
-
-        // Așteptăm ca răspunsul să fie o listă de obiecte de tip [{ telefon: "...", ID_zilier: "..." }, ...]
-        const arrayRezultate = Array.isArray(results) ? results : [results];
-
-        membersElements.forEach(memberEl => {
-          memberEl.classList.remove("bg-slate-50", "border-slate-200", "bg-rose-50/60", "border-rose-300", "bg-emerald-50/60", "border-emerald-300");
-          const oldBadge = memberEl.querySelector(".text-[11px].font-bold");
-          if (oldBadge) oldBadge.remove();
-        });
+        const data = await response.json();
+        const rezultate = Array.isArray(data) ? data : [data];
 
         mapRanduri.forEach((memberEl, cleanTel) => {
-          const gasit = arrayRezultate.find(r => (r.Telefon === cleanTel || r.telefon === cleanTel) && r.ID_zilier);
+          const gasit = rezultate.find(r => 
+            (String(r.Telefon || r.telefon || "").replace(/\D/g, "") === cleanTel) && 
+            r.ID_zilier && 
+            String(r.ID_zilier).trim() !== ""
+          );
 
           if (gasit) {
             memberEl.setAttribute("data-id-zilier", gasit.ID_zilier);
@@ -843,7 +846,6 @@
           }
         });
 
-        const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
         if (allValid && telefoaneDeVerificat.length > 0) {
           submitBtn.disabled = false;
           submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
@@ -853,7 +855,7 @@
         }
 
       } catch (err) {
-        console.error("Eroare verificare pachet telefoane:", err);
+        console.error("Eroare verificare membri:", err);
         alert("Eroare de comunicare la verificarea membrilor.");
       }
     }
