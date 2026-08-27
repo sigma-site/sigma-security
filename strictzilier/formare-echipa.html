@@ -4,57 +4,39 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formează o echipă - STRICTZILIER.ro</title>
-  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; }
     .custom-scroll::-webkit-scrollbar { width: 5px; }
-    .custom-scroll::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 4px;
-    }
+    .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 4px; }
   </style>
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
-  <!-- Header Permanent -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      
-      <!-- Brand Logo -->
       <a href="index.html" class="flex items-center gap-2 cursor-pointer">
         <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
       </a>
-
-      <!-- Header Right Buttons -->
       <div class="flex items-center gap-2">
-        <a href="cont-zilier.html" class="hidden sm:inline-flex items-center px-3 py-1.5 bg-white hover:bg-amber-50 text-amber-600 border border-amber-500 rounded-lg text-xs font-bold transition">
-          Contul meu
-        </a>
+        <a href="cont-zilier.html" class="hidden sm:inline-flex items-center px-3 py-1.5 bg-white hover:bg-amber-50 text-amber-600 border border-amber-500 rounded-lg text-xs font-bold transition">Contul meu</a>
         <a href="ghid-zilier.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition">
-          <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-          </svg>
+          <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
           <span>GHID ZILIER</span>
         </a>
       </div>
-
     </div>
   </header>
 
-  <!-- CONTAINER PRINCIPAL -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
       
-      <!-- COLOANA STANGA & CENTRU: CARDUL PRINCIPAL -->
       <div class="lg:col-span-2 space-y-6">
         <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
           
-          <!-- CÂMP ASCUNS PENTRU STOCARE ID_ECHIPĂ -->
           <input type="hidden" id="ID_echipa" name="ID_echipa" value="">
 
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
@@ -63,31 +45,23 @@
               <p class="text-xs font-medium text-slate-500 mt-0.5">Gestionează componența și invitațiile echipei în timp real.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-              <button type="button" onclick="location.href='echipe-salvate.html'" class="inline-flex items-center justify-center px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-xs font-bold transition shadow-sm gap-1.5">
-                📁 Administrează echipe
-              </button>
-              <button type="button" onclick="resetForNewTeam()" class="inline-flex items-center justify-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition border border-slate-300">
-                + Formează o nouă echipă
-              </button>
+              <button type="button" onclick="location.href='echipe-salvate.html'" class="inline-flex items-center justify-center px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg text-xs font-bold transition shadow-sm gap-1.5">📁 Administrează echipe</button>
+              <button type="button" onclick="resetForNewTeam()" class="inline-flex items-center justify-center px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition border border-slate-300">+ Formează o nouă echipă</button>
             </div>
           </div>
 
-          <!-- NUME ECHIPĂ GENERAT AUTOMAT (READ-ONLY) -->
           <div class="mb-5">
             <label for="numeEchipa" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Denumire Echipă (Generată automat)</label>
             <input type="text" id="numeEchipa" readonly class="w-full h-10 px-3 bg-slate-100 border border-slate-300 rounded-xl text-sm font-bold text-slate-700 cursor-not-allowed outline-none" placeholder="Echipa ...">
           </div>
 
-          <!-- ROLURI PRINCIPALE: INIȚIATOR & ȘEF ECHIPĂ EDITABIL -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
-            <!-- CARD INIȚIATOR -->
             <div class="p-3.5 bg-amber-50/60 border border-amber-200 rounded-xl">
               <span class="block text-[10px] font-black uppercase tracking-wider text-amber-800 mb-1">Inițiatorul Echipei</span>
               <div id="initiator-name" class="text-xs font-bold text-slate-900">Se încarcă...</div>
               <div id="initiator-phone" class="text-[11px] font-semibold text-slate-500 mt-0.5">...</div>
             </div>
 
-            <!-- CARD ȘEF ECHIPĂ -->
             <div class="p-3.5 bg-blue-50/60 border border-blue-200 rounded-xl space-y-2">
               <span class="block text-[10px] font-black uppercase tracking-wider text-blue-800">Șef de Echipă (Lider)</span>
               <div>
@@ -101,10 +75,8 @@
             </div>
           </div>
 
-          <!-- LOCALIZARE ȘI ACTIVITATE ECHIPĂ -->
           <div class="p-4 bg-slate-50/70 border border-slate-200 rounded-xl mb-5 space-y-3">
             <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Cadrul de Lucru al Echipei</h3>
-            
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-start">
               <div class="sm:col-span-1">
                 <label for="judetEchipa" class="block text-xs font-bold text-slate-700 mb-1">Județ Echipă</label>
@@ -135,13 +107,11 @@
               </div>
               <div>
                 <label for="activitatePreferataEchipa" class="block text-xs font-bold text-slate-700 mb-1">Activitate Preferată Echipă</label>
-                <select id="activitatePreferataEchipa" class="w-full h-9 px-2 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                </select>
+                <select id="activitatePreferataEchipa" class="w-full h-9 px-2 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none"></select>
               </div>
             </div>
           </div>
 
-          <!-- OPȚIUNE TRANSPORT PROPRIU -->
           <div class="mb-5 p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
             <div>
               <strong class="block text-xs font-bold text-slate-800">Transport Propriu</strong>
@@ -152,48 +122,27 @@
             </label>
           </div>
 
-          <!-- NOTĂ CONDIȚII SIMPLIFICATĂ -->
           <div class="p-3 bg-slate-100/70 border border-slate-200 rounded-xl mb-6 text-xs text-slate-600 space-y-1">
             <p>• Șeful de echipă trebuie să aibă profilul verificat prin actul de identitate (CI).</p>
             <p>• Membrii minori (16-18 ani) pot fi adăugați doar împreună cu părintele sau reprezentantul legal în aceeași echipă.</p>
           </div>
 
-          <!-- BLOC 1: MEMBRII CONFIRMAȚI -->
           <div class="pt-5 border-t border-slate-100">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
-              <div>
-                <h2 class="text-base font-bold text-slate-900">Membrii Confirmați ai Echipei</h2>
-                <p class="text-xs text-slate-500">Persoanele care au acceptat invitația. Primul rând este Șeful de Echipă.</p>
-              </div>
-            </div>
-
-            <div id="listaConfirmati" class="space-y-2 min-h-[40px]">
-            </div>
+            <h2 class="text-base font-bold text-slate-900 mb-1">Membrii Confirmați ai Echipei</h2>
+            <p class="text-xs text-slate-500 mb-3">Persoanele care au acceptat invitația. Primul rând este Șeful de Echipă.</p>
+            <div id="listaConfirmati" class="space-y-2 min-h-[40px]"></div>
           </div>
 
-          <!-- BLOC 2: INVITAȚII ÎN AȘTEPTARE -->
           <div class="pt-6 mt-6 border-t border-slate-100">
-            <div class="flex items-center justify-between mb-3">
-              <div>
-                <h2 class="text-base font-bold text-slate-900">Invitații trimise / În așteptare</h2>
-                <p class="text-xs text-slate-500">Persoane care au primit link-ul pe WhatsApp dar nu au răspuns încă.</p>
-              </div>
-            </div>
-
-            <div id="listaAsteptare" class="space-y-2 mb-3 min-h-[30px]">
-            </div>
-
-            <button type="button" id="btnRetrimiteToti" onclick="retrimiteInvitatii()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold text-xs rounded-lg transition">
-              🔄 Retrimite invitația tuturor celor în așteptare
-            </button>
+            <h2 class="text-base font-bold text-slate-900 mb-1">Invitații trimise / În așteptare</h2>
+            <p class="text-xs text-slate-500 mb-3">Persoane care au primit link-ul pe WhatsApp dar nu au răspuns încă.</p>
+            <div id="listaAsteptare" class="space-y-2 mb-3 min-h-[30px]"></div>
+            <button type="button" id="btnRetrimiteToti" onclick="retrimiteInvitatii()" class="w-full py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300 font-bold text-xs rounded-lg transition">🔄 Retrimite invitația tuturor celor în așteptare</button>
           </div>
 
-          <!-- BLOC 3: ADAUGĂ MEMBRII NOI -->
           <div class="pt-6 mt-6 border-t border-slate-100">
             <h2 class="text-base font-bold text-slate-900 mb-1">Adaugă membri noi în echipă</h2>
-            <p class="text-xs text-slate-500 mb-4">
-              Introdu numele și numărul de telefon al persoanelor pe care dorești să le propui. Platforma va verifica dacă acestea au conturi confirmate.
-            </p>
+            <p class="text-xs text-slate-500 mb-4">Introdu numele și numărul de telefon al persoanelor pe care dorești să le propui. Platforma va verifica dacă acestea au conturi confirmate.</p>
 
             <div id="memberList" class="space-y-3">
               <div class="member flex flex-col sm:flex-row items-stretch sm:items-end gap-2.5 p-3 bg-slate-50 border border-slate-200 rounded-xl" data-id-zilier="">
@@ -205,28 +154,17 @@
                   <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON WHATSAPP</label>
                   <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" oninput="resetMemberStatus(this)">
                 </div>
-                <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
-                  ×
-                </button>
+                <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">×</button>
               </div>
             </div>
 
-            <button type="button" onclick="addMemberRow()" class="w-full mt-3 py-2.5 bg-white hover:bg-amber-50 text-amber-600 border-2 border-dashed border-amber-300 hover:border-amber-400 font-bold text-xs rounded-xl transition">
-              + Adaugă încă un rând
-            </button>
+            <button type="button" onclick="addMemberRow()" class="w-full mt-3 py-2.5 bg-white hover:bg-amber-50 text-amber-600 border-2 border-dashed border-amber-300 hover:border-amber-400 font-bold text-xs rounded-xl transition">+ Adaugă încă un rând</button>
           </div>
 
-          <!-- ACTION BUTTONS -->
           <div class="pt-6 mt-6 border-t border-slate-100 flex flex-col sm:flex-row gap-2.5">
-            <button type="button" onclick="window.location.href='profil-zilier.html'" class="w-full sm:w-1/3 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">
-              Înapoi la profil
-            </button>
-            <button type="button" onclick="verificaMembri()" class="w-full sm:w-1/3 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition shadow-sm">
-              Verificare membri
-            </button>
-            <button type="button" onclick="trimitePropuneriEchipa()" disabled class="w-full sm:w-1/3 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm opacity-50 cursor-not-allowed">
-              Trimite Invitațiile pe WhatsApp
-            </button>
+            <button type="button" onclick="window.location.href='profil-zilier.html'" class="w-full sm:w-1/3 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">Înapoi la profil</button>
+            <button type="button" onclick="verificaMembri()" class="w-full sm:w-1/3 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition shadow-sm">Verificare membri</button>
+            <button type="button" onclick="trimitePropuneriEchipa()" disabled class="w-full sm:w-1/3 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm opacity-50 cursor-not-allowed">Trimite Invitațiile pe WhatsApp</button>
           </div>
 
           <div id="statusMessage" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 leading-relaxed"></div>
@@ -234,47 +172,29 @@
         </section>
       </div>
 
-      <!-- COLOANA DREAPTA: AGENT VAPI INTEGRAT DIRECT -->
       <aside id="strictzilierAgent" class="bg-gradient-to-b from-slate-900 to-blue-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl border border-blue-900 flex flex-col justify-between h-[580px] text-center">
         <div>
-          <p class="text-xs text-slate-300 mb-2 leading-tight max-w-xs mx-auto pt-1">
-            Spune ce cauți sau de ce ai nevoie. Agentul mediază întâlnirea dintre zilieri și angajatori.
-          </p>
-
+          <p class="text-xs text-slate-300 mb-2 leading-tight max-w-xs mx-auto pt-1">Spune ce cauți sau de ce ai nevoie. Agentul mediază întâlnirea dintre zilieri și angajatori.</p>
           <div id="conversation" class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
             <div class="bg-white/10 text-slate-100 p-2 rounded-lg text-xs leading-relaxed max-w-[88%] border-l-2 border-blue-500">
-              <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>
-              Bun venit. Alege modul vocal sau scris pentru a începe conversația.
+              <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>Bun venit. Alege modul vocal sau scris pentru a începe conversația.
             </div>
           </div>
         </div>
-
         <div>
           <div class="w-full max-w-[340px] mx-auto grid grid-cols-[1fr_34px_1fr] gap-1.5 items-center mb-1.5">
-            <button id="voiceModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">
-              VOCAL
-            </button>
-            <div id="agentOrb" class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs text-white">
-              ✦
-            </div>
-            <button id="textModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center">
-              SCRIS
-            </button>
+            <button id="voiceModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">VOCAL</button>
+            <div id="agentOrb" class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs text-white">✦</div>
+            <button id="textModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center">SCRIS</button>
           </div>
-
           <div id="voicePanel" class="w-full max-w-[340px] mx-auto">
-            <button id="agentButton" type="button" class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">
-              PORNEȘTE CONVERSAȚIA
-            </button>
+            <button id="agentButton" type="button" class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">PORNEȘTE CONVERSAȚIA</button>
             <div id="status" class="min-h-[14px] mt-1 text-[10px] font-bold text-emerald-400"></div>
           </div>
-
           <div id="textPanel" class="w-full max-w-[340px] mx-auto hidden">
             <div class="flex gap-1.5">
               <input id="messageInput" type="text" placeholder="Scrieți mesajul..." autocomplete="off" class="flex-1 min-w-0 h-11 px-3 bg-white text-slate-900 rounded-lg text-xs outline-none">
-              <button id="sendButton" type="button" class="w-[76px] h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-lg transition flex-shrink-0 flex items-center justify-center">
-                TRIMITE
-              </button>
+              <button id="sendButton" type="button" class="w-[76px] h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-lg transition flex-shrink-0 flex items-center justify-center">TRIMITE</button>
             </div>
             <div id="chatStatus" class="min-h-[14px] mt-1 text-[10px] font-bold text-blue-300"></div>
           </div>
@@ -284,7 +204,6 @@
     </div>
   </main>
 
-  <!-- FOOTER STANDARD -->
   <footer class="bg-white border-t border-slate-200 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
       <div>© 2026 STRICTZILIER.ro · Toate drepturile rezervate. Conform Legii 52/2011.</div>
@@ -296,14 +215,11 @@
     </div>
   </footer>
 
-  <!-- SCRIPT INTEGRARE VAPI & PIE.HOST -->
   <script type="module">
     import Vapi from "https://esm.sh/@vapi-ai/web";
-
     const PUBLIC_KEY = "ab245358-61ea-4876-b767-8e4ad159627d";
     const ASSISTANT_ID = "970da2f1-89c8-438c-ac8c-30abfa04528e";
     const CHAT_URL = "https://2.pie.host/chat.php";
-
     const vapi = new Vapi(PUBLIC_KEY);
 
     const voiceModeButton = document.getElementById("voiceModeButton");
@@ -323,53 +239,27 @@
 
     function addMessage(type, text) {
       if (!text || !text.trim()) return;
-
       const message = document.createElement("div");
-      message.className = "max-w-[88%] p-2 rounded-lg text-xs leading-relaxed " + 
-        (type === "user" ? "bg-amber-500 text-white ml-auto" : "bg-white/10 text-slate-100 mr-auto border-l-2 border-blue-500");
-
+      message.className = "max-w-[88%] p-2 rounded-lg text-xs leading-relaxed " + (type === "user" ? "bg-amber-500 text-white ml-auto" : "bg-white/10 text-slate-100 mr-auto border-l-2 border-blue-500");
       const label = document.createElement("span");
       label.className = "block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider";
       label.textContent = type === "user" ? "TU" : "AGENT";
-
       const content = document.createElement("div");
       content.textContent = text;
-
       message.appendChild(label);
       message.appendChild(content);
       conversation.appendChild(message);
-
       conversation.scrollTop = conversation.scrollHeight;
     }
 
     function setMode(mode) {
       if (mode === currentMode) return;
-
-      if (mode === "text" && conversationActive) {
-        vapi.stop();
-        conversationActive = false;
-        button.textContent = "PORNEȘTE CONVERSAȚIA";
-        status.textContent = "";
-      }
-
+      if (mode === "text" && conversationActive) { vapi.stop(); conversationActive = false; button.textContent = "PORNEȘTE CONVERSAȚIA"; status.textContent = ""; }
       currentMode = mode;
       const voice = mode === "voice";
-
-      voiceModeButton.classList.toggle("bg-amber-500", voice);
-      voiceModeButton.classList.toggle("border-amber-500", voice);
-      voiceModeButton.classList.toggle("text-white", voice);
-      voiceModeButton.classList.toggle("bg-white/10", !voice);
-      voiceModeButton.classList.toggle("text-blue-200", !voice);
-
-      textModeButton.classList.toggle("bg-amber-500", !voice);
-      textModeButton.classList.toggle("border-amber-500", !voice);
-      textModeButton.classList.toggle("text-white", !voice);
-      textModeButton.classList.toggle("bg-white/10", voice);
-      textModeButton.classList.toggle("text-blue-200", voice);
-
-      voicePanel.classList.toggle("hidden", !voice);
-      textPanel.classList.toggle("hidden", voice);
-
+      voiceModeButton.classList.toggle("bg-amber-500", voice); voiceModeButton.classList.toggle("border-amber-500", voice); voiceModeButton.classList.toggle("text-white", voice); voiceModeButton.classList.toggle("bg-white/10", !voice); voiceModeButton.classList.toggle("text-blue-200", !voice);
+      textModeButton.classList.toggle("bg-amber-500", !voice); textModeButton.classList.toggle("border-amber-500", !voice); textModeButton.classList.toggle("text-white", !voice); textModeButton.classList.toggle("bg-white/10", voice); textModeButton.classList.toggle("text-blue-200", voice);
+      voicePanel.classList.toggle("hidden", !voice); textPanel.classList.toggle("hidden", voice);
       if (!voice) input.focus();
     }
 
@@ -383,63 +273,32 @@
     });
 
     button.addEventListener("click", async () => {
-      if (conversationActive) {
-        vapi.stop();
-        conversationActive = false;
-        button.textContent = "PORNEȘTE CONVERSAȚIA";
-        status.textContent = "";
-        return;
-      }
-
+      if (conversationActive) { vapi.stop(); conversationActive = false; button.textContent = "PORNEȘTE CONVERSAȚIA"; status.textContent = ""; return; }
       status.textContent = "Se conectează...";
-
-      try {
-        await vapi.start(ASSISTANT_ID);
-        conversationActive = true;
-        button.textContent = "ÎNCHIDE CONVERSAȚIA";
-        status.textContent = "Conversația vocală este activă.";
-      } catch (error) {
-        console.error("Eroare Vapi:", error);
-        status.textContent = "Nu s-a putut porni conversația.";
-      }
+      try { await vapi.start(ASSISTANT_ID); conversationActive = true; button.textContent = "ÎNCHIDE CONVERSAȚIA"; status.textContent = "Conversația vocală este activă."; }
+      catch (error) { console.error("Eroare Vapi:", error); status.textContent = "Nu s-a putut porni conversația."; }
     });
 
     async function sendTextMessage() {
       const message = input.value.trim();
       if (!message) return;
-
-      addMessage("user", message);
-      input.value = "";
-      sendButton.disabled = true;
-      chatStatus.textContent = "Se contactează agentul...";
-
+      addMessage("user", message); input.value = ""; sendButton.disabled = true; chatStatus.textContent = "Se contactează agentul...";
       try {
-        const response = await fetch(CHAT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: message, previousChatId: previousChatId })
-        });
-
+        const response = await fetch(CHAT_URL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ message: message, previousChatId: previousChatId }) });
         const data = await response.json();
         if (data.chatId) previousChatId = data.chatId;
         addMessage("agent", data.reply || "Agentul nu a returnat un răspuns.");
         chatStatus.textContent = "";
-      } catch (error) {
-        addMessage("agent", "Eroare de conectare:\n" + error.message);
-      } finally {
-        sendButton.disabled = false;
-        input.focus();
-      }
+      } catch (error) { addMessage("agent", "Eroare de conectare:\n" + error.message); }
+      finally { sendButton.disabled = false; input.focus(); }
     }
 
     sendButton.addEventListener("click", sendTextMessage);
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- 1. NOMENCLATOR EXTERN -->
   <script src="nomenclator-romania.js"></script>
 
-  <!-- 2. SCRIPT LOGICĂ INTEGRATĂ FORMARE ȘI ADMINISTRARE ECHIPĂ -->
   <script>
     const WEBHOOK_CITESTE_PROFIL = "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
     const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/p43fhc1oejmwm5yecgfmf3cu31g9t7h9";
@@ -461,12 +320,7 @@
 
     function stripDiacritics(str) {
       if (!str) return "";
-      return str
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/ă/gi, "a").replace(/â/gi, "a").replace(/î/gi, "i").replace(/ș/gi, "s").replace(/ț/gi, "t")
-        .replace(/[-_]/g, " ")
-        .trim();
+      return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/ă/gi, "a").replace(/â/gi, "a").replace(/î/gi, "i").replace(/ș/gi, "s").replace(/ț/gi, "t").replace(/[-_]/g, " ").trim();
     }
 
     const sefNumeInput = document.getElementById("sef-nume-input");
@@ -484,27 +338,17 @@
 
     document.addEventListener("DOMContentLoaded", async () => {
       let sessionData = localStorage.getItem("strictzilier_session");
-      if (sessionData) {
-        try { currentUserSession = JSON.parse(sessionData); } catch (e) { console.error("Eroare sesiune:", e); }
-      }
-
+      if (sessionData) { try { currentUserSession = JSON.parse(sessionData); } catch (e) { console.error(e); } }
       const idZilier = currentUserSession ? currentUserSession.id : "Z100001";
 
       try {
         if (!WEBHOOK_CITESTE_PROFIL.includes("SOT_AICI")) {
-          const response = await fetch(WEBHOOK_CITESTE_PROFIL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ID_zilier: idZilier })
-          });
-
+          const response = await fetch(WEBHOOK_CITESTE_PROFIL, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ID_zilier: idZilier }) });
           const data = await response.json();
-
           if (data) {
             const numeComplet = ((data.Nume || '') + ' ' + (data.Prenume || '')).trim() || "Ion Popescu";
             const tel = data.Telefon || "0740123456";
             const jud = data.Judet || "Bacau";
-            
             const zonaPref = data.Zona_preferata || data.Localitate_domiciliu || "Bacau";
             const denumireGrup = data.Denumire_grup_activitate || "Agricultură, horticultură și comerț agricol";
             const actPref = data.Activitate_preferata || "ALL";
@@ -514,68 +358,30 @@
             sefNumeInput.value = numeComplet;
             sefTelInput.value = tel;
             updateNumeEchipa();
-
             document.getElementById("judetEchipa").value = jud;
             document.getElementById("zonaEchipa").value = zonaPref;
             document.getElementById("grupActivitateEchipa").value = denumireGrup;
-
             updateActivitiesDropdownTeam(denumireGrup, actPref);
           }
-        } else {
-          const demoNume = currentUserSession ? currentUserSession.nume : "Ion Popescu";
-          const demoTel = currentUserSession ? currentUserSession.telefon : "0740123456";
-          
-          document.getElementById("initiator-name").textContent = demoNume;
-          document.getElementById("initiator-phone").textContent = demoTel;
-          sefNumeInput.value = demoNume;
-          sefTelInput.value = demoTel;
-          updateNumeEchipa();
-          updateActivitiesDropdownTeam("Agricultură, horticultură și comerț agricol");
         }
-      } catch (err) {
-        console.error("Eroare citire profil din Make:", err);
-      }
+      } catch (err) { console.error(err); }
 
-      // PRELUARE DATE ECHIPĂ DIN ARHIVĂ (LOCALSTORAGE STOCAT LA DUBLU-CLICK ÎN ECHIPE-SALVATE.HTML)
       const selectedTeamStr = localStorage.getItem("selected_team_data");
       if (selectedTeamStr) {
         try {
           const teamData = JSON.parse(selectedTeamStr);
-          
           if (teamData) {
             document.getElementById("ID_echipa").value = teamData.ID_echipa || teamData.id || "";
-            if (teamData.Nume_echipa || teamData.numeEchipa || teamData.denumire) {
-              document.getElementById("numeEchipa").value = teamData.Nume_echipa || teamData.numeEchipa || teamData.denumire;
-            }
-            if (teamData.Telefon_contact_echipa) {
-              document.getElementById("sef-telefon-input").value = teamData.Telefon_contact_echipa;
-            }
-            if (teamData.Judet) {
-              document.getElementById("judetEchipa").value = teamData.Judet;
-            }
-            if (teamData.Zona_preferata || teamData.zona) {
-              document.getElementById("zonaEchipa").value = teamData.Zona_preferata || teamData.zona;
-            }
-            if (teamData.Denumire_grup_activitate) {
-              document.getElementById("grupActivitateEchipa").value = teamData.Denumire_grup_activitate;
-            }
-            if (teamData.Activitate_preferata || teamData.activitate) {
-              updateActivitiesDropdownTeam(
-                teamData.Denumire_grup_activitate || document.getElementById("grupActivitateEchipa").value,
-                teamData.Activitate_preferata || teamData.activitate
-              );
-            }
-            if (teamData.Transport_propriu) {
-              document.getElementById("transportPropriu").checked = (String(teamData.Transport_propriu).toUpperCase() === "DA");
-            }
+            if (teamData.Nume_echipa || teamData.numeEchipa || teamData.denumire) document.getElementById("numeEchipa").value = teamData.Nume_echipa || teamData.numeEchipa || teamData.denumire;
+            if (teamData.Telefon_contact_echipa) document.getElementById("sef-telefon-input").value = teamData.Telefon_contact_echipa;
+            if (teamData.Judet) document.getElementById("judetEchipa").value = teamData.Judet;
+            if (teamData.Zona_preferata || teamData.zona) document.getElementById("zonaEchipa").value = teamData.Zona_preferata || teamData.zona;
+            if (teamData.Denumire_grup_activitate) document.getElementById("grupActivitateEchipa").value = teamData.Denumire_grup_activitate;
+            if (teamData.Activitate_preferata || teamData.activitate) updateActivitiesDropdownTeam(teamData.Denumire_grup_activitate || document.getElementById("grupActivitateEchipa").value, teamData.Activitate_preferata || teamData.activitate);
+            if (teamData.Transport_propriu) document.getElementById("transportPropriu").checked = (String(teamData.Transport_propriu).toUpperCase() === "DA");
           }
-        } catch (e) {
-          console.error("Eroare citire selected_team_data:", e);
-        } finally {
-          localStorage.removeItem("selected_team_data");
-        }
+        } catch (e) { console.error(e); } finally { localStorage.removeItem("selected_team_data"); }
       }
-
       initAutocompleteTeam();
       renderMembriMock();
     });
@@ -585,74 +391,42 @@
       const zonaInput = document.getElementById("zonaEchipa");
       const sugBox = document.getElementById("locSuggestionsTeam");
 
-      judetSelect.addEventListener("change", () => {
-        zonaInput.value = "";
-        sugBox.classList.add("hidden");
-      });
-
+      judetSelect.addEventListener("change", () => { zonaInput.value = ""; sugBox.classList.add("hidden"); });
       zonaInput.addEventListener("input", () => {
         const query = stripDiacritics(zonaInput.value).toLowerCase();
         const judetSelectat = judetSelect.value;
         const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judetSelectat).toLowerCase()) : null;
-
         sugBox.innerHTML = "";
-
-        if (!query || query.length < 1 || !cheieJudet) {
-          sugBox.classList.add("hidden");
-          return;
-        }
-
+        if (!query || query.length < 1 || !cheieJudet) { sugBox.classList.add("hidden"); return; }
         const listaLoc = NOMENCLATOR[cheieJudet] || [];
         const meciuri = listaLoc.filter(l => stripDiacritics(l).toLowerCase().includes(query));
-
-        if (meciuri.length === 0) {
-          sugBox.classList.add("hidden");
-          return;
-        }
-
+        if (meciuri.length === 0) { sugBox.classList.add("hidden"); return; }
         meciuri.forEach(loc => {
           const item = document.createElement("div");
           item.className = "p-2 hover:bg-amber-50 cursor-pointer font-semibold text-slate-700 transition";
           item.textContent = loc;
-          item.addEventListener("click", () => {
-            zonaInput.value = loc;
-            sugBox.classList.add("hidden");
-          });
+          item.addEventListener("click", () => { zonaInput.value = loc; sugBox.classList.add("hidden"); });
           sugBox.appendChild(item);
         });
-
         sugBox.classList.remove("hidden");
       });
-
-      document.addEventListener("click", (e) => {
-        if (!zonaInput.contains(e.target) && !sugBox.contains(e.target)) {
-          sugBox.classList.add("hidden");
-        }
-      });
+      document.addEventListener("click", (e) => { if (!zonaInput.contains(e.target) && !sugBox.contains(e.target)) sugBox.classList.add("hidden"); });
     }
 
     function updateActivitiesDropdownTeam(grupDenumire, selectedAct = null) {
       const actSelect = document.getElementById("activitatePreferataEchipa");
       actSelect.innerHTML = "";
-
       const lista = ACTIVITATI_PE_GRUPE[grupDenumire] || ["Toate activitățile din grupa aleasă"];
-      
       lista.forEach(act => {
         const opt = document.createElement("option");
         const val = (act === "Toate activitățile din grupa aleasă") ? "ALL" : act;
-        opt.value = val;
-        opt.textContent = act;
-        
-        if (selectedAct && (val === selectedAct || act === selectedAct)) {
-          opt.selected = true;
-        }
+        opt.value = val; opt.textContent = act;
+        if (selectedAct && (val === selectedAct || act === selectedAct)) opt.selected = true;
         actSelect.appendChild(opt);
       });
     }
 
-    document.getElementById("grupActivitateEchipa").addEventListener("change", (e) => {
-      updateActivitiesDropdownTeam(e.target.value);
-    });
+    document.getElementById("grupActivitateEchipa").addEventListener("change", (e) => updateActivitiesDropdownTeam(e.target.value));
 
     function addMemberRow(idZilier = "") {
       const list = document.getElementById("memberList");
@@ -668,9 +442,7 @@
           <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">TELEFON WHATSAPP</label>
           <input type="tel" placeholder="07xx xxx xxx" class="member-telefon w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" oninput="resetMemberStatus(this)">
         </div>
-        <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">
-          ×
-        </button>
+        <button type="button" onclick="removeMember(this)" title="Elimină" class="h-10 px-3 bg-white hover:bg-rose-50 text-rose-600 border border-slate-300 hover:border-rose-300 font-bold text-lg rounded-lg transition flex items-center justify-center flex-shrink-0">×</button>
       `;
       list.appendChild(member);
     }
@@ -682,15 +454,12 @@
       row.classList.add("bg-slate-50", "border-slate-200");
       const badge = row.querySelector(".text-[11px].font-bold");
       if (badge) badge.remove();
-      
       const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
       submitBtn.disabled = true;
       submitBtn.classList.add("opacity-50", "cursor-not-allowed");
     }
 
-    function removeMember(button) {
-      button.closest(".member").remove();
-    }
+    function removeMember(button) { button.closest(".member").remove(); }
 
     function resetForNewTeam() {
       document.getElementById("ID_echipa").value = "";
@@ -698,21 +467,11 @@
       document.getElementById("memberList").innerHTML = "";
       addMemberRow();
       document.getElementById("transportPropriu").checked = false;
-
       const numeInitiator = document.getElementById("initiator-name").textContent.trim();
       const telInitiator = document.getElementById("initiator-phone").textContent.trim();
-
-      if (numeInitiator && numeInitiator !== "Se încarcă...") {
-        sefNumeInput.value = numeInitiator;
-        sefTelInput.value = telInitiator;
-      }
-      
+      if (numeInitiator && numeInitiator !== "Se încarcă...") { sefNumeInput.value = numeInitiator; sefTelInput.value = telInitiator; }
       updateNumeEchipa();
-
-      const msg = document.getElementById("statusMessage");
-      msg.classList.add("hidden");
-      msg.textContent = "";
-
+      document.getElementById("statusMessage").classList.add("hidden");
       const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
       submitBtn.disabled = true;
       submitBtn.classList.add("opacity-50", "cursor-not-allowed");
@@ -723,86 +482,44 @@
       const sefTel = sefTelInput.value.trim() || "-";
       const initiatorNume = document.getElementById("initiator-name").textContent.trim();
       const initiatorTel = document.getElementById("initiator-phone").textContent.trim();
-
       const listConfirmati = document.getElementById("listaConfirmati");
-      
       const cleanSefTel = sefTel.replace(/\D/g, "");
       const cleanInitiatorTel = initiatorTel.replace(/\D/g, "");
 
       if (cleanSefTel && cleanSefTel === cleanInitiatorTel) {
-        listConfirmati.innerHTML = `
-          <div class="flex items-center justify-between p-2.5 bg-blue-50/80 border border-blue-200 rounded-xl text-xs">
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-blue-900">👑 ${sefNume}</span>
-              <span class="text-[10px] font-extrabold bg-blue-600 text-white px-1.5 py-0.5 rounded">ȘEF ECHIPĂ & INIȚIATOR</span>
-            </div>
-            <span class="font-mono text-slate-600">${sefTel}</span>
-          </div>
-        `;
+        listConfirmati.innerHTML = `<div class="flex items-center justify-between p-2.5 bg-blue-50/80 border border-blue-200 rounded-xl text-xs"><div class="flex items-center gap-2"><span class="font-bold text-blue-900">👑 ${sefNume}</span><span class="text-[10px] font-extrabold bg-blue-600 text-white px-1.5 py-0.5 rounded">ȘEF ECHIPĂ & INIȚIATOR</span></div><span class="font-mono text-slate-600">${sefTel}</span></div>`;
       } else {
-        listConfirmati.innerHTML = `
-          <div class="flex items-center justify-between p-2.5 bg-blue-50/80 border border-blue-200 rounded-xl text-xs">
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-blue-900">👑 ${sefNume}</span>
-              <span class="text-[10px] font-extrabold bg-blue-600 text-white px-1.5 py-0.5 rounded">ȘEF ECHIPĂ</span>
-            </div>
-            <span class="font-mono text-slate-600">${sefTel}</span>
-          </div>
-          <div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs">
-            <div class="flex items-center gap-2">
-              <span class="font-bold text-slate-800">${initiatorNume}</span>
-              <span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">Inițiator</span>
-            </div>
-            <span class="font-mono text-slate-600">${initiatorTel}</span>
-          </div>
-        `;
+        listConfirmati.innerHTML = `<div class="flex items-center justify-between p-2.5 bg-blue-50/80 border border-blue-200 rounded-xl text-xs"><div class="flex items-center gap-2"><span class="font-bold text-blue-900">👑 ${sefNume}</span><span class="text-[10px] font-extrabold bg-blue-600 text-white px-1.5 py-0.5 rounded">ȘEF ECHIPĂ</span></div><span class="font-mono text-slate-600">${sefTel}</span></div><div class="flex items-center justify-between p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs"><div class="flex items-center gap-2"><span class="font-bold text-slate-800">${initiatorNume}</span><span class="text-[10px] font-bold bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded">Inițiator</span></div><span class="font-mono text-slate-600">${initiatorTel}</span></div>`;
       }
     }
 
     async function retrimiteInvitatii() {
       const btn = document.getElementById("btnRetrimiteToti");
-      btn.disabled = true;
-      btn.textContent = "Se retransmit invitațiile...";
-
+      btn.disabled = true; btn.textContent = "Se retransmit invitațiile...";
       try {
         if (!WEBHOOK_RETRIMITE_INVITATII.includes("SOT_AICI")) {
-          await fetch(WEBHOOK_RETRIMITE_INVITATII, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ID_initiator: currentUserSession ? currentUserSession.id : null })
-          });
+          await fetch(WEBHOOK_RETRIMITE_INVITATII, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ ID_initiator: currentUserSession ? currentUserSession.id : null }) });
         }
-        alert("Invitațiile au fost retrimise cu succes către membrii în așteptare!");
-      } catch (e) {
-        alert("A apărut o eroare la re-trimitere.");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "🔄 Retrimite invitația tuturor celor în așteptare";
-      }
+        alert("Invitațiile au fost retrimise cu succes!");
+      } catch (e) { alert("Eroare la re-trimitere."); }
+      finally { btn.disabled = false; btn.textContent = "🔄 Retrimite invitația tuturor celor în așteptare"; }
     }
 
     async function verificaMembri() {
       const membersElements = document.querySelectorAll(".member");
       let allValid = true;
+      let hasMembers = false;
 
       for (let memberEl of membersElements) {
-        const numeInput = memberEl.querySelector(".member-nume");
-        const telInput = memberEl.querySelector(".member-telefon");
-        const telefon = telInput.value.trim();
-
+        const telefon = memberEl.querySelector(".member-telefon").value.trim();
         if (!telefon) continue;
-
+        hasMembers = true;
         const cleanTel = telefon.replace(/\D/g, "");
 
         try {
-          const response = await fetch(WEBHOOK_VERIFICA_TELEFON, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ Telefon: cleanTel })
-          });
+          const response = await fetch(WEBHOOK_VERIFICA_TELEFON, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ Telefon: cleanTel }) });
           const data = await response.json();
 
-          // Curățăm starea anterioară vizuală
           memberEl.classList.remove("bg-slate-50", "border-slate-200", "bg-rose-50/60", "border-rose-300", "bg-emerald-50/60", "border-emerald-300");
           const oldBadge = memberEl.querySelector(".text-[11px].font-bold");
           if (oldBadge) oldBadge.remove();
@@ -823,14 +540,11 @@
             badge.innerHTML = "<span>⚠️ Telefon negăsit – Corectează sau șterge</span>";
             memberEl.appendChild(badge);
           }
-        } catch (err) {
-          allValid = false;
-          console.error("Eroare verificare telefon:", err);
-        }
+        } catch (err) { allValid = false; console.error(err); }
       }
 
       const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
-      if (allValid && membersElements.length > 0) {
+      if (allValid && hasMembers) {
         submitBtn.disabled = false;
         submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
       } else {
@@ -844,10 +558,7 @@
       const sefNume = sefNumeInput.value.trim();
       const sefTelefon = sefTelInput.value.trim();
 
-      if (!numeEchipa || !sefNume || !sefTelefon) {
-        alert("Te rugăm să introduci Numele și Telefonul Șefului de Echipă.");
-        return;
-      }
+      if (!numeEchipa || !sefNume || !sefTelefon) { alert("Introdu Numele și Telefonul Șefului de Echipă."); return; }
 
       const cleanSefTel = sefTelefon.replace(/\D/g, "");
       const initiatorTelVal = document.getElementById("initiator-phone").textContent.trim();
@@ -856,7 +567,6 @@
       const membersElements = document.querySelectorAll(".member");
       const membriPayload = [];
       const adaugateTelefoane = new Set([cleanSefTel, cleanInitiatorTel]);
-
       const listAsteptareBox = document.getElementById("listaAsteptare");
 
       membersElements.forEach(function(memberEl) {
@@ -866,29 +576,14 @@
         const idZilierAttr = memberEl.getAttribute("data-id-zilier") || null;
 
         if (nume && telefon) {
-          if (adaugateTelefoane.has(cleanTel)) {
-            return;
-          }
-
+          if (adaugateTelefoane.has(cleanTel)) return;
           adaugateTelefoane.add(cleanTel);
-
           const numeCurat = stripDiacritics(nume);
-          
-          membriPayload.push({
-            ID_zilier: idZilierAttr,
-            Nume_membru: numeCurat,
-            Telefon: telefon
-          });
+          membriPayload.push({ ID_zilier: idZilierAttr, Nume_membru: numeCurat, Telefon: telefon });
 
           const newPendingRow = document.createElement("div");
           newPendingRow.className = "flex items-center justify-between p-2.5 bg-amber-50/50 border border-amber-200/80 rounded-xl text-xs";
-          newPendingRow.innerHTML = `
-            <div class="flex items-center gap-2">
-              <span class="font-medium text-slate-700">${numeCurat}</span>
-              <span class="text-[10px] font-bold text-amber-600">În așteptare WhatsApp...</span>
-            </div>
-            <span class="font-mono text-slate-500">${telefon}</span>
-          `;
+          newPendingRow.innerHTML = `<div class="flex items-center gap-2"><span class="font-medium text-slate-700">${numeCurat}</span><span class="text-[10px] font-bold text-amber-600">În așteptare WhatsApp...</span></div><span class="font-mono text-slate-500">${telefon}</span>`;
           listAsteptareBox.appendChild(newPendingRow);
         }
       });
@@ -897,14 +592,10 @@
       addMemberRow();
 
       const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
-      submitBtn.disabled = true;
-      submitBtn.classList.add("opacity-50", "cursor-not-allowed");
-      submitBtn.textContent = "Se trimit invitațiile...";
-
-      const idEchipaVal = document.getElementById("ID_echipa").value;
+      submitBtn.disabled = true; submitBtn.classList.add("opacity-50", "cursor-not-allowed"); submitBtn.textContent = "Se trimit invitațiile...";
 
       const teamPayload = {
-        ID_echipa: idEchipaVal || null,
+        ID_echipa: document.getElementById("ID_echipa").value || null,
         Nume_echipa: stripDiacritics(numeEchipa),
         ID_initiator: currentUserSession ? currentUserSession.id : "Z100001",
         ID_lider: currentUserSession ? currentUserSession.id : "Z100001",
@@ -923,24 +614,14 @@
 
       try {
         if (!WEBHOOK_SALVEAZA_ECHIPA.includes("SOT_AICI")) {
-          await fetch(WEBHOOK_SALVEAZA_ECHIPA, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(teamPayload)
-          });
+          await fetch(WEBHOOK_SALVEAZA_ECHIPA, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(teamPayload) });
         }
-
         const msg = document.getElementById("statusMessage");
         msg.textContent = "Invitațiile au fost trimise cu succes pe WhatsApp!";
         msg.classList.remove("hidden");
         msg.scrollIntoView({ behavior: "smooth" });
-
-      } catch (err) {
-        console.error("Eroare trimitere invitații:", err);
-        alert("A apărut o eroare la transmitere.");
-      } finally {
-        submitBtn.textContent = "Trimite Invitațiile pe WhatsApp";
-      }
+      } catch (err) { console.error(err); alert("Eroare la transmitere."); }
+      finally { submitBtn.textContent = "Trimite Invitațiile pe WhatsApp"; }
     }
   </script>
 </body>
