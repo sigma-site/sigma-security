@@ -1,10 +1,13 @@
-<!DOCTYPE html>
+
+ <!DOCTYPE html>
 <html lang="ro">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Formează o echipă - STRICTZILIER.ro</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -19,13 +22,16 @@
 </head>
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
+  <!-- Header Permanent -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
       
+      <!-- Brand Logo -->
       <a href="index.html" class="flex items-center gap-2 cursor-pointer">
         <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
       </a>
 
+      <!-- Header Right Buttons -->
       <div class="flex items-center gap-2">
         <a href="cont-zilier.html" class="hidden sm:inline-flex items-center px-3 py-1.5 bg-white hover:bg-amber-50 text-amber-600 border border-amber-500 rounded-lg text-xs font-bold transition">
           Contul meu
@@ -41,12 +47,15 @@
     </div>
   </header>
 
+  <!-- CONTAINER PRINCIPAL -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
       
+      <!-- COLOANA STANGA & CENTRU: CARDUL PRINCIPAL -->
       <div class="lg:col-span-2 space-y-6">
         <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
           
+          <!-- CÂMP ASCUNS PENTRU STOCARE ID_ECHIPĂ -->
           <input type="hidden" id="ID_echipa" name="ID_echipa" value="">
 
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
@@ -64,18 +73,22 @@
             </div>
           </div>
 
+          <!-- NUME ECHIPĂ GENERAT AUTOMAT (READ-ONLY) -->
           <div class="mb-5">
             <label for="numeEchipa" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Denumire Echipă (Generată automat)</label>
             <input type="text" id="numeEchipa" readonly class="w-full h-10 px-3 bg-slate-100 border border-slate-300 rounded-xl text-sm font-bold text-slate-700 cursor-not-allowed outline-none" placeholder="Echipa ...">
           </div>
 
+          <!-- ROLURI PRINCIPALE: INIȚIATOR & ȘEF ECHIPĂ EDITABIL -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-5">
+            <!-- CARD INIȚIATOR -->
             <div class="p-3.5 bg-amber-50/60 border border-amber-200 rounded-xl">
               <span class="block text-[10px] font-black uppercase tracking-wider text-amber-800 mb-1">Inițiatorul Echipei</span>
               <div id="initiator-name" class="text-xs font-bold text-slate-900">Se încarcă...</div>
               <div id="initiator-phone" class="text-[11px] font-semibold text-slate-500 mt-0.5">...</div>
             </div>
 
+            <!-- CARD ȘEF ECHIPĂ -->
             <div class="p-3.5 bg-blue-50/60 border border-blue-200 rounded-xl space-y-2">
               <span class="block text-[10px] font-black uppercase tracking-wider text-blue-800">Șef de Echipă (Lider)</span>
               <div>
@@ -89,6 +102,7 @@
             </div>
           </div>
 
+          <!-- LOCALIZARE ȘI ACTIVITATE ECHIPĂ -->
           <div class="p-4 bg-slate-50/70 border border-slate-200 rounded-xl mb-5 space-y-3">
             <h3 class="text-xs font-bold text-slate-800 uppercase tracking-wider">Cadrul de Lucru al Echipei</h3>
             
@@ -128,6 +142,7 @@
             </div>
           </div>
 
+          <!-- OPȚIUNE TRANSPORT PROPRIU -->
           <div class="mb-5 p-3.5 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between">
             <div>
               <strong class="block text-xs font-bold text-slate-800">Transport Propriu</strong>
@@ -138,11 +153,13 @@
             </label>
           </div>
 
+          <!-- NOTĂ CONDIȚII SIMPLIFICATĂ -->
           <div class="p-3 bg-slate-100/70 border border-slate-200 rounded-xl mb-6 text-xs text-slate-600 space-y-1">
             <p>• Șeful de echipă trebuie să aibă profilul verificat prin actul de identitate (CI).</p>
             <p>• Membrii minori (16-18 ani) pot fi adăugați doar împreună cu părintele sau reprezentantul legal în aceeași echipă.</p>
           </div>
 
+          <!-- BLOC 1: MEMBRII CONFIRMAȚI -->
           <div class="pt-5 border-t border-slate-100">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
               <div>
@@ -155,6 +172,7 @@
             </div>
           </div>
 
+          <!-- BLOC 2: INVITAȚII ÎN AȘTEPTARE -->
           <div class="pt-6 mt-6 border-t border-slate-100">
             <div class="flex items-center justify-between mb-3">
               <div>
@@ -171,6 +189,7 @@
             </button>
           </div>
 
+          <!-- BLOC 3: ADAUGĂ MEMBRII NOI -->
           <div class="pt-6 mt-6 border-t border-slate-100">
             <h2 class="text-base font-bold text-slate-900 mb-1">Adaugă membri noi în echipă</h2>
             <p class="text-xs text-slate-500 mb-4">
@@ -198,6 +217,7 @@
             </button>
           </div>
 
+          <!-- ACTION BUTTONS -->
           <div class="pt-6 mt-6 border-t border-slate-100 flex flex-col sm:flex-row gap-2.5">
             <button type="button" onclick="window.location.href='profil-zilier.html'" class="w-full sm:w-1/3 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">
               Înapoi la profil
@@ -215,6 +235,7 @@
         </section>
       </div>
 
+      <!-- COLOANA DREAPTA: AGENT VAPI INTEGRAT DIRECT -->
       <aside id="strictzilierAgent" class="bg-gradient-to-b from-slate-900 to-blue-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl border border-blue-900 flex flex-col justify-between h-[580px] text-center">
         <div>
           <p class="text-xs text-slate-300 mb-2 leading-tight max-w-xs mx-auto pt-1">
@@ -264,9 +285,10 @@
     </div>
   </main>
 
+  <!-- FOOTER STANDARD -->
   <footer class="bg-white border-t border-slate-200 mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-      <div>© 2026 STRICTZILIER.ro · Toate drepturile rezervate. Conform Legii 52/2011.</div>
+      <div>© 2026 STRICTZILIER.ro • Toate drepturile rezervate. Conform Legii 52/2011.</div>
       <div class="flex flex-wrap gap-4 font-medium">
         <a href="#termeni" class="hover:text-slate-800 transition">Termeni și Condiții</a>
         <a href="#confidentialitate" class="hover:text-slate-800 transition">Politică de Confidențialitate</a>
@@ -275,6 +297,7 @@
     </div>
   </footer>
 
+  <!-- SCRIPT INTEGRARE VAPI & PIE.HOST -->
   <script type="module">
     import Vapi from "https://esm.sh/@vapi-ai/web";
 
@@ -414,8 +437,10 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
+  <!-- 1. NOMENCLATOR EXTERN -->
   <script src="nomenclator-romania.js"></script>
 
+  <!-- 2. SCRIPT LOGICĂ INTEGRATĂ FORMARE ȘI ADMINISTRARE ECHIPĂ -->
   <script>
     const WEBHOOK_CITESTE_PROFIL = "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
     const WEBHOOK_SALVEAZA_ECHIPA = "https://hook.eu1.make.com/p43fhc1oejmwm5yecgfmf3cu31g9t7h9";
@@ -757,21 +782,15 @@
       }
     }
 
-    // VERIFICARE PACHET TELEFOANE (TRIMITE ARRAY-UL CĂTRE MAKE.COM CARE DECLANȘEAZĂ ITERATORUL)
+    // VERIFICARE ROBUSTĂ BAZATĂ PE PACHET (ARRAY DE TELEFOANE)
     async function verificaMembri() {
       const membersElements = document.querySelectorAll(".member");
-      let telefoaneDeVerificat = [];
-      let mapRanduri = new Map();
+      const telefoaneDeVerificat = [];
+      const mapRanduri = new Map();
 
       membersElements.forEach(memberEl => {
         const telInput = memberEl.querySelector(".member-telefon");
         const telefon = telInput.value.trim();
-
-        // Curățăm starea vizuală anterioară
-        memberEl.classList.remove("bg-slate-50", "border-slate-200", "bg-rose-50/60", "border-rose-300", "bg-emerald-50/60", "border-emerald-300");
-        const oldBadge = memberEl.querySelector(".text-[11px].font-bold");
-        if (oldBadge) oldBadge.remove();
-
         if (telefon) {
           const cleanTel = telefon.replace(/\D/g, "");
           telefoaneDeVerificat.push(cleanTel);
@@ -784,33 +803,57 @@
         return;
       }
 
-      const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
-
       try {
         const response = await fetch(WEBHOOK_VERIFICA_TELEFON, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ telefoane: telefoaneDeVerificat })
         });
+        
+        const results = await response.json();
+        let allValid = true;
 
-        if (response.ok) {
-          mapRanduri.forEach((memberEl, cleanTel) => {
+        // Așteptăm ca răspunsul să fie o listă de obiecte de tip [{ telefon: "...", ID_zilier: "..." }, ...]
+        const arrayRezultate = Array.isArray(results) ? results : [results];
+
+        membersElements.forEach(memberEl => {
+          memberEl.classList.remove("bg-slate-50", "border-slate-200", "bg-rose-50/60", "border-rose-300", "bg-emerald-50/60", "border-emerald-300");
+          const oldBadge = memberEl.querySelector(".text-[11px].font-bold");
+          if (oldBadge) oldBadge.remove();
+        });
+
+        mapRanduri.forEach((memberEl, cleanTel) => {
+          const gasit = arrayRezultate.find(r => (r.Telefon === cleanTel || r.telefon === cleanTel) && r.ID_zilier);
+
+          if (gasit) {
+            memberEl.setAttribute("data-id-zilier", gasit.ID_zilier);
             memberEl.classList.add("bg-emerald-50/60", "border-emerald-300");
             const badge = document.createElement("div");
             badge.className = "w-full text-[11px] font-bold text-emerald-700 mt-1 flex items-center justify-between";
-            badge.innerHTML = "<span>✓ Pachet verificat în Make</span>";
+            badge.innerHTML = "<span>✓ Cont confirmat</span>";
             memberEl.appendChild(badge);
-            memberEl.setAttribute("data-id-zilier", "VERIFIED");
-          });
+          } else {
+            allValid = false;
+            memberEl.setAttribute("data-id-zilier", "");
+            memberEl.classList.add("bg-rose-50/60", "border-rose-300");
+            const badge = document.createElement("div");
+            badge.className = "w-full text-[11px] font-bold text-rose-600 mt-1 flex items-center justify-between";
+            badge.innerHTML = "<span>⚠️ Telefon negăsit – Corectează sau șterge</span>";
+            memberEl.appendChild(badge);
+          }
+        });
 
+        const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
+        if (allValid && telefoaneDeVerificat.length > 0) {
           submitBtn.disabled = false;
           submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
         } else {
-          throw new Error("Eroare de server");
+          submitBtn.disabled = true;
+          submitBtn.classList.add("opacity-50", "cursor-not-allowed");
         }
 
       } catch (err) {
-        console.error("Eroare comunicare pachet:", err);
+        console.error("Eroare verificare pachet telefoane:", err);
         alert("Eroare de comunicare la verificarea membrilor.");
       }
     }
@@ -851,7 +894,7 @@
           const numeCurat = stripDiacritics(nume);
           
           membriPayload.push({
-            ID_zilier: idZilierAttr === "VERIFIED" ? null : idZilierAttr,
+            ID_zilier: idZilierAttr,
             Nume_membru: numeCurat,
             Telefon: telefon
           });
@@ -899,7 +942,7 @@
 
       try {
         if (!WEBHOOK_SALVEAZA_ECHIPA.includes("SOT_AICI")) {
-          await fetch(WEBWEBHOOK_SALVEAZA_ECHIPA, {
+          await fetch(WEBHOOK_SALVEAZA_ECHIPA, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(teamPayload)
