@@ -781,8 +781,10 @@
       }
     }
 
-    // VERIFICARE ROBUSTĂ PENTRU NOUUL FORMAT JSON DIN MAKE.COM
+    // VERIFICARE CU DIAGNOSTIC CONSOLE.LOG
     async function verificaMembri() {
+      console.log("S-a apasat butonul de verificare!");
+
       const membersElements = document.querySelectorAll(".member");
       const telefoaneDeVerificat = [];
       const mapRanduri = new Map();
@@ -791,7 +793,6 @@
         const telInput = memberEl.querySelector(".member-telefon");
         const telefon = telInput.value.trim();
         
-        // Curățăm starea anterioară
         memberEl.classList.remove("bg-slate-50", "border-slate-200", "bg-rose-50/60", "border-rose-300", "bg-emerald-50/60", "border-emerald-300");
         const oldBadge = memberEl.querySelector(".text-[11px].font-bold");
         if (oldBadge) oldBadge.remove();
