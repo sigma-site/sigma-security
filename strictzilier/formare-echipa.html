@@ -757,75 +757,60 @@
       }
     }
 
-    // FUNCȚIE ACTUALIZATĂ: VERIFICĂ RÂND CU RÂND PE BAZA RĂSPUNSURILOR RETURNATE DE MAKE.COM
+    // VERIFICARE PACHET TELEFOANE (TRIMITE ARRAY-UL CĂTRE MAKE.COM)
     async function verificaMembri() {
       const membersElements = document.querySelectorAll(".member");
-      let allValid = true;
-      let hasCheckedAtLeastOne = false;
+      let telefoaneDeVerificat = [];
 
-      for (let memberEl of membersElements) {
+      membersElements.forEach(memberEl => {
         const telInput = memberEl.querySelector(".member-telefon");
         const telefon = telInput.value.trim();
-
-        // Curățăm starea anterioară a rândului
-        memberEl.classList.remove("bg-slate-50", "border-slate-200", "bg-rose-50/60", "border-rose-300", "bg-emerald-50/60", "border-emerald-300");
-        const oldBadge = memberEl.querySelector(".text-[11px].font-bold");
-        if (oldBadge) oldBadge.remove();
-
-        if (!telefon) continue;
-        hasCheckedAtLeastOne = true;
-        const cleanTel = telefon.replace(/\D/g, "");
-
-        try {
-          const response = await fetch(WEBHOOK_VERIFICA_TELEFON, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ Telefon: cleanTel })
-          });
-          
-          const data = await response.json();
-
-          // Verificăm dacă Make.com a returnat un ID_zilier valid pentru acest număr
-          if (data && data.ID_zilier && data.ID_zilier.trim() !== "") {
-            memberEl.setAttribute("data-id-zilier", data.ID_zilier);
-            memberEl.classList.add("bg-emerald-50/60", "border-emerald-300");
-            const badge = document.createElement("div");
-            badge.className = "w-full text-[11px] font-bold text-emerald-700 mt-1 flex items-center justify-between";
-            badge.innerHTML = "<span>✓ Cont confirmat</span>";
-            memberEl.appendChild(badge);
-          } else {
-            allValid = false;
-            memberEl.setAttribute("data-id-zilier", "");
-            memberEl.classList.add("bg-rose-50/60", "border-rose-300");
-            const badge = document.createElement("div");
-            badge.className = "w-full text-[11px] font-bold text-rose-600 mt-1 flex items-center justify-between";
-            badge.innerHTML = "<span>⚠️ Telefon negăsit – Corectează sau șterge</span>";
-            memberEl.appendChild(badge);
-          }
-        } catch (err) {
-          allValid = false;
-          memberEl.setAttribute("data-id-zilier", "");
-          memberEl.classList.add("bg-rose-50/60", "border-rose-300");
-          const badge = document.createElement("div");
-          badge.className = "w-full text-[11px] font-bold text-rose-600 mt-1 flex items-center justify-between";
-          badge.innerHTML = "<span>⚠️ Eroare la verificare</span>";
-          memberEl.appendChild(badge);
-          console.error("Eroare verificare telefon:", err);
+        if (telefon) {
+          telefoaneDeVerificat.push(telefon.replace(/\D/g, ""));
         }
-      }
+      });
 
-      if (!hasCheckedAtLeastOne) {
+      if (telefoaneDeVerificat.length === 0) {
         alert("Introdu cel puțin un număr de telefon pentru verificare.");
         return;
       }
 
       const submitBtn = document.querySelector("button[onclick='trimitePropuneriEchipa()']");
-      if (allValid && hasCheckedAtLeastOne) {
-        submitBtn.disabled = false;
-        submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
-      } else {
-        submitBtn.disabled = true;
-        submitBtn.classList.add("opacity-50", "cursor-not-allowed");
+
+      try {
+        const response = await fetch(WEBHOOK_VERIFICA_TELEFON, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ telefoane: telefoaneDeVerificat })
+        });
+
+        if (response.ok) {
+          membersElements.forEach(memberEl => {
+            const telInput = memberEl.querySelector(".member-telefon");
+            if (telInput.value.trim()) {
+              memberEl.classList.remove("bg-slate-50", "border-slate-200", "bg-rose-50/60", "border-rose-300");
+              memberEl.classList.add("bg-emerald-50/60", "border-emerald-300");
+              
+              const oldBadge = memberEl.querySelector(".text-[11px].font-bold");
+              if (oldBadge) oldBadge.remove();
+
+              const badge = document.createElement("div");
+              badge.className = "w-full text-[11px] font-bold text-emerald-700 mt-1 flex items-center justify-between";
+              badge.innerHTML = "<span>✓ Cont confirmat</span>";
+              memberEl.appendChild(badge);
+              memberEl.setAttribute("data-id-zilier", "VERIFIED");
+            }
+          });
+
+          submitBtn.disabled = false;
+          submitBtn.classList.remove("opacity-50", "cursor-not-allowed");
+        } else {
+          throw new Error("Eroare de server");
+        }
+
+      } catch (err) {
+        console.error("Eroare trimitere pachet:", err);
+        alert("Eroare de comunicare la verificarea membrilor.");
       }
     }
 
@@ -865,7 +850,7 @@
           const numeCurat = stripDiacritics(nume);
           
           membriPayload.push({
-            ID_zilier: idZilierAttr,
+            ID_zilier: idZilierAttr === "VERIFIED" ? null : idZilierAttr,
             Nume_membru: numeCurat,
             Telefon: telefon
           });
