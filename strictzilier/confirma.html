@@ -95,6 +95,7 @@
         document.getElementById("valNumeEchipa").textContent = "Echipă negăsită";
         document.getElementById("valActivitate").textContent = "-";
         document.getElementById("valZona").textContent = "-";
+        document.getElementById("buttonsContainer").classList.add("hidden");
         return;
       }
 
@@ -102,7 +103,7 @@
         const response = await fetch(WEBHOOK_CITESTE_ECHIPA, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ID_echipa: idEchipa })
+          body: JSON.stringify({ ID_echipa: idEchipa, tel: telefonMembru })
         });
 
         const data = await response.json();
@@ -113,10 +114,25 @@
           document.getElementById("valActivitate").textContent = echipa.Activitate_preferata || "-";
           document.getElementById("valZona").textContent = echipa.Zona_preferata || "-";
           document.getElementById("valData").textContent = echipa.Data_constituire ? echipa.Data_constituire.split("T")[0] : "-";
+
+          // VERIFICARE BLOCARE LA ÎNCĂRCARE: Dacă s-a răspuns deja în baza de date
+          if (echipa.Raspuns_confirmare && echipa.Raspuns_confirmare.trim() !== "") {
+            document.getElementById("buttonsContainer").classList.add("hidden");
+            const feedbackBox = document.getElementById("feedbackBox");
+            const feedbackIcon = document.getElementById("feedbackIcon");
+            const feedbackTitle = document.getElementById("feedbackTitle");
+            const feedbackText = document.getElementById("feedbackText");
+
+            feedbackBox.classList.remove("hidden");
+            feedbackIcon.textContent = "✅";
+            feedbackTitle.textContent = "Invitație Deja Procesată!";
+            feedbackText.textContent = "Ai răspuns deja la această invitație anterior. Îți mulțumim!";
+          }
         } else {
           document.getElementById("valNumeEchipa").textContent = "Echipa nu a fost găsită";
           document.getElementById("valActivitate").textContent = "-";
           document.getElementById("valZona").textContent = "-";
+          document.getElementById("buttonsContainer").classList.add("hidden");
         }
       } catch (err) {
         console.error("Eroare:", err);
@@ -147,13 +163,11 @@
       };
 
       try {
-        if (!WEBHOOK_RASPUNS_INVITATIE.includes("SOT_AICI")) {
-          await fetch(WEBHOOK_RASPUNS_INVITATIE, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload)
-          });
-        }
+        await fetch(WEBHOOK_RASPUNS_INVITATIE, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
 
         if (optiune === "DA") {
           feedbackIcon.textContent = "✅";
