@@ -50,15 +50,18 @@
   </div>
 
   <script>
-    // URL-ul webhook-ului de salvare din Make.com
+    // URL-ul webhook-ului de SALVARE din Make.com
     const WEBHOOK_RASPUNS_INVITATIE = "https://hook.eu1.make.com/wjy6flfjohhyff61h7iymxc4bl9p64h6";
+
+    // URL-ul webhook-ului de CITIRE din Make.com
+    const WEBHOOK_CITIRE_DATE = "https://hook.eu1.make.com/6mnwsn8hbp3q11a3ii7i7dum46qlntte";
 
     // Preluarea parametrilor din URL (ex: ?echipa=E160&tel=0712345678)
     const urlParams = new URLSearchParams(window.location.search);
     const idEchipa = urlParams.get('echipa');
     const telefonMembru = urlParams.get('tel');
 
-    // Funcția care aduce datele echipei și starea curentă la încărcarea paginii
+    // BLOCUL DE ÎNCĂRCARE: Citește datele din baza de date la deschiderea paginii
     async function incarcaDetaliiEchipa() {
       if (!idEchipa || !telefonMembru) {
         document.getElementById("detailsContainer").innerHTML = '<p class="text-red-500 text-center font-medium">Link incomplet sau invalid.</p>';
@@ -67,7 +70,7 @@
       }
 
       try {
-        const response = await fetch(`https://hook.eu1.make.com/6mnwsn8hbp3q11a3ii7i7dum46qlntte?echipa=${idEchipa}&tel=${telefonMembru}`);
+        const response = await fetch(`${WEBHOOK_CITIRE_DATE}?echipa=${idEchipa}&tel=${telefonMembru}`);
         const data = await response.json();
 
         const echipa = Array.isArray(data) ? data[0] : data;
@@ -78,7 +81,7 @@
           document.getElementById("valZona").textContent = echipa.Zona_preferata || "-";
           document.getElementById("valData").textContent = echipa.Data_constituire ? echipa.Data_constituire.split("T")[0] : "-";
 
-          // VERIFICARE CRUCIALĂ LA ÎNCĂRCARE: Dacă s-a răspuns deja, blocăm din prima secundă!
+          // VERIFICARE CRUCIALĂ: Dacă s-a răspuns deja, blocăm butoanele și la încărcare/reîncărcare
           if (echipa.Raspuns_confirmare && echipa.Raspuns_confirmare.trim() !== "") {
             document.getElementById("buttonsContainer").classList.add("hidden");
             const feedbackBox = document.getElementById("feedbackBox");
@@ -143,6 +146,7 @@
       }
     }
 
+    // Apelăm funcția de încărcare imediat ce se deschide pagina
     incarcaDetaliiEchipa();
   </script>
 </body>
