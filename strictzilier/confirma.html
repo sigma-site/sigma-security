@@ -45,7 +45,7 @@
           <span id="valActivitate" class="font-bold text-slate-900 text-right max-w-[60%] truncate">Se încarcă...</span>
         </div>
         <div class="flex justify-between items-center border-b border-slate-200/60 pb-1.5">
-          <span class="text-slate-500 font-medium">Zonă / Județ:</span>
+          <span class="text-slate-500 font-medium">Județ / Zonă:</span>
           <span id="valZona" class="font-bold text-slate-900">Se încarcă...</span>
         </div>
         <div class="flex justify-between items-center">
@@ -83,18 +83,13 @@
 
   <!-- SCRIPT LOGICĂ PAGINĂ -->
   <script>
-    // Webhook-ul tău existent din Make.com pentru citirea datelor
     const WEBHOOK_CITESTE_ECHIPA = "https://hook.eu1.make.com/eh86l1zog2254lwuk0vfpjda31zxfyhy";
-    
-    // Webhook-ul pentru salvarea răspunsului (îl vom conecta la pasul următor)
     const WEBHOOK_RASPUNS_INVITATIE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RASPUNS";
 
-    // Preluare parametri din URL (ex: ?echipa=E002&tel=0740123456)
     const urlParams = new URLSearchParams(window.location.search);
     const idEchipa = urlParams.get("echipa") || "";
     const telefonMembru = urlParams.get("tel") || "";
 
-    // La încărcarea paginii, cerem datele și filtrăm exact echipa după ID
     document.addEventListener("DOMContentLoaded", async () => {
       if (!idEchipa) {
         document.getElementById("valNumeEchipa").textContent = "Echipă negăsită";
@@ -112,24 +107,31 @@
 
         const data = await response.json();
         
-        // Căutăm în array-ul returnat de Text Aggregator[cite: 2] echipa care are exact ID-ul din URL
+        // Căutăm exact rândul care corespunde ID-ului de echipă pe baza cheii ID_echipa
         const echipa = Array.isArray(data) 
           ? data.find(item => item.ID_echipa === idEchipa) 
           : (data.ID_echipa === idEchipa ? data : null);
 
         if (echipa) {
+          // Folosim exact denumirile din baza ta de date
           document.getElementById("valNumeEchipa").textContent = echipa.Nume_echipa || ("Echipa " + idEchipa);
           document.getElementById("valActivitate").textContent = echipa.Activitate_preferata || "Activitate generală";
-          document.getElementById("valZona").textContent = echipa.Zona_preferata || "-";
+          
+          // Afișăm Județ și Zona_preferata corect
+          let detaliiZona = [];
+          if (echipa.Judet) detaliiZona.push(echipa.Judet);
+          if (echipa.Zona_preferata) detaliiZona.push(echipa.Zona_preferata);
+          document.getElementById("valZona").textContent = detaliiZona.length > 0 ? detaliiZona.join(", ") : "-";
+          
           document.getElementById("valData").textContent = echipa.Data_constituire ? echipa.Data_constituire.split("T")[0] : "-";
         } else {
           document.getElementById("valNumeEchipa").textContent = "Echipa " + idEchipa;
-          document.getElementById("valActivitate").textContent = "Detaliile nu au fost găsite";
+          document.getElementById("valActivitate").textContent = "Echipa nu a fost găsită în arhivă";
         }
       } catch (err) {
         console.error("Eroare la citirea detaliilor echipei:", err);
         document.getElementById("valNumeEchipa").textContent = "Echipa " + idEchipa;
-        document.getElementById("valActivitate").textContent = "Eroare de încărcare";
+        document.getElementById("valActivitate").textContent = "Eroare de comunicare";
       }
     });
 
@@ -140,7 +142,6 @@
       const feedbackTitle = document.getElementById("feedbackTitle");
       const feedbackText = document.getElementById("feedbackText");
 
-      // Ascundem butoanele și afișăm starea de încărcare
       buttonsContainer.classList.add("hidden");
       feedbackBox.classList.remove("hidden");
       feedbackIcon.textContent = "⏳";
@@ -150,7 +151,7 @@
       const payload = {
         ID_echipa: idEchipa,
         Telefon: telefonMembru,
-        Raspuns: optiune, // "DA" sau "NU"
+        Raspuns: optiune,
         Data_raspuns: new Date().toISOString()
       };
 
@@ -163,7 +164,6 @@
           });
         }
 
-        // Afișăm confirmarea vizuală
         if (optiune === "DA") {
           feedbackIcon.textContent = "✅";
           feedbackTitle.textContent = "Invitație Acceptată!";
