@@ -82,7 +82,7 @@
 
     document.addEventListener("DOMContentLoaded", async () => {
       if (!idEchipa) {
-        document.getElementById("valNumeEchipa").textContent = "Echipă negăsită în link";
+        document.getElementById("valNumeEchipa").textContent = "Echipă negăsită";
         document.getElementById("valActivitate").textContent = "-";
         document.getElementById("valZona").textContent = "-";
         return;
@@ -96,28 +96,19 @@
         });
 
         const data = await response.json();
-        console.log("Date primite de la Make:", data);
-
-        // Extragem primul rând din array-ul întors de Text Aggregator
         let echipa = Array.isArray(data) ? data[0] : data;
 
         if (echipa) {
-          // Preluăm valorile fie după cheile text, fie după indicii numerici din foaie (0=ID, 1=Nume, 7=Activitate, 8=Judet, 9=Zona, 16=Data)
-          const nume = echipa.Nume_echipa || echipa["1"] || ("Echipa " + idEchipa);
-          const activitate = echipa.Activitate_preferata || echipa["7"] || "Activitate generală";
-          const judet = echipa.Judet || echipa["8"] || "";
-          const zona = echipa.Zona_preferata || echipa["9"] || "";
-          const dataConst = echipa.Data_constituire || echipa["16"] || "";
-
-          document.getElementById("valNumeEchipa").textContent = nume;
-          document.getElementById("valActivitate").textContent = activitate;
+          // Folosim strict denumirile exacte din baza ta de date
+          document.getElementById("valNumeEchipa").textContent = echipa.Nume_echipa || ("Echipa " + idEchipa);
+          document.getElementById("valActivitate").textContent = echipa.Activitate_preferata || "-";
           
           let detaliiZona = [];
-          if (judet) detaliiZona.push(judet);
-          if (zona) detaliiZona.push(zona);
+          if (echipa.Judet) detaliiZona.push(echipa.Judet);
+          if (echipa.Zona_preferata) detaliiZona.push(echipa.Zona_preferata);
           document.getElementById("valZona").textContent = detaliiZona.length > 0 ? detaliiZona.join(", ") : "-";
           
-          document.getElementById("valData").textContent = dataConst ? dataConst.split("T")[0] : "-";
+          document.getElementById("valData").textContent = echipa.Data_constituire ? echipa.Data_constituire.split("T")[0] : "-";
         } else {
           document.getElementById("valNumeEchipa").textContent = "Echipa " + idEchipa;
           document.getElementById("valActivitate").textContent = "Echipa nu a fost găsită";
@@ -161,7 +152,7 @@
         if (optiune === "DA") {
           feedbackIcon.textContent = "✅";
           feedbackTitle.textContent = "Invitație Acceptată!";
-          feedbackText.textContent = "Răspunsul tău a fost înregistrat cu succes. Mulțumim!";
+          feedbackText.textContent = "Răspunsul tău a fost înregistrat cu succes în sistem. Mulțumim!";
         } else {
           feedbackIcon.textContent = "❌";
           feedbackTitle.textContent = "Invitație Refuzată";
