@@ -31,10 +31,13 @@
       </div>
     </div>
 
-    <!-- Butoanele de acțiune -->
+    <!-- Butoanele de acțiune (DA și NU) -->
     <div id="buttonsContainer" class="flex gap-4">
       <button onclick="trimiteRaspuns('DA')" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-md">
         DA, confirm
+      </button>
+      <button onclick="trimiteRaspuns('NU')" class="flex-1 bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 px-4 rounded-lg transition shadow-md">
+        NU, refuz
       </button>
     </div>
 
@@ -64,11 +67,9 @@
       }
 
       try {
-        // Aici pui URL-ul de la primul tău webhook (cel de citire)
         const response = await fetch(`https://hook.eu1.make.com/6mnwsn8hbp3q11a3ii7i7dum46qlntte?echipa=${idEchipa}&tel=${telefonMembru}`);
         const data = await response.json();
 
-        // Dacă datele vin sub formă de array, luăm primul element
         const echipa = Array.isArray(data) ? data[0] : data;
 
         if (echipa) {
@@ -83,8 +84,8 @@
             const feedbackBox = document.getElementById("feedbackBox");
             feedbackBox.classList.remove("hidden");
             document.getElementById("feedbackIcon").textContent = "✅";
-            document.getElementById("feedbackTitle").textContent = "Invitație Deja Confirmată!";
-            document.getElementById("feedbackText").textContent = "Ai confirmat deja participarea în această echipă anterior. Îți mulțumim!";
+            document.getElementById("feedbackTitle").textContent = "Invitație Deja Procesată!";
+            document.getElementById("feedbackText").textContent = "Ai răspuns deja la această invitație anterior. Îți mulțumim!";
           }
         } else {
           document.getElementById("detailsContainer").innerHTML = '<p class="text-red-500 text-center font-medium">Echipa sau membrul nu au fost găsiți.</p>';
@@ -97,7 +98,7 @@
       }
     }
 
-    // Funcția care trimite răspunsul "DA" spre Make.com
+    // Funcția care trimite răspunsul ("DA" sau "NU") spre Make.com
     async function trimiteRaspuns(optiune) {
       const buttonsContainer = document.getElementById("buttonsContainer");
       const feedbackBox = document.getElementById("feedbackBox");
@@ -105,7 +106,6 @@
       const feedbackTitle = document.getElementById("feedbackTitle");
       const feedbackText = document.getElementById("feedbackText");
 
-      // Ascundem butoanele instantaneu pentru a preveni dublu-click
       buttonsContainer.classList.add("hidden");
       feedbackBox.classList.remove("hidden");
       feedbackIcon.textContent = "⏳";
@@ -125,9 +125,15 @@
           body: JSON.stringify(payload)
         });
 
-        feedbackIcon.textContent = "✅";
-        feedbackTitle.textContent = "Invitație Acceptată!";
-        feedbackText.textContent = "Răspunsul tău a fost înregistrat cu succes în sistem. Mulțumim!";
+        if (optiune === 'DA') {
+          feedbackIcon.textContent = "✅";
+          feedbackTitle.textContent = "Invitație Acceptată!";
+          feedbackText.textContent = "Răspunsul tău a fost înregistrat cu succes în sistem. Mulțumim!";
+        } else {
+          feedbackIcon.textContent = "❌";
+          feedbackTitle.textContent = "Invitație Refuzată";
+          feedbackText.textContent = "Am înregistrat răspunsul tău. Îți mulțumim pentru informare!";
+        }
 
       } catch (err) {
         console.error("Eroare:", err);
@@ -137,7 +143,6 @@
       }
     }
 
-    // Apelăm funcția de încărcare la deschiderea paginii
     incarcaDetaliiEchipa();
   </script>
 </body>
