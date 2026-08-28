@@ -83,10 +83,10 @@
 
   <!-- SCRIPT LOGICĂ PAGINĂ -->
   <script>
-    // Webhook-ul tău din Make.com pentru citirea datelor echipei (cel din scenariul de mai sus)
+    // Webhook-ul tău existent din Make.com pentru citirea datelor
     const WEBHOOK_CITESTE_ECHIPA = "https://hook.eu1.make.com/eh86l1zog2254lwuk0vfpjda31zxfyhy";
     
-    // Webhook-ul pentru salvarea răspunsului (DA / NU) - îl poți crea ulterior
+    // Webhook-ul pentru salvarea răspunsului (îl vom conecta la pasul următor)
     const WEBHOOK_RASPUNS_INVITATIE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RASPUNS";
 
     // Preluare parametri din URL (ex: ?echipa=E002&tel=0740123456)
@@ -94,7 +94,7 @@
     const idEchipa = urlParams.get("echipa") || "";
     const telefonMembru = urlParams.get("tel") || "";
 
-    // La încărcarea paginii, cerem datele echipei din Make.com pe baza ID-ului
+    // La încărcarea paginii, cerem datele și filtrăm exact echipa după ID
     document.addEventListener("DOMContentLoaded", async () => {
       if (!idEchipa) {
         document.getElementById("valNumeEchipa").textContent = "Echipă negăsită";
@@ -111,17 +111,20 @@
         });
 
         const data = await response.json();
-        // Deoarece Make returnează un array prin Text Aggregator, luăm primul element
-        const echipa = Array.isArray(data) ? data[0] : data;
+        
+        // Căutăm în array-ul returnat de Text Aggregator[cite: 2] echipa care are exact ID-ul din URL
+        const echipa = Array.isArray(data) 
+          ? data.find(item => item.ID_echipa === idEchipa) 
+          : (data.ID_echipa === idEchipa ? data : null);
 
-        if (echipa && echipa.Nume_echipa) {
-          document.getElementById("valNumeEchipa").textContent = echipa.Nume_echipa;
+        if (echipa) {
+          document.getElementById("valNumeEchipa").textContent = echipa.Nume_echipa || ("Echipa " + idEchipa);
           document.getElementById("valActivitate").textContent = echipa.Activitate_preferata || "Activitate generală";
           document.getElementById("valZona").textContent = echipa.Zona_preferata || "-";
           document.getElementById("valData").textContent = echipa.Data_constituire ? echipa.Data_constituire.split("T")[0] : "-";
         } else {
           document.getElementById("valNumeEchipa").textContent = "Echipa " + idEchipa;
-          document.getElementById("valActivitate").textContent = "Indisponibilă";
+          document.getElementById("valActivitate").textContent = "Detaliile nu au fost găsite";
         }
       } catch (err) {
         console.error("Eroare la citirea detaliilor echipei:", err);
@@ -171,7 +174,7 @@
           feedbackText.textContent = "Refuzul tău a fost înregistrat. Îți mulțumim pentru promptitudine.";
         }
 
-      } q (err) {
+      } catch (err) {
         console.error("Eroare trimitere răspuns:", err);
         feedbackIcon.textContent = "⚠️";
         feedbackTitle.textContent = "Eroare de comunicare";
