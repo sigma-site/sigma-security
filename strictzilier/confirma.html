@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
   <meta charset="UTF-8">
@@ -20,7 +20,7 @@
   <main class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-200 p-6 flex flex-col justify-between max-h-[90vh]">
     
     <!-- BRAND / LOGO -->
-    <div class="text-center pb-4 border-b border-slate-100">
+    <div class="text-center pb-3 border-b border-slate-100">
       <a href="index.html" class="inline-block">
         <span class="text-xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
       </a>
@@ -28,12 +28,13 @@
     </div>
 
     <!-- CONȚINUT INFORMAȚIONAL ECHIPĂ -->
-    <div id="infoSec" class="py-4 space-y-3">
+    <div id="infoSec" class="py-3 space-y-3">
       <div class="text-center">
         <h1 class="text-base font-extrabold text-slate-900 leading-snug">Invitație de Asociere</h1>
         <p class="text-xs text-slate-500 mt-0.5">Ai fost propus să faci parte din următoarea echipă de lucru:</p>
       </div>
 
+      <!-- CARD DATE ECHIPĂ (DINAMIC) -->
       <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2 text-xs">
         <div class="flex justify-between items-center border-b border-slate-200/60 pb-1.5">
           <span class="text-slate-500 font-medium">Nume Echipă:</span>
@@ -45,11 +46,11 @@
         </div>
         <div class="flex justify-between items-center border-b border-slate-200/60 pb-1.5">
           <span class="text-slate-500 font-medium">Zonă / Județ:</span>
-          <span id="valJudet" class="font-bold text-slate-900">Se încarcă...</span>
+          <span id="valZona" class="font-bold text-slate-900">Se încarcă...</span>
         </div>
         <div class="flex justify-between items-center">
-          <span class="text-slate-500 font-medium">Transport Propriu:</span>
-          <span id="valTransport" class="font-bold text-slate-900">-</span>
+          <span class="text-slate-500 font-medium">Data Constituire:</span>
+          <span id="valData" class="font-bold text-slate-900">-</span>
         </div>
       </div>
     </div>
@@ -82,7 +83,10 @@
 
   <!-- SCRIPT LOGICĂ PAGINĂ -->
   <script>
-    // Aici vei pune URL-ul webhook-ului din Make.com care va prelua răspunsul (DA/NU)
+    // Webhook-ul tău din Make.com pentru citirea datelor echipei (cel din scenariul de mai sus)
+    const WEBHOOK_CITESTE_ECHIPA = "https://hook.eu1.make.com/eh86l1zog2254lwuk0vfpjda31zxfyhy";
+    
+    // Webhook-ul pentru salvarea răspunsului (DA / NU) - îl poți crea ulterior
     const WEBHOOK_RASPUNS_INVITATIE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RASPUNS";
 
     // Preluare parametri din URL (ex: ?echipa=E002&tel=0740123456)
@@ -90,22 +94,40 @@
     const idEchipa = urlParams.get("echipa") || "";
     const telefonMembru = urlParams.get("tel") || "";
 
-    // La încărcarea paginii, populăm elementele vizuale (simulat sau preluate din link)
-    document.addEventListener("DOMContentLoaded", () => {
-      if (idEchipa) {
-        document.getElementById("valNumeEchipa").textContent = `Echipa (${idEchipa})`;
-      } else {
-        document.getElementById("valNumeEchipa").textContent = "Echipă Nouă";
+    // La încărcarea paginii, cerem datele echipei din Make.com pe baza ID-ului
+    document.addEventListener("DOMContentLoaded", async () => {
+      if (!idEchipa) {
+        document.getElementById("valNumeEchipa").textContent = "Echipă negăsită";
+        document.getElementById("valActivitate").textContent = "-";
+        document.getElementById("valZona").textContent = "-";
+        return;
       }
-      
-      // Dacă vrei să trimiți mai multe detalii prin URL (nume activitate, județ etc.), le poți prelua la fel:
-      const actParam = urlParams.get("activitate");
-      if (actParam) document.getElementById("valActivitate").textContent = actParam;
-      else document.getElementById("valActivitate").textContent = "Activitate Generală";
 
-      const judParam = urlParams.get("judet");
-      if (judParam) document.getElementById("valJudet").textContent = judParam;
-      else document.getElementById("valJudet").textContent = "Bacau";
+      try {
+        const response = await fetch(WEBHOOK_CITESTE_ECHIPA, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ID_echipa: idEchipa })
+        });
+
+        const data = await response.json();
+        // Deoarece Make returnează un array prin Text Aggregator, luăm primul element
+        const echipa = Array.isArray(data) ? data[0] : data;
+
+        if (echipa && echipa.Nume_echipa) {
+          document.getElementById("valNumeEchipa").textContent = echipa.Nume_echipa;
+          document.getElementById("valActivitate").textContent = echipa.Activitate_preferata || "Activitate generală";
+          document.getElementById("valZona").textContent = echipa.Zona_preferata || "-";
+          document.getElementById("valData").textContent = echipa.Data_constituire ? echipa.Data_constituire.split("T")[0] : "-";
+        } else {
+          document.getElementById("valNumeEchipa").textContent = "Echipa " + idEchipa;
+          document.getElementById("valActivitate").textContent = "Indisponibilă";
+        }
+      } catch (err) {
+        console.error("Eroare la citirea detaliilor echipei:", err);
+        document.getElementById("valNumeEchipa").textContent = "Echipa " + idEchipa;
+        document.getElementById("valActivitate").textContent = "Eroare de încărcare";
+      }
     });
 
     async function trimiteRaspuns(optiune) {
@@ -120,7 +142,7 @@
       feedbackBox.classList.remove("hidden");
       feedbackIcon.textContent = "⏳";
       feedbackTitle.textContent = "Se trimite răspunsul...";
-      feedbackText.textContent = "Te rugăm așteptare o secundă.";
+      feedbackText.textContent = "Te rugăm o secundă.";
 
       const payload = {
         ID_echipa: idEchipa,
@@ -138,7 +160,7 @@
           });
         }
 
-        // Afișăm confirmarea în funcție de opțiune
+        // Afișăm confirmarea vizuală
         if (optiune === "DA") {
           feedbackIcon.textContent = "✅";
           feedbackTitle.textContent = "Invitație Acceptată!";
@@ -149,12 +171,12 @@
           feedbackText.textContent = "Refuzul tău a fost înregistrat. Îți mulțumim pentru promptitudine.";
         }
 
-      } catch (err) {
+      } q (err) {
         console.error("Eroare trimitere răspuns:", err);
         feedbackIcon.textContent = "⚠️";
         feedbackTitle.textContent = "Eroare de comunicare";
         feedbackText.textContent = "A apărut o problemă la salvare. Te rugăm să încerci din nou.";
-        buttonsContainer.classList.remove("hidden"); // lăsăm butoanele înapoi dacă a eșuat
+        buttonsContainer.classList.remove("hidden");
       }
     }
   </script>
