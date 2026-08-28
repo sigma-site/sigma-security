@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Răspuns Invitație Echipă - STRICTZILIER.ro</title>
+  <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -14,8 +16,10 @@
 </head>
 <body class="bg-slate-100 text-slate-800 h-screen w-screen flex items-center justify-center p-4 overflow-hidden">
 
+  <!-- CARD CENTRAL COMPACT (OPTIMIZAT PENTRU MOBIL) -->
   <main class="w-full max-w-md bg-white rounded-2xl shadow-lg border border-slate-200 p-6 flex flex-col justify-between max-h-[90vh]">
     
+    <!-- BRAND / LOGO -->
     <div class="text-center pb-3 border-b border-slate-100">
       <a href="index.html" class="inline-block">
         <span class="text-xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
@@ -23,12 +27,14 @@
       <p class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mt-0.5">Confirmare Participare Echipă</p>
     </div>
 
+    <!-- CONȚINUT INFORMAȚIONAL ECHIPĂ -->
     <div id="infoSec" class="py-3 space-y-3">
       <div class="text-center">
         <h1 class="text-base font-extrabold text-slate-900 leading-snug">Invitație de Asociere</h1>
         <p class="text-xs text-slate-500 mt-0.5">Ai fost propus să faci parte din următoarea echipă de lucru:</p>
       </div>
 
+      <!-- CARD DATE ECHIPĂ (DINAMIC) -->
       <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2 text-xs">
         <div class="flex justify-between items-center border-b border-slate-200/60 pb-1.5">
           <span class="text-slate-500 font-medium">Nume Echipă:</span>
@@ -39,7 +45,7 @@
           <span id="valActivitate" class="font-bold text-slate-900 text-right max-w-[60%] truncate">Se încarcă...</span>
         </div>
         <div class="flex justify-between items-center border-b border-slate-200/60 pb-1.5">
-          <span class="text-slate-500 font-medium">Județ / Zonă:</span>
+          <span class="text-slate-500 font-medium">Zonă / Județ:</span>
           <span id="valZona" class="font-bold text-slate-900">Se încarcă...</span>
         </div>
         <div class="flex justify-between items-center">
@@ -49,6 +55,7 @@
       </div>
     </div>
 
+    <!-- ZONA DE ACȚIUNE (BUTOANE DA / NU) -->
     <div id="actionSec" class="pt-2">
       <div id="buttonsContainer" class="grid grid-cols-2 gap-3">
         <button type="button" onclick="trimiteRaspuns('DA')" class="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow transition flex items-center justify-center gap-1.5">
@@ -59,6 +66,7 @@
         </button>
       </div>
 
+      <!-- MESAJE FEEDBACK (ASCUNSE INIȚIAL) -->
       <div id="feedbackBox" class="hidden text-center py-4 space-y-2">
         <div id="feedbackIcon" class="text-3xl"></div>
         <h2 id="feedbackTitle" class="text-sm font-bold text-slate-900"></h2>
@@ -66,12 +74,14 @@
       </div>
     </div>
 
+    <!-- FOOTER MINIMAL -->
     <div class="pt-3 border-t border-slate-100 text-center">
       <p class="text-[10px] text-slate-400">Conform Legii 52/2011 • STRICTZILIER.ro</p>
     </div>
 
   </main>
 
+  <!-- SCRIPT LOGICĂ PAGINĂ -->
   <script>
     const WEBHOOK_CITESTE_ECHIPA = "https://hook.eu1.make.com/eh86l1zog2254lwuk0vfpjda31zxfyhy";
     const WEBHOOK_RASPUNS_INVITATIE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_RASPUNS";
@@ -99,24 +109,20 @@
         let echipa = Array.isArray(data) ? data[0] : data;
 
         if (echipa) {
-          // Folosim strict denumirile exacte din baza ta de date
-          document.getElementById("valNumeEchipa").textContent = echipa.Nume_echipa || ("Echipa " + idEchipa);
+          document.getElementById("valNumeEchipa").textContent = echipa.Nume_echipa || "-";
           document.getElementById("valActivitate").textContent = echipa.Activitate_preferata || "-";
-          
-          let detaliiZona = [];
-          if (echipa.Judet) detaliiZona.push(echipa.Judet);
-          if (echipa.Zona_preferata) detaliiZona.push(echipa.Zona_preferata);
-          document.getElementById("valZona").textContent = detaliiZona.length > 0 ? detaliiZona.join(", ") : "-";
-          
+          document.getElementById("valZona").textContent = echipa.Zona_preferata || "-";
           document.getElementById("valData").textContent = echipa.Data_constituire ? echipa.Data_constituire.split("T")[0] : "-";
         } else {
-          document.getElementById("valNumeEchipa").textContent = "Echipa " + idEchipa;
-          document.getElementById("valActivitate").textContent = "Echipa nu a fost găsită";
+          document.getElementById("valNumeEchipa").textContent = "Echipa nu a fost găsită";
+          document.getElementById("valActivitate").textContent = "-";
+          document.getElementById("valZona").textContent = "-";
         }
       } catch (err) {
         console.error("Eroare:", err);
-        document.getElementById("valNumeEchipa").textContent = "Echipa " + idEchipa;
-        document.getElementById("valActivitate").textContent = "Eroare de comunicare";
+        document.getElementById("valNumeEchipa").textContent = "Eroare de comunicare";
+        document.getElementById("valActivitate").textContent = "-";
+        document.getElementById("valZona").textContent = "-";
       }
     });
 
