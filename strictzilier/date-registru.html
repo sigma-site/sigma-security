@@ -4,194 +4,587 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Date pentru statul de plată - STRICTZILIER.ro</title>
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+
   <!-- Google Fonts Inter -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
   <style>
-    body { font-family: 'Inter', sans-serif; }
-    .custom-scroll::-webkit-scrollbar { width: 5px; }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+
+    .custom-scroll::-webkit-scrollbar {
+      width: 5px;
+    }
+
     .custom-scroll::-webkit-scrollbar-thumb {
       background: rgba(255, 255, 255, 0.2);
       border-radius: 4px;
     }
+
+    /* CAMERA */
+    #cameraContainer video {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 14px;
+      background: #000;
+      object-fit: cover;
+    }
+
+    #cameraContainer {
+      position: relative;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #000;
+    }
+
+    /* Chenar orientativ pentru act */
+    #cameraFrame {
+      position: absolute;
+      left: 6%;
+      right: 6%;
+      top: 20%;
+      bottom: 20%;
+      border: 2px solid rgba(255,255,255,0.85);
+      border-radius: 10px;
+      pointer-events: none;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,0.10);
+    }
+
+    #cameraHint {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 10px;
+      text-align: center;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      text-shadow: 0 1px 3px #000;
+      pointer-events: none;
+    }
   </style>
 </head>
+
 <body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
   <!-- Header Permanent -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      
+
       <!-- Brand Logo -->
       <a href="index.html" class="flex items-center gap-2 cursor-pointer">
-        <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
+        <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">
+          STRICT<span class="text-amber-500">ZILIER</span>.ro
+        </span>
       </a>
 
       <!-- Link Ghid Zilier -->
-      <a href="ghid-zilier.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition">
-        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      <a href="ghid-zilier.html"
+         class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition">
+
+        <svg class="w-4 h-4 text-amber-600"
+             fill="none"
+             stroke="currentColor"
+             viewBox="0 0 24 24">
+
+          <path stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
+          </path>
         </svg>
+
         <span>GHID ZILIER</span>
       </a>
 
     </div>
   </header>
 
+
   <!-- CONTAINER PRINCIPAL -->
   <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
-      
-      <!-- COLOANA STANGA & CENTRU: CARDUL PRINCIPAL -->
+
+      <!-- COLOANA STANGA & CENTRU -->
       <div class="lg:col-span-2 space-y-6">
+
         <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
-          
+
           <div class="flex items-center justify-between mb-1">
-            <h1 class="text-2xl font-black text-slate-900 tracking-tight">Date pentru statul de plată</h1>
-            <span id="loadingBadge" class="hidden text-[11px] font-bold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full animate-pulse">Se încarcă datele...</span>
+
+            <h1 class="text-2xl font-black text-slate-900 tracking-tight">
+              Date pentru statul de plată
+            </h1>
+
+            <span id="loadingBadge"
+                  class="hidden text-[11px] font-bold px-2.5 py-1 bg-amber-100 text-amber-800 rounded-full animate-pulse">
+              Se încarcă datele...
+            </span>
+
           </div>
+
           <p class="text-xs font-medium text-slate-500 mb-6 leading-relaxed">
-            Ai fost selectat pentru o lucrare! Pentru primirea ofertei de muncă, fotografiază actul de identitate de pe care au fost preluate datele de mai jos.
+            Ai fost selectat pentru o lucrare! Pentru primirea ofertei de muncă,
+            fotografiază actul de identitate de pe care au fost preluate datele de mai jos.
           </p>
 
-          <!-- BLOC DATE CULESE DIN BAZĂ (READ-ONLY) -->
+
+          <!-- BLOC DATE CULESE DIN BAZĂ -->
           <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3 mb-6">
+
             <div class="flex items-center justify-between border-b pb-2 border-slate-200">
-              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">Date înregistrate în profil</span>
-              <span class="text-[10px] font-bold text-slate-400 bg-slate-200/60 px-2 py-0.5 rounded">Verificare identitate</span>
+
+              <span class="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                Date înregistrate în profil
+              </span>
+
+              <span class="text-[10px] font-bold text-slate-400 bg-slate-200/60 px-2 py-0.5 rounded">
+                Verificare identitate
+              </span>
+
             </div>
+
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-              <div>
-                <span class="block text-slate-400 font-medium">Nume și Prenume</span>
-                <strong id="displayNume" class="text-slate-800 text-sm font-bold">-</strong>
-              </div>
 
               <div>
-                <span class="block text-slate-400 font-medium">CNP</span>
-                <strong id="displayCNP" class="text-slate-800 text-sm font-bold font-mono">-</strong>
+                <span class="block text-slate-400 font-medium">
+                  Nume și Prenume
+                </span>
+
+                <strong id="displayNume"
+                        class="text-slate-800 text-sm font-bold">
+                  -
+                </strong>
               </div>
 
-              <div>
-                <span class="block text-slate-400 font-medium">Tip act identitate</span>
-                <strong id="displayAct" class="text-slate-800 font-bold">-</strong>
-              </div>
 
               <div>
-                <span class="block text-slate-400 font-medium">Serie și Număr act</span>
-                <strong id="displaySerieNumar" class="text-slate-800 font-bold font-mono">-</strong>
+                <span class="block text-slate-400 font-medium">
+                  CNP
+                </span>
+
+                <strong id="displayCNP"
+                        class="text-slate-800 text-sm font-bold font-mono">
+                  -
+                </strong>
               </div>
+
+
+              <div>
+                <span class="block text-slate-400 font-medium">
+                  Tip act identitate
+                </span>
+
+                <strong id="displayAct"
+                        class="text-slate-800 font-bold">
+                  -
+                </strong>
+              </div>
+
+
+              <div>
+                <span class="block text-slate-400 font-medium">
+                  Serie și Număr act
+                </span>
+
+                <strong id="displaySerieNumar"
+                        class="text-slate-800 font-bold font-mono">
+                  -
+                </strong>
+              </div>
+
             </div>
+
           </div>
 
-          <!-- ÎNCĂRCARE FOTO CI -->
+
+          <!-- ========================================= -->
+          <!-- BLOC FOTOGRAFIERE ACT -->
+          <!-- ========================================= -->
+
           <div class="p-5 border-2 border-dashed border-amber-300 rounded-2xl bg-amber-50/40 space-y-4">
+
             <div>
+
               <h2 class="text-sm font-black text-slate-900 uppercase tracking-wider flex items-center gap-2">
-                <span class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs">!</span>
+
+                <span class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs">
+                  !
+                </span>
+
                 Fotografiază cartea de identitate (CI / BI / Pașaport)
+
               </h2>
+
               <p class="text-xs text-slate-600 mt-1">
-                Fotografia trebuie să fie clară, completă și fără reflexii de lumină pentru a confirma potrivirea cu profilul.
+                Fotografia trebuie să fie clară, completă și fără reflexii de lumină
+                pentru a confirma potrivirea cu profilul.
               </p>
-            </div>
-            
-            <div class="flex flex-wrap items-center gap-3 pt-1">
-              <label for="identityFile" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-xl cursor-pointer transition shadow-sm flex items-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-                FOTOGRAFIAZĂ SAU ALEGE IMAGINEA
-              </label>
-              <input id="identityFile" type="file" accept="image/*" capture="environment" class="hidden">
-              <span id="fileStatus" class="text-xs text-slate-500 font-medium">Nicio fotografie selectată.</span>
+
             </div>
 
-            <img id="preview" class="hidden max-h-52 rounded-xl border border-slate-300 shadow-sm mt-3 object-contain bg-black/5" alt="Previzualizare CI">
 
-            <div id="photoActions" class="hidden pt-3 border-t border-amber-200/60 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <button id="sendPhoto" type="button" onclick="salveazaSiValideaza()" class="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl transition shadow-md flex items-center justify-center gap-2">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                CONFIRMĂ ȘI TRIMITE PENTRU PROCESARE
+            <!-- BUTOANELE PRINCIPALE -->
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-1">
+
+              <button id="openCamera"
+                      type="button"
+                      class="px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-xl transition shadow-sm flex items-center justify-center gap-2">
+
+                <svg class="w-4 h-4"
+                     fill="none"
+                     stroke="currentColor"
+                     viewBox="0 0 24 24">
+
+                  <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z">
+                  </path>
+
+                  <path stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M15 13a3 3 0 11-6 0 3 3 0 016 0z">
+                  </path>
+
+                </svg>
+
+                FOTOGRAFIAZĂ CU CAMERA
+
               </button>
-              <div id="uploadStatus" class="text-xs font-bold text-slate-700"></div>
+
+
+              <!-- Alegerea unei fotografii existente rămâne disponibilă -->
+
+              <label for="identityFile"
+                     class="px-4 py-3 bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-extrabold text-xs rounded-xl cursor-pointer transition shadow-sm flex items-center justify-center gap-2">
+
+                ALEGE O FOTOGRAFIE EXISTENTĂ
+
+              </label>
+
+              <input id="identityFile"
+                     type="file"
+                     accept="image/*"
+                     class="hidden">
+
             </div>
+
+
+            <!-- CAMERA DIRECT ÎN PAGINĂ -->
+
+            <div id="cameraSection" class="hidden space-y-3">
+
+              <div id="cameraContainer">
+
+                <video id="cameraVideo"
+                       autoplay
+                       playsinline
+                       muted>
+                </video>
+
+                <div id="cameraFrame"></div>
+
+                <div id="cameraHint">
+                  Poziționează actul complet în interiorul chenarului
+                </div>
+
+              </div>
+
+
+              <div class="flex flex-col sm:flex-row gap-3">
+
+                <button id="takePhoto"
+                        type="button"
+                        class="flex-1 px-5 py-3 bg-blue-700 hover:bg-blue-800 text-white font-black text-xs rounded-xl shadow-md transition">
+
+                  FOTOGRAFIAZĂ
+
+                </button>
+
+
+                <button id="closeCamera"
+                        type="button"
+                        class="sm:w-auto px-5 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-black text-xs rounded-xl transition">
+
+                  ÎNCHIDE CAMERA
+
+                </button>
+
+              </div>
+
+            </div>
+
+
+            <!-- CANVAS INVIZIBIL PENTRU CAPTURARE -->
+
+            <canvas id="photoCanvas" class="hidden"></canvas>
+
+
+            <!-- PREVIZUALIZARE -->
+
+            <div id="previewContainer" class="hidden">
+
+              <p class="text-xs font-bold text-slate-600 mb-2">
+                Fotografia capturată:
+              </p>
+
+              <img id="preview"
+                   class="w-full max-h-[420px] rounded-xl border border-slate-300 shadow-sm object-contain bg-black/5"
+                   alt="Previzualizare CI">
+
+            </div>
+
+
+            <div class="flex items-center gap-3">
+
+              <span id="fileStatus"
+                    class="text-xs text-slate-500 font-medium">
+                Nicio fotografie selectată.
+              </span>
+
+            </div>
+
+
+            <!-- ACTIUNI FOTO -->
+
+            <div id="photoActions"
+                 class="hidden pt-3 border-t border-amber-200/60 flex flex-col sm:flex-row items-center justify-between gap-3">
+
+              <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+
+                <button id="retakePhoto"
+                        type="button"
+                        class="hidden w-full sm:w-auto px-5 py-3 bg-slate-200 hover:bg-slate-300 text-slate-700 font-black text-xs rounded-xl transition">
+
+                  REIA FOTOGRAFIA
+
+                </button>
+
+
+                <button id="sendPhoto"
+                        type="button"
+                        onclick="salveazaSiValideaza()"
+                        class="w-full sm:w-auto px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl transition shadow-md flex items-center justify-center gap-2">
+
+                  <svg class="w-4 h-4"
+                       fill="none"
+                       stroke="currentColor"
+                       viewBox="0 0 24 24">
+
+                    <path stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M5 13l4 4L19 7">
+                    </path>
+
+                  </svg>
+
+                  CONFIRMĂ ȘI TRIMITE PENTRU PROCESARE
+
+                </button>
+
+              </div>
+
+
+              <div id="uploadStatus"
+                   class="text-xs font-bold text-slate-700 text-center sm:text-right">
+              </div>
+
+            </div>
+
           </div>
 
-          <!-- NOTIFICARE DINAMICĂ (SUCCES / EROARE) -->
-          <div id="success" class="hidden mt-6 p-5 rounded-2xl text-xs font-semibold leading-relaxed shadow-sm">
-            <div id="successTitle" class="flex items-center gap-2 mb-1 font-black text-sm"></div>
+
+          <!-- NOTIFICARE DINAMICĂ -->
+
+          <div id="success"
+               class="hidden mt-6 p-5 rounded-2xl text-xs font-semibold leading-relaxed shadow-sm">
+
+            <div id="successTitle"
+                 class="flex items-center gap-2 mb-1 font-black text-sm">
+            </div>
+
             <div id="successMessage"></div>
+
           </div>
 
         </section>
+
       </div>
 
-      <!-- COLOANA DREAPTA: AGENT VAPI INTEGRAT DIRECT -->
-      <aside id="strictzilierAgent" class="bg-gradient-to-b from-slate-900 to-blue-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl border border-blue-900 flex flex-col justify-between h-[580px] text-center">
+
+      <!-- COLOANA DREAPTA: AGENT VAPI -->
+
+      <aside id="strictzilierAgent"
+             class="bg-gradient-to-b from-slate-900 to-blue-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl border border-blue-900 flex flex-col justify-between h-[580px] text-center">
+
         <div>
+
           <p class="text-xs text-slate-300 mb-2 leading-tight max-w-xs mx-auto pt-1">
             Spune ce cauți sau de ce ai nevoie. Agentul mediază întâlnirea dintre zilieri și angajatori.
           </p>
 
-          <div id="conversation" class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
+
+          <div id="conversation"
+               class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
+
             <div class="bg-white/10 text-slate-100 p-2 rounded-lg text-xs leading-relaxed max-w-[88%] border-l-2 border-blue-500">
-              <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>
+
+              <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">
+                AGENT
+              </span>
+
               Bun venit. Alege modul vocal sau scris pentru a începe conversația.
+
             </div>
+
           </div>
+
         </div>
+
 
         <div>
+
           <div class="w-full max-w-[340px] mx-auto grid grid-cols-[1fr_34px_1fr] gap-1.5 items-center mb-1.5">
-            <button id="voiceModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">
+
+            <button id="voiceModeButton"
+                    type="button"
+                    class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">
+
               VOCAL
+
             </button>
-            <div id="agentOrb" class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs text-white">
+
+
+            <div id="agentOrb"
+                 class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs text-white">
+
               ✦
+
             </div>
-            <button id="textModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center">
+
+
+            <button id="textModeButton"
+                    type="button"
+                    class="h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center">
+
               SCRIS
+
             </button>
+
           </div>
 
-          <div id="voicePanel" class="w-full max-w-[340px] mx-auto">
-            <button id="agentButton" type="button" class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">
+
+          <div id="voicePanel"
+               class="w-full max-w-[340px] mx-auto">
+
+            <button id="agentButton"
+                    type="button"
+                    class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">
+
               PORNEȘTE CONVERSAȚIA
+
             </button>
-            <div id="status" class="min-h-[14px] mt-1 text-[10px] font-bold text-emerald-400"></div>
+
+            <div id="status"
+                 class="min-h-[14px] mt-1 text-[10px] font-bold text-emerald-400">
+            </div>
+
           </div>
 
-          <div id="textPanel" class="w-full max-w-[340px] mx-auto hidden">
+
+          <div id="textPanel"
+               class="w-full max-w-[340px] mx-auto hidden">
+
             <div class="flex gap-1.5">
-              <input id="messageInput" type="text" placeholder="Scrieți mesajul..." autocomplete="off" class="flex-1 min-w-0 h-11 px-3 bg-white text-slate-900 rounded-lg text-xs outline-none">
-              <button id="sendButton" type="button" class="w-[76px] h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-lg transition flex-shrink-0 flex items-center justify-center">
+
+              <input id="messageInput"
+                     type="text"
+                     placeholder="Scrieți mesajul..."
+                     autocomplete="off"
+                     class="flex-1 min-w-0 h-11 px-3 bg-white text-slate-900 rounded-lg text-xs outline-none">
+
+
+              <button id="sendButton"
+                      type="button"
+                      class="w-[76px] h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-lg transition flex-shrink-0 flex items-center justify-center">
+
                 TRIMITE
+
               </button>
+
             </div>
-            <div id="chatStatus" class="min-h-[14px] mt-1 text-[10px] font-bold text-blue-300"></div>
+
+
+            <div id="chatStatus"
+                 class="min-h-[14px] mt-1 text-[10px] font-bold text-blue-300">
+            </div>
+
           </div>
+
         </div>
+
       </aside>
 
     </div>
+
   </main>
 
-  <!-- FOOTER STANDARD -->
+
+  <!-- FOOTER -->
+
   <footer class="bg-white border-t border-slate-200 mt-auto">
+
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
-      <div>© 2026 STRICTZILIER.ro · Toate drepturile rezervate. Conform Legii 52/2011.</div>
-      <div class="flex flex-wrap gap-4 font-medium">
-        <a href="#termeni" class="hover:text-slate-800 transition">Termeni și Condiții</a>
-        <a href="#confidentialitate" class="hover:text-slate-800 transition">Politică de Confidențialitate</a>
-        <a href="https://anpc.ro" target="_blank" rel="noopener" class="hover:text-slate-800 transition">ANPC</a>
+
+      <div>
+        © 2026 STRICTZILIER.ro · Toate drepturile rezervate. Conform Legii 52/2011.
       </div>
+
+      <div class="flex flex-wrap gap-4 font-medium">
+
+        <a href="#termeni"
+           class="hover:text-slate-800 transition">
+          Termeni și Condiții
+        </a>
+
+        <a href="#confidentialitate"
+           class="hover:text-slate-800 transition">
+          Politică de Confidențialitate
+        </a>
+
+        <a href="https://anpc.ro"
+           target="_blank"
+           rel="noopener"
+           class="hover:text-slate-800 transition">
+          ANPC
+        </a>
+
+      </div>
+
     </div>
+
   </footer>
 
-  <!-- SCRIPT INTEGRARE VAPI & PIE.HOST -->
+
+  <!-- ========================================= -->
+  <!-- VAPI & PIE.HOST -->
+  <!-- ========================================= -->
+
   <script type="module">
+
     import Vapi from "https://esm.sh/@vapi-ai/web";
 
     const PUBLIC_KEY = "ab245358-61ea-4876-b767-8e4ad159627d";
@@ -215,39 +608,64 @@
     let previousChatId = null;
     let currentMode = "voice";
 
+
     function addMessage(type, text) {
+
       if (!text || !text.trim()) return;
 
       const message = document.createElement("div");
-      message.className = "max-w-[88%] p-2 rounded-lg text-xs leading-relaxed " + 
-        (type === "user" ? "bg-amber-500 text-white ml-auto" : "bg-white/10 text-slate-100 mr-auto border-l-2 border-blue-500");
+
+      message.className =
+        "max-w-[88%] p-2 rounded-lg text-xs leading-relaxed " +
+        (type === "user"
+          ? "bg-amber-500 text-white ml-auto"
+          : "bg-white/10 text-slate-100 mr-auto border-l-2 border-blue-500");
+
 
       const label = document.createElement("span");
-      label.className = "block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider";
-      label.textContent = type === "user" ? "TU" : "AGENT";
+
+      label.className =
+        "block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider";
+
+      label.textContent =
+        type === "user" ? "TU" : "AGENT";
+
 
       const content = document.createElement("div");
+
       content.textContent = text;
+
 
       message.appendChild(label);
       message.appendChild(content);
+
       conversation.appendChild(message);
 
       conversation.scrollTop = conversation.scrollHeight;
     }
 
+
     function setMode(mode) {
+
       if (mode === currentMode) return;
 
+
       if (mode === "text" && conversationActive) {
+
         vapi.stop();
+
         conversationActive = false;
+
         button.textContent = "PORNEȘTE CONVERSAȚIA";
+
         status.textContent = "";
       }
 
+
       currentMode = mode;
+
       const voice = mode === "voice";
+
 
       voiceModeButton.classList.toggle("bg-amber-500", voice);
       voiceModeButton.classList.toggle("border-amber-500", voice);
@@ -255,245 +673,1092 @@
       voiceModeButton.classList.toggle("bg-white/10", !voice);
       voiceModeButton.classList.toggle("text-blue-200", !voice);
 
+
       textModeButton.classList.toggle("bg-amber-500", !voice);
       textModeButton.classList.toggle("border-amber-500", !voice);
       textModeButton.classList.toggle("text-white", !voice);
       textModeButton.classList.toggle("bg-white/10", voice);
       textModeButton.classList.toggle("text-blue-200", voice);
 
+
       voicePanel.classList.toggle("hidden", !voice);
       textPanel.classList.toggle("hidden", voice);
+
 
       if (!voice) input.focus();
     }
 
-    voiceModeButton.addEventListener("click", () => setMode("voice"));
-    textModeButton.addEventListener("click", () => setMode("text"));
+
+    voiceModeButton.addEventListener(
+      "click",
+      () => setMode("voice")
+    );
+
+
+    textModeButton.addEventListener(
+      "click",
+      () => setMode("text")
+    );
+
 
     vapi.on("message", (message) => {
-      if (message.type === "transcript" && message.transcriptType === "final") {
-        addMessage(message.role === "user" ? "user" : "agent", message.transcript);
+
+      if (
+        message.type === "transcript" &&
+        message.transcriptType === "final"
+      ) {
+
+        addMessage(
+          message.role === "user" ? "user" : "agent",
+          message.transcript
+        );
+
       }
+
     });
 
+
     button.addEventListener("click", async () => {
+
       if (conversationActive) {
+
         vapi.stop();
+
         conversationActive = false;
+
         button.textContent = "PORNEȘTE CONVERSAȚIA";
+
         status.textContent = "";
+
         return;
       }
+
 
       status.textContent = "Se conectează...";
 
+
       try {
+
         await vapi.start(ASSISTANT_ID);
+
         conversationActive = true;
+
         button.textContent = "ÎNCHIDE CONVERSAȚIA";
+
         status.textContent = "Conversația vocală este activă.";
+
       } catch (error) {
+
         console.error("Eroare Vapi:", error);
-        status.textContent = "Nu s-a putut porni conversația.";
+
+        status.textContent =
+          "Nu s-a putut porni conversația.";
       }
+
     });
 
+
     async function sendTextMessage() {
+
       const message = input.value.trim();
+
       if (!message) return;
 
+
       addMessage("user", message);
+
       input.value = "";
+
       sendButton.disabled = true;
-      chatStatus.textContent = "Se contactează agentul...";
+
+      chatStatus.textContent =
+        "Se contactează agentul...";
+
 
       try {
+
         const response = await fetch(CHAT_URL, {
+
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: message, previousChatId: previousChatId })
+
+          headers: {
+            "Content-Type": "application/json"
+          },
+
+          body: JSON.stringify({
+            message: message,
+            previousChatId: previousChatId
+          })
+
         });
 
+
         const data = await response.json();
-        if (data.chatId) previousChatId = data.chatId;
-        addMessage("agent", data.reply || "Agentul nu a returnat un răspuns.");
+
+
+        if (data.chatId)
+          previousChatId = data.chatId;
+
+
+        addMessage(
+          "agent",
+          data.reply || "Agentul nu a returnat un răspuns."
+        );
+
+
         chatStatus.textContent = "";
+
       } catch (error) {
-        addMessage("agent", "Eroare de conectare:\n" + error.message);
+
+        addMessage(
+          "agent",
+          "Eroare de conectare:\n" + error.message
+        );
+
       } finally {
+
         sendButton.disabled = false;
+
         input.focus();
+
       }
+
     }
 
-    sendButton.addEventListener("click", sendTextMessage);
-    input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
+
+    sendButton.addEventListener(
+      "click",
+      sendTextMessage
+    );
+
+
+    input.addEventListener(
+      "keydown",
+      (e) => {
+
+        if (e.key === "Enter") {
+
+          e.preventDefault();
+
+          sendTextMessage();
+
+        }
+
+      }
+    );
+
   </script>
 
-  <!-- LOGICĂ BAZĂ DE DATE, OCR & PROMOVARE VIA MAKE.COM -->
+
+  <!-- ========================================= -->
+  <!-- LOGICĂ BAZĂ DE DATE, CAMERA, OCR & MAKE -->
+  <!-- ========================================= -->
+
   <script>
-    const WEBHOOK_INCARCA_PROFIL  = "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
-    const WEBHOOK_VALIDARE_FOTO   = "https://hook.eu1.make.com/wd36qzwp51vn44auiff8rexedd1w2fr3";
+
+    const WEBHOOK_INCARCA_PROFIL =
+      "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
+
+    const WEBHOOK_VALIDARE_FOTO =
+      "https://hook.eu1.make.com/wd36qzwp51vn44auiff8rexedd1w2fr3";
+
 
     let currentZilierId = null;
 
+    /*
+     * Fișierul fotografiei.
+     *
+     * Important:
+     * Pentru fotografia făcută cu camera, variabila aceasta
+     * va conține un obiect File creat din imaginea capturată.
+     *
+     * Pentru o fotografie aleasă din telefon/calculator,
+     * va conține direct fișierul selectat.
+     */
+
+    let currentPhotoFile = null;
+
+
+    /* =========================================
+       ELEMENTE CAMERA
+       ========================================= */
+
+    const openCameraButton =
+      document.getElementById("openCamera");
+
+    const closeCameraButton =
+      document.getElementById("closeCamera");
+
+    const takePhotoButton =
+      document.getElementById("takePhoto");
+
+    const retakePhotoButton =
+      document.getElementById("retakePhoto");
+
+    const cameraSection =
+      document.getElementById("cameraSection");
+
+    const cameraVideo =
+      document.getElementById("cameraVideo");
+
+    const photoCanvas =
+      document.getElementById("photoCanvas");
+
+    const preview =
+      document.getElementById("preview");
+
+    const previewContainer =
+      document.getElementById("previewContainer");
+
+    const photoActions =
+      document.getElementById("photoActions");
+
+    const identityFile =
+      document.getElementById("identityFile");
+
+    const fileStatus =
+      document.getElementById("fileStatus");
+
+    const uploadStatus =
+      document.getElementById("uploadStatus");
+
+
+    /*
+     * Stream-ul camerei.
+     */
+
+    let cameraStream = null;
+
+
+    /* =========================================
+       IDENTIFICARE ZILIER
+       ========================================= */
+
     document.addEventListener("DOMContentLoaded", () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      currentZilierId = urlParams.get('id');
+
+      const urlParams =
+        new URLSearchParams(window.location.search);
+
+      currentZilierId =
+        urlParams.get("id");
+
 
       if (!currentZilierId) {
-        const sessionData = localStorage.getItem("strictzilier_session");
+
+        const sessionData =
+          localStorage.getItem("strictzilier_session");
+
         if (sessionData) {
-          try { currentZilierId = JSON.parse(sessionData).id; } catch(e){}
+
+          try {
+
+            currentZilierId =
+              JSON.parse(sessionData).id;
+
+          } catch (e) {}
+
         }
+
       }
 
+
       if (!currentZilierId) {
-        currentZilierId = 'Z100020';
+
+        currentZilierId = "Z100020";
+
       }
+
 
       incarcaSiAfiseazaProfil();
+
     });
 
-    // CITIRE & AFIȘARE READ-ONLY
+
+    /* =========================================
+       CITIRE PROFIL
+       ========================================= */
+
     async function incarcaSiAfiseazaProfil() {
-      const badge = document.getElementById("loadingBadge");
+
+      const badge =
+        document.getElementById("loadingBadge");
+
       badge.classList.remove("hidden");
 
+
       try {
-        const res = await fetch(WEBHOOK_INCARCA_PROFIL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ID_zilier: currentZilierId })
-        });
+
+        const res =
+          await fetch(WEBHOOK_INCARCA_PROFIL, {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+              ID_zilier: currentZilierId
+            })
+
+          });
+
 
         if (res.ok) {
-          const d = await res.json();
-          if (d) populeazaAfișare(d);
+
+          const d =
+            await res.json();
+
+          if (d)
+            populeazaAfisare(d);
+
         }
+
       } catch (err) {
-        console.warn("Eroare incarcare profil:", err);
+
+        console.warn(
+          "Eroare incarcare profil:",
+          err
+        );
+
       } finally {
+
         badge.classList.add("hidden");
+
       }
+
     }
 
-    function populeazaAfișare(d) {
-      const numeComplet = `${d.Nume || ''} ${d.Prenume || ''}`.trim();
-      document.getElementById("displayNume").textContent = numeComplet || "-";
-      document.getElementById("displayCNP").textContent = d.CNP || "-";
-      document.getElementById("displayAct").textContent = d.Tip_act || "CI";
-      document.getElementById("displaySerieNumar").textContent = d.Serie_si_numar || "-";
+
+    function populeazaAfisare(d) {
+
+      const numeComplet =
+        `${d.Nume || ""} ${d.Prenume || ""}`.trim();
+
+
+      document.getElementById("displayNume").textContent =
+        numeComplet || "-";
+
+
+      document.getElementById("displayCNP").textContent =
+        d.CNP || "-";
+
+
+      document.getElementById("displayAct").textContent =
+        d.Tip_act || "CI";
+
+
+      document.getElementById("displaySerieNumar").textContent =
+        d.Serie_si_numar || "-";
+
     }
 
-    // PREVIZUALIZARE FOTO
-    document.getElementById("identityFile").addEventListener("change", function() {
-      const file = this.files[0];
-      const preview = document.getElementById("preview");
-      const photoActions = document.getElementById("photoActions");
-      const uploadStatus = document.getElementById("uploadStatus");
-      const fileStatus = document.getElementById("fileStatus");
 
-      if (!file) {
-        preview.classList.add("hidden");
-        photoActions.classList.add("hidden");
-        uploadStatus.textContent = "";
-        fileStatus.textContent = "Nicio fotografie selectată.";
+    /* =========================================
+       PORNIRE CAMERA
+       ========================================= */
+
+    openCameraButton.addEventListener(
+      "click",
+      pornesteCamera
+    );
+
+
+    async function pornesteCamera() {
+
+      uploadStatus.textContent = "";
+
+      fileStatus.textContent =
+        "Se solicită accesul la camera telefonului...";
+
+
+      /*
+       * Verificăm dacă browserul suportă camera.
+       */
+
+      if (
+        !navigator.mediaDevices ||
+        !navigator.mediaDevices.getUserMedia
+      ) {
+
+        fileStatus.textContent =
+          "Camera direct în pagină nu este disponibilă în acest browser.";
+
+        /*
+         * Ca soluție de rezervă deschidem selectorul
+         * normal de fotografii/fișiere.
+         */
+
+        identityFile.click();
+
         return;
       }
 
-      const reader = new FileReader();
-      reader.onload = function(event) {
-        preview.src = event.target.result;
-        preview.classList.remove("hidden");
-        photoActions.classList.remove("hidden");
-        uploadStatus.textContent = "Fotografie pregătită pentru trimitere.";
-      };
-      reader.readAsDataURL(file);
-      fileStatus.textContent = "Fotografie selectată.";
-    });
-
-    // TRANSMITERE FOTO ȘI VALIDARE (GUEST/RESPONSE VALIDATION)
-    async function salveazaSiValideaza() {
-      const fileInput = document.getElementById("identityFile");
-      const file = fileInput ? fileInput.files[0] : null;
-      if (!file) {
-        alert("Te rugăm să faci sau să alegi mai întâi o fotografie a actului de identitate!");
-        return;
-      }
-
-      const sendBtn = document.getElementById("sendPhoto");
-      const uploadStatus = document.getElementById("uploadStatus");
-      const successEl = document.getElementById("success");
-      const successTitle = document.getElementById("successTitle");
-      const successMessage = document.getElementById("successMessage");
-
-      sendBtn.disabled = true;
-      sendBtn.textContent = "SE TRIMITE ȘI SE PROCESEAZĂ...";
-      uploadStatus.textContent = "Se trimite fotografia pentru verificare...";
-      successEl.classList.add("hidden");
-
-      const formData = new FormData();
-      formData.append("ID_zilier", currentZilierId);
-      formData.append("Nivel_cont", "NC003");
-      formData.append("foto_ci", file);
 
       try {
-        const response = await fetch(WEBHOOK_VALIDARE_FOTO, {
-          method: "POST",
-          body: formData
-        });
+
+        /*
+         * Folosim camera din spate.
+         *
+         * Nu mai folosim atributul HTML capture.
+         * Camera este controlată direct de JavaScript.
+         */
+
+        cameraStream =
+          await navigator.mediaDevices.getUserMedia({
+
+            video: {
+
+              facingMode: {
+                ideal: "environment"
+              },
+
+              width: {
+                ideal: 1920
+              },
+
+              height: {
+                ideal: 1080
+              }
+
+            },
+
+            audio: false
+
+          });
+
+
+        cameraVideo.srcObject =
+          cameraStream;
+
+
+        cameraSection.classList.remove("hidden");
+
+
+        previewContainer.classList.add("hidden");
+
+
+        photoActions.classList.add("hidden");
+
+
+        fileStatus.textContent =
+          "Camera este activă. Poziționează actul în chenar.";
+
+
+        /*
+         * Asigurăm pornirea redării video.
+         */
+
+        await cameraVideo.play();
+
+
+      } catch (error) {
+
+        console.error(
+          "Eroare acces cameră:",
+          error
+        );
+
+
+        cameraSection.classList.add("hidden");
+
+
+        /*
+         * Dacă utilizatorul refuză camera sau browserul
+         * nu permite accesul, îi oferim automat alternativa
+         * de a alege o fotografie existentă.
+         */
+
+        fileStatus.textContent =
+          "Nu s-a putut accesa camera. Poți alege o fotografie existentă.";
+
+
+        alert(
+          "Nu s-a putut accesa camera telefonului.\n\n" +
+          "Verifică permisiunea pentru cameră sau alege o fotografie existentă."
+        );
+
+      }
+
+    }
+
+
+    /* =========================================
+       OPRIRE CAMERA
+       ========================================= */
+
+    closeCameraButton.addEventListener(
+      "click",
+      opresteCamera
+    );
+
+
+    function opresteCamera() {
+
+      if (cameraStream) {
+
+        cameraStream.getTracks().forEach(
+          track => track.stop()
+        );
+
+        cameraStream = null;
+
+      }
+
+
+      cameraVideo.srcObject = null;
+
+
+      cameraSection.classList.add("hidden");
+
+
+      if (!currentPhotoFile) {
+
+        fileStatus.textContent =
+          "Nicio fotografie selectată.";
+
+      }
+
+    }
+
+
+    /* =========================================
+       CAPTURARE FOTOGRAFIE
+       ========================================= */
+
+    takePhotoButton.addEventListener(
+      "click",
+      captureazaFotografia
+    );
+
+
+    function captureazaFotografia() {
+
+      if (
+        !cameraStream ||
+        !cameraVideo.videoWidth ||
+        !cameraVideo.videoHeight
+      ) {
+
+        alert(
+          "Camera nu este încă pregătită. Așteaptă câteva secunde și încearcă din nou."
+        );
+
+        return;
+      }
+
+
+      /*
+       * Folosim rezoluția reală a camerei.
+       */
+
+      photoCanvas.width =
+        cameraVideo.videoWidth;
+
+      photoCanvas.height =
+        cameraVideo.videoHeight;
+
+
+      const ctx =
+        photoCanvas.getContext("2d");
+
+
+      /*
+       * Desenăm cadrul video pe canvas.
+       */
+
+      ctx.drawImage(
+        cameraVideo,
+        0,
+        0,
+        photoCanvas.width,
+        photoCanvas.height
+      );
+
+
+      /*
+       * Convertim canvas-ul într-un Blob JPEG.
+       */
+
+      photoCanvas.toBlob(
+        function(blob) {
+
+          if (!blob) {
+
+            alert(
+              "Fotografia nu a putut fi capturată."
+            );
+
+            return;
+          }
+
+
+          /*
+           * Creăm un File real.
+           *
+           * Make va primi acest File prin FormData
+           * exact ca pe un fișier selectat normal.
+           */
+
+          currentPhotoFile =
+            new File(
+              [blob],
+              "CI_" +
+              currentZilierId +
+              "_" +
+              Date.now() +
+              ".jpg",
+              {
+                type: "image/jpeg",
+                lastModified: Date.now()
+              }
+            );
+
+
+          /*
+           * Afișăm fotografia în pagină.
+           */
+
+          const imageUrl =
+            URL.createObjectURL(
+              currentPhotoFile
+            );
+
+
+          preview.src =
+            imageUrl;
+
+
+          previewContainer.classList.remove(
+            "hidden"
+          );
+
+
+          /*
+           * Oprim camera după fotografie.
+           */
+
+          opresteCamera();
+
+
+          /*
+           * Arătăm acțiunile.
+           */
+
+          photoActions.classList.remove(
+            "hidden"
+          );
+
+
+          retakePhotoButton.classList.remove(
+            "hidden"
+          );
+
+
+          fileStatus.textContent =
+            "Fotografie capturată și pregătită pentru trimitere.";
+
+
+          uploadStatus.textContent =
+            "Fotografia este pregătită pentru verificare.";
+
+
+        },
+        "image/jpeg",
+        0.92
+      );
+
+    }
+
+
+    /* =========================================
+       REIA FOTOGRAFIA
+       ========================================= */
+
+    retakePhotoButton.addEventListener(
+      "click",
+      function() {
+
+        currentPhotoFile = null;
+
+
+        preview.src = "";
+
+        previewContainer.classList.add(
+          "hidden"
+        );
+
+
+        photoActions.classList.add(
+          "hidden"
+        );
+
+
+        uploadStatus.textContent = "";
+
+        fileStatus.textContent =
+          "Se pregătește o nouă fotografie...";
+
+
+        pornesteCamera();
+
+      }
+    );
+
+
+    /* =========================================
+       ALEGERE FOTOGRAFIE EXISTENTĂ
+       ========================================= */
+
+    identityFile.addEventListener(
+      "change",
+      function() {
+
+        const file =
+          this.files[0];
+
+
+        if (!file) {
+
+          return;
+
+        }
+
+
+        /*
+         * Fotografia selectată devine fotografia
+         * care va fi transmisă către Make.
+         */
+
+        currentPhotoFile =
+          file;
+
+
+        /*
+         * Dacă utilizatorul alege o fotografie,
+         * închidem camera dacă era activă.
+         */
+
+        opresteCamera();
+
+
+        const reader =
+          new FileReader();
+
+
+        reader.onload =
+          function(event) {
+
+            preview.src =
+              event.target.result;
+
+
+            previewContainer.classList.remove(
+              "hidden"
+            );
+
+
+            photoActions.classList.remove(
+              "hidden"
+            );
+
+
+            retakePhotoButton.classList.add(
+              "hidden"
+            );
+
+
+            uploadStatus.textContent =
+              "Fotografie pregătită pentru trimitere.";
+
+          };
+
+
+        reader.readAsDataURL(file);
+
+
+        fileStatus.textContent =
+          "Fotografie selectată.";
+
+      }
+    );
+
+
+    /* =========================================
+       TRANSMITERE FOTO + VALIDARE MAKE
+       ========================================= */
+
+    async function salveazaSiValideaza() {
+
+      /*
+       * Nu mai citim exclusiv fileInput.files[0].
+       *
+       * Pentru camera direct în pagină fotografia este
+       * păstrată în currentPhotoFile.
+       */
+
+      const file =
+        currentPhotoFile;
+
+
+      if (!file) {
+
+        alert(
+          "Te rugăm să faci sau să alegi mai întâi o fotografie a actului de identitate!"
+        );
+
+        return;
+
+      }
+
+
+      const sendBtn =
+        document.getElementById("sendPhoto");
+
+      const successEl =
+        document.getElementById("success");
+
+      const successTitle =
+        document.getElementById("successTitle");
+
+      const successMessage =
+        document.getElementById("successMessage");
+
+
+      sendBtn.disabled = true;
+
+      sendBtn.textContent =
+        "SE TRIMITE ȘI SE PROCESEAZĂ...";
+
+
+      uploadStatus.textContent =
+        "Se trimite fotografia pentru verificare...";
+
+
+      successEl.classList.add(
+        "hidden"
+      );
+
+
+      /*
+       * FormData rămâne exact mecanismul folosit
+       * în versiunea ta actuală.
+       */
+
+      const formData =
+        new FormData();
+
+
+      formData.append(
+        "ID_zilier",
+        currentZilierId
+      );
+
+
+      formData.append(
+        "Nivel_cont",
+        "NC003"
+      );
+
+
+      /*
+       * Foarte important:
+       * câmpul se numește în continuare foto_ci.
+       *
+       * Make îl primește deci exact sub numele
+       * pe care îl folosește deja scenariul tău.
+       */
+
+      formData.append(
+        "foto_ci",
+        file,
+        file.name
+      );
+
+
+      try {
+
+        const response =
+          await fetch(
+            WEBHOOK_VALIDARE_FOTO,
+            {
+              method: "POST",
+              body: formData
+            }
+          );
+
 
         let data = {};
+
+
         try {
-          data = await response.json();
+
+          data =
+            await response.json();
+
         } catch (e) {
+
           data = {};
+
         }
 
-        if (response.ok && data.success) {
-          // HTTP 200: APROBAT (Match CNP)
-          uploadStatus.textContent = "✓ Validat cu succes!";
-          
-          successEl.className = "mt-6 p-5 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-semibold text-emerald-800 leading-relaxed shadow-sm";
-          successTitle.className = "flex items-center gap-2 mb-1 text-emerald-900 font-black text-sm";
-          successTitle.innerHTML = "<span>✓</span> Confirmare Reușită";
-          successMessage.textContent = data.message || "Fotografia a fost procesată, iar datele s-au potrivit cu profilul tău. Agentul îți poate trimite acum adresa și instrucțiunile de lucru.";
-          
-          sendBtn.disabled = true;
-          sendBtn.textContent = "VALIDARE COMPLETATĂ";
+
+        if (
+          response.ok &&
+          data.success
+        ) {
+
+          /*
+           * HTTP 200 = APROBAT
+           */
+
+          uploadStatus.textContent =
+            "✓ Validat cu succes!";
+
+
+          successEl.className =
+            "mt-6 p-5 bg-emerald-50 border border-emerald-200 rounded-2xl text-xs font-semibold text-emerald-800 leading-relaxed shadow-sm";
+
+
+          successTitle.className =
+            "flex items-center gap-2 mb-1 text-emerald-900 font-black text-sm";
+
+
+          successTitle.innerHTML =
+            "<span>✓</span> Confirmare Reușită";
+
+
+          successMessage.textContent =
+            data.message ||
+            "Fotografia a fost procesată, iar datele s-au potrivit cu profilul tău. Agentul îți poate trimite acum adresa și instrucțiunile de lucru.";
+
+
+          sendBtn.disabled =
+            true;
+
+
+          sendBtn.textContent =
+            "VALIDARE COMPLETATĂ";
+
+
         } else {
-          // HTTP 400 sau alt cod de eroare: RESPINS (Fallback / Mismatch / Neclar)
-          uploadStatus.textContent = "✕ Validare eșuată";
-          
-          successEl.className = "mt-6 p-5 bg-rose-50 border border-rose-200 rounded-2xl text-xs font-semibold text-rose-800 leading-relaxed shadow-sm";
-          successTitle.className = "flex items-center gap-2 mb-1 text-rose-900 font-black text-sm";
-          successTitle.innerHTML = "<span>✕</span> Validare Eșuată";
-          successMessage.textContent = data.message || "CNP-ul din imagine nu se potrivește cu datele din dosar sau poza este neclară.";
-          
-          sendBtn.disabled = false;
-          sendBtn.textContent = "REÎNCEARCĂ TRIMITEREA";
+
+          /*
+           * HTTP 400 sau alt cod = RESPINS
+           */
+
+          uploadStatus.textContent =
+            "✕ Validare eșuată";
+
+
+          successEl.className =
+            "mt-6 p-5 bg-rose-50 border border-rose-200 rounded-2xl text-xs font-semibold text-rose-800 leading-relaxed shadow-sm";
+
+
+          successTitle.className =
+            "flex items-center gap-2 mb-1 text-rose-900 font-black text-sm";
+
+
+          successTitle.innerHTML =
+            "<span>✕</span> Validare Eșuată";
+
+
+          successMessage.textContent =
+            data.message ||
+            "CNP-ul din imagine nu se potrivește cu datele din dosar sau poza este neclară.";
+
+
+          sendBtn.disabled =
+            false;
+
+
+          sendBtn.textContent =
+            "REÎNCEARCĂ TRIMITEREA";
+
         }
 
-        successEl.classList.remove("hidden");
-        successEl.scrollIntoView({ behavior: "smooth" });
+
+        successEl.classList.remove(
+          "hidden"
+        );
+
+
+        successEl.scrollIntoView({
+          behavior: "smooth"
+        });
+
 
       } catch (err) {
-        console.error("Eroare conexiune webhook:", err);
-        uploadStatus.textContent = "✕ Eroare de conexiune";
-        
-        successEl.className = "mt-6 p-5 bg-rose-50 border border-rose-200 rounded-2xl text-xs font-semibold text-rose-800 leading-relaxed shadow-sm";
-        successTitle.className = "flex items-center gap-2 mb-1 text-rose-900 font-black text-sm";
-        successTitle.innerHTML = "<span>✕</span> Eroare Rețea";
-        successMessage.textContent = "A apărut o eroare de conexiune cu serverul. Verifică rețeaua și încearcă din nou.";
-        
-        successEl.classList.remove("hidden");
-        successEl.scrollIntoView({ behavior: "smooth" });
 
-        sendBtn.disabled = false;
-        sendBtn.textContent = "CONFIRMĂ ȘI TRIMITE PENTRU PROCESARE";
+        console.error(
+          "Eroare conexiune webhook:",
+          err
+        );
+
+
+        uploadStatus.textContent =
+          "✕ Eroare de conexiune";
+
+
+        successEl.className =
+          "mt-6 p-5 bg-rose-50 border border-rose-200 rounded-2xl text-xs font-semibold text-rose-800 leading-relaxed shadow-sm";
+
+
+        successTitle.className =
+          "flex items-center gap-2 mb-1 text-rose-900 font-black text-sm";
+
+
+        successTitle.innerHTML =
+          "<span>✕</span> Eroare Rețea";
+
+
+        successMessage.textContent =
+          "A apărut o eroare de conexiune cu serverul. Verifică rețeaua și încearcă din nou.";
+
+
+        successEl.classList.remove(
+          "hidden"
+        );
+
+
+        successEl.scrollIntoView({
+          behavior: "smooth"
+        });
+
+
+        sendBtn.disabled =
+          false;
+
+
+        sendBtn.textContent =
+          "CONFIRMĂ ȘI TRIMITE PENTRU PROCESARE";
+
       }
+
     }
+
+
+    /*
+     * Dacă utilizatorul închide pagina cât timp camera
+     * este activă, oprim stream-ul.
+     */
+
+    window.addEventListener(
+      "beforeunload",
+      () => {
+
+        if (cameraStream) {
+
+          cameraStream.getTracks().forEach(
+            track => track.stop()
+          );
+
+        }
+
+      }
+    );
+
   </script>
+
 </body>
 </html>
