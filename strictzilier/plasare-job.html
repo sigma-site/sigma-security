@@ -1,1403 +1,533 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>STRICTZILIER.ro – Plasare job</title>
-
-<style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    color: #263238;
-}
-
-/* =====================================================
-   HEADER
-===================================================== */
-
-header {
-    height: 68px;
-    background: #fff;
-    border-bottom: 1px solid #ddd;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 28px;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: 800;
-}
-
-.logo .orange {
-    color: #f28c28;
-}
-
-.header-title {
-    color: #666;
-    font-size: 15px;
-}
-
-/* =====================================================
-   STRUCTURA PRINCIPALA
-   STANGA = CONTINUT
-   DREAPTA = CHAT
-===================================================== */
-
-.main {
-    max-width: 1280px;
-    margin: 22px auto;
-    padding: 0 18px;
-
-    display: grid;
-    grid-template-columns:
-        minmax(0, 1.55fr)
-        minmax(320px, .75fr);
-
-    gap: 22px;
-}
-
-.left-column {
-    min-width: 0;
-}
-
-.content {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
-    padding: 26px;
-}
-
-/* =====================================================
-   TITLU
-===================================================== */
-
-h1 {
-    margin: 0 0 8px;
-    font-size: 26px;
-}
-
-.subtitle {
-    color: #68737a;
-    margin-bottom: 24px;
-    line-height: 1.5;
-}
-
-/* =====================================================
-   TABEL SABLOANE
-===================================================== */
-
-.table-wrap {
-    overflow-x: auto;
-}
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-}
-
-thead th {
-    background: #f1f3f4;
-    padding: 12px 10px;
-    text-align: left;
-    white-space: nowrap;
-}
-
-tbody td {
-    padding: 12px 10px;
-    border-bottom: 1px solid #e3e6e8;
-    vertical-align: middle;
-}
-
-.choose-btn {
-    border: 0;
-    background: #263238;
-    color: white;
-    border-radius: 7px;
-    padding: 9px 14px;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.choose-btn:hover {
-    opacity: .9;
-}
-
-/* =====================================================
-   GHID
-===================================================== */
-
-.guide-btn {
-    margin-top: 22px;
-    width: 100%;
-    padding: 12px;
-    background: #fff;
-    color: #d87514;
-    border: 1px solid #f28c28;
-    border-radius: 8px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-/* =====================================================
-   CONFIGURARE OFERTA
-   RAMANE IN COLOANA STANGA
-===================================================== */
-
-.placement {
-    display: none;
-    margin-top: 22px;
-
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
-
-    padding: 26px;
-}
-
-.placement.active {
-    display: block;
-}
-
-.placement-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 22px;
-}
-
-.placement-header h2 {
-    margin: 0;
-    font-size: 22px;
-}
-
-.close-btn {
-    border: 0;
-    background: #eceff1;
-    color: #263238;
-    border-radius: 7px;
-    padding: 9px 14px;
-    cursor: pointer;
-}
-
-/* =====================================================
-   DATE SABLON - DOAR AFISARE
-===================================================== */
-
-.template-summary {
-    background: #f6f7f8;
-    border: 1px solid #e0e3e5;
-    border-radius: 9px;
-    padding: 17px;
-    margin-bottom: 22px;
-}
-
-.template-summary-title {
-    font-size: 13px;
-    font-weight: bold;
-    color: #68737a;
-    margin-bottom: 14px;
-}
-
-.summary-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px 20px;
-}
-
-.summary-item {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.summary-label {
-    font-size: 12px;
-    color: #68737a;
-}
-
-.summary-value {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-/* =====================================================
-   FORMULAR OFERTA
-===================================================== */
-
-.form-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.field {
-    display: flex;
-    flex-direction: column;
-}
-
-.field.full {
-    grid-column: 1 / -1;
-}
-
-.field label {
-    font-size: 13px;
-    font-weight: bold;
-    margin-bottom: 6px;
-}
-
-.field input,
-.field select {
-    width: 100%;
-    padding: 11px;
-    border: 1px solid #cdd2d5;
-    border-radius: 7px;
-    font-family: inherit;
-    font-size: 14px;
-}
-
-.form-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 24px;
-}
-
-.launch-btn {
-    border: 0;
-    background: #f28c28;
-    color: white;
-    padding: 12px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-/* =====================================================
-   CHAT
-   RAMANE IN COLOANA DREAPTA
-===================================================== */
-
-.agent {
-    background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.06);
-
-    min-height: 600px;
-
-    display: flex;
-    flex-direction: column;
-
-    position: sticky;
-    top: 20px;
-
-    height: calc(100vh - 110px);
-    max-height: 850px;
-}
-
-.agent-header {
-    padding: 18px 20px;
-    border-bottom: 1px solid #ddd;
-    font-weight: bold;
-}
-
-.chat {
-    flex: 1;
-    padding: 20px;
-    background: #fafafa;
-    overflow-y: auto;
-}
-
-.chat-message {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 9px;
-    padding: 13px;
-    font-size: 14px;
-    line-height: 1.45;
-}
-
-.chat-input {
-    display: flex;
-    gap: 8px;
-    padding: 13px;
-    border-top: 1px solid #ddd;
-}
-
-.chat-input input {
-    flex: 1;
-    min-width: 0;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-}
-
-.chat-input button {
-    border: 0;
-    background: #f28c28;
-    color: white;
-    border-radius: 7px;
-    padding: 10px 15px;
-}
-
-/* =====================================================
-   GHID
-===================================================== */
-
-.guide-overlay {
-    display: none;
-
-    position: fixed;
-    inset: 0;
-
-    background: rgba(0,0,0,.55);
-
-    z-index: 100;
-
-    padding: 20px;
-
-    overflow-y: auto;
-}
-
-.guide-overlay.active {
-    display: block;
-}
-
-.guide-box {
-    max-width: 820px;
-    margin: 30px auto;
-
-    background: #fff;
-    border-radius: 12px;
-
-    padding: 28px;
-
-    line-height: 1.55;
-}
-
-.guide-box h2 {
-    margin-top: 0;
-}
-
-.guide-box h3 {
-    margin-top: 25px;
-}
-
-.guide-box p {
-    margin: 12px 0;
-}
-
-/* =====================================================
-   RESPONSIVE
-===================================================== */
-
-@media (max-width: 850px) {
-
-    .main {
-        grid-template-columns: 1fr;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plasare job - STRICTZILIER.ro</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .custom-scroll::-webkit-scrollbar { width: 5px; }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
     }
-
-    .agent {
-        position: relative;
-        top: auto;
-
-        min-height: 400px;
-        height: 500px;
-        max-height: none;
-    }
-
-    .summary-grid,
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .field.full {
-        grid-column: auto;
-    }
-}
-
-@media (max-width: 600px) {
-
-    header {
-        padding: 0 15px;
-    }
-
-    .header-title {
-        display: none;
-    }
-
-    .content {
-        padding: 18px;
-    }
-
-    .placement {
-        padding: 18px;
-    }
-
-    .table-wrap {
-        margin-left: -5px;
-        margin-right: -5px;
-    }
-
-    table {
-        min-width: 700px;
-    }
-
-    .placement-header {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-}
-</style>
+  </style>
 </head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
-<body>
+  <!-- Header Permanent -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+        <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
+      </a>
 
-<!-- =====================================================
-     HEADER
-===================================================== -->
+      <!-- Link Ghid Angajator -->
+      <a href="ghid-angajator.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 rounded-lg text-xs font-bold transition">
+        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>GHID ANGAJATOR</span>
+      </a>
 
-<header>
-
-    <div class="logo">
-        STRICT<span class="orange">ZILIER</span>.ro
     </div>
+  </header>
 
-    <div class="header-title">
-        Plasare ofertă de muncă
-    </div>
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
+      
+      <!-- COLOANA STANGA & CENTRU: CARDUL PRINCIPAL -->
+      <div class="lg:col-span-2 space-y-6">
+        
+        <!-- SECTIUNE LISTA ȘABLOANE -->
+        <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
+          
+          <h1 class="text-2xl font-black text-slate-900 tracking-tight">Plasează o ofertă de muncă</h1>
+          <p class="text-xs font-medium text-slate-500 mt-1 mb-6 leading-relaxed">
+            Alegeți un șablon existent pentru activitatea pe care doriți să o transformați într-o ofertă concretă de muncă.
+          </p>
 
-</header>
-
-
-<!-- =====================================================
-     STRUCTURA PRINCIPALA
-===================================================== -->
-
-<div class="main">
-
-
-    <!-- =================================================
-         COLOANA STANGA
-    ================================================== -->
-
-    <div class="left-column">
-
-
-        <!-- =============================================
-             LISTA SABLOANE
-        ============================================== -->
-
-        <section class="content">
-
-            <h1>
-                Plasează o ofertă de muncă
-            </h1>
-
-            <div class="subtitle">
-                Alegeți un șablon existent pentru activitatea
-                pe care doriți să o transformați într-o ofertă
-                concretă de muncă.
-            </div>
-
-
-            <div class="table-wrap">
-
-                <table>
-
-                    <thead>
-
-                        <tr>
-                            <th>ID</th>
-                            <th>Activitate</th>
-                            <th>Locul</th>
-                            <th>Denumire</th>
-                            <th>Durată</th>
-                            <th></th>
-                        </tr>
-
-                    </thead>
-
-                    <tbody id="templatesBody"></tbody>
-
-                </table>
-
-            </div>
-
-
-            <button
-                class="guide-btn"
-                onclick="openGuide()">
-
-                GHID ANGAJATOR
-
-            </button>
+          <div class="overflow-x-auto rounded-xl border border-slate-200">
+            <table class="w-full text-left border-collapse text-xs">
+              <thead>
+                <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
+                  <th class="p-3">ID</th>
+                  <th class="p-3">Activitate</th>
+                  <th class="p-3">Locul</th>
+                  <th class="p-3">Denumire</th>
+                  <th class="p-3">Durată</th>
+                  <th class="p-3 text-right">Acțiune</th>
+                </tr>
+              </thead>
+              <tbody id="templatesBody" class="divide-y divide-slate-100 font-medium">
+                <!-- Se populează dinamic din JS -->
+              </tbody>
+            </table>
+          </div>
 
         </section>
 
+        <!-- SECTIUNE CONFIGURARE OFERTĂ (DESCHISĂ DUPĂ CLICK PE "ALEGE") -->
+        <section id="placementSection" class="hidden bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200 space-y-6">
+          
+          <div class="flex items-center justify-between gap-4 border-b border-slate-100 pb-4">
+            <h2 class="text-lg font-bold text-slate-900">Configurare ofertă de muncă</h2>
+            <button type="button" onclick="closePlacement()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition">
+              Înapoi la șabloane
+            </button>
+          </div>
 
-        <!-- =============================================
-             CONFIGURARE OFERTA
+          <!-- SUMMARY ȘABLON SELECTAT (READ-ONLY) -->
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <span class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3">ȘABLON SELECTAT</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+              <div>
+                <span class="block text-slate-400 font-medium mb-0.5">ID șablon</span>
+                <span id="selectedId" class="block font-bold text-slate-800"></span>
+              </div>
+              <div>
+                <span class="block text-slate-400 font-medium mb-0.5">Grupa activitate</span>
+                <span id="selectedGroup" class="block font-bold text-slate-800"></span>
+              </div>
+              <div>
+                <span class="block text-slate-400 font-medium mb-0.5">Activitate</span>
+                <span id="selectedActivity" class="block font-bold text-slate-800"></span>
+              </div>
+              <div>
+                <span class="block text-slate-400 font-medium mb-0.5">Denumire</span>
+                <span id="selectedName" class="block font-bold text-slate-800"></span>
+              </div>
+              <div>
+                <span class="block text-slate-400 font-medium mb-0.5">Locul desfășurării</span>
+                <span id="selectedPlace" class="block font-bold text-slate-800"></span>
+              </div>
+              <div>
+                <span class="block text-slate-400 font-medium mb-0.5">Durata</span>
+                <span id="selectedDuration" class="block font-bold text-slate-800"></span>
+              </div>
+            </div>
+          </div>
 
-             ACEASTA RAMANE IN STANGA
-             SI SE DESCHIDE DUPA "ALEGE"
-        ============================================== -->
+          <!-- FORMULAR DATE PLASARE JOB -->
+          <div class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="startDate" class="block text-xs font-bold text-slate-700 mb-1">Data început *</label>
+                <input id="startDate" type="date" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              </div>
 
-        <section
-            id="placementSection"
-            class="placement">
-
-            <div class="placement-header">
-
-                <h2>
-                    Configurare ofertă de muncă
-                </h2>
-
-                <button
-                    class="close-btn"
-                    onclick="closePlacement()">
-
-                    Înapoi la șabloane
-
-                </button>
-
+              <div>
+                <label for="endDate" class="block text-xs font-bold text-slate-700 mb-1">Data sfârșit *</label>
+                <input id="endDate" type="date" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              </div>
             </div>
 
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="minWorkers" class="block text-xs font-bold text-slate-700 mb-1">Număr minim zilieri *</label>
+                <input id="minWorkers" type="number" min="1" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              </div>
 
-            <!-- =========================================
-                 DATELE SABLONULUI
-                 NU SUNT EDITABILE
-            ========================================== -->
-
-            <div class="template-summary">
-
-                <div class="template-summary-title">
-                    ȘABLON SELECTAT
-                </div>
-
-
-                <div class="summary-grid">
-
-
-                    <div class="summary-item">
-
-                        <span class="summary-label">
-                            ID șablon
-                        </span>
-
-                        <span
-                            id="selectedId"
-                            class="summary-value">
-                        </span>
-
-                    </div>
-
-
-                    <div class="summary-item">
-
-                        <span class="summary-label">
-                            Grupa activitate
-                        </span>
-
-                        <span
-                            id="selectedGroup"
-                            class="summary-value">
-                        </span>
-
-                    </div>
-
-
-                    <div class="summary-item">
-
-                        <span class="summary-label">
-                            Activitate
-                        </span>
-
-                        <span
-                            id="selectedActivity"
-                            class="summary-value">
-                        </span>
-
-                    </div>
-
-
-                    <div class="summary-item">
-
-                        <span class="summary-label">
-                            Denumire
-                        </span>
-
-                        <span
-                            id="selectedName"
-                            class="summary-value">
-                        </span>
-
-                    </div>
-
-
-                    <div class="summary-item">
-
-                        <span class="summary-label">
-                            Locul desfășurării
-                        </span>
-
-                        <span
-                            id="selectedPlace"
-                            class="summary-value">
-                        </span>
-
-                    </div>
-
-
-                    <div class="summary-item">
-
-                        <span class="summary-label">
-                            Durata
-                        </span>
-
-                        <span
-                            id="selectedDuration"
-                            class="summary-value">
-                        </span>
-
-                    </div>
-
-                </div>
-
+              <div>
+                <label for="maxWorkers" class="block text-xs font-bold text-slate-700 mb-1">Număr dorit zilieri *</label>
+                <input id="maxWorkers" type="number" min="1" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              </div>
             </div>
 
-
-            <!-- =========================================
-                 DATE PLASARE JOB
-            ========================================== -->
-
-            <div class="form-grid">
-
-
-                <div class="field">
-
-                    <label for="startDate">
-                        Data început
-                    </label>
-
-                    <input
-                        id="startDate"
-                        type="date">
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="endDate">
-                        Data sfârșit
-                    </label>
-
-                    <input
-                        id="endDate"
-                        type="date">
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="minWorkers">
-                        Număr minim zilieri
-                    </label>
-
-                    <input
-                        id="minWorkers"
-                        type="number"
-                        min="1">
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="maxWorkers">
-                        Număr dorit zilieri
-                    </label>
-
-                    <input
-                        id="maxWorkers"
-                        type="number"
-                        min="1">
-
-                </div>
-
-
-                <div class="field full">
-
-                    <label for="meetingPlace">
-                        Loc prezentare
-                    </label>
-
-                    <input
-                        id="meetingPlace"
-                        type="text"
-                        placeholder="Unde trebuie să se prezinte zilierii">
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="transport">
-                        Transport asigurat
-                    </label>
-
-                    <select id="transport">
-
-                        <option value="Nu">
-                            Nu
-                        </option>
-
-                        <option value="Da">
-                            Da
-                        </option>
-
-                    </select>
-
-                </div>
-
-
-                <div
-                    class="field"
-                    id="capacityField"
-                    style="display:none;">
-
-                    <label for="transportCapacity">
-                        Capacitate transport – locuri
-                    </label>
-
-                    <input
-                        id="transportCapacity"
-                        type="number"
-                        min="1">
-
-                </div>
-
+            <div>
+              <label for="meetingPlace" class="block text-xs font-bold text-slate-700 mb-1">Loc prezentare *</label>
+              <input id="meetingPlace" type="text" placeholder="Unde trebuie să se prezinte zilierii" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
             </div>
 
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="transport" class="block text-xs font-bold text-slate-700 mb-1">Transport asigurat</label>
+                <select id="transport" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                  <option value="Nu">Nu</option>
+                  <option value="Da">Da</option>
+                </select>
+              </div>
 
-            <!-- =========================================
-                 BUTOANE
-            ========================================== -->
-
-            <div class="form-actions">
-
-                <button
-                    class="close-btn"
-                    onclick="closePlacement()">
-
-                    Anulează
-
-                </button>
-
-
-                <button
-                    class="launch-btn"
-                    onclick="launchOffer()">
-
-                    Lansează oferta
-
-                </button>
-
+              <div id="capacityField" class="hidden">
+                <label for="transportCapacity" class="block text-xs font-bold text-slate-700 mb-1">Capacitate transport - locuri</label>
+                <input id="transportCapacity" type="number" min="1" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              </div>
             </div>
+          </div>
+
+          <!-- ACTION BUTTONS OFERTĂ -->
+          <div class="pt-4 border-t border-slate-100 flex flex-col sm:flex-row justify-end gap-2.5">
+            <button type="button" onclick="closePlacement()" class="w-full sm:w-auto px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-lg transition">
+              Anulează
+            </button>
+            <button type="button" onclick="launchOffer()" class="w-full sm:w-auto px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+              Lansează oferta
+            </button>
+          </div>
+
+          <!-- STATUS / SUCCESS -->
+          <div id="success" class="hidden mt-4 p-4 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-semibold text-emerald-800 leading-relaxed">
+            Oferta de muncă a fost lansată cu succes și este pregătită pentru potrivirea cu zilierii disponibili!
+          </div>
 
         </section>
 
-    </div>
+      </div>
 
+      <!-- COLOANA DREAPTA: AGENT VAPI INTEGRAT DIRECT -->
+      <aside id="strictzilierAgent" class="bg-gradient-to-b from-slate-900 to-blue-950 text-white p-3.5 sm:p-4 rounded-2xl shadow-xl border border-blue-900 flex flex-col justify-between h-[580px] text-center">
+        <div>
+          <p class="text-xs text-slate-300 mb-2 leading-tight max-w-xs mx-auto pt-1">
+            Spune ce cauți sau de ce ai nevoie. Agentul mediază întâlnirea dintre zilieri și angajatori.
+          </p>
 
-    <!-- =================================================
-         COLOANA DREAPTA – CHAT
-    ================================================== -->
-
-    <aside class="agent">
-
-        <div class="agent-header">
-            Asistent STRICTZILIER
-        </div>
-
-
-        <div class="chat">
-
-            <div class="chat-message">
-
-                Sunt aici pentru a vă ajuta să alegeți
-                șablonul potrivit și să configurați oferta.
-
+          <div id="conversation" class="custom-scroll w-full h-[355px] p-2.5 bg-slate-950/60 border border-slate-800 rounded-xl overflow-y-auto text-left space-y-2 mb-1.5">
+            <div class="bg-white/10 text-slate-100 p-2 rounded-lg text-xs leading-relaxed max-w-[88%] border-l-2 border-blue-500">
+              <span class="block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider">AGENT</span>
+              Sunt aici pentru a vă ajuta să alegeți șablonul potrivit și să configurați oferta.
             </div>
-
+          </div>
         </div>
 
-
-        <div class="chat-input">
-
-            <input
-                type="text"
-                placeholder="Scrieți întrebarea...">
-
-            <button>
-                Trimite
+        <div>
+          <div class="w-full max-w-[340px] mx-auto grid grid-cols-[1fr_34px_1fr] gap-1.5 items-center mb-1.5">
+            <button id="voiceModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center">
+              VOCAL
             </button>
+            <div id="agentOrb" class="w-8 h-8 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-xs text-white">
+              ✦
+            </div>
+            <button id="textModeButton" type="button" class="h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center">
+              SCRIS
+            </button>
+          </div>
 
+          <div id="voicePanel" class="w-full max-w-[340px] mx-auto">
+            <button id="agentButton" type="button" class="w-full h-11 bg-white hover:bg-slate-100 text-blue-950 font-extrabold text-xs rounded-lg shadow transition flex items-center justify-center">
+              PORNEȘTE CONVERSAȚIA
+            </button>
+            <div id="status" class="min-h-[14px] mt-1 text-[10px] font-bold text-emerald-400"></div>
+          </div>
+
+          <div id="textPanel" class="w-full max-w-[340px] mx-auto hidden">
+            <div class="flex gap-1.5">
+              <input id="messageInput" type="text" placeholder="Scrieți întrebarea..." autocomplete="off" class="flex-1 min-w-0 h-11 px-3 bg-white text-slate-900 rounded-lg text-xs outline-none">
+              <button id="sendButton" type="button" class="w-[76px] h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-lg transition flex-shrink-0 flex items-center justify-center">
+                TRIMITE
+              </button>
+            </div>
+            <div id="chatStatus" class="min-h-[14px] mt-1 text-[10px] font-bold text-blue-300"></div>
+          </div>
         </div>
-
-    </aside>
-
-</div>
-
-
-<!-- =====================================================
-     GHID ANGAJATOR
-===================================================== -->
-
-<div
-    id="guideOverlay"
-    class="guide-overlay">
-
-    <div class="guide-box">
-
-        <h2>
-            Ghid angajator – Plasarea unei oferte
-        </h2>
-
-
-        <p>
-            O ofertă de muncă se lansează întotdeauna
-            pornind de la un șablon existent.
-        </p>
-
-
-        <h3>
-            1. Alegerea șablonului
-        </h3>
-
-        <p>
-            Lista prezintă șabloanele create anterior de
-            angajator. Pentru identificarea rapidă sunt
-            afișate ID-ul, activitatea, locul, denumirea
-            și durata.
-        </p>
-
-
-        <h3>
-            2. Activitatea
-        </h3>
-
-        <p>
-            Activitatea afișată este activitatea finală
-            aleasă din lista de activități asociată grupei.
-            În această pagină nu este afișat codul
-            activității.
-        </p>
-
-
-        <h3>
-            3. Butonul „Alege”
-        </h3>
-
-        <p>
-            Butonul „Alege” selectează șablonul pentru
-            oferta care urmează să fie lansată. El nu
-            modifică șablonul și nu creează un șablon nou.
-        </p>
-
-
-        <h3>
-            4. Configurarea ofertei
-        </h3>
-
-        <p>
-            După alegerea șablonului sunt afișate datele
-            acestuia, iar angajatorul completează datele
-            specifice plasării: perioada, numărul de
-            zilieri, locul de prezentare și transportul.
-        </p>
-
-
-        <h3>
-            5. Modificarea unui șablon
-        </h3>
-
-        <p>
-            Modificarea unui șablon este o operațiune
-            separată și se realizează numai în pagina
-            „Șabloane job”. O modificare salvată reprezintă
-            un șablon nou, cu un ID nou.
-        </p>
-
-
-        <button
-            class="close-btn"
-            onclick="closeGuide()">
-
-            Închide ghidul
-
-        </button>
+      </aside>
 
     </div>
+  </main>
 
-</div>
+  <!-- FOOTER STANDARD -->
+  <footer class="bg-white border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>© 2026 STRICTZILIER.ro · Toate drepturile rezervate. Conform Legii 52/2011.</div>
+      <div class="flex flex-wrap gap-4 font-medium">
+        <a href="#termeni" class="hover:text-slate-800 transition">Termeni și Condiții</a>
+        <a href="#confidentialitate" class="hover:text-slate-800 transition">Politică de Confidențialitate</a>
+        <a href="https://anpc.ro" target="_blank" rel="noopener" class="hover:text-slate-800 transition">ANPC</a>
+      </div>
+    </div>
+  </footer>
 
+  <!-- SCRIPT INTEGRARE VAPI & PIE.HOST -->
+  <script type="module">
+    import Vapi from "https://esm.sh/@vapi-ai/web";
 
-<script>
+    const PUBLIC_KEY = "ab245358-61ea-4876-b767-8e4ad159627d";
+    const ASSISTANT_ID = "970da2f1-89c8-438c-ac8c-30abfa04528e";
+    const CHAT_URL = "https://2.pie.host/chat.php";
 
-/* =====================================================
-   SABLOANE DEMO
+    const vapi = new Vapi(PUBLIC_KEY);
 
-   În versiunea conectată la baza de date,
-   aceste date vor veni prin API.
+    const voiceModeButton = document.getElementById("voiceModeButton");
+    const textModeButton = document.getElementById("textModeButton");
+    const voicePanel = document.getElementById("voicePanel");
+    const textPanel = document.getElementById("textPanel");
+    const button = document.getElementById("agentButton");
+    const status = document.getElementById("status");
+    const conversation = document.getElementById("conversation");
+    const input = document.getElementById("messageInput");
+    const sendButton = document.getElementById("sendButton");
+    const chatStatus = document.getElementById("chatStatus");
 
-   Activitatea este deja activitatea finală:
-   GRUPA -> ACTIVITATE
-===================================================== */
+    let conversationActive = false;
+    let previousChatId = null;
+    let currentMode = "voice";
 
-const templates = [
+    function addMessage(type, text) {
+      if (!text || !text.trim()) return;
 
-    {
-        id: "S001",
+      const message = document.createElement("div");
+      message.className = "max-w-[88%] p-2 rounded-lg text-xs leading-relaxed " + 
+        (type === "user" ? "bg-amber-500 text-white ml-auto" : "bg-white/10 text-slate-100 mr-auto border-l-2 border-blue-500");
 
-        grupa:
-            "Agricultură, horticultură și comerț agricol",
+      const label = document.createElement("span");
+      label.className = "block text-[8px] font-extrabold opacity-75 mb-0.5 tracking-wider";
+      label.textContent = type === "user" ? "TU" : "AGENT";
 
-        activitate:
-            "Activitate agricolă de cultivare și recoltare",
+      const content = document.createElement("div");
+      content.textContent = text;
 
-        denumire:
-            "Cules mere",
+      message.appendChild(label);
+      message.appendChild(content);
+      conversation.appendChild(message);
 
-        loc:
-            "Fermă",
-
-        durata:
-            "8 ore"
-    },
-
-
-    {
-        id: "S002",
-
-        grupa:
-            "Peisagistică, spații verzi și gestionarea deșeurilor",
-
-        activitate:
-            "Activități de întreținere peisagistică",
-
-        denumire:
-            "Întreținere grădină",
-
-        loc:
-            "Grădină",
-
-        durata:
-            "6 ore"
-    },
-
-
-    {
-        id: "S003",
-
-        grupa:
-            "Alimentație, ospitalitate și cazare",
-
-        activitate:
-            "Activități de alimentație (catering) pentru evenimente",
-
-        denumire:
-            "Servire eveniment",
-
-        loc:
-            "Sală evenimente",
-
-        durata:
-            "8 ore"
+      conversation.scrollTop = conversation.scrollHeight;
     }
 
-];
+    function setMode(mode) {
+      if (mode === currentMode) return;
 
+      if (mode === "text" && conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
+      }
 
-/* =====================================================
-   AFISARE SABLOANE
-===================================================== */
+      currentMode = mode;
+      const voice = mode === "voice";
 
-function renderTemplates() {
+      voiceModeButton.classList.toggle("bg-amber-500", voice);
+      voiceModeButton.classList.toggle("border-amber-500", voice);
+      voiceModeButton.classList.toggle("text-white", voice);
+      voiceModeButton.classList.toggle("bg-white/10", !voice);
+      voiceModeButton.classList.toggle("text-blue-200", !voice);
 
-    const body =
-        document.getElementById(
-            "templatesBody"
-        );
+      textModeButton.classList.toggle("bg-amber-500", !voice);
+      textModeButton.classList.toggle("border-amber-500", !voice);
+      textModeButton.classList.toggle("text-white", !voice);
+      textModeButton.classList.toggle("bg-white/10", voice);
+      textModeButton.classList.toggle("text-blue-200", voice);
 
-    body.innerHTML = "";
+      voicePanel.classList.toggle("hidden", !voice);
+      textPanel.classList.toggle("hidden", voice);
 
+      if (!voice) input.focus();
+    }
 
-    templates.forEach(template => {
+    voiceModeButton.addEventListener("click", () => setMode("voice"));
+    textModeButton.addEventListener("click", () => setMode("text"));
 
-        const row =
-            document.createElement("tr");
-
-
-        row.innerHTML = `
-
-            <td>
-                ${template.id}
-            </td>
-
-            <td>
-                ${template.activitate}
-            </td>
-
-            <td>
-                ${template.loc}
-            </td>
-
-            <td>
-                ${template.denumire}
-            </td>
-
-            <td>
-                ${template.durata}
-            </td>
-
-            <td>
-
-                <button
-                    class="choose-btn"
-                    data-template-id="${template.id}">
-
-                    Alege
-
-                </button>
-
-            </td>
-
-        `;
-
-
-        row
-            .querySelector(".choose-btn")
-            .addEventListener(
-                "click",
-                function() {
-
-                    selectTemplate(
-                        this.dataset.templateId
-                    );
-
-                }
-            );
-
-
-        body.appendChild(row);
-
+    vapi.on("message", (message) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        addMessage(message.role === "user" ? "user" : "agent", message.transcript);
+      }
     });
 
-}
-
-
-/* =====================================================
-   ALEGERE SABLON
-   IMPORTANT:
-   DOAR DESCHIDE CONFIGURAREA OFERTEI
-===================================================== */
-
-function selectTemplate(id) {
-
-    const template =
-        templates.find(
-            item => item.id === id
-        );
-
-
-    if (!template) {
+    button.addEventListener("click", async () => {
+      if (conversationActive) {
+        vapi.stop();
+        conversationActive = false;
+        button.textContent = "PORNEȘTE CONVERSAȚIA";
+        status.textContent = "";
         return;
-    }
+      }
 
+      status.textContent = "Se conectează...";
 
-    /*
-     * Datele șablonului sunt doar afișate.
-     * Nu sunt câmpuri editabile.
-     */
+      try {
+        await vapi.start(ASSISTANT_ID);
+        conversationActive = true;
+        button.textContent = "ÎNCHIDE CONVERSAȚIA";
+        status.textContent = "Conversația vocală este activă.";
+      } catch (error) {
+        console.error("Eroare Vapi:", error);
+        status.textContent = "Nu s-a putut porni conversația.";
+      }
+    });
 
-    document.getElementById(
-        "selectedId"
-    ).textContent =
-        template.id;
+    async function sendTextMessage() {
+      const message = input.value.trim();
+      if (!message) return;
 
+      addMessage("user", message);
+      input.value = "";
+      sendButton.disabled = true;
+      chatStatus.textContent = "Se contactează agentul...";
 
-    document.getElementById(
-        "selectedGroup"
-    ).textContent =
-        template.grupa;
-
-
-    document.getElementById(
-        "selectedActivity"
-    ).textContent =
-        template.activitate;
-
-
-    document.getElementById(
-        "selectedName"
-    ).textContent =
-        template.denumire;
-
-
-    document.getElementById(
-        "selectedPlace"
-    ).textContent =
-        template.loc;
-
-
-    document.getElementById(
-        "selectedDuration"
-    ).textContent =
-        template.durata;
-
-
-    /*
-     * Singura acțiune:
-     * afișăm configurarea OFERTEI.
-     */
-
-    document
-        .getElementById(
-            "placementSection"
-        )
-        .classList
-        .add("active");
-
-
-    document
-        .getElementById(
-            "placementSection"
-        )
-        .scrollIntoView({
-            behavior: "smooth",
-            block: "start"
+      try {
+        const response = await fetch(CHAT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message, previousChatId: previousChatId })
         });
 
-}
-
-
-/* =====================================================
-   INCHIDERE CONFIGURARE
-===================================================== */
-
-function closePlacement() {
-
-    document
-        .getElementById(
-            "placementSection"
-        )
-        .classList
-        .remove("active");
-
-}
-
-
-/* =====================================================
-   TRANSPORT
-===================================================== */
-
-document
-    .getElementById("transport")
-    .addEventListener(
-        "change",
-        function() {
-
-            const capacityField =
-                document.getElementById(
-                    "capacityField"
-                );
-
-
-            if (this.value === "Da") {
-
-                capacityField.style.display =
-                    "flex";
-
-            } else {
-
-                capacityField.style.display =
-                    "none";
-
-                document.getElementById(
-                    "transportCapacity"
-                ).value = "";
-
-            }
-
-        }
-    );
-
-
-/* =====================================================
-   LANSARE OFERTA
-===================================================== */
-
-function launchOffer() {
-
-    const startDate =
-        document.getElementById(
-            "startDate"
-        ).value;
-
-
-    const endDate =
-        document.getElementById(
-            "endDate"
-        ).value;
-
-
-    const minWorkers =
-        Number(
-            document.getElementById(
-                "minWorkers"
-            ).value
-        );
-
-
-    const maxWorkers =
-        Number(
-            document.getElementById(
-                "maxWorkers"
-            ).value
-        );
-
-
-    const meetingPlace =
-        document.getElementById(
-            "meetingPlace"
-        ).value.trim();
-
-
-    if (
-        !startDate ||
-        !endDate ||
-        !minWorkers ||
-        !maxWorkers ||
-        !meetingPlace
-    ) {
-
-        alert(
-            "Completați toate câmpurile obligatorii."
-        );
-
-        return;
+        const data = await response.json();
+        if (data.chatId) previousChatId = data.chatId;
+        addMessage("agent", data.reply || "Agentul nu a returnat un răspuns.");
+        chatStatus.textContent = "";
+      } catch (error) {
+        addMessage("agent", "Eroare de conectare:\n" + error.message);
+      } finally {
+        sendButton.disabled = false;
+        input.focus();
+      }
     }
 
+    sendButton.addEventListener("click", sendTextMessage);
+    input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
+  </script>
 
-    if (maxWorkers < minWorkers) {
+  <!-- SCRIPT LOGICĂ PLASARE JOB, BAZĂ DE DATE & WEBHOOK MAKE.COM -->
+  <script>
+    const WEBHOOK_LANSEAZA_PLASARE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_PLASARE_JOB";
 
-        alert(
-            "Numărul dorit de zilieri nu poate fi mai mic decât numărul minim."
-        );
+    const templates = [
+      { id: "SJ000001", grupa: "GA001 Agricultură, horticultură și comerț agricol", activitate: "Activitate agricolă de cultivare și recoltare", denumire: "Cules mere", loc: "Fermă", durata: "8 ore" },
+      { id: "SJ000002", grupa: "GA003 Peisagistică, spații verzi și gestionarea deșeurilor", activitate: "Activități de întreținere peisagistică", denumire: "Întreținere grădină", loc: "Grădină", durata: "6 ore" },
+      { id: "SJ000003", grupa: "GA005 Alimentație, ospitalitate și cazare", activitate: "Activități de alimentație (catering) pentru evenimente", denumire: "Servire eveniment", loc: "Sală evenimente", durata: "8 ore" }
+    ];
 
-        return;
+    let currentUserSession = null;
+    let selectedTemplate = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      let sessionData = localStorage.getItem("strictzilier_session");
+      
+      if (!sessionData) {
+        const demoSession = {
+          role: 'angajator',
+          id: 'A000001',
+          societate: 'SC Exemplu SRL',
+          startOfWeek: new Date().toISOString().split('T')[0]
+        };
+        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
+        sessionData = JSON.stringify(demoSession);
+      }
+
+      try {
+        currentUserSession = JSON.parse(sessionData);
+      } catch (e) {
+        console.error("Eroare la citirea sesiunii:", e);
+      }
+
+      renderTemplates();
+    });
+
+    function renderTemplates() {
+      const body = document.getElementById("templatesBody");
+      body.innerHTML = "";
+
+      templates.forEach(template => {
+        const row = document.createElement("tr");
+        row.className = "hover:bg-slate-50 transition";
+        row.innerHTML = `
+          <td class="p-3 font-bold text-slate-800">${template.id}</td>
+          <td class="p-3 text-slate-600">${template.activitate}</td>
+          <td class="p-3 text-slate-600">${template.loc}</td>
+          <td class="p-3 text-slate-800 font-semibold">${template.denumire}</td>
+          <td class="p-3 text-slate-600">${template.durata}</td>
+          <td class="p-3 text-right">
+            <button type="button" data-template-id="${template.id}" class="choose-btn px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition shadow-sm">
+              Alege
+            </button>
+          </td>
+        `;
+
+        row.querySelector(".choose-btn").addEventListener("click", function() {
+          selectTemplate(this.dataset.templateId);
+        });
+
+        body.appendChild(row);
+      });
     }
 
+    function selectTemplate(id) {
+      selectedTemplate = templates.find(item => item.id === id);
+      if (!selectedTemplate) return;
 
-    /*
-     * Aici va fi conectat ulterior API-ul.
-     *
-     * Se va crea o înregistrare în
-     * fila "plasare job":
-     *
-     * ID_plasare_job
-     * ID_sablon_job
-     * Data_inceput
-     * Data_sfarsit
-     * Numar_minim_zilieri
-     * Numar_dorit_zilieri
-     * Loc_prezentare
-     * Transport_asigurat
-     * Capacitate_transport_locuri
-     *
-     * Șablonul original NU este modificat.
-     */
+      document.getElementById("selectedId").textContent = selectedTemplate.id;
+      document.getElementById("selectedGroup").textContent = selectedTemplate.grupa;
+      document.getElementById("selectedActivity").textContent = selectedTemplate.activitate;
+      document.getElementById("selectedName").textContent = selectedTemplate.denumire;
+      document.getElementById("selectedPlace").textContent = selectedTemplate.loc;
+      document.getElementById("selectedDuration").textContent = selectedTemplate.durata;
 
-    alert(
-        "Oferta este pregătită pentru lansare."
-    );
+      const placementSection = document.getElementById("placementSection");
+      placementSection.classList.remove("hidden");
+      placementSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
 
-}
+    function closePlacement() {
+      document.getElementById("placementSection").classList.add("hidden");
+    }
 
+    document.getElementById("transport").addEventListener("change", function() {
+      const capacityField = document.getElementById("capacityField");
+      if (this.value === "Da") {
+        capacityField.classList.remove("hidden");
+      } else {
+        capacityField.classList.add("hidden");
+        document.getElementById("transportCapacity").value = "";
+      }
+    });
 
-/* =====================================================
-   GHID
-===================================================== */
+    async function launchOffer() {
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+      const minWorkers = Number(document.getElementById("minWorkers").value);
+      const maxWorkers = Number(document.getElementById("maxWorkers").value);
+      const meetingPlace = document.getElementById("meetingPlace").value.trim();
+      const transport = document.getElementById("transport").value;
+      const transportCapacity = document.getElementById("transportCapacity").value;
 
-function openGuide() {
+      if (!startDate || !endDate || !minWorkers || !maxWorkers || !meetingPlace) {
+        alert("Completați toate câmpurile obligatorii.");
+        return;
+      }
 
-    document
-        .getElementById(
-            "guideOverlay"
-        )
-        .classList
-        .add("active");
+      if (maxWorkers < minWorkers) {
+        alert("Numărul dorit de zilieri nu poate fi mai mic decât numărul minim.");
+        return;
+      }
 
-}
+      const offerPayload = {
+        ID_angajator: currentUserSession ? currentUserSession.id : null,
+        ID_sablon_job: selectedTemplate ? selectedTemplate.id : null,
+        Data_inceput: startDate,
+        Data_sfarsit: endDate,
+        Numar_minim_zilieri: minWorkers,
+        Numar_dorit_zilieri: maxWorkers,
+        Loc_prezentare: meetingPlace,
+        Transport_asigurat: transport,
+        Capacitate_transport_locuri: transport === "Da" ? Number(transportCapacity) || 0 : 0,
+        Status_plasare: "LANSATĂ"
+      };
 
-
-function closeGuide() {
-
-    document
-        .getElementById(
-            "guideOverlay"
-        )
-        .classList
-        .remove("active");
-
-}
-
-
-/* =====================================================
-   CLICK IN AFARA GHIDULUI
-===================================================== */
-
-document
-    .getElementById(
-        "guideOverlay"
-    )
-    .addEventListener(
-        "click",
-        function(event) {
-
-            if (
-                event.target === this
-            ) {
-
-                closeGuide();
-
-            }
-
+      try {
+        if (!WEBHOOK_LANSEAZA_PLASARE.includes("SOT_AICI")) {
+          await fetch(WEBHOOK_LANSEAZA_PLASARE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(offerPayload)
+          });
         }
-    );
 
-
-/* =====================================================
-   INITIALIZARE
-===================================================== */
-
-renderTemplates();
-
-</script>
-
+        const successEl = document.getElementById("success");
+        successEl.classList.remove("hidden");
+        successEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      } catch (err) {
+        console.error("Eroare lansare ofertă:", err);
+        alert("A apărut o eroare la lansarea ofertei.");
+      }
+    }
+  </script>
 </body>
 </html>
-
