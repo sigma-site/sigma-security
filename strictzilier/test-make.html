@@ -18,33 +18,41 @@ button:hover{ background:#1d4ed8; }
 <h2>Test CUI & Date Angajator</h2>
 
 <form id="formularCUI">
-    <input type="text" id="cui" placeholder="Introdu CUI (ex: 12345678 sau RO12345678)" required>
+    <input type="text" id="cui" placeholder="Introdu CUI (ex: 12345678)" required>
     <button type="submit">Verifică CUI / Trimite</button>
 </form>
 
 <div id="rezultat">Aștept interogarea...</div>
 
 <script>
-// Aici vei pune adresa noului Webhook din Make.com dedicat testului
-const webhookTest = "https://hook.eu1.make.com/jevpyhls3fytdf29fnflcj24kvgmoeg4";
+// Pune aici link-ul tău exact din Make.com (Custom Webhook)
+const webhookTest = "https://hook.eu1.make.com/EXEMPLU_URL_AICI";
 
 document.getElementById("formularCUI").addEventListener("submit", async (e) => {
     e.preventDefault();
     const cuiVal = document.getElementById("cui").value.trim();
     
-    document.getElementById("rezultat").innerHTML = "Se interoghează...";
+    const divRezultat = document.getElementById("rezultat");
+    divRezultat.innerHTML = "Se trimite spre Make...";
 
     try {
         const response = await fetch(webhookTest, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
+            headers: { 
+                "Content-Type": "application/json" 
+            },
             body: JSON.stringify({ cui: cuiVal })
         });
 
-        const data = await response.json();
-        document.getElementById("rezultat").innerHTML = "Răspuns primit:\n" + JSON.stringify(data, null, 2);
+        if (!response.ok) {
+            throw new Error(`Eroare HTTP! Status: ${response.status}`);
+        }
+
+        const data = await response.text(); // Folosim text ca să vedem orice răspuns întors de Make
+        divRezultat.innerHTML = "Răspuns primit cu succes de la Make:\n" + data;
     } catch (err) {
-        document.getElementById("rezultat").innerHTML = "Eroare de comunicare cu webhook-ul.";
+        divRezultat.innerHTML = "Eroare de comunicare:\n" + err.message;
+        console.error(err);
     }
 });
 </script>
