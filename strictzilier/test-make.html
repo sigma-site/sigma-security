@@ -1,154 +1,52 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Test înscriere zilier</title>
-
+<title>Test Verificare CUI Angajator</title>
 <style>
-
-body{
-    font-family:Arial,sans-serif;
-    max-width:500px;
-    margin:40px auto;
-    padding:20px;
-}
-
-h2{
-    text-align:center;
-}
-
-input,
-select,
-button{
-    width:100%;
-    padding:12px;
-    margin-bottom:15px;
-    box-sizing:border-box;
-    font-size:16px;
-}
-
-button{
-    cursor:pointer;
-}
-
-#mesaj{
-    margin-top:20px;
-}
-
+body{ font-family:Arial,sans-serif; max-width:500px; margin:40px auto; padding:20px; }
+h2{ text-align:center; }
+input, button{ width:100%; padding:12px; margin-bottom:15px; box-sizing:border-box; font-size:16px; }
+button{ cursor:pointer; background:#1e3a8a; color:white; border:none; border-radius:4px; font-weight:bold; }
+button:hover{ background:#1d4ed8; }
+#rezultat{ margin-top:20px; padding:15px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:4px; white-space: pre-wrap; font-family: monospace; font-size: 14px; }
 </style>
 </head>
-
 <body>
 
-<h2>Test înscriere zilier</h2>
+<h2>Test CUI & Date Angajator</h2>
 
-<form id="formular">
-
-<input
-    type="text"
-    id="nume"
-    placeholder="Nume"
-    required>
-
-<input
-    type="text"
-    id="prenume"
-    placeholder="Prenume"
-    required>
-
-<input
-    type="tel"
-    id="telefon"
-    placeholder="Telefon"
-    required>
-
-<select id="judet" required>
-
-<option value="">Selectează județul</option>
-
-<option>Bacău</option>
-<option>Iași</option>
-<option>Neamț</option>
-<option>Vaslui</option>
-
-</select>
-
-<input
-    type="text"
-    id="localitate"
-    placeholder="Localitate"
-    required>
-
-<button type="submit">
-
-Trimite
-
-</button>
-
+<form id="formularCUI">
+    <input type="text" id="cui" placeholder="Introdu CUI (ex: 12345678 sau RO12345678)" required>
+    <button type="submit">Verifică CUI / Trimite</button>
 </form>
 
-<div id="mesaj"></div>
+<div id="rezultat">Aștept interogarea...</div>
 
 <script>
+// Aici vei pune adresa noului Webhook din Make.com dedicat testului
+const webhookTest = "LIPEȘTE_WEBHOOK_UL_TĂU_DE_TEST_AICI";
 
-const webhook =
-"https://hook.eu1.make.com/7o11e1rycibv4qv6h9hawhk88uii9k1w";
+document.getElementById("formularCUI").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const cuiVal = document.getElementById("cui").value.trim();
+    
+    document.getElementById("rezultat").innerHTML = "Se interoghează...";
 
-document
-.getElementById("formular")
-.addEventListener("submit",async(e)=>{
+    try {
+        const response = await fetch(webhookTest, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ cui: cuiVal })
+        });
 
-e.preventDefault();
-
-const date={
-
-nume:
-document.getElementById("nume").value,
-
-prenume:
-document.getElementById("prenume").value,
-
-telefon:
-document.getElementById("telefon").value,
-
-judet:
-document.getElementById("judet").value,
-
-localitate:
-document.getElementById("localitate").value
-
-};
-
-try{
-
-await fetch(webhook,{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify(date)
-
+        const data = await response.json();
+        document.getElementById("rezultat").innerHTML = "Răspuns primit:\n" + JSON.stringify(data, null, 2);
+    } catch (err) {
+        document.getElementById("rezultat").innerHTML = "Eroare de comunicare cu webhook-ul.";
+    }
 });
-
-document.getElementById("mesaj").innerHTML=
-"Datele au fost trimise.";
-
-}
-
-catch{
-
-document.getElementById("mesaj").innerHTML=
-"Eroare la transmiterea datelor.";
-
-}
-
-});
-
 </script>
 
 </body>
