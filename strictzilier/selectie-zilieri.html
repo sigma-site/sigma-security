@@ -1,1485 +1,455 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ro">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Selecție zilieri — STRICTZILIER.ro</title>
-
-<style>
-
-* {
-    box-sizing: border-box;
-}
-
-:root {
-    --dark: #173b3a;
-    --orange: #d9873d;
-    --orange-light: #fff2e5;
-    --cream: #f5f7f5;
-    --white: #ffffff;
-    --text: #263533;
-    --muted: #71807d;
-    --border: #dce5e2;
-    --green-light: #e9f4f0;
-    --danger: #b65c4c;
-    --shadow: 0 8px 24px rgba(23,59,58,.06);
-}
-
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: var(--cream);
-    color: var(--text);
-    line-height: 1.4;
-}
-
-/* HEADER */
-
-header {
-    background: white;
-    border-bottom: 1px solid var(--border);
-    padding: 13px 5vw;
-}
-
-.logo {
-    color: var(--dark);
-    font-size: 22px;
-    font-weight: 800;
-    letter-spacing: 1.2px;
-}
-
-.logo span {
-    color: var(--orange);
-}
-
-/* MAIN */
-
-main {
-    max-width: 1050px;
-    margin: 0 auto;
-    padding: 25px 24px 55px;
-}
-
-/* TITLE */
-
-.page-title {
-    margin-bottom: 16px;
-}
-
-.page-title .label {
-    display: inline-block;
-    background: var(--orange-light);
-    color: #a9632d;
-    padding: 4px 10px;
-    border-radius: 16px;
-    font-size: 10px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .6px;
-    margin-bottom: 6px;
-}
-
-.page-title h1 {
-    margin: 0 0 4px;
-    color: var(--dark);
-    font-size: 30px;
-    line-height: 1.1;
-}
-
-.page-title p {
-    margin: 0;
-    color: var(--muted);
-    font-size: 13px;
-}
-
-/* JOB CARD */
-
-.job-card {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 13px;
-    padding: 17px 20px;
-    box-shadow: var(--shadow);
-    margin-bottom: 13px;
-}
-
-.job-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 13px;
-}
-
-.job-title {
-    margin: 0;
-    color: var(--dark);
-    font-size: 17px;
-    font-weight: 800;
-}
-
-.job-id {
-    color: var(--muted);
-    font-size: 11px;
-    margin-top: 2px;
-}
-
-.job-status {
-    background: var(--green-light);
-    color: var(--dark);
-    border-radius: 16px;
-    padding: 5px 9px;
-    font-size: 9px;
-    font-weight: 800;
-    white-space: nowrap;
-}
-
-.job-details {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    border-top: 1px solid var(--border);
-    padding-top: 11px;
-    gap: 12px;
-}
-
-.detail-label {
-    display: block;
-    color: var(--muted);
-    font-size: 9px;
-    margin-bottom: 2px;
-    text-transform: uppercase;
-    letter-spacing: .35px;
-}
-
-.detail-value {
-    color: var(--dark);
-    font-size: 12px;
-    font-weight: 700;
-}
-
-/* INTRO */
-
-.intro {
-    background: var(--dark);
-    color: white;
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin-bottom: 15px;
-}
-
-.intro strong {
-    display: block;
-    font-size: 14px;
-    margin-bottom: 3px;
-}
-
-.intro p {
-    margin: 0;
-    color: #d4e1de;
-    font-size: 12px;
-}
-
-/* CANDIDATES HEADER */
-
-.candidates-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 7px;
-}
-
-.candidates-header h2 {
-    margin: 0;
-    color: var(--dark);
-    font-size: 17px;
-}
-
-.counter {
-    color: var(--muted);
-    font-size: 11px;
-}
-
-.counter strong {
-    color: var(--dark);
-}
-
-/* CANDIDATES */
-
-.candidates {
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 11px;
-    overflow: hidden;
-    box-shadow: var(--shadow);
-}
-
-/* HEADER TABLE */
-
-.list-header {
-    display: grid;
-    grid-template-columns: 45px minmax(230px, 1fr) 180px 80px 150px;
-    align-items: center;
-    min-height: 34px;
-    background: #f3f6f4;
-    border-bottom: 1px solid var(--border);
-    color: var(--muted);
-    font-size: 9px;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: .3px;
-}
-
-.list-header > div {
-    padding: 5px 8px;
-}
-
-/* CANDIDATE ROW */
-
-.candidate {
-    display: grid;
-    grid-template-columns: 45px minmax(230px, 1fr) 180px 80px 150px;
-    align-items: center;
-    min-height: 49px;
-    border-bottom: 1px solid var(--border);
-    transition: background .12s ease;
-}
-
-.candidate:last-child {
-    border-bottom: none;
-}
-
-.candidate:hover {
-    background: #fbfcfb;
-}
-
-.candidate.selected {
-    background: var(--orange-light);
-}
-
-.select-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.select-cell input {
-    width: 17px;
-    height: 17px;
-    accent-color: var(--orange);
-    cursor: pointer;
-}
-
-.person {
-    padding: 6px 8px;
-}
-
-.person-name {
-    color: var(--dark);
-    font-size: 13px;
-    font-weight: 800;
-}
-
-.person-meta {
-    color: var(--muted);
-    font-size: 10px;
-    margin-top: 1px;
-}
-
-.location {
-    padding: 6px 8px;
-    font-size: 11px;
-}
-
-.age {
-    padding: 6px 8px;
-    font-size: 11px;
-}
-
-.context {
-    padding: 6px 8px;
-}
-
-/* TAGS */
-
-.tag {
-    display: inline-block;
-    padding: 3px 6px;
-    border-radius: 5px;
-    background: #edf2f0;
-    color: var(--dark);
-    font-size: 9px;
-    font-weight: 700;
-}
-
-.tag.team {
-    background: #e8f0f4;
-}
-
-.tag.minor {
-    background: #fff0e4;
-    color: #a9632d;
-}
-
-.tag.responsible {
-    background: var(--green-light);
-}
-
-/* MINOR ROW */
-
-.minor-row {
-    display: grid;
-    grid-template-columns: 45px minmax(230px, 1fr) 180px 80px 150px;
-    align-items: center;
-    min-height: 45px;
-    background: #faf9f6;
-    border-bottom: 1px solid var(--border);
-}
-
-.minor-row .select-cell {
-    padding-left: 8px;
-}
-
-.minor-person {
-    padding: 5px 8px 5px 26px;
-    position: relative;
-}
-
-.minor-person::before {
-    content: "↳";
-    position: absolute;
-    left: 9px;
-    top: 6px;
-    color: var(--orange);
-    font-weight: 800;
-}
-
-.minor-person .person-name {
-    font-size: 12px;
-}
-
-/* WARNING */
-
-.selection-warning {
-    display: none;
-    margin-top: 10px;
-    padding: 9px 12px;
-    background: #fff3f1;
-    border: 1px solid #efd3cf;
-    border-radius: 7px;
-    color: var(--danger);
-    font-size: 11px;
-}
-
-.selection-warning.show {
-    display: block;
-}
-
-/* BOTTOM */
-
-.bottom {
-    margin-top: 13px;
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 11px;
-    padding: 13px 17px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    box-shadow: var(--shadow);
-}
-
-.bottom-info {
-    color: var(--muted);
-    font-size: 10px;
-}
-
-.bottom-info strong {
-    display: block;
-    color: var(--dark);
-    font-size: 13px;
-    margin-bottom: 1px;
-}
-
-.submit-btn {
-    border: none;
-    background: var(--orange);
-    color: white;
-    padding: 10px 19px;
-    border-radius: 7px;
-    font-size: 10px;
-    font-weight: 800;
-    cursor: pointer;
-    white-space: nowrap;
-}
-
-.submit-btn:hover {
-    filter: brightness(.96);
-}
-
-.submit-btn:disabled {
-    background: #c9cfcd;
-    cursor: not-allowed;
-}
-
-/* MODAL */
-
-.modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(23,59,58,.48);
-    z-index: 100;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-
-.modal.show {
-    display: flex;
-}
-
-.modal-box {
-    width: 100%;
-    max-width: 410px;
-    background: white;
-    border-radius: 14px;
-    padding: 24px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.18);
-}
-
-.modal-box h3 {
-    margin: 0 0 8px;
-    color: var(--dark);
-    font-size: 19px;
-}
-
-.modal-box p {
-    margin: 0 0 17px;
-    color: var(--muted);
-    font-size: 13px;
-}
-
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-}
-
-.modal-cancel,
-.modal-confirm {
-    border: none;
-    padding: 9px 14px;
-    border-radius: 7px;
-    font-size: 11px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.modal-cancel {
-    background: #edf1ef;
-    color: var(--dark);
-}
-
-.modal-confirm {
-    background: var(--orange);
-    color: white;
-}
-
-/* SENT */
-
-.sent {
-    display: none;
-    background: white;
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    padding: 40px 25px;
-    text-align: center;
-    box-shadow: var(--shadow);
-}
-
-.sent.show {
-    display: block;
-}
-
-.sent-icon {
-    width: 50px;
-    height: 50px;
-    margin: 0 auto 13px;
-    border-radius: 50%;
-    background: var(--green-light);
-    color: var(--dark);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 23px;
-    font-weight: 800;
-}
-
-.sent h2 {
-    margin: 0 0 7px;
-    color: var(--dark);
-    font-size: 20px;
-}
-
-.sent p {
-    max-width: 560px;
-    margin: 0 auto;
-    color: var(--muted);
-    font-size: 13px;
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 800px) {
-
-    main {
-        padding: 20px 13px 45px;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selecție zilieri - STRICTZILIER.ro</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .custom-scroll::-webkit-scrollbar { width: 5px; }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
     }
-
-    .job-details {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .list-header {
-        display: none;
-    }
-
-    .candidate {
-        grid-template-columns: 40px 1fr 70px;
-        min-height: 57px;
-    }
-
-    .candidate > .location,
-    .candidate > .context {
-        display: none;
-    }
-
-    .minor-row {
-        grid-template-columns: 40px 1fr 70px;
-        min-height: 53px;
-    }
-
-    .minor-row .location,
-    .minor-row .context {
-        display: none;
-    }
-
-    .age {
-        text-align: right;
-        padding-right: 12px;
-    }
-
-    .bottom {
-        align-items: stretch;
-        flex-direction: column;
-    }
-
-    .submit-btn {
-        width: 100%;
-    }
-}
-
-@media (max-width: 500px) {
-
-    header {
-        padding: 12px 15px;
-    }
-
-    .logo {
-        font-size: 19px;
-    }
-
-    main {
-        padding: 17px 10px 35px;
-    }
-
-    .page-title h1 {
-        font-size: 26px;
-    }
-
-    .job-card {
-        padding: 15px;
-    }
-
-    .job-top {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .job-details {
-        gap: 10px;
-    }
-
-    .intro {
-        padding: 13px 15px;
-    }
-
-    .candidates-header {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 3px;
-    }
-
-    .person-name {
-        font-size: 12px;
-    }
-
-    .person-meta {
-        font-size: 9px;
-    }
-
-    .age {
-        font-size: 10px;
-    }
-
-    .bottom {
-        padding: 13px;
-    }
-}
-
-</style>
+  </style>
 </head>
+<body class="bg-slate-50 text-slate-800 flex flex-col min-h-screen relative">
 
+  <!-- Header Permanent -->
+  <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+        <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
+      </a>
 
-<body>
-
-<header>
-
-    <div class="logo">
-        STRICT<span>ZILIER</span>.ro
-    </div>
-
-</header>
-
-
-<main>
-
-    <div class="page-title">
-
-        <div class="label">
-            Selecție candidați
-        </div>
-
-        <h1>
-            Selecție zilieri
-        </h1>
-
-        <p>
-            Selectați persoanele pe care doriți să le recrutați
-            pentru această ofertă.
-        </p>
+      <!-- Link Ghid Angajator -->
+      <a href="ghid-angajator.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-800 border border-blue-200 rounded-lg text-xs font-bold transition">
+        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span>GHID ANGAJATOR</span>
+      </a>
 
     </div>
+  </header>
 
+  <!-- CONTAINER PRINCIPAL -->
+  <main class="flex-grow max-w-5xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-6">
 
-    <!-- ANTET OFERTĂ -->
+    <!-- PAGE TITLE -->
+    <div>
+      <span class="inline-block px-2.5 py-1 bg-amber-50 border border-amber-200 text-amber-800 text-[10px] font-extrabold uppercase tracking-wider rounded-md mb-1.5">
+        Selecție candidați
+      </span>
+      <h1 class="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Selecție zilieri</h1>
+      <p class="text-xs sm:text-sm font-medium text-slate-500 mt-1">
+        Selectați persoanele pe care doriți să le recrutați pentru această ofertă.
+      </p>
+    </div>
 
-    <section class="job-card">
-
-        <div class="job-top">
-
-            <div>
-
-                <h2 class="job-title">
-                    Activități de alimentație pentru evenimente
-                </h2>
-
-                <div class="job-id">
-                    Oferta #PL-000125
-                </div>
-
-            </div>
-
-            <div class="job-status">
-                OFERTĂ ACTIVĂ
-            </div>
-
+    <!-- ANTET OFERTĂ (CARD OFERTĂ) -->
+    <section class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200">
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4 mb-4">
+        <div>
+          <h2 class="text-lg font-bold text-slate-900">Activități de alimentație pentru evenimente</h2>
+          <div class="text-xs font-medium text-slate-400 mt-0.5">Oferta #PL-000125</div>
         </div>
-
-
-        <div class="job-details">
-
-            <div>
-
-                <span class="detail-label">
-                    Loc desfășurare
-                </span>
-
-                <span class="detail-value">
-                    Bacău
-                </span>
-
-            </div>
-
-
-            <div>
-
-                <span class="detail-label">
-                    Perioada
-                </span>
-
-                <span class="detail-value">
-                    15.08 – 17.08.2026
-                </span>
-
-            </div>
-
-
-            <div>
-
-                <span class="detail-label">
-                    Durata
-                </span>
-
-                <span class="detail-value">
-                    8 ore / zi
-                </span>
-
-            </div>
-
-
-            <div>
-
-                <span class="detail-label">
-                    Necesar
-                </span>
-
-                <span class="detail-value">
-                    10 zilieri
-                </span>
-
-            </div>
-
+        <div>
+          <span class="inline-flex items-center px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-[10px] font-extrabold uppercase tracking-wider">
+            OFERTĂ ACTIVĂ
+          </span>
         </div>
+      </div>
 
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
+        <div>
+          <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Loc desfășurare</span>
+          <strong class="text-slate-800 font-bold">Bacău</strong>
+        </div>
+        <div>
+          <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Perioada</span>
+          <strong class="text-slate-800 font-bold">15.08 – 17.08.2026</strong>
+        </div>
+        <div>
+          <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Durata</span>
+          <strong class="text-slate-800 font-bold">8 ore / zi</strong>
+        </div>
+        <div>
+          <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Necesar</span>
+          <strong class="text-slate-800 font-bold">10 zilieri</strong>
+        </div>
+      </div>
     </section>
 
-
-    <!-- MESAJ -->
-
-    <section class="intro">
-
-        <strong>
-            Aceste persoane au confirmat disponibilitatea și
-            cerințele stabilite pentru această ofertă.
-        </strong>
-
-        <p>
-            Selectați persoanele pe care doriți să le recrutați.
-        </p>
-
+    <!-- MESAJ INTRO -->
+    <section class="p-4 bg-slate-900 text-white rounded-xl shadow-sm text-xs space-y-1">
+      <strong class="block font-bold text-sm text-amber-400">
+        Aceste persoane au confirmat disponibilitatea și cerințele stabilite pentru această ofertă.
+      </strong>
+      <p class="text-slate-300">
+        Selectați persoanele pe care doriți să le recrutați.
+      </p>
     </section>
 
+    <!-- SECTIUNE CANDIDATI & ZONĂ SELECȚIE -->
+    <div id="selectionArea" class="space-y-4">
 
-    <div id="selectionArea">
+      <div class="flex items-center justify-between gap-4">
+        <h2 class="text-base font-bold text-slate-900">Candidați propuși</h2>
+        <div class="text-xs text-slate-500 font-medium">
+          Selectați: <strong id="selectedCount" class="text-amber-600 font-bold">0</strong> din <strong id="totalCount" class="text-slate-900 font-bold">8</strong>
+        </div>
+      </div>
 
-        <div class="candidates-header">
-
-            <h2>
-                Candidați propuși
-            </h2>
-
-            <div class="counter">
-                Selectați:
-                <strong id="selectedCount">0</strong>
-                din
-                <strong id="totalCount">8</strong>
-            </div>
-
+      <!-- LISTA CANDIDATI -->
+      <section class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden divide-y divide-slate-100 text-xs">
+        
+        <!-- HEADER TABEL -->
+        <div class="hidden sm:grid grid-cols-[48px_1.5fr_1fr_80px_1fr] items-center p-3 bg-slate-100 text-slate-500 font-bold tracking-wider uppercase text-[10px]">
+          <div></div>
+          <div>Candidat</div>
+          <div>Domiciliu</div>
+          <div>Vârsta</div>
+          <div>Asociere</div>
         </div>
 
-
-        <section class="candidates">
-
-            <!-- ANTET LISTĂ -->
-
-            <div class="list-header">
-
-                <div></div>
-
-                <div>
-                    Candidat
-                </div>
-
-                <div>
-                    Domiciliu
-                </div>
-
-                <div>
-                    Vârsta
-                </div>
-
-                <div>
-                    Asociere
-                </div>
-
-            </div>
-
-
-            <!-- CANDIDAT -->
-
-            <div
-                class="candidate"
-                data-id="zilier-001"
-            >
-
-                <div class="select-cell">
-                    <input
-                        type="checkbox"
-                        class="candidate-check"
-                        data-name="Popescu Ion"
-                    >
-                </div>
-
-                <div class="person">
-
-                    <div class="person-name">
-                        Popescu Ion
-                    </div>
-
-                    <div class="person-meta">
-                        Zilier
-                    </div>
-
-                </div>
-
-                <div class="location">
-                    Bacău
-                </div>
-
-                <div class="age">
-                    34 ani
-                </div>
-
-                <div class="context"></div>
-
-            </div>
-
-
-            <!-- ECHIPA 2 -->
-
-            <div
-                class="candidate"
-                data-id="zilier-002"
-            >
-
-                <div class="select-cell">
-                    <input
-                        type="checkbox"
-                        class="candidate-check"
-                        data-name="Ionescu Maria"
-                    >
-                </div>
-
-                <div class="person">
-
-                    <div class="person-name">
-                        Ionescu Maria
-                    </div>
-
-                    <div class="person-meta">
-                        Zilier
-                    </div>
-
-                </div>
-
-                <div class="location">
-                    Bacău
-                </div>
-
-                <div class="age">
-                    28 ani
-                </div>
-
-                <div class="context">
-
-                    <span class="tag team">
-                        Echipa 2
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="candidate"
-                data-id="zilier-003"
-            >
-
-                <div class="select-cell">
-                    <input
-                        type="checkbox"
-                        class="candidate-check"
-                        data-name="Vasile Andrei"
-                    >
-                </div>
-
-                <div class="person">
-
-                    <div class="person-name">
-                        Vasile Andrei
-                    </div>
-
-                    <div class="person-meta">
-                        Zilier
-                    </div>
-
-                </div>
-
-                <div class="location">
-                    Bacău
-                </div>
-
-                <div class="age">
-                    42 ani
-                </div>
-
-                <div class="context">
-
-                    <span class="tag team">
-                        Echipa 2
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <div
-                class="candidate"
-                data-id="zilier-004"
-            >
-
-                <div class="select-cell">
-                    <input
-                        type="checkbox"
-                        class="candidate-check"
-                        data-name="Dumitru Gheorghe"
-                    >
-                </div>
-
-                <div class="person">
-
-                    <div class="person-name">
-                        Dumitru Gheorghe
-                    </div>
-
-                    <div class="person-meta">
-                        Zilier
-                    </div>
-
-                </div>
-
-                <div class="location">
-                    Bacău
-                </div>
-
-                <div class="age">
-                    31 ani
-                </div>
-
-                <div class="context">
-
-                    <span class="tag team">
-                        Echipa 2
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <!-- ADULT RESPONSABIL -->
-
-            <div
-                class="candidate"
-                data-id="zilier-005"
-            >
-
-                <div class="select-cell">
-                    <input
-                        type="checkbox"
-                        class="candidate-check"
-                        data-name="Popa Ion"
-                    >
-                </div>
-
-                <div class="person">
-
-                    <div class="person-name">
-                        Popa Ion
-                    </div>
-
-                    <div class="person-meta">
-                        Zilier · adult responsabil
-                    </div>
-
-                </div>
-
-                <div class="location">
-                    Bacău
-                </div>
-
-                <div class="age">
-                    38 ani
-                </div>
-
-                <div class="context">
-
-                    <span class="tag responsible">
-                        Responsabil
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <!-- MINOR -->
-
-            <div
-                class="minor-row"
-                data-id="zilier-006"
-            >
-
-                <div class="select-cell">
-
-                    <input
-                        type="checkbox"
-                        class="candidate-check minor-check"
-                        data-name="Popa Elena"
-                        data-responsible="zilier-005"
-                    >
-
-                </div>
-
-                <div class="minor-person">
-
-                    <div class="person-name">
-                        Popa Elena
-                    </div>
-
-                    <div class="person-meta">
-                        Minor · adult responsabil: Popa Ion
-                    </div>
-
-                </div>
-
-                <div class="location">
-                    Bacău
-                </div>
-
-                <div class="age">
-                    16 ani
-                </div>
-
-                <div class="context">
-
-                    <span class="tag minor">
-                        Minor
-                    </span>
-
-                </div>
-
-            </div>
-
-
-            <!-- CANDIDAT -->
-
-            <div
-                class="candidate"
-                data-id="zilier-007"
-            >
-
-                <div class="select-cell">
-                    <input
-                        type="checkbox"
-                        class="candidate-check"
-                        data-name="Marin Daniel"
-                    >
-                </div>
-
-                <div class="person">
-
-                    <div class="person-name">
-                        Marin Daniel
-                    </div>
-
-                    <div class="person-meta">
-                        Zilier
-                    </div>
-
-                </div>
-
-                <div class="location">
-                    Comănești
-                </div>
-
-                <div class="age">
-                    36 ani
-                </div>
-
-                <div class="context"></div>
-
-            </div>
-
-
-            <div
-                class="candidate"
-                data-id="zilier-008"
-            >
-
-                <div class="select-cell">
-                    <input
-                        type="checkbox"
-                        class="candidate-check"
-                        data-name="Radu Mihai"
-                    >
-                </div>
-
-                <div class="person">
-
-                    <div class="person-name">
-                        Radu Mihai
-                    </div>
-
-                    <div class="person-meta">
-                        Zilier
-                    </div>
-
-                </div>
-
-                <div class="location">
-                    Bacău
-                </div>
-
-                <div class="age">
-                    29 ani
-                </div>
-
-                <div class="context"></div>
-
-            </div>
-
-        </section>
-
-
-        <div
-            class="selection-warning"
-            id="minorWarning"
-        >
-            Pentru selectarea minorului trebuie selectat și
-            adultul responsabil.
+        <!-- CANDIDAT 1 -->
+        <div class="candidate grid grid-cols-[40px_1fr_80px] sm:grid-cols-[48px_1.5fr_1fr_80px_1fr] items-center p-3 hover:bg-slate-50/80 transition" data-id="zilier-001">
+          <div class="flex justify-center">
+            <input type="checkbox" class="candidate-check w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500 cursor-pointer" data-name="Popescu Ion">
+          </div>
+          <div>
+            <div class="font-bold text-slate-900 text-xs">Popescu Ion</div>
+            <div class="text-[10px] text-slate-400 font-medium">Zilier</div>
+          </div>
+          <div class="hidden sm:block text-slate-600 font-medium">Bacău</div>
+          <div class="text-slate-600 font-medium">34 ani</div>
+          <div class="hidden sm:block"></div>
         </div>
 
+        <!-- CANDIDAT 2 (ECHIPA 2) -->
+        <div class="candidate grid grid-cols-[40px_1fr_80px] sm:grid-cols-[48px_1.5fr_1fr_80px_1fr] items-center p-3 hover:bg-slate-50/80 transition" data-id="zilier-002">
+          <div class="flex justify-center">
+            <input type="checkbox" class="candidate-check w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500 cursor-pointer" data-name="Ionescu Maria">
+          </div>
+          <div>
+            <div class="font-bold text-slate-900 text-xs">Ionescu Maria</div>
+            <div class="text-[10px] text-slate-400 font-medium">Zilier</div>
+          </div>
+          <div class="hidden sm:block text-slate-600 font-medium">Bacău</div>
+          <div class="text-slate-600 font-medium">28 ani</div>
+          <div>
+            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded text-[10px] font-bold">Echipa 2</span>
+          </div>
+        </div>
 
-        <section class="bottom">
+        <!-- CANDIDAT 3 (ECHIPA 2) -->
+        <div class="candidate grid grid-cols-[40px_1fr_80px] sm:grid-cols-[48px_1.5fr_1fr_80px_1fr] items-center p-3 hover:bg-slate-50/80 transition" data-id="zilier-003">
+          <div class="flex justify-center">
+            <input type="checkbox" class="candidate-check w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500 cursor-pointer" data-name="Vasile Andrei">
+          </div>
+          <div>
+            <div class="font-bold text-slate-900 text-xs">Vasile Andrei</div>
+            <div class="text-[10px] text-slate-400 font-medium">Zilier</div>
+          </div>
+          <div class="hidden sm:block text-slate-600 font-medium">Bacău</div>
+          <div class="text-slate-600 font-medium">42 ani</div>
+          <div>
+            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded text-[10px] font-bold">Echipa 2</span>
+          </div>
+        </div>
 
-            <div class="bottom-info">
+        <!-- CANDIDAT 4 (ECHIPA 2) -->
+        <div class="candidate grid grid-cols-[40px_1fr_80px] sm:grid-cols-[48px_1.5fr_1fr_80px_1fr] items-center p-3 hover:bg-slate-50/80 transition" data-id="zilier-004">
+          <div class="flex justify-center">
+            <input type="checkbox" class="candidate-check w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500 cursor-pointer" data-name="Dumitru Gheorghe">
+          </div>
+          <div>
+            <div class="font-bold text-slate-900 text-xs">Dumitru Gheorghe</div>
+            <div class="text-[10px] text-slate-400 font-medium">Zilier</div>
+          </div>
+          <div class="hidden sm:block text-slate-600 font-medium">Bacău</div>
+          <div class="text-slate-600 font-medium">31 ani</div>
+          <div>
+            <span class="px-2 py-0.5 bg-blue-50 text-blue-700 border border-blue-200 rounded text-[10px] font-bold">Echipa 2</span>
+          </div>
+        </div>
 
-                <strong id="selectionText">
-                    Nu ați selectat încă nicio persoană.
-                </strong>
+        <!-- ADULT RESPONSABIL -->
+        <div class="candidate grid grid-cols-[40px_1fr_80px] sm:grid-cols-[48px_1.5fr_1fr_80px_1fr] items-center p-3 hover:bg-slate-50/80 transition" data-id="zilier-005">
+          <div class="flex justify-center">
+            <input type="checkbox" class="candidate-check w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500 cursor-pointer" data-name="Popa Ion">
+          </div>
+          <div>
+            <div class="font-bold text-slate-900 text-xs">Popa Ion</div>
+            <div class="text-[10px] text-slate-400 font-medium">Zilier · adult responsabil</div>
+          </div>
+          <div class="hidden sm:block text-slate-600 font-medium">Bacău</div>
+          <div class="text-slate-600 font-medium">38 ani</div>
+          <div>
+            <span class="px-2 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded text-[10px] font-bold">Responsabil</span>
+          </div>
+        </div>
 
-                Selecția va fi transmisă pentru continuarea
-                procesului de recrutare.
+        <!-- MINOR -->
+        <div class="minor-row grid grid-cols-[40px_1fr_80px] sm:grid-cols-[48px_1.5fr_1fr_80px_1fr] items-center p-3 bg-amber-50/40 hover:bg-amber-50/70 transition" data-id="zilier-006">
+          <div class="flex justify-center">
+            <input type="checkbox" class="candidate-check minor-check w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500 cursor-pointer" data-name="Popa Elena" data-responsible="zilier-005">
+          </div>
+          <div class="pl-4 relative">
+            <span class="absolute left-0 top-0.5 text-amber-500 font-bold">↳</span>
+            <div class="font-bold text-slate-900 text-xs">Popa Elena</div>
+            <div class="text-[10px] text-slate-400 font-medium">Minor · adult responsabil: Popa Ion</div>
+          </div>
+          <div class="hidden sm:block text-slate-600 font-medium">Bacău</div>
+          <div class="text-slate-600 font-medium">16 ani</div>
+          <div>
+            <span class="px-2 py-0.5 bg-amber-100 text-amber-800 border border-amber-300 rounded text-[10px] font-bold">Minor</span>
+          </div>
+        </div>
 
-            </div>
+        <!-- CANDIDAT 7 -->
+        <div class="candidate grid grid-cols-[40px_1fr_80px] sm:grid-cols-[48px_1.5fr_1fr_80px_1fr] items-center p-3 hover:bg-slate-50/80 transition" data-id="zilier-007">
+          <div class="flex justify-center">
+            <input type="checkbox" class="candidate-check w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500 cursor-pointer" data-name="Marin Daniel">
+          </div>
+          <div>
+            <div class="font-bold text-slate-900 text-xs">Marin Daniel</div>
+            <div class="text-[10px] text-slate-400 font-medium">Zilier</div>
+          </div>
+          <div class="hidden sm:block text-slate-600 font-medium">Comănești</div>
+          <div class="text-slate-600 font-medium">36 ani</div>
+          <div class="hidden sm:block"></div>
+        </div>
 
+        <!-- CANDIDAT 8 -->
+        <div class="candidate grid grid-cols-[40px_1fr_80px] sm:grid-cols-[48px_1.5fr_1fr_80px_1fr] items-center p-3 hover:bg-slate-50/80 transition" data-id="zilier-008">
+          <div class="flex justify-center">
+            <input type="checkbox" class="candidate-check w-4 h-4 rounded border-slate-300 text-amber-500 focus:ring-amber-500 cursor-pointer" data-name="Radu Mihai">
+          </div>
+          <div>
+            <div class="font-bold text-slate-900 text-xs">Radu Mihai</div>
+            <div class="text-[10px] text-slate-400 font-medium">Zilier</div>
+          </div>
+          <div class="hidden sm:block text-slate-600 font-medium">Bacău</div>
+          <div class="text-slate-600 font-medium">29 ani</div>
+          <div class="hidden sm:block"></div>
+        </div>
 
-            <button
-                class="submit-btn"
-                id="submitBtn"
-                disabled
-            >
-                TRIMITE SELECȚIA
-            </button>
+      </section>
 
-        </section>
+      <!-- WARNING MINOR RULE -->
+      <div id="minorWarning" class="hidden p-3 bg-red-50 border border-red-200 text-red-700 text-xs rounded-xl font-medium">
+        Pentru selectarea minorului trebuie selectat și adultul responsabil.
+      </div>
+
+      <!-- BOTTOM BAR / SUBMIT ACTION -->
+      <section class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-slate-500 text-center sm:text-left">
+          <strong id="selectionText" class="block font-bold text-slate-900 text-sm mb-0.5">
+            Nu ați selectat încă nicio persoană.
+          </strong>
+          Selecția va fi transmisă pentru continuarea procesului de recrutare.
+        </div>
+
+        <button id="submitBtn" disabled class="w-full sm:w-auto px-6 py-2.5 bg-amber-500 hover:bg-amber-600 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white font-bold text-xs rounded-xl transition shadow-sm flex-shrink-0">
+          TRIMITE SELECȚIA
+        </button>
+      </section>
 
     </div>
-
 
     <!-- STARE DUPĂ TRANSMITERE -->
-
-    <section
-        class="sent"
-        id="sentState"
-    >
-
-        <div class="sent-icon">
-            ✓
-        </div>
-
-        <h2>
-            Selecția a fost transmisă
-        </h2>
-
-        <p>
-            Selecția pentru oferta
-            <strong>#PL-000125</strong>
-            a fost înregistrată. Persoanele selectate vor
-            fi informate individual cu privire la continuarea
-            procesului.
-        </p>
-
+    <section id="sentState" class="hidden bg-white p-8 sm:p-12 rounded-2xl border border-slate-200 text-center shadow-sm space-y-4">
+      <div class="w-14 h-14 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-2xl font-black">
+        ✓
+      </div>
+      <h2 class="text-xl font-bold text-slate-900">Selecția a fost transmisă</h2>
+      <p class="text-xs text-slate-500 max-w-lg mx-auto leading-relaxed">
+        Selecția pentru oferta <strong class="text-slate-800">#PL-000125</strong> a fost înregistrată. Persoanele selectate vor fi informate individual cu privire la continuarea procesului.
+      </p>
+      <div class="pt-4">
+        <button type="button" onclick="location.href='home-angajator.html'" class="px-5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl transition">
+          Înapoi la Panoul Angajatorului
+        </button>
+      </div>
     </section>
 
-</main>
+  </main>
 
-
-<!-- CONFIRMARE -->
-
-<div
-    class="modal"
-    id="confirmModal"
->
-
-    <div class="modal-box">
-
-        <h3>
-            Confirmați selecția?
-        </h3>
-
-        <p id="confirmText">
-            Ați selectat 0 persoane pentru această ofertă.
-            După confirmare, selecția va fi transmisă.
-        </p>
-
-        <div class="modal-actions">
-
-            <button
-                class="modal-cancel"
-                id="cancelBtn"
-            >
-                Înapoi
-            </button>
-
-            <button
-                class="modal-confirm"
-                id="confirmBtn"
-            >
-                Confirmă selecția
-            </button>
-
-        </div>
-
+  <!-- MODAL CONFIRMARE -->
+  <div id="confirmModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4">
+      <h3 class="text-base font-bold text-slate-900">Confirmați selecția?</h3>
+      <p id="confirmText" class="text-xs text-slate-500 leading-relaxed">
+        Ați selectat 0 persoane pentru această ofertă. După confirmare, selecția va fi transmisă.
+      </p>
+      <div class="flex justify-end gap-2 pt-2">
+        <button id="cancelBtn" type="button" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-lg transition">
+          Înapoi
+        </button>
+        <button id="confirmBtn" type="button" class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+          Confirmă selecția
+        </button>
+      </div>
     </div>
+  </div>
 
-</div>
+  <!-- FOOTER STANDARD -->
+  <footer class="bg-white border-t border-slate-200 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      <div>© 2026 STRICTZILIER.ro · Toate drepturile rezervate. Conform Legii 52/2011.</div>
+      <div class="flex flex-wrap gap-4 font-medium">
+        <a href="#termeni" class="hover:text-slate-800 transition">Termeni și Condiții</a>
+        <a href="#confidentialitate" class="hover:text-slate-800 transition">Politică de Confidențialitate</a>
+        <a href="https://anpc.ro" target="_blank" rel="noopener" class="hover:text-slate-800 transition">ANPC</a>
+      </div>
+    </div>
+  </footer>
 
+  <!-- LOGICĂ BAZĂ DE DATE, SELECTORI & MAKE.COM WEBHOOK -->
+  <script>
+    const WEBHOOK_TRIMITE_SELECTIE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_TRIMITE_SELECTIE";
 
-<script>
+    const checks = document.querySelectorAll(".candidate-check");
+    const selectedCount = document.getElementById("selectedCount");
+    const selectionText = document.getElementById("selectionText");
+    const submitBtn = document.getElementById("submitBtn");
+    const confirmModal = document.getElementById("confirmModal");
+    const confirmText = document.getElementById("confirmText");
+    const cancelBtn = document.getElementById("cancelBtn");
+    const confirmBtn = document.getElementById("confirmBtn");
+    const minorWarning = document.getElementById("minorWarning");
+    const selectionArea = document.getElementById("selectionArea");
+    const sentState = document.getElementById("sentState");
 
-const checks =
-    document.querySelectorAll(".candidate-check");
+    let currentUserSession = null;
 
-const selectedCount =
-    document.getElementById("selectedCount");
-
-const selectionText =
-    document.getElementById("selectionText");
-
-const submitBtn =
-    document.getElementById("submitBtn");
-
-const confirmModal =
-    document.getElementById("confirmModal");
-
-const confirmText =
-    document.getElementById("confirmText");
-
-const cancelBtn =
-    document.getElementById("cancelBtn");
-
-const confirmBtn =
-    document.getElementById("confirmBtn");
-
-const minorWarning =
-    document.getElementById("minorWarning");
-
-const selectionArea =
-    document.getElementById("selectionArea");
-
-const sentState =
-    document.getElementById("sentState");
-
-
-function checkMinorRule() {
-
-    const minor =
-        document.querySelector(
-            '[data-id="zilier-006"] input'
-        );
-
-    const responsible =
-        document.querySelector(
-            '[data-id="zilier-005"] input'
-        );
-
-    if (
-        minor &&
-        minor.checked &&
-        responsible &&
-        !responsible.checked
-    ) {
-
-        minorWarning.classList.add("show");
-
-        return false;
-
-    }
-
-    minorWarning.classList.remove("show");
-
-    return true;
-}
-
-
-function updateSelection() {
-
-    let selected = 0;
-
-    checks.forEach(check => {
-
-        if (check.checked) {
-
-            selected++;
-
-        }
-
-        const row =
-            check.closest(".candidate, .minor-row");
-
-        if (row) {
-
-            row.classList.toggle(
-                "selected",
-                check.checked
-            );
-
-        }
-
+    document.addEventListener("DOMContentLoaded", () => {
+      let sessionData = localStorage.getItem("strictzilier_session");
+      if (!sessionData) {
+        const demoSession = { role: 'angajator', id: 'A000001', societate: 'SC Exemplu SRL', startOfWeek: new Date().toISOString().split('T')[0] };
+        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
+        sessionData = JSON.stringify(demoSession);
+      }
+      try { currentUserSession = JSON.parse(sessionData); } catch (e) { console.error("Eroare sesiune:", e); }
     });
 
+    function checkMinorRule() {
+      const minor = document.querySelector('[data-id="zilier-006"] input');
+      const responsible = document.querySelector('[data-id="zilier-005"] input');
 
-    selectedCount.textContent = selected;
+      if (minor && minor.checked && responsible && !responsible.checked) {
+        minorWarning.classList.remove("hidden");
+        return false;
+      }
 
+      minorWarning.classList.add("hidden");
+      return true;
+    }
 
-    if (selected === 0) {
+    function updateSelection() {
+      let selected = 0;
 
-        selectionText.textContent =
-            "Nu ați selectat încă nicio persoană.";
+      checks.forEach(check => {
+        if (check.checked) selected++;
 
+        const row = check.closest(".candidate, .minor-row");
+        if (row) {
+          if (check.checked) {
+            row.classList.add("bg-amber-50/60");
+          } else {
+            row.classList.remove("bg-amber-50/60");
+          }
+        }
+      });
+
+      selectedCount.textContent = selected;
+
+      if (selected === 0) {
+        selectionText.textContent = "Nu ați selectat încă nicio persoană.";
         submitBtn.disabled = true;
-
-    } else {
-
-        selectionText.textContent =
-            selected === 1
-                ? "Ați selectat 1 persoană."
-                : "Ați selectat " + selected + " persoane.";
-
+      } else {
+        selectionText.textContent = selected === 1 ? "Ați selectat 1 persoană." : "Ați selectat " + selected + " persoane.";
         submitBtn.disabled = !checkMinorRule();
-
+      }
     }
 
-}
+    checks.forEach(check => {
+      check.addEventListener("change", updateSelection);
+    });
 
+    submitBtn.addEventListener("click", function() {
+      if (!checkMinorRule()) return;
 
-checks.forEach(check => {
+      const selected = document.querySelectorAll(".candidate-check:checked").length;
+      if (selected === 0) return;
 
-    check.addEventListener(
-        "change",
-        updateSelection
-    );
+      confirmText.textContent = "Ați selectat " + selected + (selected === 1 ? " persoană pentru această ofertă." : " persoane pentru această ofertă.") + " După confirmare, selecția va fi transmisă.";
+      confirmModal.classList.remove("hidden");
+      confirmModal.classList.add("flex");
+    });
 
-});
+    cancelBtn.addEventListener("click", function() {
+      confirmModal.classList.add("hidden");
+      confirmModal.classList.remove("flex");
+    });
 
+    confirmBtn.addEventListener("click", async function() {
+      confirmModal.classList.add("hidden");
+      confirmModal.classList.remove("flex");
 
-submitBtn.addEventListener(
-    "click",
-    function() {
+      const selectedZilieri = [];
+      checks.forEach(check => {
+        if (check.checked) {
+          const row = check.closest("[data-id]");
+          selectedZilieri.push({
+            ID_zilier: row ? row.getAttribute("data-id") : null,
+            Nume: check.getAttribute("data-name")
+          });
+        }
+      });
 
-        if (!checkMinorRule()) {
-            return;
+      const selectiePayload = {
+        ID_angajator: currentUserSession ? currentUserSession.id : null,
+        ID_plasare_job: "PL-000125",
+        Zilieri_selectati: selectedZilieri
+      };
+
+      try {
+        if (!WEBHOOK_TRIMITE_SELECTIE.includes("SOT_AICI")) {
+          await fetch(WEBHOOK_TRIMITE_SELECTIE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(selectiePayload)
+          });
         }
 
-        const selected =
-            document.querySelectorAll(
-                ".candidate-check:checked"
-            ).length;
+        selectionArea.classList.add("hidden");
+        sentState.classList.remove("hidden");
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      } catch (err) {
+        console.error("Eroare transmitere selecție:", err);
+        alert("A apărut o eroare la transmiterea selecției.");
+      }
+    });
 
-        if (selected === 0) {
-            return;
-        }
+    confirmModal.addEventListener("click", function(event) {
+      if (event.target === confirmModal) {
+        confirmModal.classList.add("hidden");
+        confirmModal.classList.remove("flex");
+      }
+    });
 
-        confirmText.textContent =
-            "Ați selectat " +
-            selected +
-            (selected === 1
-                ? " persoană pentru această ofertă."
-                : " persoane pentru această ofertă."
-            ) +
-            " După confirmare, selecția va fi transmisă.";
-
-        confirmModal.classList.add("show");
-
-    }
-);
-
-
-cancelBtn.addEventListener(
-    "click",
-    function() {
-
-        confirmModal.classList.remove("show");
-
-    }
-);
-
-
-confirmBtn.addEventListener(
-    "click",
-    function() {
-
-        confirmModal.classList.remove("show");
-
-        selectionArea.style.display = "none";
-
-        sentState.classList.add("show");
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-    }
-);
-
-
-confirmModal.addEventListener(
-    "click",
-    function(event) {
-
-        if (event.target === confirmModal) {
-
-            confirmModal.classList.remove("show");
-
-        }
-
-    }
-);
-
-
-updateSelection();
-
-</script>
-
+    updateSelection();
+  </script>
 </body>
 </html>
-```
