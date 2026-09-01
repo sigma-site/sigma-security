@@ -60,17 +60,17 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
                 <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Denumire societate</span>
-                <strong id="societate-val" class="block text-xs font-bold text-slate-800 break-words">SC Exemplu SRL</strong>
+                <strong id="societate-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
               </div>
 
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
                 <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">CUI</span>
-                <strong id="cui-val" class="block text-xs font-bold text-slate-800 break-words">RO12345678</strong>
+                <strong id="cui-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
               </div>
 
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
                 <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Sediu social</span>
-                <strong id="sediu-val" class="block text-xs font-bold text-slate-800 break-words">Bacău</strong>
+                <strong id="sediu-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
               </div>
             </div>
           </div>
@@ -81,33 +81,29 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
                 <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Nume</span>
-                <strong id="nume-val" class="block text-xs font-bold text-slate-800 break-words">Popescu</strong>
+                <strong id="nume-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
               </div>
 
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
                 <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Prenume</span>
-                <strong id="prenume-val" class="block text-xs font-bold text-slate-800 break-words">Ion</strong>
+                <strong id="prenume-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
               </div>
 
+              <!-- ÎNLOCUIT CNP CU TELEFON -->
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">CNP</span>
-                <strong id="cnp-val" class="block text-xs font-bold text-slate-800 break-words">*************</strong>
+                <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Telefon</span>
+                <strong id="telefon-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
               </div>
             </div>
           </div>
 
-          <!-- SECTIUNE DATE DE CONTACT -->
+          <!-- SECTIUNE DATE DE CONTACT (DOAR EMAIL) -->
           <div class="pt-5 border-t border-slate-100">
             <h2 class="text-base font-bold text-slate-900 mb-3">Date de contact</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
-                <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Telefon WhatsApp</span>
-                <strong id="telefon-val" class="block text-xs font-bold text-slate-800 break-words">07xx xxx xxx</strong>
-              </div>
-
+            <div class="grid grid-cols-1 sm:grid-cols-1 gap-3">
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
                 <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Email</span>
-                <strong id="email-val" class="block text-xs font-bold text-slate-800 break-words">contact@exemplu.ro</strong>
+                <strong id="email-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
               </div>
             </div>
           </div>
@@ -327,41 +323,52 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ BAZĂ DE DATE ANGAJATOR -->
+  <!-- SCRIPT LOGICĂ BAZĂ DE DATE ANGAJATOR (PRELUARE DUPĂ ID SESIUNE) -->
   <script>
-    let currentUserSession = null;
+    // Schimbă acest URL cu webhook-ul tău din Make dedicat preluării profilului de angajator
+    const WEBHOOK_PRELUARE_PROFIL_ANGAJATOR = "LIPEȘTE_WEBHOOK_PROFIL_ANGAJATOR_AICI";
 
-    document.addEventListener("DOMContentLoaded", () => {
-      let sessionData = localStorage.getItem("strictzilier_session");
+    document.addEventListener("DOMContentLoaded", async () => {
+      const sessionData = localStorage.getItem("strictzilier_session");
       
       if (!sessionData) {
-        const demoSession = {
-          role: 'angajator',
-          id: 'A000001',
-          societate: 'SC Exemplu SRL',
-          cui: 'RO12345678',
-          sediu: 'Bacău',
-          nume: 'Popescu',
-          prenume: 'Ion',
-          telefon: '07xx xxx xxx',
-          email: 'contact@exemplu.ro',
-          startOfWeek: new Date().toISOString().split('T')[0]
-        };
-        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
-        sessionData = JSON.stringify(demoSession);
+        // Dacă nu există sesiune, redirecționare la pagina principală de autentificare
+        window.location.href = "index.html";
+        return;
       }
 
       try {
-        currentUserSession = JSON.parse(sessionData);
-        if (currentUserSession.societate) document.getElementById("societate-val").textContent = currentUserSession.societate;
-        if (currentUserSession.cui) document.getElementById("cui-val").textContent = currentUserSession.cui;
-        if (currentUserSession.sediu) document.getElementById("sediu-val").textContent = currentUserSession.sediu;
-        if (currentUserSession.nume) document.getElementById("nume-val").textContent = currentUserSession.nume;
-        if (currentUserSession.prenume) document.getElementById("prenume-val").textContent = currentUserSession.prenume;
-        if (currentUserSession.telefon) document.getElementById("telefon-val").textContent = currentUserSession.telefon;
-        if (currentUserSession.email) document.getElementById("email-val").textContent = currentUserSession.email;
+        const session = JSON.parse(sessionData);
+
+        if (!session.id || session.role !== 'angajator') {
+          window.location.href = "index.html";
+          return;
+        }
+
+        // Cerere către scenariul din Make pentru a aduce datele reale pe baza ID-ului
+        const response = await fetch(WEBHOOK_PRELUARE_PROFIL_ANGAJATOR, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id_angajator: session.id })
+        });
+
+        const data = await response.json();
+
+        if (data && data.success !== false) {
+          // Populare elemente în pagină cu datele primite din baza de date
+          document.getElementById("societate-val").textContent = data.societate || "-";
+          document.getElementById("cui-val").textContent = data.cui || "-";
+          document.getElementById("sediu-val").textContent = data.sediu || "-";
+          document.getElementById("nume-val").textContent = data.nume || "-";
+          document.getElementById("prenume-val").textContent = data.prenume || "-";
+          document.getElementById("telefon-val").textContent = data.telefon || "-";
+          document.getElementById("email-val").textContent = data.email || "-";
+        } else {
+          console.error("Nu s-au putut încărca datele contului.");
+        }
+
       } catch (e) {
-        console.error("Eroare la citirea sesiunii angajator:", e);
+        console.error("Eroare la preluarea profilului angajatorului:", e);
       }
     });
   </script>
