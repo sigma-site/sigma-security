@@ -456,8 +456,13 @@
   <script>
     const WEBHOOK_INREGISTRARE_ZILIER = "https://hook.eu1.make.com/jwkrt1pykpw2pj5x9ki07shiyr22uxyk";
     const WEBHOOK_INREGISTRARE_ANGAJATOR = "https://hook.eu1.make.com/ugilk17t8eio974oyckpox2q29l7cxmv";
-    const WEBHOOK_SOLICITA_OTP = "https://hook.eu1.make.com/ahmufdtrs1osrhmxucms28nhje417fdj";
-    const WEBHOOK_VALIDEAZA_OTP = "https://hook.eu1.make.com/ejc4rt4hkvtxv5zihsflanlzdawachmf";
+    
+    // Webhook-uri OTP separate pentru Zilieri și Angajatori
+    const WEBHOOK_SOLICITA_OTP_ZILIER = "https://hook.eu1.make.com/ahmufdtrs1osrhmxucms28nhje417fdj";
+    const WEBHOOK_VALIDEAZA_OTP_ZILIER = "https://hook.eu1.make.com/ejc4rt4hkvtxv5zihsflanlzdawachmf";
+    
+    const WEBHOOK_SOLICITA_OTP_ANGAJATOR = "https://hook.eu1.make.com/etjvw4wioxok8dk0lmr3bl7mnpz7anhy";
+    const WEBHOOK_VALIDEAZA_OTP_ANGAJATOR = "https://hook.eu1.make.com/cxhm2dbv3812fplv6rg46dh4df61lsq0";
 
     let currentAuthRole = '';
 
@@ -603,8 +608,11 @@
       btnStep1.disabled = true;
       btnStep1.textContent = "Se trimite codul...";
 
+      // Alegem webhook-ul în funcție de rol
+      const webhookUrl = currentAuthRole === 'zilier' ? WEBHOOK_SOLICITA_OTP_ZILIER : WEBHOOK_SOLICITA_OTP_ANGAJATOR;
+
       try {
-        const response = await fetch(WEBHOOK_SOLICITA_OTP, {
+        const response = await fetch(webhookUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -645,8 +653,11 @@
       btnStep2.disabled = true;
       btnStep2.textContent = "Se verifică codul...";
 
+      // Alegem webhook-ul de validare în funcție de rol
+      const webhookUrl = currentAuthRole === 'zilier' ? WEBHOOK_VALIDEAZA_OTP_ZILIER : WEBHOOK_VALIDEAZA_OTP_ANGAJATOR;
+
       try {
-        const response = await fetch(WEBHOOK_VALIDEAZA_OTP, {
+        const response = await fetch(webhookUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
