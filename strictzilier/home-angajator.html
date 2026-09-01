@@ -324,7 +324,6 @@
 
   <!-- SCRIPT LOGICĂ BAZĂ DE DATE ANGAJATOR (PRELUARE DUPĂ ID SESIUNE) -->
   <script>
-    // Înlocuiește cu webhook-ul tău din Make dedicat preluării profilului de angajator
     const WEBHOOK_PRELUARE_PROFIL_ANGAJATOR = "https://hook.eu1.make.com/agnhanlpeh301871pbwbn3zug3mlk9b5";
 
     document.addEventListener("DOMContentLoaded", async () => {
@@ -343,7 +342,6 @@
           return;
         }
 
-        // Cerere către scenariul din Make trimițând ID_angajator
         const response = await fetch(WEBHOOK_PRELUARE_PROFIL_ANGAJATOR, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -352,8 +350,7 @@
 
         const data = await response.json();
 
-        if (data && data.success !== false) {
-          // Populare elemente folosind strict denumirile oficiale din baza de date
+        if (data) {
           document.getElementById("societate-val").textContent = data.Denumire_societate || "-";
           document.getElementById("cui-val").textContent = data.CUI || "-";
           document.getElementById("sediu-val").textContent = data.Sediu_social || "-";
