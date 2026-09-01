@@ -89,7 +89,6 @@
                 <strong id="prenume-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
               </div>
 
-              <!-- ÎNLOCUIT CNP CU TELEFON -->
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
                 <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Telefon</span>
                 <strong id="telefon-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
@@ -97,7 +96,7 @@
             </div>
           </div>
 
-          <!-- SECTIUNE DATE DE CONTACT (DOAR EMAIL) -->
+          <!-- SECTIUNE DATE DE CONTACT -->
           <div class="pt-5 border-t border-slate-100">
             <h2 class="text-base font-bold text-slate-900 mb-3">Date de contact</h2>
             <div class="grid grid-cols-1 sm:grid-cols-1 gap-3">
@@ -325,14 +324,13 @@
 
   <!-- SCRIPT LOGICĂ BAZĂ DE DATE ANGAJATOR (PRELUARE DUPĂ ID SESIUNE) -->
   <script>
-    // Schimbă acest URL cu webhook-ul tău din Make dedicat preluării profilului de angajator
+    // Înlocuiește cu webhook-ul tău din Make dedicat preluării profilului de angajator
     const WEBHOOK_PRELUARE_PROFIL_ANGAJATOR = "LIPEȘTE_WEBHOOK_PROFIL_ANGAJATOR_AICI";
 
     document.addEventListener("DOMContentLoaded", async () => {
       const sessionData = localStorage.getItem("strictzilier_session");
       
       if (!sessionData) {
-        // Dacă nu există sesiune, redirecționare la pagina principală de autentificare
         window.location.href = "index.html";
         return;
       }
@@ -345,26 +343,26 @@
           return;
         }
 
-        // Cerere către scenariul din Make pentru a aduce datele reale pe baza ID-ului
+        // Cerere către scenariul din Make trimițând ID_angajator
         const response = await fetch(WEBHOOK_PRELUARE_PROFIL_ANGAJATOR, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ id_angajator: session.id })
+          body: JSON.stringify({ ID_angajator: session.id })
         });
 
         const data = await response.json();
 
         if (data && data.success !== false) {
-          // Populare elemente în pagină cu datele primite din baza de date
-          document.getElementById("societate-val").textContent = data.societate || "-";
-          document.getElementById("cui-val").textContent = data.cui || "-";
-          document.getElementById("sediu-val").textContent = data.sediu || "-";
-          document.getElementById("nume-val").textContent = data.nume || "-";
-          document.getElementById("prenume-val").textContent = data.prenume || "-";
-          document.getElementById("telefon-val").textContent = data.telefon || "-";
-          document.getElementById("email-val").textContent = data.email || "-";
+          // Populare elemente folosind strict denumirile oficiale din baza de date
+          document.getElementById("societate-val").textContent = data.Denumire_societate || "-";
+          document.getElementById("cui-val").textContent = data.CUI || "-";
+          document.getElementById("sediu-val").textContent = data.Sediu_social || "-";
+          document.getElementById("nume-val").textContent = data.Nume_reprezentant || "-";
+          document.getElementById("prenume-val").textContent = data.Prenume_reprezentant || "-";
+          document.getElementById("telefon-val").textContent = data.Telefon || "-";
+          document.getElementById("email-val").textContent = data.Email || "-";
         } else {
-          console.error("Nu s-au putut încărca datele contului.");
+          console.error("Nu s-au putut încărca datele contului din baza de date.");
         }
 
       } catch (e) {
