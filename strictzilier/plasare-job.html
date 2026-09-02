@@ -168,7 +168,7 @@
             <button type="button" onclick="closePlacement()" class="w-full sm:w-auto px-5 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs rounded-lg transition">
               Anulează
             </button>
-            <button type="button" onclick="launchOffer()" class="w-full sm:w-auto px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+            <button id="launchButton" type="button" onclick="launchOffer()" class="w-full sm:w-auto px-6 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
               Lansează oferta
             </button>
           </div>
@@ -541,6 +541,13 @@
         return;
       }
 
+      const launchButton = document.getElementById("launchButton");
+      
+      // Dezactivăm butonul imediat pentru a preveni dubla trimitere
+      launchButton.disabled = true;
+      launchButton.classList.add("opacity-50", "cursor-not-allowed");
+      launchButton.textContent = "Se lansează...";
+
       const offerPayload = {
         ID_angajator: currentUserSession ? currentUserSession.id : null,
         ID_sablon_job: selectedTemplate ? selectedTemplate.id : null,
@@ -564,9 +571,16 @@
         const successEl = document.getElementById("success");
         successEl.classList.remove("hidden");
         successEl.scrollIntoView({ behavior: "smooth", block: "nearest" });
+
+        launchButton.textContent = "Ofertă lansată";
       } catch (err) {
         console.error("Eroare lansare ofertă:", err);
         alert("A apărut o eroare la lansarea ofertei.");
+        
+        // Dacă apare o eroare, redeschidem butonul ca să poată reîncerca
+        launchButton.disabled = false;
+        launchButton.classList.remove("opacity-50", "cursor-not-allowed");
+        launchButton.textContent = "Lansează oferta";
       }
     }
   </script>
