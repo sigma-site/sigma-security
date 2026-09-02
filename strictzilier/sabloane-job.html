@@ -77,7 +77,7 @@
                 </tr>
               </thead>
               <tbody id="templatesTableBody" class="divide-y divide-slate-100 font-medium">
-                <!-- Se va popula dinamic din JS -->
+                <!-- Se va popula dinamic din baza de date -->
               </tbody>
             </table>
           </div>
@@ -423,7 +423,9 @@
 
   <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE -->
   <script>
-    const WEBHOOK_SALVEAZA_SABLON = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_SALVEAZA_SABLON";
+    // Înlocuiește cu adresele reale ale webhook-urilor din Make
+    const WEBHOOK_CITESTE_SABLOANE = "https://hook.eu1.make.com/SCHIMBA_CU_WEBHOOK_CITIRE";
+    const WEBHOOK_SALVEAZA_SABLON = "https://hook.eu1.make.com/SCHIMBA_CU_WEBHOOK_SALVARE";
 
     const activitiesByGroup = {
       G01: ["Agricultură, vânătoare și servicii anexe", "Creșterea materialului săditor", "Creșterea plantelor ornamentale", "Gazon pentru transplantare", "Operațiuni de îngrijire și curățare a pomilor", "Activități ale pepinierelor (cu excepția pepinierelor forestiere)", "Comerț cu ridicata al produselor agricole brute și al animalelor vii"],
@@ -436,12 +438,7 @@
       G08: ["Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)", "Activități de studiere a pieței", "Activități de sondare a opiniei publice", "Activități de cercetare-dezvoltare în biotehnologie", "Activități de cercetare-dezvoltare în alte științe naturale și inginerie"]
     };
 
-    let templates = [
-      { internalId: "SJ000001", denumireJob: "Cules mere", grupa: "G01", activitate: "Agricultură, vânătoare și servicii anexe", durata: "8", pauzaMasa: "30", sumaNeta: "250", efort: "3", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Fermă", transportInclus: "Nu", instruireInclus: "Nu", descriere: "Cules și sortare mere.", beneficii: "Apă și pauză de masă." },
-      { internalId: "SJ000002", denumireJob: "Întreținere grădină", grupa: "G03", activitate: "Activități de întreținere peisagistică", durata: "6", pauzaMasa: "0", sumaNeta: "200", efort: "2", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Grădină", transportInclus: "Nu", instruireInclus: "Da", descriere: "Lucrări de întreținere și curățare.", beneficii: "" },
-      { internalId: "SJ000003", denumireJob: "Servire eveniment", grupa: "G05", activitate: "Activități de alimentație (catering) pentru evenimente", durata: "8", pauzaMasa: "30", sumaNeta: "300", efort: "2", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Sală evenimente", transportInclus: "Da", instruireInclus: "Da", descriere: "Servire și pregătire sală.", beneficii: "Masă inclusă." }
-    ];
-
+    let templates = [];
     let currentMode = null;
     let currentTemplateId = null;
     let originalData = null;
@@ -449,28 +446,89 @@
 
     const fieldIds = ["denumireJob", "grupa", "activitate", "durata", "pauzaMasa", "sumaNeta", "efort", "judet", "localitate", "locDesfasurare", "transportInclus", "instruireInclus", "descriere", "beneficii"];
 
-    document.addEventListener("DOMContentLoaded", () => {
-      let sessionData = localStorage.getItem("strictzilier_session");
+    document.addEventListener("DOMContentLoaded", async () => {
+      const sessionData = localStorage.getItem("strictzilier_session");
       if (!sessionData) {
-        const demoSession = { role: 'angajator', id: 'A000001', societate: 'SC Exemplu SRL', startOfWeek: new Date().toISOString().split('T')[0] };
-        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
-        sessionData = JSON.stringify(demoSession);
+        window.location.href = "index.html";
+        return;
       }
-      try { currentUserSession = JSON.parse(sessionData); } catch (e) { console.error("Eroare sesiune:", e); }
-      renderTemplatesTable();
+      try {
+        currentUserSession = JSON.parse(sessionData);
+        if (!currentUserSession.id || currentUserSession.role !== 'angajator') {
+          window.location.href = "index.html";
+          return;
+        }
+      } catch (e) {
+        window.location.href = "index.html";
+        return;
+      }
+
+      await loadTemplatesFromDatabase();
     });
+
+    async function loadTemplatesFromDatabase() {
+      try {
+        if (WEBHOOK_CITESTE_SABLOANE.includes("SCHIMBA_CU")) {
+          // Date demo fallback dacă nu e setat webhook-ul încă
+          templates = [
+            { internalId: "SJ000001", denumireJob: "Cules mere", grupa: "G01", activitate: "Agricultură, vânătoare și servicii anexe", durata: "8", pauzaMasa: "30", sumaNeta: "250", efort: "3", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Fermă", transportInclus: "Nu", instruireInclus: "Nu", descriere: "Cules și sortare mere.", beneficii: "Apă și pauză de masă." }
+          ];
+          renderTemplatesTable();
+          return;
+        }
+
+        const response = await fetch(WEBHOOK_CITESTE_SABLOANE, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ID_angajator: currentUserSession.id })
+        });
+
+        const data = await response.json();
+        // Așteptăm un array de șabloane returnat de Make
+        if (Array.isArray(data)) {
+          templates = data.map(item => ({
+            internalId: item.ID_sablon_job,
+            denumireJob: item.Denumire_job,
+            grupa: item.Cod_grup_activitate,
+            activitate: item.ID_activitate,
+            durata: item.Durata_ore,
+            pauzaMasa: item.Pauza_masa,
+            sumaNeta: item.Suma_neta,
+            efort: item.Grad_efort_fizic,
+            judet: item.Judet,
+            localitate: item.Localitate,
+            locDesfasurare: item.Loc_desfasurare,
+            transportInclus: item.Timp_transport_inclus,
+            instruireInclus: item.Timp_instruire_inclus,
+            descriere: item.Descriere_activitate,
+            beneficii: item.Beneficii_suplimentare
+          }));
+        } else {
+          templates = [];
+        }
+        renderTemplatesTable();
+      } catch (err) {
+        console.error("Eroare la citirea șabloanelor:", err);
+      }
+    }
 
     function renderTemplatesTable() {
       const tbody = document.getElementById("templatesTableBody");
       tbody.innerHTML = "";
+      
+      if (templates.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Nu există șabloane salvate. Creați primul șablon.</td></tr>`;
+        return;
+      }
+
       templates.forEach(t => {
         const tr = document.createElement("tr");
         tr.className = "hover:bg-slate-50 transition";
         tr.innerHTML = `
-          <td class="p-3 text-slate-800 font-medium">${t.activitate}</td>
-          <td class="p-3 text-slate-600">${t.locDesfasurare}</td>
-          <td class="p-3 text-slate-800 font-semibold">${t.denumireJob}</td>
-          <td class="p-3 text-slate-600">${t.durata} ore</td>
+          <td class="p-3 text-slate-800 font-medium">${t.activitate || "-"}</td>
+          <td class="p-3 text-slate-600">${t.locDesfasurare || "-"}</td>
+          <td class="p-3 text-slate-800 font-semibold">${t.denumireJob || "-"}</td>
+          <td class="p-3 text-slate-600">${t.durata || 0} ore</td>
           <td class="p-3 text-right">
             <button type="button" onclick="useAsModel('${t.internalId}')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition shadow-sm">
               Folosește ca model
@@ -599,19 +657,18 @@
       const newId = "SJ" + String(Math.floor(Math.random() * 900000) + 100000);
       const currentDate = new Date().toISOString().split('T')[0];
 
-      // Payload aliniat exact pe structura bazei de date furnizată
       const templatePayload = {
         ID_sablon_job: newId,
         ID_angajator: currentUserSession ? currentUserSession.id : null,
         Denumire_job: data.denumireJob,
-        ID_activitate: data.activitate, // Păstrat conform structurii bazei de date
+        ID_activitate: data.activitate,
         Data_crearii: currentDate,
         Activa: "Da",
-        Ora_inceput: "08:00", // Valoare default standard
+        Ora_inceput: "08:00",
         Durata_ore: Number(data.durata) || 0,
         Pauza_masa: Number(data.pauzaMasa) || 0,
         Suma_neta: Number(data.sumaNeta) || 0,
-        Suma_bruta: 0, // Calculabil ulterior
+        Suma_bruta: 0,
         Grad_efort_fizic: data.efort,
         Judet: data.judet,
         Localitate: data.localitate,
@@ -623,7 +680,7 @@
       };
 
       try {
-        if (!WEBHOOK_SALVEAZA_SABLON.includes("SOT_AICI")) {
+        if (!WEBHOOK_SALVEAZA_SABLON.includes("SCHIMBA_CU")) {
           await fetch(WEBHOOK_SALVEAZA_SABLON, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -631,8 +688,8 @@
           });
         }
 
-        templates.push({ internalId: newId, ...data });
-        renderTemplatesTable();
+        // Reîncărcăm șabloanele din baza de date pentru sincronizare completă
+        await loadTemplatesFromDatabase();
 
         alert("Șablonul nou a fost salvat cu succes.");
         closeTemplate();
