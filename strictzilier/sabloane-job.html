@@ -69,16 +69,15 @@
             <table class="w-full text-left border-collapse text-xs">
               <thead>
                 <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-                  <th class="p-3">ID</th>
                   <th class="p-3">Activitate</th>
-                  <th class="p-3">Locul</th>
-                  <th class="p-3">Denumire</th>
+                  <th class="p-3">Locul activitatii</th>
+                  <th class="p-3">Denumire activitate</th>
                   <th class="p-3">Durată</th>
                   <th class="p-3 text-right">Acțiune</th>
                 </tr>
               </thead>
               <tbody id="templatesTableBody" class="divide-y divide-slate-100 font-medium">
-                <!-- Se va popula dinamic din JS / Baza de date -->
+                <!-- Se va popula dinamic din JS -->
               </tbody>
             </table>
           </div>
@@ -136,7 +135,7 @@
     </div>
   </main>
 
-  <!-- MODAL FORMULAR ȘABLON JOB (CU SCROLLING OPTIMIZAT) -->
+  <!-- MODAL FORMULAR ȘABLON JOB -->
   <div id="templateModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm hidden z-50 items-center justify-center p-3 sm:p-4 overflow-y-auto">
     <div class="bg-white rounded-2xl max-w-2xl w-full my-auto shadow-2xl border border-slate-100 flex flex-col max-h-[90vh] overflow-hidden">
       
@@ -282,7 +281,7 @@
     </div>
   </footer>
 
-  <!-- SCRIPT INTEGRARE VAPI & PIE.HOST -->
+  <!-- SCRIPT VAPI & PIE.HOST -->
   <script type="module">
     import Vapi from "https://esm.sh/@vapi-ai/web";
 
@@ -422,7 +421,7 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ ȘABLOANE, BAZĂ DE DATE & WEBHOOK MAKE.COM -->
+  <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE -->
   <script>
     const WEBHOOK_SALVEAZA_SABLON = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_SALVEAZA_SABLON";
 
@@ -438,9 +437,9 @@
     };
 
     let templates = [
-      { id: "SJ000001", denumireJob: "Cules mere", grupa: "G01", activitate: "Agricultură, vânătoare și servicii anexe", durata: "8", pauzaMasa: "30", sumaNeta: "250", efort: "3", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Fermă", transportInclus: "Nu", instruireInclus: "Nu", descriere: "Cules și sortare mere.", beneficii: "Apă și pauză de masă." },
-      { id: "SJ000002", denumireJob: "Întreținere grădină", grupa: "G03", activitate: "Activități de întreținere peisagistică", durata: "6", pauzaMasa: "0", sumaNeta: "200", efort: "2", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Grădină", transportInclus: "Nu", instruireInclus: "Da", descriere: "Lucrări de întreținere și curățare.", beneficii: "" },
-      { id: "SJ000003", denumireJob: "Servire eveniment", grupa: "G05", activitate: "Activități de alimentație (catering) pentru evenimente", durata: "8", pauzaMasa: "30", sumaNeta: "300", efort: "2", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Sală evenimente", transportInclus: "Da", instruireInclus: "Da", descriere: "Servire și pregătire sală.", beneficii: "Masă inclusă." }
+      { internalId: "SJ000001", denumireJob: "Cules mere", grupa: "G01", activitate: "Agricultură, vânătoare și servicii anexe", durata: "8", pauzaMasa: "30", sumaNeta: "250", efort: "3", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Fermă", transportInclus: "Nu", instruireInclus: "Nu", descriere: "Cules și sortare mere.", beneficii: "Apă și pauză de masă." },
+      { internalId: "SJ000002", denumireJob: "Întreținere grădină", grupa: "G03", activitate: "Activități de întreținere peisagistică", durata: "6", pauzaMasa: "0", sumaNeta: "200", efort: "2", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Grădină", transportInclus: "Nu", instruireInclus: "Da", descriere: "Lucrări de întreținere și curățare.", beneficii: "" },
+      { internalId: "SJ000003", denumireJob: "Servire eveniment", grupa: "G05", activitate: "Activități de alimentație (catering) pentru evenimente", durata: "8", pauzaMasa: "30", sumaNeta: "300", efort: "2", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Sală evenimente", transportInclus: "Da", instruireInclus: "Da", descriere: "Servire și pregătire sală.", beneficii: "Masă inclusă." }
     ];
 
     let currentMode = null;
@@ -468,13 +467,12 @@
         const tr = document.createElement("tr");
         tr.className = "hover:bg-slate-50 transition";
         tr.innerHTML = `
-          <td class="p-3 font-bold text-slate-800">${t.id}</td>
-          <td class="p-3 text-slate-600">${t.activitate}</td>
+          <td class="p-3 text-slate-800 font-medium">${t.activitate}</td>
           <td class="p-3 text-slate-600">${t.locDesfasurare}</td>
           <td class="p-3 text-slate-800 font-semibold">${t.denumireJob}</td>
           <td class="p-3 text-slate-600">${t.durata} ore</td>
           <td class="p-3 text-right">
-            <button type="button" onclick="useAsModel('${t.id}')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition shadow-sm">
+            <button type="button" onclick="useAsModel('${t.internalId}')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition shadow-sm">
               Folosește ca model
             </button>
           </td>
@@ -556,13 +554,13 @@
       modal.classList.add("flex");
     }
 
-    function useAsModel(id) {
-      const template = templates.find(t => t.id === id);
+    function useAsModel(internalId) {
+      const template = templates.find(t => t.internalId === internalId);
       if (!template) return;
 
       currentMode = "model";
-      currentTemplateId = id;
-      document.getElementById("formTitle").textContent = "Șablon nou pornind de la " + id;
+      currentTemplateId = internalId;
+      document.getElementById("formTitle").textContent = "Șablon nou bazat pe șablon existent";
       document.getElementById("grupa").value = template.grupa;
       loadActivities(template.grupa, template.activitate);
       setFormData(template);
@@ -599,22 +597,27 @@
 
       const data = getFormData();
       const newId = "SJ" + String(Math.floor(Math.random() * 900000) + 100000);
+      const currentDate = new Date().toISOString().split('T')[0];
 
+      // Payload aliniat exact pe structura bazei de date furnizată
       const templatePayload = {
-        ID_angajator: currentUserSession ? currentUserSession.id : null,
         ID_sablon_job: newId,
+        ID_angajator: currentUserSession ? currentUserSession.id : null,
         Denumire_job: data.denumireJob,
-        Cod_grup_activitate: data.grupa,
-        Activitate: data.activitate,
+        ID_activitate: data.activitate, // Păstrat conform structurii bazei de date
+        Data_crearii: currentDate,
+        Activa: "Da",
+        Ora_inceput: "08:00", // Valoare default standard
         Durata_ore: Number(data.durata) || 0,
-        Pauza_masa_min: Number(data.pauzaMasa) || 0,
-        Suma_neta_zi: Number(data.sumaNeta) || 0,
-        Nivel_efort: data.efort,
+        Pauza_masa: Number(data.pauzaMasa) || 0,
+        Suma_neta: Number(data.sumaNeta) || 0,
+        Suma_bruta: 0, // Calculabil ulterior
+        Grad_efort_fizic: data.efort,
         Judet: data.judet,
         Localitate: data.localitate,
         Loc_desfasurare: data.locDesfasurare,
-        Transport_inclus_in_timp_platit: data.transportInclus,
-        Instruire_inclusa_in_timp_platit: data.instruireInclus,
+        Timp_transport_inclus: data.transportInclus,
+        Timp_instruire_inclus: data.instruireInclus,
         Descriere_activitate: data.descriere,
         Beneficii_suplimentare: data.beneficii
       };
@@ -628,15 +631,10 @@
           });
         }
 
-        templates.push({ id: newId, ...data });
+        templates.push({ internalId: newId, ...data });
         renderTemplatesTable();
 
-        if (currentMode === "model") {
-          alert("Șablonul " + currentTemplateId + " rămâne neschimbat.\n\nNoua variantă a fost salvată cu ID-ul " + newId + ".");
-        } else {
-          alert("Șablonul nou a fost salvat cu ID-ul " + newId + ".");
-        }
-
+        alert("Șablonul nou a fost salvat cu succes.");
         closeTemplate();
       } catch (err) {
         console.error("Eroare salvare șablon:", err);
