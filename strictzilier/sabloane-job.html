@@ -468,7 +468,7 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE -->
+  <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE (ADAPTAT PENTRU LISTĂ / ARRAY) -->
   <script>
     const WEBHOOK_CITESTE_SABLOANE = "https://hook.eu1.make.com/mve5om2fghilkdpzo48x24pj6u36m0ik";
     const WEBHOOK_SALVEAZA_SABLON = "https://hook.eu1.make.com/8lceavjoxrmsa744d1tli5qpek3sohp9";
@@ -620,7 +620,7 @@
       });
     }
 
-    // CITIRE DIN BAZĂ
+    // CITIRE DIN BAZĂ (ADAPTAT PENTRU A COLECTA LISTA / ARRAY)
     async function loadTemplatesFromDatabase() {
       try {
         const response = await fetch(WEBHOOK_CITESTE_SABLOANE, {
@@ -630,34 +630,44 @@
         });
 
         const data = await response.json();
-        console.log("Date primite:", data);
+        console.log("Lista de șabloane primită:", data);
 
         templates = [];
         
-        if (data && data.ID_sablon_job) {
-          templates.push({
-            internalId: data.ID_sablon_job,
-            denumireJob: data.Denumire_job,
-            grupa: data.Cod_grup_activitate,
-            activitate: data.ID_activitate,
-            durata: data.Durata_ore,
-            pauzaMasa: data.Pauza_masa,
-            sumaNeta: data.Suma_neta,
-            efort: data.Grad_efort_fizic,
-            judet: data.Judet,
-            localitate: data.Localitate,
-            locDesfasurare: data.Loc_desfasurare,
-            transportInclus: data.Timp_transport_inclus,
-            instruireInclus: data.Timp_instruire_inclus,
-            descriere: data.Descriere_activitate,
-            beneficii: data.Beneficii_suplimentare
-          });
+        // Tratăm răspunsul indiferent dacă vine ca Array direct sau ca obiect unic
+        let items = [];
+        if (Array.isArray(data)) {
+          items = data;
+        } else if (data && typeof data === 'object') {
+          items = [data];
         }
+
+        items.forEach(item => {
+          if (item && item.ID_sablon_job) {
+            templates.push({
+              internalId: item.ID_sablon_job,
+              denumireJob: item.Denumire_job,
+              grupa: item.Cod_grup_activitate,
+              activitate: item.ID_activitate,
+              durata: item.Durata_ore,
+              pauzaMasa: item.Pauza_masa,
+              sumaNeta: item.Suma_neta,
+              efort: item.Grad_efort_fizic,
+              judet: item.Judet,
+              localitate: item.Localitate,
+              locDesfasurare: item.Loc_desfasurare,
+              transportInclus: item.Timp_transport_inclus,
+              instruireInclus: item.Timp_instruire_inclus,
+              descriere: item.Descriere_activitate,
+              beneficii: item.Beneficii_suplimentare
+            });
+          }
+        });
 
         renderTemplatesTable();
 
       } catch (e) {
-        console.error("Eroare la preluarea șablonului:", e);
+        console.error("Eroare la preluarea șabloanelor:", e);
         templates = [];
         renderTemplatesTable();
       }
