@@ -423,7 +423,6 @@
 
   <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE -->
   <script>
-    // Înlocuiește cu adresele reale ale webhook-urilor din Make
     const WEBHOOK_CITESTE_SABLOANE = "https://hook.eu1.make.com/mve5om2fghilkdpzo48x24pj6u36m0ik";
     const WEBHOOK_SALVEAZA_SABLON = "https://hook.eu1.make.com/8lceavjoxrmsa744d1tli5qpek3sohp9";
 
@@ -469,7 +468,6 @@
     async function loadTemplatesFromDatabase() {
       try {
         if (WEBHOOK_CITESTE_SABLOANE.includes("SCHIMBA_CU")) {
-          // Date demo fallback dacă nu e setat webhook-ul încă
           templates = [
             { internalId: "SJ000001", denumireJob: "Cules mere", grupa: "G01", activitate: "Agricultură, vânătoare și servicii anexe", durata: "8", pauzaMasa: "30", sumaNeta: "250", efort: "3", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Fermă", transportInclus: "Nu", instruireInclus: "Nu", descriere: "Cules și sortare mere.", beneficii: "Apă și pauză de masă." }
           ];
@@ -483,29 +481,37 @@
           body: JSON.stringify({ ID_angajator: currentUserSession.id })
         });
 
-        const data = await response.json();
-        // Așteptăm un array de șabloane returnat de Make
-        if (Array.isArray(data)) {
-          templates = data.map(item => ({
-            internalId: item.ID_sablon_job,
-            denumireJob: item.Denumire_job,
-            grupa: item.Cod_grup_activitate,
-            activitate: item.ID_activitate,
-            durata: item.Durata_ore,
-            pauzaMasa: item.Pauza_masa,
-            sumaNeta: item.Suma_neta,
-            efort: item.Grad_efort_fizic,
-            judet: item.Judet,
-            localitate: item.Localitate,
-            locDesfasurare: item.Loc_desfasurare,
-            transportInclus: item.Timp_transport_inclus,
-            instruireInclus: item.Timp_instruire_inclus,
-            descriere: item.Descriere_activitate,
-            beneficii: item.Beneficii_suplimentare
+        let data = await response.json();
+        console.log("Răspuns brut primit de la Make:", data);
+
+        if (typeof data === "string") {
+          try { data = JSON.parse(data); } catch(e) {}
+        }
+
+        let rawList = Array.isArray(data) ? data : (data.templates || data.items || data.result || []);
+
+        if (Array.isArray(rawList)) {
+          templates = rawList.map(item => ({
+            internalId: item.ID_sablon_job || item.id,
+            denumireJob: item.Denumire_job || item.denumireJob,
+            grupa: item.Cod_grup_activitate || item.grupa,
+            activitate: item.ID_activitate || item.activitate,
+            durata: item.Durata_ore || item.durata,
+            pauzaMasa: item.Pauza_masa || item.pauzaMasa,
+            sumaNeta: item.Suma_neta || item.sumaNeta,
+            efort: item.Grad_efort_fizic || item.efort,
+            judet: item.Judet || item.judet,
+            localitate: item.Localitate || item.localitate,
+            locDesfasurare: item.Loc_desfasurare || item.locDesfasurare,
+            transportInclus: item.Timp_transport_inclus || item.transportInclus,
+            instruireInclus: item.Timp_instruire_inclus || item.instruireInclus,
+            descriere: item.Descriere_activitate || item.descriere,
+            beneficii: item.Beneficii_suplimentare || item.beneficii
           }));
         } else {
           templates = [];
         }
+
         renderTemplatesTable();
       } catch (err) {
         console.error("Eroare la citirea șabloanelor:", err);
@@ -688,7 +694,6 @@
           });
         }
 
-        // Reîncărcăm șabloanele din baza de date pentru sincronizare completă
         await loadTemplatesFromDatabase();
 
         alert("Șablonul nou a fost salvat cu succes.");
