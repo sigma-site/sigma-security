@@ -465,7 +465,7 @@
       await loadTemplatesFromDatabase();
     });
 
-    // CITIRE DIRECTĂ CU MAPAREA CORECTĂ PE CHEILE DIN BAZĂ
+    // CITIRE DIRECTĂ A ÎNREGISTRĂRII UNICE DIN BAZĂ
     async function loadTemplatesFromDatabase() {
       try {
         const response = await fetch(WEBHOOK_CITESTE_SABLOANE, {
@@ -476,33 +476,43 @@
           })
         });
 
-        const data = await response.json();
-        console.log("Date primite de la Make:", data);
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Date primite:", data);
 
-        // Mapăm direct pe structura de array returnată de Make
-        let rawList = Array.isArray(data) ? data : (data.items || data.templates || data.data || []);
+          // Preluăm prima înregistrare direct, exact ca la profil
+          let item = null;
+          if (Array.isArray(data)) {
+            item = data[0];
+          } else if (data && typeof data === "object") {
+            item = data;
+          }
 
-        templates = rawList.map(item => ({
-          internalId: item.ID_sablon_job || "",
-          denumireJob: item.Denumire_job || "",
-          grupa: item.Cod_grup_activitate || "",
-          activitate: item.ID_activitate || "",
-          durata: item.Durata_ore || "0",
-          pauzaMasa: item.Pauza_masa || "0",
-          sumaNeta: item.Suma_neta || "0",
-          efort: item.Grad_efort_fizic || "",
-          judet: item.Judet || "",
-          localitate: item.Localitate || "",
-          locDesfasurare: item.Loc_desfasurare || "",
-          transportInclus: item.Timp_transport_inclus || "Nu",
-          instruireInclus: item.Timp_instruire_inclus || "Nu",
-          descriere: item.Descriere_activitate || "",
-          beneficii: item.Beneficii_suplimentare || ""
-        }));
+          templates = [];
+          if (item && item.ID_sablon_job) {
+            templates.push({
+              internalId: item.ID_sablon_job,
+              denumireJob: item.Denumire_job,
+              grupa: item.Cod_grup_activitate,
+              activitate: item.ID_activitate,
+              durata: item.Durata_ore,
+              pauzaMasa: item.Pauza_masa,
+              sumaNeta: item.Suma_neta,
+              efort: item.Grad_efort_fizic,
+              judet: item.Judet,
+              localitate: item.Localitate,
+              locDesfasurare: item.Loc_desfasurare,
+              transportInclus: item.Timp_transport_inclus,
+              instruireInclus: item.Timp_instruire_inclus,
+              descriere: item.Descriere_activitate,
+              beneficii: item.Beneficii_suplimentare
+            });
+          }
+        }
 
         renderTemplatesTable();
       } catch (err) {
-        console.error("Eroare la citirea șabloanelor:", err);
+        console.error("Eroare la citire:", err);
         templates = [];
         renderTemplatesTable();
       }
