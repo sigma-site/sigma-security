@@ -465,72 +465,44 @@
       await loadTemplatesFromDatabase();
     });
 
+    // CITIRE DIRECTĂ CU MAPAREA CORECTĂ PE CHEILE DIN BAZĂ
     async function loadTemplatesFromDatabase() {
       try {
-        if (WEBHOOK_CITESTE_SABLOANE.includes("SCHIMBA_CU")) {
-          templates = [
-            { internalId: "SJ000001", denumireJob: "Cules mere", grupa: "G01", activitate: "Agricultură, vânătoare și servicii anexe", durata: "8", pauzaMasa: "30", sumaNeta: "250", efort: "3", judet: "Bacău", localitate: "Bacău", locDesfasurare: "Fermă", transportInclus: "Nu", instruireInclus: "Nu", descriere: "Cules și sortare mere.", beneficii: "Apă și pauză de masă." }
-          ];
-          renderTemplatesTable();
-          return;
-        }
-
         const response = await fetch(WEBHOOK_CITESTE_SABLOANE, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
-            ID_angajator: currentUserSession.id,
-            id: currentUserSession.id 
+            ID_angajator: currentUserSession.id
           })
         });
 
-        const textResponse = await response.text();
-        let data = [];
-        if (textResponse && textResponse.trim() !== "") {
-          try {
-            data = JSON.parse(textResponse);
-          } catch (e) {
-            console.error("Eroare parsare JSON:", e);
-          }
-        }
+        const data = await response.json();
+        console.log("Date primite de la Make:", data);
 
-        // Extragem DOAR PRIMUL element din răspuns
-        let rawItem = null;
-        if (Array.isArray(data)) {
-          rawItem = data[0] || null;
-        } else if (data && typeof data === "object") {
-          let list = data.body || data.templates || data.items || data.result;
-          if (Array.isArray(list)) {
-            rawItem = list[0] || null;
-          } else {
-            rawItem = data;
-          }
-        }
+        // Mapăm direct pe structura de array returnată de Make
+        let rawList = Array.isArray(data) ? data : (data.items || data.templates || data.data || []);
 
-        templates = [];
-        if (rawItem && (rawItem.ID_sablon_job || rawItem.Denumire_job || rawItem[0])) {
-          templates.push({
-            internalId: rawItem.ID_sablon_job || rawItem[0] || "SJ0001",
-            denumireJob: rawItem.Denumire_job || rawItem[2] || "",
-            grupa: rawItem.Cod_grup_activitate || rawItem[3] || "",
-            activitate: rawItem.ID_activitate || rawItem[4] || "",
-            durata: rawItem.Durata_ore || rawItem[8] || "0",
-            pauzaMasa: rawItem.Pauza_masa || rawItem[9] || "0",
-            sumaNeta: rawItem.Suma_neta || rawItem[10] || "0",
-            efort: rawItem.Grad_efort_fizic || rawItem[12] || "",
-            judet: rawItem.Judet || rawItem[13] || "",
-            localitate: rawItem.Localitate || rawItem[14] || "",
-            locDesfasurare: rawItem.Loc_desfasurare || rawItem[15] || "",
-            transportInclus: rawItem.Timp_transport_inclus || rawItem[16] || "Nu",
-            instruireInclus: rawItem.Timp_instruire_inclus || rawItem[17] || "Nu",
-            descriere: rawItem.Descriere_activitate || rawItem[18] || "",
-            beneficii: rawItem.Beneficii_suplimentare || rawItem[19] || ""
-          });
-        }
+        templates = rawList.map(item => ({
+          internalId: item.ID_sablon_job || "",
+          denumireJob: item.Denumire_job || "",
+          grupa: item.Cod_grup_activitate || "",
+          activitate: item.ID_activitate || "",
+          durata: item.Durata_ore || "0",
+          pauzaMasa: item.Pauza_masa || "0",
+          sumaNeta: item.Suma_neta || "0",
+          efort: item.Grad_efort_fizic || "",
+          judet: item.Judet || "",
+          localitate: item.Localitate || "",
+          locDesfasurare: item.Loc_desfasurare || "",
+          transportInclus: item.Timp_transport_inclus || "Nu",
+          instruireInclus: item.Timp_instruire_inclus || "Nu",
+          descriere: item.Descriere_activitate || "",
+          beneficii: item.Beneficii_suplimentare || ""
+        }));
 
         renderTemplatesTable();
       } catch (err) {
-        console.error("Eroare:", err);
+        console.error("Eroare la citirea șabloanelor:", err);
         templates = [];
         renderTemplatesTable();
       }
