@@ -484,12 +484,8 @@
           })
         });
 
-        let data = await response.json();
+        const data = await response.json();
         console.log("Răspuns brut primit de la Make:", data);
-
-        if (typeof data === "string") {
-          try { data = JSON.parse(data); } catch(e) {}
-        }
 
         let rawList = Array.isArray(data) ? data : (data.body || data.templates || data.items || data.result || []);
         if (typeof rawList === "string") {
@@ -521,6 +517,8 @@
         renderTemplatesTable();
       } catch (err) {
         console.error("Eroare la citirea șabloanelor:", err);
+        templates = [];
+        renderTemplatesTable();
       }
     }
 
@@ -528,7 +526,7 @@
       const tbody = document.getElementById("templatesTableBody");
       tbody.innerHTML = "";
       
-      if (templates.length === 0) {
+      if (!templates || templates.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Nu există șabloane salvate. Creați primul șablon.</td></tr>`;
         return;
       }
