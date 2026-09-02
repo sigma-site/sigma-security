@@ -53,23 +53,22 @@
           
           <h1 class="text-2xl font-black text-slate-900 tracking-tight">Plasează o ofertă de muncă</h1>
           <p class="text-xs font-medium text-slate-500 mt-1 mb-6 leading-relaxed">
-            Alegeți un șablon existent pentru activitatea pe care doriți să o transformați într-o ofertă concretă de muncă.
+            Alegeți un șablon existent din listă pentru activitatea pe care doriți să o transformați într-o ofertă concretă de muncă.
           </p>
 
           <div class="overflow-x-auto rounded-xl border border-slate-200">
             <table class="w-full text-left border-collapse text-xs">
               <thead>
                 <tr class="bg-slate-100 text-slate-700 font-bold border-b border-slate-200">
-                  <th class="p-3">ID</th>
                   <th class="p-3">Activitate</th>
-                  <th class="p-3">Locul</th>
-                  <th class="p-3">Denumire</th>
+                  <th class="p-3">Locul activitatii</th>
+                  <th class="p-3">Denumire activitate</th>
                   <th class="p-3">Durată</th>
                   <th class="p-3 text-right">Acțiune</th>
                 </tr>
               </thead>
               <tbody id="templatesBody" class="divide-y divide-slate-100 font-medium">
-                <!-- Se populează dinamic din JS -->
+                <!-- Se va popula dinamic din baza de date -->
               </tbody>
             </table>
           </div>
@@ -122,36 +121,36 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label for="startDate" class="block text-xs font-bold text-slate-700 mb-1">Data început *</label>
-                <input id="startDate" type="date" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <input id="startDate" type="date" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
               </div>
 
               <div>
                 <label for="endDate" class="block text-xs font-bold text-slate-700 mb-1">Data sfârșit *</label>
-                <input id="endDate" type="date" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <input id="endDate" type="date" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
               </div>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label for="minWorkers" class="block text-xs font-bold text-slate-700 mb-1">Număr minim zilieri *</label>
-                <input id="minWorkers" type="number" min="1" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <input id="minWorkers" type="number" min="1" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
               </div>
 
               <div>
                 <label for="maxWorkers" class="block text-xs font-bold text-slate-700 mb-1">Număr dorit zilieri *</label>
-                <input id="maxWorkers" type="number" min="1" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <input id="maxWorkers" type="number" min="1" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
               </div>
             </div>
 
             <div>
               <label for="meetingPlace" class="block text-xs font-bold text-slate-700 mb-1">Loc prezentare *</label>
-              <input id="meetingPlace" type="text" placeholder="Unde trebuie să se prezinte zilierii" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <input id="meetingPlace" type="text" placeholder="Unde trebuie să se prezinte zilierii" required class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label for="transport" class="block text-xs font-bold text-slate-700 mb-1">Transport asigurat</label>
-                <select id="transport" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <select id="transport" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                   <option value="Nu">Nu</option>
                   <option value="Da">Da</option>
                 </select>
@@ -159,7 +158,7 @@
 
               <div id="capacityField" class="hidden">
                 <label for="transportCapacity" class="block text-xs font-bold text-slate-700 mb-1">Capacitate transport - locuri</label>
-                <input id="transportCapacity" type="number" min="1" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <input id="transportCapacity" type="number" min="1" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
               </div>
             </div>
           </div>
@@ -385,52 +384,95 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ PLASARE JOB, BAZĂ DE DATE & WEBHOOK MAKE.COM -->
+  <!-- SCRIPT LOGICĂ PLASARE JOB & CITIRE DIN BAZĂ -->
   <script>
+    const WEBHOOK_CITESTE_SABLOANE = "https://hook.eu1.make.com/mve5om2fghilkdpzo48x24pj6u36m0ik";
     const WEBHOOK_LANSEAZA_PLASARE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_PLASARE_JOB";
 
-    const templates = [
-      { id: "SJ000001", grupa: "GA001 Agricultură, horticultură și comerț agricol", activitate: "Activitate agricolă de cultivare și recoltare", denumire: "Cules mere", loc: "Fermă", durata: "8 ore" },
-      { id: "SJ000002", grupa: "GA003 Peisagistică, spații verzi și gestionarea deșeurilor", activitate: "Activități de întreținere peisagistică", denumire: "Întreținere grădină", loc: "Grădină", durata: "6 ore" },
-      { id: "SJ000003", grupa: "GA005 Alimentație, ospitalitate și cazare", activitate: "Activități de alimentație (catering) pentru evenimente", denumire: "Servire eveniment", loc: "Sală evenimente", durata: "8 ore" }
-    ];
-
+    let templates = [];
     let currentUserSession = null;
     let selectedTemplate = null;
 
-    document.addEventListener("DOMContentLoaded", () => {
-      let sessionData = localStorage.getItem("strictzilier_session");
+    document.addEventListener("DOMContentLoaded", async () => {
+      const sessionData = localStorage.getItem("strictzilier_session");
       
       if (!sessionData) {
-        const demoSession = {
-          role: 'angajator',
-          id: 'A000001',
-          societate: 'SC Exemplu SRL',
-          startOfWeek: new Date().toISOString().split('T')[0]
-        };
-        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
-        sessionData = JSON.stringify(demoSession);
+        window.location.href = "index.html";
+        return;
       }
 
       try {
         currentUserSession = JSON.parse(sessionData);
-      } catch (e) {
-        console.error("Eroare la citirea sesiunii:", e);
-      }
 
-      renderTemplates();
+        if (!currentUserSession.id || currentUserSession.role !== 'angajator') {
+          window.location.href = "index.html";
+          return;
+        }
+
+        await loadTemplatesFromDatabase();
+
+      } catch (e) {
+        console.error("Eroare sesiune:", e);
+        window.location.href = "index.html";
+      }
     });
+
+    // CITIRE DIN BAZĂ (LISTĂ / ARRAY)
+    async function loadTemplatesFromDatabase() {
+      try {
+        const response = await fetch(WEBHOOK_CITESTE_SABLOANE, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ID_angajator: currentUserSession.id })
+        });
+
+        const data = await response.json();
+        console.log("Lista șabloane pentru plasare:", data);
+
+        templates = [];
+        let items = [];
+        if (Array.isArray(data)) {
+          items = data;
+        } else if (data && typeof data === 'object') {
+          items = [data];
+        }
+
+        items.forEach(item => {
+          if (item && item.ID_sablon_job) {
+            templates.push({
+              id: item.ID_sablon_job,
+              denumire: item.Denumire_job,
+              grupa: item.Cod_grup_activitate,
+              activitate: item.ID_activitate,
+              durata: (item.Durata_ore || "0") + " ore",
+              loc: item.Loc_desfasurare || "-"
+            });
+          }
+        });
+
+        renderTemplates();
+
+      } catch (e) {
+        console.error("Eroare la preluarea șabloanelor:", e);
+        templates = [];
+        renderTemplates();
+      }
+    }
 
     function renderTemplates() {
       const body = document.getElementById("templatesBody");
       body.innerHTML = "";
 
+      if (!templates || templates.length === 0) {
+        body.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Nu există șabloane salvate. Creați mai întâi un șablon.</td></tr>`;
+        return;
+      }
+
       templates.forEach(template => {
         const row = document.createElement("tr");
         row.className = "hover:bg-slate-50 transition";
         row.innerHTML = `
-          <td class="p-3 font-bold text-slate-800">${template.id}</td>
-          <td class="p-3 text-slate-600">${template.activitate}</td>
+          <td class="p-3 text-slate-800 font-medium">${template.activitate}</td>
           <td class="p-3 text-slate-600">${template.loc}</td>
           <td class="p-3 text-slate-800 font-semibold">${template.denumire}</td>
           <td class="p-3 text-slate-600">${template.durata}</td>
