@@ -160,14 +160,14 @@
               <label for="grupa" class="block text-xs font-bold text-slate-700 mb-1">Grupa activitate *</label>
               <select id="grupa" required class="w-full h-9 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                 <option value="">Selectează grupa</option>
-                <option value="G01">Agricultură, horticultură și comerț agricol</option>
-                <option value="G02">Silvicultură, pescuit și creșterea animalelor</option>
-                <option value="G03">Peisagistică, spații verzi și gestionarea deșeurilor</option>
-                <option value="G04">Natură, biodiversitate și agrement în aer liber</option>
-                <option value="G05">Alimentație, ospitalitate și cazare</option>
-                <option value="G06">Evenimente, spectacole și comunicare</option>
-                <option value="G07">Sport și agrement</option>
-                <option value="G08">Cercetare și studii de piață</option>
+                <option value="Agricultură, horticultură și comerț agricol">Agricultură, horticultură și comerț agricol</option>
+                <option value="Silvicultură, pescuit și creșterea animalelor">Silvicultură, pescuit și creșterea animalelor</option>
+                <option value="Peisagistică, spații verzi și gestionarea deșeurilor">Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                <option value="Natură, biodiversitate și agrement în aer liber">Natură, biodiversitate și agrement în aer liber</option>
+                <option value="Alimentație, ospitalitate și cazare">Alimentație, ospitalitate și cazare</option>
+                <option value="Evenimente, spectacole și comunicare">Evenimente, spectacole și comunicare</option>
+                <option value="Sport și agrement">Sport și agrement</option>
+                <option value="Cercetare și studii de piață">Cercetare și studii de piață</option>
               </select>
             </div>
           </div>
@@ -468,20 +468,20 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE (CORRECTAT COMPLET) -->
+  <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE -->
   <script>
     const WEBHOOK_CITESTE_SABLOANE = "https://hook.eu1.make.com/mve5om2fghilkdpzo48x24pj6u36m0ik";
     const WEBHOOK_SALVEAZA_SABLON = "https://hook.eu1.make.com/8lceavjoxrmsa744d1tli5qpek3sohp9";
 
     const activitiesByGroup = {
-      G01: ["Agricultură, vânătoare și servicii anexe", "Creșterea materialului săditor", "Creșterea plantelor ornamentale", "Gazon pentru transplantare", "Operațiuni de îngrijire și curățare a pomilor", "Activități ale pepinierelor (cu excepția pepinierelor forestiere)", "Comerț cu ridicata al produselor agricole brute și al animalelor vii"],
-      G02: ["Silvicultură, cu excepția exploătărilor forestiere", "Pescuit și acvacultură", "Creșterea și reproducția animalelor semidomesticite și a altor animale"],
-      G03: ["Activități de întreținere peisagistică", "Plantarea, îngrijirea și întreținerea de parcuri și grădini", "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale", "Colectarea, tratarea și eliminarea deșeurilor nepericuloase", "Recuperarea materialelor"],
-      G04: ["Activități ale grădinilor zoologice", "Activități ale grădinilor botanice", "Activități ale rezervațiilor naturale"],
-      G05: ["Activități de alimentație (catering) pentru evenimente", "Restaurante", "Baruri și alte activități de servire a băuturilor", "Hoteluri și alte facilități de cazare", "Tabere de copii organizate de Ministerul Tineretului și Sportului", "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"],
-      G06: ["Activități de organizare a expozițiilor, târgurilor și congreselor", "Publicitate", "Activități de interpretare artistică – spectacole", "Activități-suport pentru interpretarea artistică – spectacole", "Activități de gestionare a sălilor de spectacole"],
-      G07: ["Activități ale bazelor sportive", "Activități ale cluburilor sportive"],
-      G08: ["Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)", "Activități de studiere a pieței", "Activități de sondare a opiniei publice", "Activități de cercetare-dezvoltare în biotehnologie", "Activități de cercetare-dezvoltare în alte științe naturale și inginerie"]
+      "Agricultură, horticultură și comerț agricol": ["Agricultură, vânătoare și servicii anexe", "Creșterea materialului săditor", "Creșterea plantelor ornamentale", "Gazon pentru transplantare", "Operațiuni de îngrijire și curățare a pomilor", "Activități ale pepinierelor (cu excepția pepinierelor forestiere)", "Comerț cu ridicata al produselor agricole brute și al animalelor vii"],
+      "Silvicultură, pescuit și creșterea animalelor": ["Silvicultură, cu excepția exploătărilor forestiere", "Pescuit și acvacultură", "Creșterea și reproducția animalelor semidomesticite și a altor animale"],
+      "Peisagistică, spații verzi și gestionarea deșeurilor": ["Activități de întreținere peisagistică", "Plantarea, îngrijirea și întreținerea de parcuri și grădini", "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale", "Colectarea, tratarea și eliminarea deșeurilor nepericuloase", "Recuperarea materialelor"],
+      "Natură, biodiversitate și agrement în aer liber": ["Activități ale grădinilor zoologice", "Activități ale grădinilor botanice", "Activități ale rezervațiilor naturale"],
+      "Alimentație, ospitalitate și cazare": ["Activități de alimentație (catering) pentru evenimente", "Restaurante", "Baruri și alte activități de servire a băuturilor", "Hoteluri și alte facilități de cazare", "Tabere de copii organizate de Ministerul Tineretului și Sportului", "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"],
+      "Evenimente, spectacole și comunicare": ["Activități de organizare a expozițiilor, târgurilor și congreselor", "Publicitate", "Activități de interpretare artistică – spectacole", "Activități-suport pentru interpretarea artistică – spectacole", "Activități de gestionare a sălilor de spectacole"],
+      "Sport și agrement": ["Activități ale bazelor sportive", "Activități ale cluburilor sportive"],
+      "Cercetare și studii de piață": ["Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)", "Activități de studiere a pieței", "Activități de sondare a opiniei publice", "Activități de cercetare-dezvoltare în biotehnologie", "Activități de cercetare-dezvoltare în alte științe naturale și inginerie"]
     };
 
     let templates = [];
@@ -698,7 +698,6 @@
 
     function setFormData(data) {
       document.getElementById("denumireJob").value = data.denumireJob || "";
-      // Setăm grupa și încărcăm activitățile aferente imediat
       document.getElementById("grupa").value = data.grupa || "";
       loadActivities(data.grupa, data.activitate);
 
@@ -744,7 +743,6 @@
       currentTemplateId = internalId;
       document.getElementById("formTitle").textContent = "Șablon nou bazat pe șablon existent";
       
-      // Populăm corect toate câmpurile, inclusiv grupa, activitatea și județul/localitatea
       setFormData(template);
 
       originalData = getFormData();
