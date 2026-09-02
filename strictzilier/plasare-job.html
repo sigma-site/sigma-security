@@ -384,10 +384,10 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ PLASARE JOB & CITIRE DIN BAZĂ -->
+  <!-- SCRIPT LOGICĂ PLASARE JOB, BAZĂ DE DATE & WEBHOOK MAKE.COM -->
   <script>
     const WEBHOOK_CITESTE_SABLOANE = "https://hook.eu1.make.com/mve5om2fghilkdpzo48x24pj6u36m0ik";
-    const WEBHOOK_LANSEAZA_PLASARE = "https://hook.eu1.make.com/SOT_AICI_WEBHOOK_PLASARE_JOB";
+    const WEBHOOK_LANSEAZA_PLASARE = "https://hook.eu1.make.com/3dryx5bovbos8wr530y49v84l0qemei2";
 
     let templates = [];
     let currentUserSession = null;
@@ -555,13 +555,11 @@
       };
 
       try {
-        if (!WEBHOOK_LANSEAZA_PLASARE.includes("SOT_AICI")) {
-          await fetch(WEBHOOK_LANSEAZA_PLASARE, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(offerPayload)
-          });
-        }
+        await fetch(WEBHOOK_LANSEAZA_PLASARE, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(offerPayload)
+        });
 
         const successEl = document.getElementById("success");
         successEl.classList.remove("hidden");
