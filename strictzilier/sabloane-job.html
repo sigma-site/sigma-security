@@ -484,39 +484,53 @@
           })
         });
 
-        const data = await response.json();
-        console.log("Răspuns brut primit de la Make:", data);
-
-        let rawList = Array.isArray(data) ? data : (data.body || data.templates || data.items || data.result || []);
-        if (typeof rawList === "string") {
-          try { rawList = JSON.parse(rawList); } catch(e) {}
+        const textResponse = await response.text();
+        let data = [];
+        if (textResponse && textResponse.trim() !== "") {
+          try {
+            data = JSON.parse(textResponse);
+          } catch (e) {
+            console.error("Eroare parsare JSON:", e);
+          }
         }
 
-        if (Array.isArray(rawList)) {
-          templates = rawList.map(item => ({
-            internalId: item.ID_sablon_job || item[0] || "",
-            denumireJob: item.Denumire_job || item[2] || "",
-            grupa: item.Cod_grup_activitate || item[3] || "",
-            activitate: item.ID_activitate || item[4] || "",
-            durata: item.Durata_ore || item[8] || "0",
-            pauzaMasa: item.Pauza_masa || item[9] || "0",
-            sumaNeta: item.Suma_neta || item[10] || "0",
-            efort: item.Grad_efort_fizic || item[12] || "",
-            judet: item.Judet || item[13] || "",
-            localitate: item.Localitate || item[14] || "",
-            locDesfasurare: item.Loc_desfasurare || item[15] || "",
-            transportInclus: item.Timp_transport_inclus || item[16] || "Nu",
-            instruireInclus: item.Timp_instruire_inclus || item[17] || "Nu",
-            descriere: item.Descriere_activitate || item[18] || "",
-            beneficii: item.Beneficii_suplimentare || item[19] || ""
-          }));
-        } else {
-          templates = [];
+        // Extragem DOAR PRIMUL element din răspuns
+        let rawItem = null;
+        if (Array.isArray(data)) {
+          rawItem = data[0] || null;
+        } else if (data && typeof data === "object") {
+          let list = data.body || data.templates || data.items || data.result;
+          if (Array.isArray(list)) {
+            rawItem = list[0] || null;
+          } else {
+            rawItem = data;
+          }
+        }
+
+        templates = [];
+        if (rawItem && (rawItem.ID_sablon_job || rawItem.Denumire_job || rawItem[0])) {
+          templates.push({
+            internalId: rawItem.ID_sablon_job || rawItem[0] || "SJ0001",
+            denumireJob: rawItem.Denumire_job || rawItem[2] || "",
+            grupa: rawItem.Cod_grup_activitate || rawItem[3] || "",
+            activitate: rawItem.ID_activitate || rawItem[4] || "",
+            durata: rawItem.Durata_ore || rawItem[8] || "0",
+            pauzaMasa: rawItem.Pauza_masa || rawItem[9] || "0",
+            sumaNeta: rawItem.Suma_neta || rawItem[10] || "0",
+            efort: rawItem.Grad_efort_fizic || rawItem[12] || "",
+            judet: rawItem.Judet || rawItem[13] || "",
+            localitate: rawItem.Localitate || rawItem[14] || "",
+            locDesfasurare: rawItem.Loc_desfasurare || rawItem[15] || "",
+            transportInclus: rawItem.Timp_transport_inclus || rawItem[16] || "Nu",
+            instruireInclus: rawItem.Timp_instruire_inclus || rawItem[17] || "Nu",
+            descriere: rawItem.Descriere_activitate || rawItem[18] || "",
+            beneficii: rawItem.Beneficii_suplimentare || rawItem[19] || ""
+          });
         }
 
         renderTemplatesTable();
       } catch (err) {
-        console.error("Eroare la citirea șabloanelor:", err);
+        console.error("Eroare:", err);
         templates = [];
         renderTemplatesTable();
       }
