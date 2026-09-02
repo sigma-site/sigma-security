@@ -421,7 +421,7 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE -->
+  <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE (MODEL HOME ANGAJATOR) -->
   <script>
     const WEBHOOK_CITESTE_SABLOANE = "https://hook.eu1.make.com/mve5om2fghilkdpzo48x24pj6u36m0ik";
     const WEBHOOK_SALVEAZA_SABLON = "https://hook.eu1.make.com/8lceavjoxrmsa744d1tli5qpek3sohp9";
@@ -447,72 +447,67 @@
 
     document.addEventListener("DOMContentLoaded", async () => {
       const sessionData = localStorage.getItem("strictzilier_session");
+      
       if (!sessionData) {
         window.location.href = "index.html";
         return;
       }
+
       try {
         currentUserSession = JSON.parse(sessionData);
+
         if (!currentUserSession.id || currentUserSession.role !== 'angajator') {
           window.location.href = "index.html";
           return;
         }
-      } catch (e) {
-        window.location.href = "index.html";
-        return;
-      }
 
-      await loadTemplatesFromDatabase();
+        await loadTemplatesFromDatabase();
+
+      } catch (e) {
+        console.error("Eroare sesiune:", e);
+        window.location.href = "index.html";
+      }
     });
 
-    // CITIRE DIRECTĂ A ÎNREGISTRĂRII UNICE DIN BAZĂ
+    // CITIRE EXACT DUPĂ MODELUL DIN HOME ANGAJATOR
     async function loadTemplatesFromDatabase() {
       try {
         const response = await fetch(WEBHOOK_CITESTE_SABLOANE, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
-            ID_angajator: currentUserSession.id
-          })
+          body: JSON.stringify({ ID_angajator: currentUserSession.id })
         });
 
-        if (response.ok) {
-          const data = await response.json();
-          console.log("Date primite:", data);
+        const data = await response.json();
+        console.log("Date primite de la Make:", data);
 
-          // Preluăm prima înregistrare direct, exact ca la profil
-          let item = null;
-          if (Array.isArray(data)) {
-            item = data[0];
-          } else if (data && typeof data === "object") {
-            item = data;
-          }
-
-          templates = [];
-          if (item && item.ID_sablon_job) {
-            templates.push({
-              internalId: item.ID_sablon_job,
-              denumireJob: item.Denumire_job,
-              grupa: item.Cod_grup_activitate,
-              activitate: item.ID_activitate,
-              durata: item.Durata_ore,
-              pauzaMasa: item.Pauza_masa,
-              sumaNeta: item.Suma_neta,
-              efort: item.Grad_efort_fizic,
-              judet: item.Judet,
-              localitate: item.Localitate,
-              locDesfasurare: item.Loc_desfasurare,
-              transportInclus: item.Timp_transport_inclus,
-              instruireInclus: item.Timp_instruire_inclus,
-              descriere: item.Descriere_activitate,
-              beneficii: item.Beneficii_suplimentare
-            });
-          }
+        templates = [];
+        
+        // Dacă primim o singură înregistrare ca obiect direct
+        if (data && data.ID_sablon_job) {
+          templates.push({
+            internalId: data.ID_sablon_job,
+            denumireJob: data.Denumire_job,
+            grupa: data.Cod_grup_activitate,
+            activitate: data.ID_activitate,
+            durata: data.Durata_ore,
+            pauzaMasa: data.Pauza_masa,
+            sumaNeta: data.Suma_neta,
+            efort: data.Grad_efort_fizic,
+            judet: data.Judet,
+            localitate: data.Localitate,
+            locDesfasurare: data.Loc_desfasurare,
+            transportInclus: data.Timp_transport_inclus,
+            instruireInclus: data.Timp_instruire_inclus,
+            descriere: data.Descriere_activitate,
+            beneficii: data.Beneficii_suplimentare
+          });
         }
 
         renderTemplatesTable();
-      } catch (err) {
-        console.error("Eroare la citire:", err);
+
+      } catch (e) {
+        console.error("Eroare la preluarea șabloanelor:", e);
         templates = [];
         renderTemplatesTable();
       }
