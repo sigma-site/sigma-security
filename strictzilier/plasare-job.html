@@ -90,8 +90,12 @@
             <span class="block text-[10px] font-black uppercase tracking-wider text-slate-400 mb-3">ȘABLON SELECTAT</span>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
               <div>
-                <span class="block text-slate-400 font-medium mb-0.5">ID șablon</span>
-                <span id="selectedId" class="block font-bold text-slate-800"></span>
+                <span class="block text-slate-400 font-medium mb-0.5">Denumire job</span>
+                <span id="selectedName" class="block font-bold text-slate-800"></span>
+              </div>
+              <div>
+                <span class="block text-slate-400 font-medium mb-0.5">Locul desfășurării</span>
+                <span id="selectedPlace" class="block font-bold text-slate-800"></span>
               </div>
               <div>
                 <span class="block text-slate-400 font-medium mb-0.5">Grupa activitate</span>
@@ -102,16 +106,12 @@
                 <span id="selectedActivity" class="block font-bold text-slate-800"></span>
               </div>
               <div>
-                <span class="block text-slate-400 font-medium mb-0.5">Denumire</span>
-                <span id="selectedName" class="block font-bold text-slate-800"></span>
-              </div>
-              <div>
-                <span class="block text-slate-400 font-medium mb-0.5">Locul desfășurării</span>
-                <span id="selectedPlace" class="block font-bold text-slate-800"></span>
-              </div>
-              <div>
                 <span class="block text-slate-400 font-medium mb-0.5">Durata</span>
                 <span id="selectedDuration" class="block font-bold text-slate-800"></span>
+              </div>
+              <div>
+                <span class="block text-slate-400 font-medium mb-0.5">Plată netă</span>
+                <span id="selectedSuma" class="block font-bold text-emerald-700"></span>
               </div>
             </div>
           </div>
@@ -445,7 +445,8 @@
               grupa: item.Cod_grup_activitate,
               activitate: item.ID_activitate,
               durata: (item.Durata_ore || "0") + " ore",
-              loc: item.Loc_desfasurare || "-"
+              loc: item.Loc_desfasurare || "-",
+              sumaNeta: (item.Suma_neta || "0") + " lei"
             });
           }
         });
@@ -495,12 +496,12 @@
       selectedTemplate = templates.find(item => item.id === id);
       if (!selectedTemplate) return;
 
-      document.getElementById("selectedId").textContent = selectedTemplate.id;
-      document.getElementById("selectedGroup").textContent = selectedTemplate.grupa;
-      document.getElementById("selectedActivity").textContent = selectedTemplate.activitate;
       document.getElementById("selectedName").textContent = selectedTemplate.denumire;
       document.getElementById("selectedPlace").textContent = selectedTemplate.loc;
+      document.getElementById("selectedGroup").textContent = selectedTemplate.grupa;
+      document.getElementById("selectedActivity").textContent = selectedTemplate.activitate;
       document.getElementById("selectedDuration").textContent = selectedTemplate.durata;
+      document.getElementById("selectedSuma").textContent = selectedTemplate.sumaNeta;
 
       const placementSection = document.getElementById("placementSection");
       placementSection.classList.remove("hidden");
