@@ -73,7 +73,7 @@
                   <th class="p-3">Locul activitatii</th>
                   <th class="p-3">Denumire activitate</th>
                   <th class="p-3">Durată</th>
-                  <th class="p-3 text-right">Acțiune</th>
+                  <th class="p-3 text-right">Acțiuni</th>
                 </tr>
               </thead>
               <tbody id="templatesTableBody" class="divide-y divide-slate-100 font-medium">
@@ -468,10 +468,11 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE (ADAPTAT PENTRU LISTĂ / ARRAY) -->
+  <!-- SCRIPT LOGICĂ ȘABLOANE & BAZĂ DE DATE -->
   <script>
     const WEBHOOK_CITESTE_SABLOANE = "https://hook.eu1.make.com/mve5om2fghilkdpzo48x24pj6u36m0ik";
     const WEBHOOK_SALVEAZA_SABLON = "https://hook.eu1.make.com/8lceavjoxrmsa744d1tli5qpek3sohp9";
+    const WEBHOOK_STERGE_SABLON = "https://hook.eu1.make.com/bgwu2sdw76tsk19enqfui1j0pf57rjf3";
 
     const activitiesByGroup = {
       "Agricultură, horticultură și comerț agricol": ["Agricultură, vânătoare și servicii anexe", "Creșterea materialului săditor", "Creșterea plantelor ornamentale", "Gazon pentru transplantare", "Operațiuni de îngrijire și curățare a pomilor", "Activități ale pepinierelor (cu excepția pepinierelor forestiere)", "Comerț cu ridicata al produselor agricole brute și al animalelor vii"],
@@ -529,7 +530,7 @@
       }
     });
 
-    // AUTOCOMPLETE LOCALITATE DUPĂ MODELUL NOMENCLATORULUI
+    // AUTOCOMPLETE LOCALITATE
     const judetSelect = document.getElementById("judet");
     const localitateInput = document.getElementById("localitate");
     const sugBox = document.getElementById("locSuggestions");
@@ -585,7 +586,6 @@
       });
     }
 
-    // GESTIONARE GRUPĂ -> ACTIVITĂȚI
     function loadActivities(groupValue, selectedActivity = "") {
       const select = document.getElementById("activitate");
       select.innerHTML = "";
@@ -620,7 +620,6 @@
       });
     }
 
-    // CITIRE DIN BAZĂ (ADAPTAT PENTRU A COLECTA LISTA / ARRAY)
     async function loadTemplatesFromDatabase() {
       try {
         const response = await fetch(WEBHOOK_CITESTE_SABLOANE, {
@@ -630,11 +629,8 @@
         });
 
         const data = await response.json();
-        console.log("Lista de șabloane primită:", data);
-
         templates = [];
         
-        // Tratăm răspunsul indiferent dacă vine ca Array direct sau ca obiect unic
         let items = [];
         if (Array.isArray(data)) {
           items = data;
@@ -678,7 +674,7 @@
       tbody.innerHTML = "";
       
       if (!templates || templates.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Nu există șabloane salvate. Creați primul șablon.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Nu există șabloane active. Creați primul șablon.</td></tr>`;
         return;
       }
 
@@ -690,14 +686,39 @@
           <td class="p-3 text-slate-600">${t.locDesfasurare || "-"}</td>
           <td class="p-3 text-slate-800 font-semibold">${t.denumireJob || "-"}</td>
           <td class="p-3 text-slate-600">${t.durata || 0} ore</td>
-          <td class="p-3 text-right">
+          <td class="p-3 text-right flex items-center justify-end gap-2">
             <button type="button" onclick="useAsModel('${t.internalId}')" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition shadow-sm">
               Folosește ca model
+            </button>
+            <button type="button" onclick="deleteTemplate('${t.internalId}')" title="Șterge șablonul" class="p-1.5 text-slate-400 hover:text-rose-600 bg-slate-100 hover:bg-rose-50 rounded-lg transition">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+              </svg>
             </button>
           </td>
         `;
         tbody.appendChild(tr);
       });
+    }
+
+    // FUNCȚIE DE ȘTERGERE / ARHIVARE ȘABLON
+    async function deleteTemplate(internalId) {
+      if (!confirm("Sigur doriți să ștergeți acest șablon?")) return;
+
+      try {
+        await fetch(WEBHOOK_STERGE_SABLON, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ID_sablon_job: internalId })
+        });
+
+        // Eliminăm șablonul local din listă și re-randăm tabelul instantaneu
+        templates = templates.filter(t => t.internalId !== internalId);
+        renderTemplatesTable();
+      } catch (err) {
+        console.error("Eroare la ștergerea șablonului:", err);
+        alert("A apărut o eroare la ștergerea șablonului.");
+      }
     }
 
     function getFormData() {
@@ -812,13 +833,11 @@
       };
 
       try {
-        if (!WEBHOOK_SALVEAZA_SABLON.includes("SCHIMBA_CU")) {
-          await fetch(WEBHOOK_SALVEAZA_SABLON, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(templatePayload)
-          });
-        }
+        await fetch(WEBHOOK_SALVEAZA_SABLON, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(templatePayload)
+        });
 
         await loadTemplatesFromDatabase();
 
