@@ -89,7 +89,6 @@
                   <th class="p-3">Activitate</th>
                   <th class="p-3">Zonă Preferată</th>
                   <th class="p-3">Data Constituire</th>
-                  <th class="p-3 text-right">Acțiuni</th>
                 </tr>
               </thead>
               <tbody id="teamsTableBody" class="divide-y divide-slate-100 font-medium">
@@ -306,7 +305,6 @@
   <!-- SCRIPT LOGICĂ ECHIPE SALVATE & WEBHOOK MAKE.COM -->
   <script>
     const WEBHOOK_CITESTE_ECHIPE = "https://hook.eu1.make.com/eh86l1zog2254lwuk0vfpjda31zxfyhy";
-    const WEBHOOK_STERGE_ECHIPA = "https://hook.eu1.make.com/9netcf4y4fts04h9llu0lxxl1bxn5sef";
 
     // Structura exactă din baza de date folosită ca rezervă (fallback)
     const fallbackTeams = [
@@ -431,7 +429,7 @@
       if (!teams || teams.length === 0) {
         tbody.innerHTML = `
           <tr>
-            <td colspan="5" class="p-6 text-center text-slate-400 font-medium">
+            <td colspan="4" class="p-6 text-center text-slate-400 font-medium">
               Nu aveți nicio echipă salvată în arhivă.
             </td>
           </tr>
@@ -445,7 +443,6 @@
         tr.setAttribute("title", "Dublu click pentru a deschide în formular");
         
         // Preluăm exact câmpurile din baza de date
-        const teamId = team.ID_echipa || team.id || team.Nume_echipa;
         const numeEchipa = team.Nume_echipa || team.numeEchipa || team.denumire || "-";
         const activitate = team.Activitate_preferata || team.activitate || "-";
         const zona = team.Zona_preferata || team.zona || "-";
@@ -456,13 +453,6 @@
           <td class="p-3 text-slate-600">${activitate}</td>
           <td class="p-3 text-slate-600">${zona}</td>
           <td class="p-3 text-slate-500 font-medium">${dataConstituire}</td>
-          <td class="p-3 text-right" onclick="event.stopPropagation()">
-            <button type="button" onclick="deleteTeam('${teamId}')" title="Șterge echipa" class="p-1.5 text-slate-400 hover:text-rose-600 bg-slate-100 hover:bg-rose-50 rounded-lg transition inline-flex items-center justify-center">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
-              </svg>
-            </button>
-          </td>
         `;
 
         // DUBLU CLICK PE LINIE -> TRIMITE DATELE COMPLETE LA FORMARE ECHIPĂ
@@ -472,25 +462,6 @@
 
         tbody.appendChild(tr);
       });
-    }
-
-    // FUNCȚIE DE ȘTERGERE / ARHIVARE ECHIPĂ
-    async function deleteTeam(teamId) {
-      if (!confirm("Sigur doriți să ștergeți această echipă?")) return;
-
-      try {
-        await fetch(WEBHOOK_STERGE_ECHIPA, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ID_echipa: teamId })
-        });
-
-        // Reîncărcăm lista de echipe din webhook
-        loadSavedTeamsFromWebhook();
-      } catch (err) {
-        console.error("Eroare la ștergerea echipei:", err);
-        alert("A apărut o eroare la ștergerea echipei.");
-      }
     }
 
     function openInFormareEchipa(team) {
@@ -503,4 +474,4 @@
     }
   </script>
 </body>
-</html>
+</html> 
