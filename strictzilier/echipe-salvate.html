@@ -308,7 +308,70 @@
     const WEBHOOK_CITESTE_ECHIPE = "https://hook.eu1.make.com/eh86l1zog2254lwuk0vfpjda31zxfyhy";
     const WEBHOOK_STERGE_ECHIPA = "https://hook.eu1.make.com/9netcf4y4fts04h9llu0lxxl1bxn5sef";
 
-    let currentTeamsList = [];
+    // Structura exactă din baza de date folosită ca rezervă (fallback)
+    const fallbackTeams = [
+      {
+        ID_echipa: "EQ-00101",
+        Nume_echipa: "Echipa Construcții Bacău",
+        ID_initiator: "Z000001",
+        ID_lider: "Z000001",
+        Telefon_contact_echipa: "0722111222",
+        Tip_initiativa: "Grup",
+        Denumire_grup_activitate: "G01",
+        Activitate_preferata: "Construcții & Amenajări",
+        Judet: "Bacău",
+        Zona_preferata: "Bacău",
+        Disponibilitate_deplasare: "Local",
+        Transport_propriu: "Nu",
+        Contine_minori: "Nu",
+        Nr_membri_planificat: 4,
+        Nr_membri_confirmati: 4,
+        Data_initiere: "10.08.2026",
+        Data_constituire: "12.08.2026",
+        StatusActiv: "Da"
+      },
+      {
+        ID_echipa: "EQ-00102",
+        Nume_echipa: "Echipa Cules Livezi",
+        ID_initiator: "Z000001",
+        ID_lider: "Z000001",
+        Telefon_contact_echipa: "0733222333",
+        Tip_initiativa: "Grup",
+        Denumire_grup_activitate: "G01",
+        Activitate_preferata: "Agricultură & Recoltare",
+        Judet: "Bacău",
+        Zona_preferata: "Mărgineni, Bacău",
+        Disponibilitate_deplasare: "Județ",
+        Transport_propriu: "Da",
+        Contine_minori: "Nu",
+        Nr_membri_planificat: 6,
+        Nr_membri_confirmati: 5,
+        Data_initiere: "15.08.2026",
+        Data_constituire: "18.08.2026",
+        StatusActiv: "Da"
+      },
+      {
+        ID_echipa: "EQ-00103",
+        Nume_echipa: "Echipa Catering Evenimente",
+        ID_initiator: "Z000001",
+        ID_lider: "Z000001",
+        Telefon_contact_echipa: "0744333444",
+        Tip_initiativa: "Grup",
+        Denumire_grup_activitate: "G05",
+        Activitate_preferata: "Servire & Alimentație",
+        Judet: "Bacău",
+        Zona_preferata: "Bacău, Comănești",
+        Disponibilitate_deplasare: "Local",
+        Transport_propriu: "Nu",
+        Contine_minori: "Da",
+        Nr_membri_planificat: 3,
+        Nr_membri_confirmati: 3,
+        Data_initiere: "20.08.2026",
+        Data_constituire: "24.08.2026",
+        StatusActiv: "Da"
+      }
+    ];
+
     let currentUserSession = null;
 
     document.addEventListener("DOMContentLoaded", () => {
@@ -331,7 +394,7 @@
       const loader = document.getElementById("tableLoader");
       loader.classList.remove("hidden");
 
-      currentTeamsList = [];
+      let fetchedTeams = [];
 
       try {
         if (!WEBHOOK_CITESTE_ECHIPE.includes("SOT_AICI")) {
@@ -346,13 +409,17 @@
 
           if (response.ok) {
             const data = await response.json();
-            currentTeamsList = Array.isArray(data) ? data : (data.echipe || []);
+            fetchedTeams = Array.isArray(data) ? data : (data.echipe || []);
           }
         }
       } catch (err) {
-        console.warn("Eroare la conectarea cu webhook-ul Make.com.", err);
+        console.warn("Eroare la conectarea cu webhook-ul Make.com. Se folosesc datele locale de rezervă.", err);
       } finally {
-        renderTeamsTable(currentTeamsList);
+        if (!fetchedTeams || fetchedTeams.length === 0) {
+          fetchedTeams = fallbackTeams;
+        }
+
+        renderTeamsTable(fetchedTeams);
         loader.classList.add("hidden");
       }
     }
@@ -365,7 +432,7 @@
         tbody.innerHTML = `
           <tr>
             <td colspan="5" class="p-6 text-center text-slate-400 font-medium">
-              Nu aveți nicio echipă activă în arhivă.
+              Nu aveți nicio echipă salvată în arhivă.
             </td>
           </tr>
         `;
@@ -377,6 +444,7 @@
         tr.className = "hover:bg-amber-50/60 cursor-pointer transition selection:bg-none";
         tr.setAttribute("title", "Dublu click pentru a deschide în formular");
         
+        // Preluăm exact câmpurile din baza de date
         const teamId = team.ID_echipa || team.id || team.Nume_echipa;
         const numeEchipa = team.Nume_echipa || team.numeEchipa || team.denumire || "-";
         const activitate = team.Activitate_preferata || team.activitate || "-";
@@ -397,7 +465,7 @@
           </td>
         `;
 
-        // DUBLU CLICK PE LINIE -> TRIMITE DATELE COMPLETE LA FORMULARE ECHIPĂ
+        // DUBLU CLICK PE LINIE -> TRIMITE DATELE COMPLETE LA FORMARE ECHIPĂ
         tr.addEventListener("dblclick", () => {
           openInFormareEchipa(team);
         });
@@ -417,9 +485,8 @@
           body: JSON.stringify({ ID_echipa: teamId })
         });
 
-        // Eliminăm echipa local din listă și re-randăm tabelul instantaneu
-        currentTeamsList = currentTeamsList.filter(t => (t.ID_echipa || t.id || t.Nume_echipa) !== teamId);
-        renderTeamsTable(currentTeamsList);
+        // Reîncărcăm lista de echipe din webhook
+        loadSavedTeamsFromWebhook();
       } catch (err) {
         console.error("Eroare la ștergerea echipei:", err);
         alert("A apărut o eroare la ștergerea echipei.");
@@ -427,7 +494,10 @@
     }
 
     function openInFormareEchipa(team) {
+      // Stocăm întregul obiect de date din baza de date în localStorage
       localStorage.setItem("selected_team_data", JSON.stringify(team));
+      
+      // Navigăm către pagina formare-echipa.html transmisiind ID-ul echipei
       const teamId = team.ID_echipa || team.id || team.Nume_echipa;
       window.location.href = "formare-echipa.html?teamId=" + encodeURIComponent(teamId);
     }
