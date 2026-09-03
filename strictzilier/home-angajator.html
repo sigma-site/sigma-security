@@ -96,13 +96,23 @@
             </div>
           </div>
 
-          <!-- SECTIUNE DATE DE CONTACT -->
+          <!-- SECTIUNE DATE DE CONTACT SI CONT -->
           <div class="pt-5 border-t border-slate-100">
             <h2 class="text-base font-bold text-slate-900 mb-3">Date de contact</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-1 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
                 <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Email</span>
                 <strong id="email-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
+              </div>
+
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tip cont</span>
+                <strong id="status-cont-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
+              </div>
+
+              <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl">
+                <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Data expirare</span>
+                <strong id="data-expirare-val" class="block text-xs font-bold text-slate-800 break-words">-</strong>
               </div>
             </div>
           </div>
@@ -358,6 +368,8 @@
           document.getElementById("prenume-val").textContent = data.Prenume_reprezentant || "-";
           document.getElementById("telefon-val").textContent = data.Telefon || "-";
           document.getElementById("email-val").textContent = data.Email || "-";
+          document.getElementById("status-cont-val").textContent = data.Status_cont || "-";
+          document.getElementById("data-expirare-val").textContent = data.Data_expirare || "-";
         } else {
           console.error("Nu s-au putut încărca datele contului din baza de date.");
         }
