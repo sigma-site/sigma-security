@@ -332,7 +332,7 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- SCRIPT LOGICĂ BAZĂ DE DATE ANGAJATOR (PRELUARE DUPĂ ID SESIUNE) -->
+  <!-- SCRIPT LOGICĂ BAZĂ DE DATE ANGAJATOR (PRELUARE DUPĂ ID SESIUNE CU EXPIRARE LA SFÂRȘITUL SĂPTĂMÂNII) -->
   <script>
     const WEBHOOK_PRELUARE_PROFIL_ANGAJATOR = "https://hook.eu1.make.com/agnhanlpeh301871pbwbn3zug3mlk9b5";
 
@@ -346,6 +346,13 @@
 
       try {
         const session = JSON.parse(sessionData);
+
+        // Verificăm dacă sesiunea a depășit sfârșitul săptămânii curente
+        if (session.expiresAt && Date.now() > session.expiresAt) {
+          localStorage.removeItem("strictzilier_session");
+          window.location.href = "index.html";
+          return;
+        }
 
         if (!session.id || session.role !== 'angajator') {
           window.location.href = "index.html";
@@ -376,6 +383,8 @@
 
       } catch (e) {
         console.error("Eroare la preluarea profilului angajatorului:", e);
+        localStorage.removeItem("strictzilier_session");
+        window.location.href = "index.html";
       }
     });
   </script>
