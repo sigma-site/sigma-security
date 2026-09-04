@@ -547,33 +547,41 @@
         .trim();
     }
 
-    document.addEventListener("DOMContentLoaded", () => {
-      let sessionData = localStorage.getItem("strictzilier_session");
+    document.addEventListener("DOMContentLoaded", async () => {
+      const sessionData = localStorage.getItem("strictzilier_session");
       
       if (!sessionData) {
-        const demoSession = {
-          role: 'zilier',
-          id: 'Z100001',
-          nume: 'Ion Popescu',
-          startOfWeek: getStartOfWeekISO().toISOString().split('T')[0]
-        };
-        localStorage.setItem("strictzilier_session", JSON.stringify(demoSession));
-        sessionData = JSON.stringify(demoSession);
+        window.location.href = "index.html";
+        return;
       }
 
       try {
         currentUserSession = JSON.parse(sessionData);
-        if (currentUserSession && currentUserSession.nume) {
+
+        // Verificăm dacă sesiunea a depășit sfârșitul săptămânii
+        if (currentUserSession.expiresAt && Date.now() > currentUserSession.expiresAt) {
+          localStorage.removeItem("strictzilier_session");
+          window.location.href = "index.html";
+          return;
+        }
+
+        if (!currentUserSession.id || currentUserSession.role !== 'zilier') {
+          window.location.href = "index.html";
+          return;
+        }
+
+        if (currentUserSession.nume) {
           document.getElementById("user-welcome").textContent = `Bun venit, ${currentUserSession.nume}!`;
         }
       } catch (e) {
-        console.error("Eroare la citirea sesiunii:", e);
+        localStorage.removeItem("strictzilier_session");
+        window.location.href = "index.html";
+        return;
       }
 
       initCalendar();
       initAutocomplete();
       
-      // POPULARE IMEDIATĂ PENTRU GRUPA IMPLICITĂ (GA001) LA ÎNCĂRCAREA PAGINII
       const initialGrup = document.getElementById("grupActivitate").value || "GA001";
       updateActivitiesDropdown(initialGrup);
 
@@ -654,7 +662,7 @@
       return gasit;
     }
 
-    // 1. ÎNCĂRCAREA AUTOMATĂ A PROFILULUI DIN BAZA DE DATE VIA MAKE
+    // 1. ÎNCĂRCAREa AUTOMATĂ A PROFILULUI DIN BAZA DE DATE VIA MAKE
     async function loadUserProfileFromDatabase() {
       if (!currentUserSession || !currentUserSession.id) return;
 
@@ -700,7 +708,6 @@
             }
           }
         } else {
-          // Date fallback local
           document.getElementById("progress-percent").textContent = "64%";
           document.getElementById("progress-bar").style.width = "64%";
           document.getElementById("judetValue").textContent = "Bacau";
@@ -854,7 +861,6 @@
     const saveButton = document.getElementById("savePreferences");
 
     editButton.addEventListener("click", () => {
-      // RE-POPULARE SIGURĂ A DROP-DOWN-ULUI LA DESCHIDERE
       const currentGrup = document.getElementById("grupActivitate").value || "GA001";
       const currentAct = document.getElementById("activitatePreferata").value || "ALL";
       updateActivitiesDropdown(currentGrup, currentAct);
