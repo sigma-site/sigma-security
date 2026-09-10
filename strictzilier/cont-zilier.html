@@ -562,17 +562,4 @@
         if (currentUserSession.expiresAt && Date.now() > currentUserSession.expiresAt) {
           localStorage.removeItem("strictzilier_session");
           window.location.href = "index.html";
-          return;
-        }
-
-        if (!currentUserSession.id || currentUserSession.role !== 'zilier') {
-          window.location.href = "index.html";
-          return;
-        }
-
-        if (currentUserSession.nume) {
-          document.getElementById("user-welcome").textContent = `Bun venit, ${currentUserSession.nume}!`;
-        }
-      } catch (e) {
-        localStorage.removeItem("strictzilier_session");
-        window.location.href = "index.html";
+          return
