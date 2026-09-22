@@ -718,12 +718,15 @@
           document.getElementById("progress-bar").style.width = "64%";
           document.getElementById("judetValue").textContent = "Bacau";
           document.getElementById("zonaPreferataValue").textContent = "Bacau";
-          document.getElementById("grupActivitateValue").textContent = "Agricultură, horticultură și comerț agricol";
-          document.getElementById("activitatePreferataValue").textContent = "Toate activitățile din grupa aleasă";
+          document.getElementById("grupActivitateValue").textContent = "-";
+          document.getElementById("activitatePreferataValue").textContent = "-";
           
           document.getElementById("judet").value = "Bacau";
           document.getElementById("zonaPreferata").value = "Bacau";
-          updateActivitiesDropdown("GA001", "ALL");
+          
+          // Fără GA001 forțat: setăm gol pentru a nu suprascrie baza de date la salvare
+          document.getElementById("grupActivitate").value = "";
+          updateActivitiesDropdown("", "");
         }
       } catch (err) {
         console.error("Eroare la încărcarea datelor din bază:", err);
