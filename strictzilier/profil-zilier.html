@@ -424,6 +424,264 @@
   <!-- NOMENCLATOR NATIONAL -->
   <script src="nomenclator-romania.js"></script>
 
+  <!-- LOGICĂ FORMULAR ȘI NOMENCLATOR LOCALITĂȚI/ACTIVITĂȚI -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // 1. Gestionare Nivel de Efort din Nomenclator
+      const efortSelect = document.getElementById("efort");
+      const greutateInput = document.getElementById("greutateExplicativa");
+      const activitateFizicaInput = document.getElementById("activitateFizicaExplicativa");
+      const textDefinitieExtinsa = document.getElementById("textDefinitieExtinsa");
+
+      const efortMap = {
+        "EF001": { greutate: "Sub 5 kg", text: "Activitate sedentară sau cu efort minim, fără ridicare de greutăți." },
+        "EF002": { greutate: "Între 5 și 10 kg", text: "Efort redus, manipulare de obiecte ușoare ocazional." },
+        "EF003": { greutate: "Între 10 și 20 kg", text: "Activitate fizică desfășurată constant pe durata programului." },
+        "EF004": { greutate: "Între 20 și 40 kg", text: "Efort fizic ridicat, ridicare frecventă de mase mari." },
+        "EF005": { greutate: "Peste 40 kg", text: "Efort fizic foarte intens, specific activităților grele în construcții sau agricultură meșteșugărească." }
+      };
+
+      if (efortSelect) {
+        efortSelect.addEventListener("change", (e) => {
+          const val = e.target.value;
+          if (efortMap[val]) {
+            greutateInput.value = efortMap[val].greutate;
+            activitateFizicaInput.value = efortMap[val].text;
+            textDefinitieExtinsa.textContent = efortMap[val].text;
+          }
+        });
+      }
+
+      // 2. Gestionare Activități pe Domenii (Legate de Legea 52/2011)
+      const activitatiDomenii = {
+        "Agricultură, horticultură și comerț agricol": [
+          "Pregătirea solului, semănat și plantare",
+          "Lucrări de întreținere culturi și plivit",
+          "Recoltare manuală legume și fructe",
+          "Sortare, ambalare și etichetare produse agricole",
+          "Întreținere livezi și vii (tăieri, legat)"
+        ],
+        "Silvicultură, pescuit și creșterea animalelor": [
+          "Îngrijire și alimentare animale în fermă",
+          "Curățare adăposturi și igienizare",
+          "Colectare produse secundare (lână, miere)",
+          "Lucrări silvice de igienizare și împăduriri",
+          "Ajutor la amenajare bazine piscicole"
+        ],
+        "Peisagistică, spații verzi și gestionarea deșeurilor": [
+          "Amenajare și întreținere spații verzi / gazon",
+          "Plantare arbori, arbuști și flori ornamentale",
+          "Curățare terenuri și igienizare perimetre",
+          "Colectare selectivă și sortare deșeuri reciclabile",
+          "Măturat stradal și întreținere mobilier urban"
+        ],
+        "Natură, biodiversitate și agrement în aer liber": [
+          "Întreținere trasee turistice și ecologice",
+          "Monitorizare și refacere habitate naturale",
+          "Amenajare popasuri și zone de agrement",
+          "Asistență la centre de reabilitare fauna sălbatică"
+        ],
+        "Alimentație, ospitalitate și cazare": [
+          "Ajutor de bucătar și pregătire preliminară alimente",
+          "Spălare vase, ustensile și igienizare spații bucătărie",
+          "Servire mese la evenimente în aer liber",
+          "Aranjare și pregătire camere sau spații de cazare",
+          "Preluare și sortare lenjerie hotelieră"
+        ],
+        "Evenimente, spectacole și comunicare": [
+          "Montare și demontare scene, corturi și standuri",
+          "Aranjare scaune, mese și elemente decorative",
+          "Distribuire materiale promoționale și pliante",
+          "Asistență logistică generală pentru evenimente",
+          "Curățenie post-eveniment"
+        ],
+        "Sport și agrement": [
+          "Întreținere terenuri de sport și baze agrement",
+          "Pregătire echipamente sportive și vestiare",
+          "Asistență la organizarea de competiții sportive",
+          "Supraveghere zone de joacă și agrement"
+        ],
+        "Cercetare și studii de piață": [
+          "Operare culegere date și chestionare în teren",
+          "Sortare și arhivare documente fizice",
+          "Asistență administrativă la recensăminte sau studii"
+        ]
+      };
+
+      function actualizeazaListaActivitati(domeniuSelectId, activitateSelectId) {
+        const domSelect = document.getElementById(domeniuSelectId);
+        const actSelect = document.getElementById(activitateSelectId);
+        if (!domSelect || !actSelect) return;
+
+        const updateOpts = () => {
+          const valDomeniu = domSelect.value;
+          actSelect.innerHTML = "";
+          if (valDomeniu === "NONE") {
+            const opt = document.createElement("option");
+            opt.value = "";
+            opt.textContent = "Fără activitate în acest domeniu";
+            actSelect.appendChild(opt);
+            actSelect.disabled = true;
+            return;
+          }
+          actSelect.disabled = false;
+          const liste = activitatiDomenii[valDomeniu] || ["Activitate generală în domeniu"];
+          liste.forEach(act => {
+            const opt = document.createElement("option");
+            opt.value = act;
+            opt.textContent = act;
+            actSelect.appendChild(opt);
+          });
+        };
+
+        domSelect.addEventListener("change", updateOpts);
+        updateOpts();
+      }
+
+      actualizeazaListaActivitati("domeniu1", "activitatePreferata1");
+      actualizeazaListaActivitati("domeniu2", "activitatePreferata2");
+      actualizeazaListaActivitati("domeniu3", "activitatePreferata3");
+
+      // 3. Autocomplete Localități bazat pe Nomenclator
+      const judetSelect = document.getElementById("judet");
+      const zonaInput = document.getElementById("zonaPreferata");
+      const suggestionsBox = document.getElementById("locSuggestions");
+
+      // Bază localități de rezervă dacă nomenclator-romania.js nu este încărcat complet
+      const fallbackLocalitati = {
+        "Bacau": ["Bacău", "Onești", "Moinești", "Comănești", "Buhuși", "Târgu Ocna", "Sascut", "Răcăciuni", "Mărgineni", "Faraoani"],
+        "Bucuresti": ["Sector 1", "Sector 2", "Sector 3", "Sector 4", "Sector 5", "Sector 6"],
+        "Ilfov": ["Buftea", "Otopeni", "Pantelimon", "Popești-Leordeni", "Voluntari", "Bragadiru", "Chitila", "Măgurele", "Corbeanca", "Belciugatele"]
+      };
+
+      function obtineListaLocalitati(judetNume) {
+        if (window.NOMENCLATOR_LOCALITATI && window.NOMENCLATOR_LOCALITATI[judetNume]) {
+          return window.NOMENCLATOR_LOCALITATI[judetNume];
+        }
+        return fallbackLocalitati[judetNume] || ["Municipiu reședință", "Oraș zonal", "Comună limitrofă"];
+      }
+
+      if (zonaInput && judetSelect) {
+        zonaInput.addEventListener("input", (e) => {
+          const val = e.target.value.toLowerCase().trim();
+          const judetCurent = judetSelect.value;
+          const localitati = obtineListaLocalitati(judetCurent);
+
+          if (!val) {
+            suggestionsBox.classList.add("hidden");
+            return;
+          }
+
+          const filtrate = localitati.filter(l => l.toLowerCase().includes(val));
+          if (filtrate.length === 0) {
+            suggestionsBox.classList.add("hidden");
+            return;
+          }
+
+          suggestionsBox.innerHTML = "";
+          filtrate.forEach(loc => {
+            const div = document.createElement("div");
+            div.className = "px-3 py-2 hover:bg-amber-50 cursor-pointer font-medium text-slate-700";
+            div.textContent = loc;
+            div.addEventListener("click", () => {
+              zonaInput.value = loc;
+              suggestionsBox.classList.add("hidden");
+            });
+            suggestionsBox.appendChild(div);
+          });
+          suggestionsBox.classList.remove("hidden");
+        });
+
+        document.addEventListener("click", (e) => {
+          if (!zonaInput.contains(e.target) && !suggestionsBox.contains(e.target)) {
+            suggestionsBox.classList.add("hidden");
+          }
+        });
+      }
+
+      // 4. Încărcare și Salvare Date Profil în LocalStorage
+      const badge = document.getElementById("loadingBadge");
+      if (badge) badge.classList.remove("hidden");
+
+      const savedData = localStorage.getItem("strictzilier_profil_zilier");
+      if (savedData) {
+        try {
+          const parsed = JSON.parse(savedData);
+          document.getElementById("nume").value = parsed.nume || "";
+          document.getElementById("prenume").value = parsed.prenume || "";
+          document.getElementById("telefon").value = parsed.telefon || "";
+          document.getElementById("cnp").value = parsed.cnp || "";
+          document.getElementById("tipAct").value = parsed.tipAct || "CI";
+          document.getElementById("serieNumar").value = parsed.serieNumar || "";
+          document.getElementById("localitateDomiciliu").value = parsed.localitateDomiciliu || "";
+          document.getElementById("judet").value = parsed.judet || "Bacau";
+          document.getElementById("zonaPreferata").value = parsed.zonaPreferata || "";
+          document.getElementById("raza").value = parsed.raza || "30";
+          document.getElementById("domeniu1").value = parsed.domeniu1 || document.getElementById("domeniu1").options[0].value;
+          document.getElementById("experienta").value = parsed.experienta || "Medie (1–3 ani)";
+          document.getElementById("calificariText").value = parsed.calificariText || "";
+          document.getElementById("efort").value = parsed.efort || "EF003";
+          document.getElementById("studii").value = parsed.studii || "Secundare (Liceu / Școală prof.)";
+          document.getElementById("email").value = parsed.email || "";
+
+          // Declanșăm actualizarea efortului și activităților după încărcare
+          if (efortSelect) {
+            efortSelect.dispatchEvent(new Event('change'));
+          }
+        } catch (err) {
+          console.error("Eroare la parsarea datelor salvate:", err);
+        }
+      }
+
+      setTimeout(() => {
+        if (badge) badge.classList.add("hidden");
+      }, 600);
+    });
+
+    function toggleDefinitieExtinsa() {
+      const box = document.getElementById("boxDefinitieExtinsa");
+      box.classList.toggle("hidden");
+    }
+
+    function salveazaProfil() {
+      const payload = {
+        nume: document.getElementById("nume").value,
+        prenume: document.getElementById("prenume").value,
+        telefon: document.getElementById("telefon").value,
+        cnp: document.getElementById("cnp").value,
+        tipAct: document.getElementById("tipAct").value,
+        serieNumar: document.getElementById("serieNumar").value,
+        localitateDomiciliu: document.getElementById("localitateDomiciliu").value,
+        judet: document.getElementById("judet").value,
+        zonaPreferata: document.getElementById("zonaPreferata").value,
+        raza: document.getElementById("raza").value,
+        domeniu1: document.getElementById("domeniu1").value,
+        activitatePreferata1: document.getElementById("activitatePreferata1").value,
+        domeniu2: document.getElementById("domeniu2").value,
+        activitatePreferata2: document.getElementById("activitatePreferata2").value,
+        domeniu3: document.getElementById("domeniu3").value,
+        activitatePreferata3: document.getElementById("activitatePreferata3").value,
+        experienta: document.getElementById("experienta").value,
+        calificariText: document.getElementById("calificariText").value,
+        efort: document.getElementById("efort").value,
+        studii: document.getElementById("studii").value,
+        email: document.getElementById("email").value,
+        actualizatLa: new Date().toISOString()
+      };
+
+      localStorage.setItem("strictzilier_profil_zilier", JSON.stringify(payload));
+
+      const successDiv = document.getElementById("success");
+      successDiv.textContent = "Profilul a fost salvat cu succes în memorie și este pregătit pentru sincronizarea cu platforma strictzilier.ro!";
+      successDiv.classList.remove("hidden");
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      setTimeout(() => {
+        successDiv.classList.add("hidden");
+      }, 5000);
+    }
+  </script>
+
   <!-- AGENT VAPI & LOGICĂ INTERACȚIUNE -->
   <script type="module">
     import Vapi from "https://esm.sh/@vapi-ai/web";
@@ -554,22 +812,6 @@
     input.addEventListener("keypress", (e) => {
       if (e.key === "Enter") sendTextMessage();
     });
-  </script>
-
-  <script>
-    function toggleDefinitieExtinsa() {
-      const box = document.getElementById("boxDefinitieExtinsa");
-      box.classList.toggle("hidden");
-    }
-
-    function salveazaProfil() {
-      const successDiv = document.getElementById("success");
-      successDiv.textContent = "Profilul a fost salvat cu succes!";
-      successDiv.classList.remove("hidden");
-      setTimeout(() => {
-        successDiv.classList.add("hidden");
-      }, 4000);
-    }
   </script>
 
 </body>
