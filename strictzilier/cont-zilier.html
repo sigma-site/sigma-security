@@ -695,17 +695,22 @@
               if (judetReal !== "-") document.getElementById("judet").value = judetReal;
               if (zonaPreferataReal !== "-") document.getElementById("zonaPreferata").value = zonaPreferataReal;
 
-              const codGrup = data.Cod_grup_activitate || data.cod_grup_activitate || "GA001";
-              const numeGrup = data.Denumire_grup_activitate || data.denumire_grup_activitate || NUME_GRUPE[codGrup] || "-";
-              
-              let rawAct = data.Activitate_preferata || data.activitate_preferata || "ALL";
-              let displayAct = (rawAct === "ALL" || !rawAct) ? "Toate activitățile din grupa aleasă" : rawAct;
+              const codGrup = data.Cod_grup_activitate || data.cod_grup_activitate || "";
+      const numeGrup = data.Denumire_grup_activitate || data.denumire_grup_activitate || (codGrup ? NUME_GRUPE[codGrup] : "-");
+      
+      let rawAct = data.Activitate_preferata || data.activitate_preferata || "";
+      let displayAct = (rawAct === "ALL" || !rawAct) ? "Toate activitățile din grupa aleasă" : rawAct;
 
-              document.getElementById("grupActivitateValue").textContent = numeGrup;
-              document.getElementById("activitatePreferataValue").textContent = displayAct;
+      document.getElementById("grupActivitateValue").textContent = numeGrup;
+      document.getElementById("activitatePreferataValue").textContent = displayAct;
 
-              document.getElementById("grupActivitate").value = codGrup;
-              updateActivitiesDropdown(codGrup, rawAct);
+      if (codGrup) {
+        document.getElementById("grupActivitate").value = codGrup;
+        updateActivitiesDropdown(codGrup, rawAct);
+      } else {
+        document.getElementById("grupActivitate").value = "";
+        updateActivitiesDropdown("", "");
+      }
             }
           }
         } else {
