@@ -855,287 +855,87 @@
       };
 
       try {
-    const currentId = (typeof currentUserSession !== 'undefined' && currentUserSession && currentUserSession.id) ? currentUserSession.id : (localStorage.getItem("strictzilier_user_id") || null);
-
-    if (!WEBHOOK_INCARCA_PROFIL.includes("SOT_AICI")) {
-      const res = await fetch(WEBHOOK_INCARCA_PROFIL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ID_zilier: currentId })
-      });
-      
-      if (res.ok) {
-        const data = await res.json();
-        if (data) {
-          // 1. Nume
-          const numeComplet = data.Nume ? `${data.Nume} ${data.Prenume || ''}`.trim() : (data.nume || "");
-          const elWelcome = document.getElementById("user-welcome");
-          if (elWelcome && numeComplet) {
-            elWelcome.textContent = `Bun venit, ${numeComplet}!`;
-          }
-
-          // 2. Procent completare
-          const pct = data.Procent_completare_cont || data.procent_completare || "0";
-          if (document.getElementById("progress-percent")) document.getElementById("progress-percent").textContent = `${pct}%`;
-          if (document.getElementById("progress-bar")) document.getElementById("progress-bar").style.width = `${pct}%`;
-
-          // 3. Localizare (Județ și Zonă)
-          const judetReal = stripDiacritics(data.Judet || data.judet || "-");
-          const zonaPreferataReal = stripDiacritics(data.Zona_preferata || data.zona_preferata || data.localitate || "-");
-
-          if (document.getElementById("judetValue")) document.getElementById("judetValue").textContent = judetReal;
-          if (document.getElementById("zonaPreferataValue")) document.getElementById("zonaPreferataValue").textContent = zonaPreferataReal;
-          
-          if (judetReal !== "-" && document.getElementById("judet")) document.getElementById("judet").value = judetReal;
-          if (zonaPreferataReal !== "-" && document.getElementById("zonaPreferata")) document.getElementById("zonaPreferata").value = zonaPreferataReal;
-
-          // 4. Activitate și Grup
-          const denumireGrupReal = data.Denumire_grup_activitate || data.denumire_grup_activitate || "";
-          let rawAct = data.Activitate_preferata || data.activitate_preferata || "";
-          let displayAct = (rawAct === "ALL" || !rawAct) ? "Toate activitățile din grupa aleasă" : rawAct;
-
-          if (document.getElementById("grupActivitateValue")) document.getElementById("grupActivitateValue").textContent = denumireGrupReal || "-";
-          if (document.getElementById("activitatePreferataValue")) document.getElementById("activitatePreferataValue").textContent = displayAct;
-
-          const selectGrup = document.getElementById("grupActivitate");
-          if (selectGrup && denumireGrupReal) {
-            selectGrup.value = denumireGrupReal;
-            if (typeof updateActivitiesDropdown === 'function') {
-              updateActivitiesDropdown(denumireGrupReal, rawAct);
-            }
-          }
+        if (!WEBHOOK_SALVEAZA_DISPONIBILITATE.includes("SOT_AICI")) {
+          await fetch(WEBHOOK_SALVEAZA_DISPONIBILITATE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(availabilityPayload)
+          });
         }
+      } catch (err) {
+        console.error("Eroare la salvarea disponibilității:", err);
       }
-    } else {
-      // Mod demonstrativ / offline
-      if (document.getElementById("progress-percent")) document.getElementById("progress-percent").textContent = "64%";
-      if (document.getElementById("progress-bar")) document.getElementById("progress-bar").style.width = "64%";
-      if (document.getElementById("judetValue")) document.getElementById("judetValue").textContent = "Bacau";
-      if (document.getElementById("zonaPreferataValue")) document.getElementById("zonaPreferataValue").textContent = "Bacau";
-      if (document.getElementById("grupActivitateValue")) document.getElementById("grupActivitateValue").textContent = "-";
-      if (document.getElementById("activitatePreferataValue")) document.getElementById("activitatePreferataValue").textContent = "-";
-      
-      if (document.getElementById("judet")) document.getElementById("judet").value = "Bacau";
-      if (document.getElementById("zonaPreferata")) document.getElementById("zonaPreferata").value = "Bacau";
-    }
-  } catch (err) {
-    console.error("Eroare la încărcarea datelor din bază:", err);
-  }
+    });
 
-
-// 2. ACTUALIZARE DINAMICĂ A LISTEI DE ACTIVITĂȚI PREFERATE
-function updateActivitiesDropdown(denumireGrup, selectedAct = null) {
-  const actSelect = document.getElementById("activitatePreferata");
-  if (!actSelect) return;
-  actSelect.innerHTML = "";
-
-  const lista = (typeof ACTIVITATI_PE_GRUPE !== 'undefined' && ACTIVITATI_PE_GRUPE[denumireGrup]) ? ACTIVITATI_PE_GRUPE[denumireGrup] : ["Toate activitățile din grupa aleasă"];
-  
-  lista.forEach(act => {
-    const opt = document.createElement("option");
-    const val = (act === "Toate activitățile din grupa aleasă") ? "ALL" : act;
-    opt.value = val;
-    opt.textContent = act;
-    
-    if (selectedAct && (val === selectedAct || act === selectedAct)) {
-      opt.selected = true;
-    }
-    actSelect.appendChild(opt);
-  });
-}
-
-const elGrupAct = document.getElementById("grupActivitate");
-if (elGrupAct) {
-  elGrupAct.addEventListener("change", (e) => {
-    updateActivitiesDropdown(e.target.value);
-  });
-}
-
-// 3. LOGICĂ CALENDAR DISPONIBILITATE
-function getStartOfWeekISO(d = new Date()) {
-  const date = new Date(d);
-  const day = date.getDay();
-  const diff = date.getDate() - day + (day === 0 ? -6 : 1);
-  const monday = new Date(date.setDate(diff));
-  monday.setHours(0, 0, 0, 0);
-  return monday;
-}
-
-const weekStart = getStartOfWeekISO();
-const dayNames = ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminică"];
-let dateSaptamana = [];
-
-function initCalendar() {
-  const daysContainer = document.getElementById("days");
-  if (!daysContainer) return;
-  daysContainer.innerHTML = "";
-
-  dateSaptamana = [];
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(weekStart);
-    d.setDate(weekStart.getDate() + i);
-    dateSaptamana.push(d.toISOString().split('T')[0]);
-  }
-
-  const savedDays = JSON.parse(localStorage.getItem("strictzilier_availability") || "[]");
-
-  for (let i = 0; i < 7; i++) {
-    const currentDate = new Date(weekStart);
-    currentDate.setDate(weekStart.getDate() + i);
-
-    const isChecked = savedDays.includes(i);
-    const dayLabel = document.createElement("label");
-    dayLabel.htmlFor = `day_check_${i}`;
-    dayLabel.className = `flex flex-col items-center justify-between p-2.5 sm:p-3 border rounded-xl text-center cursor-pointer transition select-none ${
-      isChecked ? "bg-amber-50 border-amber-500 text-amber-900 font-bold" : "bg-white border-slate-200 text-slate-700 hover:border-amber-300"
-    }`;
-
-    dayLabel.innerHTML = `
-      <input type="checkbox" id="day_check_${i}" data-day="${i}" class="day-checkbox hidden" ${isChecked ? "checked" : ""}>
-      <span class="text-xs font-bold pointer-events-none">${dayNames[i]}</span>
-      <span class="text-[10px] text-slate-400 mt-1 pointer-events-none">
-        ${String(currentDate.getDate()).padStart(2, "0")}.${String(currentDate.getMonth() + 1).padStart(2, "0")}
-      </span>
-      <div class="check-box-icon w-5 h-5 mt-2 rounded-md border flex items-center justify-center text-xs pointer-events-none ${
-        isChecked ? "bg-amber-500 border-amber-500 text-white" : "border-slate-300 bg-white"
-      }">
-        ${isChecked ? "✓" : ""}
-      </div>
-    `;
-
-    daysContainer.appendChild(dayLabel);
-  }
-
-  updateCalendarStatus(savedDays.length);
-}
-
-const elDays = document.getElementById("days");
-if (elDays) {
-  elDays.addEventListener("change", async function(e) {
-    if (!e.target.classList.contains("day-checkbox")) return;
-
-    const checkbox = e.target;
-    const dayLabel = checkbox.closest("label");
-
-    if (checkbox.checked) {
-      dayLabel.className = "flex flex-col items-center justify-between p-2.5 sm:p-3 border rounded-xl text-center cursor-pointer transition select-none bg-amber-50 border-amber-500 text-amber-900 font-bold";
-      const checkIcon = dayLabel.querySelector(".check-box-icon");
-      checkIcon.className = "check-box-icon w-5 h-5 mt-2 rounded-md border flex items-center justify-center text-xs bg-amber-500 border-amber-500 text-white pointer-events-none";
-      checkIcon.textContent = "✓";
-    } else {
-      dayLabel.className = "flex flex-col items-center justify-between p-2.5 sm:p-3 border rounded-xl text-center cursor-pointer transition select-none bg-white border-slate-200 text-slate-700 hover:border-amber-300";
-      const checkIcon = dayLabel.querySelector(".check-box-icon");
-      checkIcon.className = "check-box-icon w-5 h-5 mt-2 rounded-md border flex items-center justify-center text-xs border-slate-300 bg-white pointer-events-none";
-      checkIcon.textContent = "";
-    }
-
-    const selectedIndices = [...document.querySelectorAll(".day-checkbox:checked")].map(i => Number(i.dataset.day));
-    localStorage.setItem("strictzilier_availability", JSON.stringify(selectedIndices));
-
-    updateCalendarStatus(selectedIndices.length);
-
-    const currentId = (typeof currentUserSession !== 'undefined' && currentUserSession && currentUserSession.id) ? currentUserSession.id : null;
-    const availabilityPayload = {
-      ID_zilier: currentId,
-      Data_inceput_saptamana: weekStart.toISOString().split('T')[0],
-      Luni:      selectedIndices.includes(0) ? `DA ${dateSaptamana[0]}` : `NU ${dateSaptamana[0]}`,
-      Marti:     selectedIndices.includes(1) ? `DA ${dateSappamana ? dateSaptamana[1] : ''}` : `NU ${dateSappamana ? dateSaptamana[1] : ''}`,
-      Miercuri: selectedIndices.includes(2) ? `DA ${dateSaptamana[2]}` : `NU ${dateSaptamana[2]}`,
-      Joi:       selectedIndices.includes(3) ? `DA ${dateSaptamana[3]}` : `NU ${dateSaptamana[3]}`,
-      Vineri:    selectedIndices.includes(4) ? `DA ${dateSaptamana[4]}` : `NU ${dateSaptamana[4]}`,
-      Sambata:   selectedIndices.includes(5) ? `DA ${dateSaptamana[5]}` : `NU ${dateSaptamana[5]}`,
-      Duminica: selectedIndices.includes(6) ? `DA ${dateSaptamana[6]}` : `NU ${dateSaptamana[6]}`,
-      Data_actualizarii: new Date().toISOString()
-    };
-
-    try {
-      if (typeof WEBHOOK_SALVEAZA_DISPONIBILITATE !== 'undefined' && !WEBHOOK_SALVEAZA_DISPONIBILITATE.includes("SOT_AICI")) {
-        await fetch(WEBHOOK_SALVEAZA_DISPONIBILITATE, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(availabilityPayload)
-        });
+    function updateCalendarStatus(count) {
+      const status = document.getElementById("calendarStatus");
+      if (!count) {
+        status.textContent = "Nu ai selectat încă nicio zi.";
+        return;
       }
-    } catch (err) {
-      console.error("Eroare la salvarea disponibilității:", err);
+      status.textContent = `Ai selectat ${count} ${count === 1 ? "zi disponibilă" : "zile disponibile"} în această săptămână.`;
     }
-  });
-}
 
-function updateCalendarStatus(count) {
-  const status = document.getElementById("calendarStatus");
-  if (!status) return;
-  if (!count) {
-    status.textContent = "Nu ai selectat încă nicio zi.";
-    return;
-  }
-  status.textContent = `Ai selectat ${count} ${count === 1 ? "zi disponibilă" : "zile disponibile"} în această săptămână.`;
-}
+    // 4. LOGICĂ EDITARE ȘI SALVARE PREFERINȚE
+    const editButton = document.getElementById("editPreferences");
+    const editArea = document.getElementById("editArea");
+    const cancelButton = document.getElementById("cancelPreferences");
+    const saveButton = document.getElementById("savePreferences");
 
-// 4. LOGICĂ EDITARE ȘI SALVARE PREFERINȚE
-const editButton = document.getElementById("editPreferences");
-const editArea = document.getElementById("editArea");
-const cancelButton = document.getElementById("cancelPreferences");
-const saveButton = document.getElementById("savePreferences");
+    editButton.addEventListener("click", () => {
+      const currentGrup = document.getElementById("grupActivitate").value || "GA001";
+      const currentAct = document.getElementById("activitatePreferata").value || "ALL";
+      updateActivitiesDropdown(currentGrup, currentAct);
 
-if (editButton && editArea) {
-  editButton.addEventListener("click", () => {
-    const currentGrup = document.getElementById("grupActivitate") ? document.getElementById("grupActivitate").value : "";
-    const currentAct = document.getElementById("activitatePreferata") ? document.getElementById("activitatePreferata").value : "ALL";
-    updateActivitiesDropdown(currentGrup, currentAct);
+      editArea.classList.remove("hidden");
+      editButton.classList.add("hidden");
+    });
 
-    editArea.classList.remove("hidden");
-    editButton.classList.add("hidden");
-  });
-}
+    cancelButton.addEventListener("click", () => {
+      editArea.classList.add("hidden");
+      editButton.classList.remove("hidden");
+    });
 
-if (cancelButton && editArea && editButton) {
-  cancelButton.addEventListener("click", () => {
-    editArea.classList.add("hidden");
-    editButton.classList.remove("hidden");
-  });
-}
+    saveButton.addEventListener("click", async () => {
+      const judetRaw = document.getElementById("judet").value;
+      const zonaRaw = document.getElementById("zonaPreferata").value;
 
-if (saveButton && editArea && editButton) {
-  saveButton.addEventListener("click", async () => {
-    const judetRaw = document.getElementById("judet") ? document.getElementById("judet").value : "";
-    const zonaRaw = document.getElementById("zonaPreferata") ? document.getElementById("zonaPreferata").value : "";
+      const judetVal = stripDiacritics(judetRaw);
+      const zonaPreferataVal = matchLocalitateAutentica(judetVal, zonaRaw);
 
-    const judetVal = typeof stripDiacritics === 'function' ? stripDiacritics(judetRaw) : judetRaw;
-    const zonaPreferataVal = typeof matchLocalitateAutentica === 'function' ? matchLocalitateAutentica(judetVal, zonaRaw) : zonaRaw;
+      const codGrupVal = document.getElementById("grupActivitate").value;
+      const numeGrupVal = NUME_GRUPE[codGrupVal] || codGrupVal;
+      const activitatePreferataVal = document.getElementById("activitatePreferata").value;
 
-    const numeGrupVal = document.getElementById("grupActivitate") ? document.getElementById("grupActivitate").value : "";
-    const activitatePreferataVal = document.getElementById("activitatePreferata") ? document.getElementById("activitatePreferata").value : "";
+      document.getElementById("judetValue").textContent = judetVal;
+      document.getElementById("zonaPreferataValue").textContent = zonaPreferataVal;
+      document.getElementById("grupActivitateValue").textContent = numeGrupVal;
+      document.getElementById("activitatePreferataValue").textContent = activitatePreferataVal === "ALL" ? "Toate activitățile din grupa aleasă" : activitatePreferataVal;
 
-    if (document.getElementById("judetValue")) document.getElementById("judetValue").textContent = judetVal;
-    if (document.getElementById("zonaPreferataValue")) document.getElementById("zonaPreferataValue").textContent = zonaPreferataVal;
-    if (document.getElementById("grupActivitateValue")) document.getElementById("grupActivitateValue").textContent = numeGrupVal || "-";
-    if (document.getElementById("activitatePreferataValue")) document.getElementById("activitatePreferataValue").textContent = activitatePreferataVal === "ALL" ? "Toate activitățile din grupa aleasă" : activitatePreferataVal;
+      editArea.classList.add("hidden");
+      editButton.classList.remove("hidden");
 
-    editArea.classList.add("hidden");
-    editButton.classList.remove("hidden");
+      const preferencesPayload = {
+        ID_zilier: currentUserSession ? currentUserSession.id : null,
+        Judet: judetVal,
+        Zona_preferata: zonaPreferataVal,
+        Cod_grup_activitate: codGrupVal,
+        Denumire_grup_activitate: numeGrupVal,
+        Activitate_preferata: activitatePreferataVal
+      };
 
-    const currentId = (typeof currentUserSession !== 'undefined' && currentUserSession && currentUserSession.id) ? currentUserSession.id : null;
-    const preferencesPayload = {
-      ID_zilier: currentId,
-      Judet: judetVal,
-      Zona_preferata: zonaPreferataVal,
-      Denumire_grup_activitate: numeGrupVal,
-      Activitate_preferata: activitatePreferataVal
-    };
-
-    try {
-      if (typeof WEBHOOK_SALVEAZA_PREFERINTE !== 'undefined' && !WEBHOOK_SALVEAZA_PREFERINTE.includes("SOT_AICI")) {
-        await fetch(WEBHOOK_SALVEAZA_PREFERINTE, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(preferencesPayload)
-        });
+      try {
+        if (!WEBHOOK_SALVEAZA_PREFERINTE.includes("SOT_AICI")) {
+          await fetch(WEBHOOK_SALVEAZA_PREFERINTE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(preferencesPayload)
+          });
+        }
+      } catch (err) {
+        console.error("Eroare la salvarea preferințelor:", err);
       }
-    } catch (err) {
-      console.error("Eroare la salvarea preferințelor:", err);
-    }
-  });
-}
+    });
   </script>
+</body>
 </html>
