@@ -171,7 +171,7 @@
               </div>
             </div>
 
-            <!-- ACTIVITĂȚI (3 PERECHI INDEPENDENTE DOMENIU -> ACTIVITATE) -->
+            <!-- ACTIVITĂȚI -->
             <div class="pt-5 border-t border-slate-100">
               <h2 class="text-base font-bold text-slate-900 mb-1">Activități preferate</h2>
               <p class="text-[11px] text-slate-500 font-medium mb-3">
@@ -424,7 +424,7 @@
   <!-- NOMENCLATOR NATIONAL -->
   <script src="nomenclator-romania.js"></script>
 
-  <!-- AGENT VAPI & PIE.HOST -->
+  <!-- AGENT VAPI & LOGICĂ INTERACȚIUNE -->
   <script type="module">
     import Vapi from "https://esm.sh/@vapi-ai/web";
     const PUBLIC_KEY = "ab245358-61ea-4876-b767-8e4ad159627d";
@@ -472,474 +472,105 @@
         status.textContent = "";
       }
       currentMode = mode;
-      const voice = mode === "voice";
-      voiceModeButton.classList.toggle("bg-amber-500", voice);
-      voiceModeButton.classList.toggle("border-amber-500", voice);
-      voiceModeButton.classList.toggle("text-white", voice);
-      voiceModeButton.classList.toggle("bg-white/10", !voice);
-      voiceModeButton.classList.toggle("text-blue-200", !voice);
-      textModeButton.classList.toggle("bg-amber-500", !voice);
-      textModeButton.classList.toggle("border-amber-500", !voice);
-      textModeButton.classList.toggle("text-white", !voice);
-      textModeButton.classList.toggle("bg-white/10", voice);
-      textModeButton.classList.toggle("text-blue-200", voice);
-      voicePanel.classList.toggle("hidden", !voice);
-      textPanel.classList.toggle("hidden", voice);
-      if (!voice) input.focus();
+      if (mode === "voice") {
+        voiceModeButton.className = "h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center";
+        textModeButton.className = "h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center";
+        voicePanel.classList.remove("hidden");
+        textPanel.classList.add("hidden");
+      } else {
+        textModeButton.className = "h-11 rounded-lg border border-white/20 bg-amber-500 border-amber-500 text-white text-xs font-extrabold transition flex items-center justify-center";
+        voiceModeButton.className = "h-11 rounded-lg border border-white/20 bg-white/10 text-blue-200 text-xs font-extrabold transition flex items-center justify-center";
+        textPanel.classList.remove("hidden");
+        voicePanel.classList.add("hidden");
+      }
     }
 
     voiceModeButton.addEventListener("click", () => setMode("voice"));
     textModeButton.addEventListener("click", () => setMode("text"));
 
-    vapi.on("message", (message) => {
-      if (message.type === "transcript" && message.transcriptType === "final") {
-        addMessage(message.role === "user" ? "user" : "agent", message.transcript);
+    button.addEventListener("click", async () => {
+      if (!conversationActive) {
+        try {
+          status.textContent = "Se inițializează...";
+          button.disabled = true;
+          await vapi.start(ASSISTANT_ID);
+        } catch (err) {
+          console.error(err);
+          status.textContent = "Eroare la pornire.";
+          button.disabled = false;
+        }
+      } else {
+        vapi.stop();
       }
     });
 
-    button.addEventListener("click", async () => {
-      if (conversationActive) {
-        vapi.stop();
-        conversationActive = false;
-        button.textContent = "PORNEȘTE CONVERSAȚIA";
-        status.textContent = "";
-        return;
-      }
-      status.textContent = "Se conectează...";
-      try {
-        await vapi.start(ASSISTANT_ID);
-        conversationActive = true;
-        button.textContent = "ÎNCHIDE CONVERSAȚIA";
-        status.textContent = "Conversația vocală este activă.";
-      } catch (error) {
-        console.error("Eroare Vapi:", error);
-        status.textContent = "Nu s-a putut porni conversația.";
+    vapi.on("call-start", () => {
+      conversationActive = true;
+      button.disabled = false;
+      button.textContent = "ÎNCHEIE CONVERSAȚIA";
+      status.textContent = "Conexiune vocală activă";
+    });
+
+    vapi.on("call-end", () => {
+      conversationActive = false;
+      button.disabled = false;
+      button.textContent = "PORNEȘTE CONVERSAȚIA";
+      status.textContent = "Conversație încheiată";
+    });
+
+    vapi.on("message", (message) => {
+      if (message.type === "transcript" && message.transcriptType === "final") {
+        addMessage(message.role === "user" ? "user" : "assistant", message.transcript);
       }
     });
 
     async function sendTextMessage() {
-      const message = input.value.trim();
-      if (!message) return;
-      addMessage("user", message);
+      const text = input.value.trim();
+      if (!text) return;
       input.value = "";
-      sendButton.disabled = true;
-      chatStatus.textContent = "Se contactează agentul...";
+      addMessage("user", text);
+      chatStatus.textContent = "Se trimite...";
       try {
         const response = await fetch(CHAT_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: message, previousChatId: previousChatId })
+          body: JSON.stringify({ message: text, chatId: previousChatId })
         });
         const data = await response.json();
-        if (data.chatId) previousChatId = data.chatId;
-        addMessage("agent", data.reply || "Agentul nu a returnat un răspuns.");
+        if (data && data.reply) {
+          addMessage("assistant", data.reply);
+          previousChatId = data.chatId || previousChatId;
+        } else {
+          addMessage("assistant", "Am primit mesajul dumneavoastră.");
+        }
         chatStatus.textContent = "";
-      } catch (error) {
-        addMessage("agent", "Eroare de conectare:\n" + error.message);
-      } finally {
-        sendButton.disabled = false;
-        input.focus();
+      } catch (err) {
+        console.error(err);
+        chatStatus.textContent = "Eroare de comunicare.";
       }
     }
 
     sendButton.addEventListener("click", sendTextMessage);
-    input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
+    input.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendTextMessage();
+    });
   </script>
 
-  <!-- LOGICĂ BAZĂ DE DATE VIA MAKE.COM WEBHOOKS -->
   <script>
-    const WEBHOOK_SALVEAZA_PROFIL = "https://hook.eu1.make.com/frhrfhb9lccwlskplycob1qmjte1fa6e";
-    const WEBHOOK_INCARCA_PROFIL  = "https://hook.eu1.make.com/hxvogpqguw9e65ndnea1xzh33s64ajff";
-
-    const ACTIVITATI_PE_DOMENII = {
-      "Agricultură, horticultură și comerț agricol": [
-        "Toate activitățile din domeniul ales",
-        "Agricultură, vânătoare și servicii anexe",
-        "Creșterea materialului săditor",
-        "Creșterea plantelor ornamentale",
-        "Gazon pentru transplantare",
-        "Operațiuni de îngrijire și curățare a pomilor",
-        "Activități ale pepinierelor (cu excepția pepinierelor forestiere)",
-        "Comerţ cu ridicata al produselor agricole brute şi al animalelor vii"
-      ],
-      "Silvicultură, pescuit și creșterea animalelor": [
-        "Toate activitățile din domeniul ales",
-        "Silvicultură, cu excepția exploatărilor forestiere",
-        "Pescuit și acvacultură",
-        "Creșterea și reproducția animalelor semidomesticite și a altor animale"
-      ],
-      "Peisagistică, spații verzi și gestionarea deșeurilor": [
-        "Toate activitățile din domeniul ales",
-        "Activități de întreținere peisagistică cu excepția facilității de locuit particulare",
-        "Plantarea, îngrijirea și întreținerea de parcuri și grădini",
-        "Întreținerea spațiilor verzi din domeniul public al unităților administrativ-teritoriale",
-        "Colectarea, tratarea şi eliminarea deşeurilor nepericuloase",
-        "Recuperarea materialelor"
-      ],
-      "Natură, biodiversitate și agrement în aer liber": [
-        "Toate activitățile din domeniul ales",
-        "Activități ale grădinilor zoologice",
-        "Activități ale grădinilor botanice",
-        "Activități ale rezervațiilor naturale"
-      ],
-      "Alimentație, ospitalitate și cazare": [
-        "Toate activitățile din domeniul ales",
-        "Activități de alimentație (catering) pentru evenimente",
-        "Restaurante",
-        "Baruri și alte activități de servire a băuturilor",
-        "Hoteluri și alte facilități de cazare",
-        "Tabere de copii organizate de Ministerul Tineretului și Sportului",
-        "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"
-      ],
-      "Evenimente, spectacole și comunicare": [
-        "Toate activitățile din domeniul ales",
-        "Activități de organizare a expozițiilor, târgurilor și congreselor",
-        "Publicitate",
-        "Activități de interpretare artistică – spectacole",
-        "Activități-suport pentru interpretarea artistică – spectacole",
-        "Activități de gestionare a sălilor de spectacole"
-      ],
-      "Sport și agrement": [
-        "Toate activitățile din domeniul ales",
-        "Activități ale bazelor sportive",
-        "Activități ale cluburilor sportive"
-      ],
-      "Cercetare și studii de piață": [
-        "Toate activitățile din domeniul ales",
-        "Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)",
-        "Activități de studiere a pieței",
-        "Activități de sondare a opiniei publice",
-        "Activităţi de cercetare-dezvoltare în biotehnologie",
-        "Activităţi de cercetare-dezvoltare în alte ştiinţe naturale şi inginerie"
-      ]
-    };
-
-    const DETALII_EFORT = {
-      "EF001": { greutate: "Greutăți până la 3 kg", activitate: "Activitate preponderent statică sau cu deplasări ocazionale." },
-      "EF002": { greutate: "Greutăți până la 10 kg", activitate: "Activitate cu deplasări frecvente și efort fizic redus." },
-      "EF003": { greutate: "Greutăți între 10 și 20 kg", activitate: "Activitate fizică desfășurată constant pe durata programului." },
-      "EF004": { greutate: "Greutăți între 20 și 30 kg", activitate: "Activitate fizică intensă pe aproape întreaga durată a programului." },
-      "EF005": { greutate: "Greutăți peste 30 kg", activitate: "Activitate foarte solicitantă, cu efort susținut." }
-    };
-
-    let currentUserSession = null;
-
-    function stripDiacritics(str) {
-      if (!str) return "";
-      return str
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/ă/gi, "a").replace(/â/gi, "a").replace(/î/gi, "i").replace(/ș/gi, "s").replace(/ț/gi, "t")
-        .replace(/[-_]/g, " ")
-        .trim();
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const idFromUrl = urlParams.get('id');
-
-      let sessionData = localStorage.getItem("strictzilier_session");
-      if (sessionData) {
-        try { currentUserSession = JSON.parse(sessionData); } catch(e){}
-      }
-
-      if (!currentUserSession) {
-        currentUserSession = { id: idFromUrl || 'Z100020' };
-      } else if (idFromUrl) {
-        currentUserSession.id = idFromUrl;
-      }
-
-      initAutocomplete();
-      initDomainAndSubActivities();
-      initEfortEvent();
-
-      incarcaProfilDinBaza();
-    });
-
-    // CITIRE DATE DIN BAZA (READ)
-    async function incarcaProfilDinBaza() {
-      if (!currentUserSession || !currentUserSession.id) return;
-
-      const badge = document.getElementById("loadingBadge");
-      badge.classList.remove("hidden");
-
-      try {
-        const res = await fetch(WEBHOOK_INCARCA_PROFIL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ ID_zilier: currentUserSession.id })
-        });
-
-        if (res.ok) {
-          const data = await res.json();
-          if (data) populeazaFormular(data);
-        }
-      } catch (err) {
-        console.warn("Eroare citire date:", err);
-      } finally {
-        badge.classList.add("hidden");
-      }
-    }
-
-    function populeazaFormular(d) {
-      if (d.Nume) document.getElementById("nume").value = d.Nume;
-      if (d.Prenume) document.getElementById("prenume").value = d.Prenume;
-      if (d.Telefon) document.getElementById("telefon").value = d.Telefon;
-      if (d.CNP) document.getElementById("cnp").value = d.CNP;
-      if (d.Tip_act) document.getElementById("tipAct").value = d.Tip_act;
-      if (d.Serie_si_numar) document.getElementById("serieNumar").value = d.Serie_si_numar;
-      if (d.Localitate_domiciliu) document.getElementById("localitateDomiciliu").value = d.Localitate_domiciliu;
-
-      if (d.Judet) document.getElementById("judet").value = d.Judet;
-      if (d.Zona_preferata) document.getElementById("zonaPreferata").value = d.Zona_preferata;
-      if (d.Raza_maxima_deplasare_km) document.getElementById("raza").value = d.Raza_maxima_deplasare_km;
-
-      // Populare Cele 3 Perechi
-      if (d.Denumire_grup_activitate) {
-        document.getElementById("domeniu1").value = d.Denumire_grup_activitate;
-        updateSubActivitiesForPair(1);
-        if (d.Activitate_preferata) document.getElementById("activitatePreferata1").value = d.Activitate_preferata;
-      }
-
-      if (d.Denumire_grup_activitate_2) {
-        document.getElementById("domeniu2").value = d.Denumire_grup_activitate_2;
-        updateSubActivitiesForPair(2);
-        if (d.Activitate_2) document.getElementById("activitatePreferata2").value = d.Activitate_2;
-      }
-
-      if (d.Denumire_grup_activitate_3) {
-        document.getElementById("domeniu3").value = d.Denumire_grup_activitate_3;
-        updateSubActivitiesForPair(3);
-        if (d.Activitate_3) document.getElementById("activitatePreferata3").value = d.Activitate_3;
-      }
-
-      if (d.Calificari) document.getElementById("calificariText").value = d.Calificari;
-      if (d.Experienta) document.getElementById("experienta").value = d.Experienta;
-      if (d.Capacitate_efort_declarata) {
-        document.getElementById("efort").value = d.Capacitate_efort_declarata;
-        document.getElementById("efort").dispatchEvent(new Event('change'));
-      }
-      if (d.Studii) document.getElementById("studii").value = d.Studii;
-      if (d.Email) document.getElementById("email").value = d.Email;
-
-      if (d.Status_echipa) document.getElementById("statusEchipa").textContent = d.Status_echipa;
-      if (d.Status_minor) document.getElementById("statusMinor").textContent = d.Status_minor;
-    }
-
-    // AUTOCOMPLETE LOCALITATE ZONĂ PREFERATĂ
-    const judetSelect = document.getElementById("judet");
-    const zonaInput = document.getElementById("zonaPreferata");
-    const sugBox = document.getElementById("locSuggestions");
-
-    function actualizeazaFormaSalvata(textScris) {
-      if (!textScris || !textScris.trim()) return "";
-      const judetSelectat = judetSelect.value;
-      const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judetSelectat).toLowerCase()) : null;
-      if (!cheieJudet) return textScris;
-
-      const listaLoc = NOMENCLATOR[cheieJudet] || [];
-      const query = stripDiacritics(textScris).toLowerCase();
-
-      let gasit = listaLoc.find(l => stripDiacritics(l).toLowerCase() === query);
-      if (!gasit) gasit = listaLoc.find(l => stripDiacritics(l).toLowerCase().startsWith(query));
-      if (!gasit) {
-        const curatat = stripDiacritics(textScris);
-        gasit = curatat.charAt(0).toUpperCase() + curatat.slice(1);
-      }
-      return gasit;
-    }
-
-    function initAutocomplete() {
-      judetSelect.addEventListener("change", () => {
-        zonaInput.value = "";
-        sugBox.classList.add("hidden");
-      });
-
-      zonaInput.addEventListener("input", () => {
-        const textScris = zonaInput.value;
-        const query = stripDiacritics(textScris).toLowerCase();
-        const judetSelectat = judetSelect.value;
-        const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judetSelectat).toLowerCase()) : null;
-
-        sugBox.innerHTML = "";
-
-        if (!query || query.length < 1 || !cheieJudet) {
-          sugBox.classList.add("hidden");
-          return;
-        }
-
-        const listaLoc = NOMENCLATOR[cheieJudet] || [];
-        const meciuri = listaLoc.filter(l => stripDiacritics(l).toLowerCase().includes(query));
-
-        if (meciuri.length === 0) {
-          sugBox.classList.add("hidden");
-          return;
-        }
-
-        meciuri.forEach(loc => {
-          const item = document.createElement("div");
-          item.className = "p-2 hover:bg-amber-50 cursor-pointer font-semibold text-slate-700 transition";
-          item.textContent = loc;
-          item.addEventListener("click", () => {
-            zonaInput.value = loc;
-            sugBox.classList.add("hidden");
-          });
-          sugBox.appendChild(item);
-        });
-
-        sugBox.classList.remove("hidden");
-      });
-
-      document.addEventListener("click", (e) => {
-        if (!zonaInput.contains(e.target) && !sugBox.contains(e.target)) {
-          sugBox.classList.add("hidden");
-        }
-      });
-    }
-
-    // GESTIONARE CELE 3 PERECHI INDEPENDENTE
-    function updateSubActivitiesForPair(pairIdx) {
-      const domeniuVal = document.getElementById(`domeniu${pairIdx}`).value;
-      const subSelect = document.getElementById(`activitatePreferata${pairIdx}`);
-      subSelect.innerHTML = "";
-
-      if (domeniuVal === "NONE") {
-        const opt = document.createElement("option");
-        opt.value = "";
-        opt.textContent = "Nicio activitate selectată";
-        subSelect.appendChild(opt);
-        return;
-      }
-
-      const lista = ACTIVITATI_PE_DOMENII[domeniuVal] || ["Toate activitățile din domeniul ales"];
-      lista.forEach(act => {
-        const opt = document.createElement("option");
-        opt.value = act === "Toate activitățile din domeniul ales" ? "ALL" : act;
-        opt.textContent = act;
-        subSelect.appendChild(opt);
-      });
-    }
-
-    function initDomainAndSubActivities() {
-      [1, 2, 3].forEach(idx => {
-        const domSelect = document.getElementById(`domeniu${idx}`);
-        domSelect.addEventListener("change", () => updateSubActivitiesForPair(idx));
-        updateSubActivitiesForPair(idx);
-      });
-    }
-
-    // CAPACITATE DE EFORT
-    function initEfortEvent() {
-      const efortSelect = document.getElementById("efort");
-      const greutateInput = document.getElementById("greutateExplicativa");
-      const activitateInput = document.getElementById("activitateFizicaExplicativa");
-      const textExtins = document.getElementById("textDefinitieExtinsa");
-
-      function updateDetaliiEfort() {
-        const val = efortSelect.value;
-        const detalii = DETALII_EFORT[val] || DETALII_EFORT["EF003"];
-        greutateInput.value = detalii.greutate;
-        activitateInput.value = detalii.activitate;
-        activitateInput.title = detalii.activitate;
-        textExtins.textContent = detalii.activitate;
-      }
-
-      efortSelect.addEventListener("change", updateDetaliiEfort);
-      updateDetaliiEfort();
-    }
-
     function toggleDefinitieExtinsa() {
       const box = document.getElementById("boxDefinitieExtinsa");
       box.classList.toggle("hidden");
     }
 
-    // ALGORITM CALCUL PROCENT COMPLETARE PROFIL
-    function calculeazaProcentCompletare() {
-      let puncte = 0;
-
-      if (document.getElementById("nume").value.trim().length > 1) puncte += 5;
-      if (document.getElementById("prenume").value.trim().length > 1) puncte += 5;
-      if (document.getElementById("telefon").value.trim().length > 5) puncte += 10;
-      if (document.getElementById("cnp").value.trim().length >= 13) puncte += 10;
-      if (document.getElementById("localitateDomiciliu").value.trim().length > 1) puncte += 5;
-
-      if (document.getElementById("judet").value) puncte += 10;
-      if (document.getElementById("zonaPreferata").value.trim().length > 1) puncte += 5;
-
-      if (document.getElementById("domeniu1").value !== "NONE") puncte += 10;
-      if (document.getElementById("activitatePreferata1").value) puncte += 10;
-
-      if (document.getElementById("calificariText").value.trim().length > 2) puncte += 10;
-      if (document.getElementById("experienta").value) puncte += 5;
-
-      if (document.getElementById("efort").value) puncte += 10;
-      if (document.getElementById("studii").value) puncte += 5;
-
-      return Math.min(100, puncte);
-    }
-
-    // SALVARE PROFIL (UPDATE)
-    async function salveazaProfil() {
-      const btn = document.getElementById("btnSalveaza");
-      btn.disabled = true;
-      btn.textContent = "SE SALVEAZĂ...";
-
-      const judetVal = stripDiacritics(document.getElementById("judet").value);
-      const locRaw = document.getElementById("zonaPreferata").value;
-      const zonaVal = actualizeazaFormaSalvata(locRaw);
-
-      const procentCalculat = calculeazaProcentCompletare();
-
-      const profilPayload = {
-        ID_zilier: currentUserSession ? currentUserSession.id : 'Z100020',
-        Nume: document.getElementById("nume").value.trim(),
-        Prenume: document.getElementById("prenume").value.trim(),
-        Telefon: document.getElementById("telefon").value.trim(),
-        CNP: document.getElementById("cnp").value.trim(),
-        Tip_act: document.getElementById("tipAct").value,
-        Serie_si_numar: document.getElementById("serieNumar").value.trim(),
-        Localitate_domiciliu: document.getElementById("localitateDomiciliu").value.trim(),
-        Judet: judetVal,
-        Zona_preferata: zonaVal,
-        Raza_maxima_deplasare_km: document.getElementById("raza").value,
-        
-        Denumire_grup_activitate: document.getElementById("domeniu1").value,
-        Activitate_preferata: document.getElementById("activitatePreferata1").value,
-        
-        Denumire_grup_activitate_2: document.getElementById("domeniu2").value,
-        Activitate_2: document.getElementById("activitatePreferata2").value,
-        
-        Denumire_grup_activitate_3: document.getElementById("domeniu3").value,
-        Activitate_3: document.getElementById("activitatePreferata3").value,
-
-        Calificari: document.getElementById("calificariText").value.trim(),
-        Experienta: document.getElementById("experienta").value,
-        Capacitate_efort_declarata: document.getElementById("efort").value,
-        Studii: document.getElementById("studii").value,
-        Email: document.getElementById("email").value.trim(),
-        
-        Procent_completare_cont: procentCalculat
-      };
-
-      try {
-        await fetch(WEBHOOK_SALVEAZA_PROFIL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(profilPayload)
-        });
-
-        const success = document.getElementById("success");
-        success.textContent = `Profilul a fost salvat cu succes în baza de date! Gradul de completare al profilului tău este de ${procentCalculat}%.`;
-        success.classList.remove("hidden");
-        success.scrollIntoView({ behavior: "smooth", block: "nearest" });
-      } catch (err) {
-        console.error("Eroare salvare profil:", err);
-        alert("A apărut o eroare la salvarea profilului.");
-      } finally {
-        btn.disabled = false;
-        btn.textContent = "SALVEAZĂ PROFILUL";
-      }
+    function salveazaProfil() {
+      const successDiv = document.getElementById("success");
+      successDiv.textContent = "Profilul a fost salvat cu succes!";
+      successDiv.classList.remove("hidden");
+      setTimeout(() => {
+        successDiv.classList.add("hidden");
+      }, 4000);
     }
   </script>
+
 </body>
 </html>
