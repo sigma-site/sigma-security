@@ -670,6 +670,17 @@
               if (numeComplet) {
                 document.getElementById("user-welcome").textContent = `Bun venit, ${numeComplet}!`;
               }
+
+              const esteMinor = (data.minor === "DA" || data.Minor === "DA");
+              const sectiuneMinor = document.getElementById("sectiuneInscriereMinor");
+              if (sectiuneMinor) {
+                if (esteMinor) {
+                  sectiuneMinor.classList.add("hidden");
+                } else {
+                  sectiuneMinor.classList.remove("hidden");
+                }
+              }
+
               const pct = data.Procent_completare_cont || data.procent_completare || "0";
               document.getElementById("progress-percent").textContent = `${pct}%`;
               document.getElementById("progress-bar").style.width = `${pct}%`;
