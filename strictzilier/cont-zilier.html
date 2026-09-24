@@ -188,14 +188,14 @@
                   <label for="grupActivitate" class="block text-xs font-bold text-slate-700 mb-1">Grup Activitate</label>
                   <select id="grupActivitate" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                     <option value="" disabled selected>-- Alege grupul de activitate (opțional) --</option>
-                    <option value="GA001"> Agricultură, horticultură și comerț agricol</option>
-                    <option value="GA002"> Silvicultură, pescuit și creșterea animalelor</option>
-                    <option value="GA003"> Peisagistică, spații verzi și gestionarea deșeurilor</option>
-                    <option value="GA004"> Natură, biodiversitate și agrement în aer liber</option>
-                    <option value="GA005"> Alimentație, ospitalitate și cazare</option>
-                    <option value="GA006"> Evenimente, spectacole și comunicare</option>
-                    <option value="GA007"> Sport și agrement</option>
-                    <option value="GA008"> Cercetare și studii de piață</option>
+                    <option value="GA001">Agricultură, horticultură și comerț agricol</option>
+                    <option value="GA002">Silvicultură, pescuit și creșterea animalelor</option>
+                    <option value="GA003">Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                    <option value="GA004">Natură, biodiversitate și agrement în aer liber</option>
+                    <option value="GA005">Alimentație, ospitalitate și cazare</option>
+                    <option value="GA006">Evenimente, spectacole și comunicare</option>
+                    <option value="GA007">Sport și agrement</option>
+                    <option value="GA008">Cercetare și studii de piață</option>
                   </select>
                 </div>
                 <div>
@@ -640,6 +640,7 @@
       });
     }
 
+    // MATCHING AUTOMAT LA SALVARE PE NOMENCLATOR
     function matchLocalitateAutentica(judet, textIntrodus) {
       if (!textIntrodus || !textIntrodus.trim()) return textIntrodus || "-";
 
@@ -661,7 +662,7 @@
       return gasit;
     }
 
-    // 1. ÎNCĂRCAREA AUTOMATĂ A PROFILULUI DIN BAZA DE DATE (AICI ERA PROBLEMA REPARATĂ)
+    // 1. ÎNCĂRCAREA AUTOMATĂ A PROFILULUI DIN BAZA DE DATE VIA MAKE
     async function loadUserProfileFromDatabase() {
       if (!currentUserSession || !currentUserSession.id) return;
 
@@ -702,15 +703,16 @@
               document.getElementById("grupActivitateValue").textContent = numeGrup;
               document.getElementById("activitatePreferataValue").textContent = displayAct;
 
-              // AICI ESTE FIX-ul: Setăm selectul de grup ȘI apelăm funcția de activități trimițând activitatea salvată (rawAct)
-              if (codGrup) {
-                document.getElementById("grupActivitate").value = codGrup;
+              const selectGrup = document.getElementById("grupActivitate");
+              if (codGrup && ACTIVITATI_PE_GRUPE[codGrup]) {
+                selectGrup.value = codGrup;
                 updateActivitiesDropdown(codGrup, rawAct);
               } else {
-                document.getElementById("grupActivitate").value = "";
+                selectGrup.value = "";
                 updateActivitiesDropdown("", "");
               }
 
+              // Prereluare și afișare disponibilitate săptămânală din baza de date
               const dbDays = [
                 data.Luni || data.luni,
                 data.Marti || data.marti,
@@ -789,7 +791,6 @@
 
     const weekStart = getStartOfWeekISO();
     const dayNames = ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminică"];
-
     let dateSaptamana = [];
 
     function initCalendar() {
@@ -943,7 +944,7 @@
 
       try {
         if (!WEBHOOK_SALVEAZA_PREFERINTE.includes("SOT_AICI")) {
-          await fetch(WEBHOOK_SALVEAZA_PREFERINTE, {
+          await fetch(WEBUK_SALVEAZA_PREFERINTE, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(preferencesPayload)
