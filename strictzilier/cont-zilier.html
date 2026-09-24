@@ -537,6 +537,14 @@
 
     let currentUserSession = null;
 
+    // Obiect global pentru stocarea sigură a datelor din baza de date
+    let dbProfileData = {
+      grup: "",
+      activitate: "",
+      judet: "",
+      zona: ""
+    };
+
     // CURĂȚARE DIACRITICE ȘI UNIFORMIZARE
     function stripDiacritics(str) {
       if (!str) return "";
@@ -559,7 +567,6 @@
       try {
         currentUserSession = JSON.parse(sessionData);
 
-        // Verificăm dacă sesiunea a depășit sfârșitul săptămânii
         if (currentUserSession.expiresAt && Date.now() > currentUserSession.expiresAt) {
           localStorage.removeItem("strictzilier_session");
           window.location.href = "index.html";
@@ -647,7 +654,6 @@
 
       const query = stripDiacritics(textIntrodus).toLowerCase();
       const cheieJudet = typeof NOMENCLATOR !== 'undefined' ? Object.keys(NOMENCLATOR).find(k => stripDiacritics(k).toLowerCase() === stripDiacritics(judet).toLowerCase()) : null;
-
       const listaLoc = (cheieJudet && NOMENCLATOR[cheieJudet]) ? NOMENCLATOR[cheieJudet] : [];
 
       let gasit = listaLoc.find(l => stripDiacritics(l).toLowerCase() === query);
@@ -663,7 +669,7 @@
       return gasit;
     }
 
-    // 1. ÎNCĂRCAREa AUTOMATĂ A PROFILULUI DIN BAZA DE DATE VIA MAKE
+    // 1. ÎNCĂRCAREA AUTOMATĂ A PROFILULUI DIN BAZA DE DATE VIA MAKE
     async function loadUserProfileFromDatabase() {
       if (!currentUserSession || !currentUserSession.id) return;
 
@@ -695,24 +701,27 @@
               if (judetReal !== "-") document.getElementById("judet").value = judetReal;
               if (zonaPreferataReal !== "-") document.getElementById("zonaPreferata").value = zonaPreferataReal;
 
-              const codGrup = data.Cod_grup_activitate || data.cod_grup_activitate || "";
-              const numeGrup = data.Denumire_grup_activitate || data.denumire_grup_activitate || (codGrup ? NUME_GRUPE[codGrup] : "-");
-              
-              let rawAct = data.Activitate_preferata || data.activitate_preferata || "";
-              let displayAct = (rawAct === "ALL" || !rawAct) ? "Toate activitățile din grupa aleasă" : rawAct;
+              // Salvăm datele în obiectul global
+              dbProfileData.grup = data.Cod_grup_activitate || data.cod_grup_activitate || "";
+              dbProfileData.activitate = data.Activitate_preferata || data.activitate_preferata || "ALL";
+              dbProfileData.judet = judetReal;
+              dbProfileData.zona = zonaPreferataReal;
+
+              const numeGrup = data.Denumire_grup_activitate || data.denumire_grup_activitate || (dbProfileData.grup ? NUME_GRUPE[dbProfileData.grup] : "-");
+              let displayAct = (dbProfileData.activitate === "ALL" || !dbProfileData.activitate) ? "Toate activitățile din grupa aleasă" : dbProfileData.activitate;
 
               document.getElementById("grupActivitateValue").textContent = numeGrup;
               document.getElementById("activitatePreferataValue").textContent = displayAct;
 
-              if (codGrup) {
-                document.getElementById("grupActivitate").value = codGrup;
-                updateActivitiesDropdown(codGrup, rawAct);
+              if (dbProfileData.grup) {
+                document.getElementById("grupActivitate").value = dbProfileData.grup;
+                updateActivitiesDropdown(dbProfileData.grup, dbProfileData.activitate);
               } else {
                 document.getElementById("grupActivitate").value = "";
                 updateActivitiesDropdown("", "");
               }
 
-              // Prereluare și afișare disponibilitate săptămânală din baza de date
+              // Disponibilitate săptămânală
               const dbDays = [
                 data.Luni || data.luni,
                 data.Marti || data.marti,
@@ -736,19 +745,6 @@
               }
             }
           }
-        } else {
-          document.getElementById("progress-percent").textContent = "64%";
-          document.getElementById("progress-bar").style.width = "64%";
-          document.getElementById("judetValue").textContent = "Bacau";
-          document.getElementById("zonaPreferataValue").textContent = "Bacau";
-          document.getElementById("grupActivitateValue").textContent = "-";
-          document.getElementById("activitatePreferataValue").textContent = "-";
-          
-          document.getElementById("judet").value = "Bacau";
-          document.getElementById("zonaPreferata").value = "Bacau";
-          
-          document.getElementById("grupActivitate").value = "";
-          updateActivitiesDropdown("", "");
         }
       } catch (err) {
         console.error("Eroare la încărcarea datelor din bază:", err);
@@ -791,15 +787,12 @@
 
     const weekStart = getStartOfWeekISO();
     const dayNames = ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminică"];
-
-    // Array global cu cele 7 date calendaristice ISO ale săptămânii curente
     let dateSaptamana = [];
 
     function initCalendar() {
       const daysContainer = document.getElementById("days");
       daysContainer.innerHTML = "";
 
-      // Populăm array-ul cu datele exacte ale săptămânii curente
       dateSaptamana = [];
       for (let i = 0; i < 7; i++) {
         const d = new Date(weekStart);
@@ -859,7 +852,6 @@
 
       const selectedIndices = [...document.querySelectorAll(".day-checkbox:checked")].map(i => Number(i.dataset.day));
       localStorage.setItem("strictzilier_availability", JSON.stringify(selectedIndices));
-
       updateCalendarStatus(selectedIndices.length);
 
       const availabilityPayload = {
@@ -904,9 +896,12 @@
     const saveButton = document.getElementById("savePreferences");
 
     editButton.addEventListener("click", () => {
-      const currentGrup = document.getElementById("grupActivitate").value || "GA001";
-      const currentAct = document.getElementById("activitatePreferata").value || "ALL";
-      updateActivitiesDropdown(currentGrup, currentAct);
+      // Sincronizăm formularul de editare cu datele salvate în baza de date
+      const targetGrup = dbProfileData.grup || "GA001";
+      const targetAct = dbProfileData.activitate || "ALL";
+
+      document.getElementById("grupActivitate").value = targetGrup;
+      updateActivitiesDropdown(targetGrup, targetAct);
 
       editArea.classList.remove("hidden");
       editButton.classList.add("hidden");
@@ -927,6 +922,12 @@
       const codGrupVal = document.getElementById("grupActivitate").value;
       const numeGrupVal = NUME_GRUPE[codGrupVal] || codGrupVal;
       const activitatePreferataVal = document.getElementById("activitatePreferata").value;
+
+      // Actualizăm starea globală
+      dbProfileData.grup = codGrupVal;
+      dbProfileData.activitate = activitatePreferataVal;
+      dbProfileData.judet = judetVal;
+      dbProfileData.zona = zonaPreferataVal;
 
       document.getElementById("judetValue").textContent = judetVal;
       document.getElementById("zonaPreferataValue").textContent = zonaPreferataVal;
