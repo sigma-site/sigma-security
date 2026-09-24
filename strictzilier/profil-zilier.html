@@ -22,10 +22,10 @@
   <!-- Header Permanent -->
   <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-      <a href="index.html" class="flex items-center gap-2 cursor-pointer">
+      <a href="https://sigmasecurity.ro/strictzilier/index.html" class="flex items-center gap-2 cursor-pointer">
         <span class="text-xl sm:text-2xl font-black tracking-tight text-blue-700">STRICT<span class="text-amber-500">ZILIER</span>.ro</span>
       </a>
-      <a href="ghid-zilier.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition">
+      <a href="https://sigmasecurity.ro/strictzilier/ghid-zilier.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 rounded-lg text-xs font-bold transition">
         <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
         </svg>
@@ -329,26 +329,41 @@
             <!-- SECTIUNE ECHIPĂ -->
             <div class="pt-5 border-t border-slate-100">
               <h2 class="text-base font-bold text-slate-900 mb-3">Echipă</h2>
-              <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                  <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Status echipă</span>
-                  <strong id="statusEchipa" class="block text-xs font-bold text-slate-800">Nu există o asociere activă</strong>
+              <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl space-y-3">
+                
+                <!-- Rândul superior: Status și butonul principal -->
+                <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div>
+                    <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Status echipă</span>
+                    <strong id="statusEchipa" class="block text-xs font-bold text-slate-800">Nu există o asociere activă</strong>
+                  </div>
+                  <button type="button" id="btnFormeazaEchipa" onclick="location.href='https://sigmasecurity.ro/strictzilier/formare-echipa.html'" class="w-full sm:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+                    FORMEAZĂ O ECHIPĂ
+                  </button>
                 </div>
-                <button type="button" onclick="location.href='formare-echipa.html'" class="w-full sm:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
-                  FORMEAZĂ O ECHIPĂ
-                </button>
+
+                <!-- Rândul inferior: Descrierea funcției și butonul spre pagina foto -->
+                <div class="pt-3 border-t border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                  <p class="text-xs text-slate-600 font-medium leading-relaxed">
+                    Pentru a putea forma o echipă, este necesară trimiterea fotografiei actului de identitate (cont nivel 3).
+                  </p>
+                  <button type="button" onclick="location.href='https://sigmasecurity.ro/strictzilier/date-registru.html'" class="w-full sm:w-auto px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs rounded-lg transition shadow-sm whitespace-nowrap">
+                    Deschide pagina foto
+                  </button>
+                </div>
+
               </div>
             </div>
 
-           <!-- SECTIUNE MINOR 16-18 ANI -->
-            <div class="hidden pt-5 border-t border-slate-100">
+            <!-- SECTIUNE MINOR 16-18 ANI -->
+            <div class="pt-5 border-t border-slate-100">
               <h2 class="text-base font-bold text-slate-900 mb-3">Minor 16–18 ani</h2>
               <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
                   <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Status minor</span>
                   <strong id="statusMinor" class="block text-xs font-bold text-slate-800">Nu există un minor asociat</strong>
                 </div>
-                <button type="button" onclick="location.href='inscriere-minor.html'" class="w-full sm:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
+                <button type="button" onclick="location.href='https://sigmasecurity.ro/strictzilier/inscriere-minor.html'" class="w-full sm:w-auto px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
                   ÎNSCRIE UN MINOR
                 </button>
               </div>
@@ -359,7 +374,7 @@
               <button type="submit" id="btnSalveaza" class="w-full sm:w-1/2 py-2.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-lg transition shadow-sm">
                 SALVEAZĂ PROFILUL
               </button>
-              <button type="button" onclick="location.href='cont-zilier.html'" class="w-full sm:w-1/2 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">
+              <button type="button" onclick="location.href='https://sigmasecurity.ro/strictzilier/cont-zilier.html'" class="w-full sm:w-1/2 py-2.5 bg-slate-800 hover:bg-slate-900 text-white font-bold text-xs rounded-lg transition">
                 ÎNAPOI LA CONT
               </button>
             </div>
@@ -422,7 +437,7 @@
   </footer>
 
   <!-- NOMENCLATOR NATIONAL -->
-  <script src="nomenclator-romania.js"></script>
+  <script src="https://sigmasecurity.ro/strictzilier/nomenclator-romania.js"></script>
 
   <!-- AGENT VAPI & PIE.HOST -->
   <script type="module">
@@ -724,6 +739,20 @@
 
       if (d.Status_echipa) document.getElementById("statusEchipa").textContent = d.Status_echipa;
       if (d.Status_minor) document.getElementById("statusMinor").textContent = d.Status_minor;
+
+      // Gestionare nivel cont pentru activarea/dezactivarea butonului Formează o echipă
+      const nivelCont = parseInt(d.Nivel_cont, 10) || 1;
+      const btnEchipa = document.getElementById("btnFormeazaEchipa");
+      if (btnEchipa) {
+        if (nivelCont < 3) {
+          btnEchipa.disabled = true;
+          btnEchipa.classList.remove("bg-amber-500", "hover:bg-amber-600", "cursor-pointer");
+          btnEchipa.classList.add("bg-slate-300", "text-slate-500", "cursor-not-allowed", "opacity-75");
+          btnEchipa.title = "Necesită cont nivel 3 (fotografia actului de identitate încărcată)";
+        } else {
+          btnEchipa.disabled = false;
+        }
+      }
     }
 
     // AUTOCOMPLETE LOCALITATE ZONĂ PREFERATĂ
