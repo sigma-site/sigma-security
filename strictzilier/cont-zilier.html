@@ -559,7 +559,6 @@
       try {
         currentUserSession = JSON.parse(sessionData);
 
-        // Verificăm dacă sesiunea a depășit sfârșitul săptămânii
         if (currentUserSession.expiresAt && Date.now() > currentUserSession.expiresAt) {
           localStorage.removeItem("strictzilier_session");
           window.location.href = "index.html";
@@ -641,7 +640,6 @@
       });
     }
 
-    // MATCHING AUTOMAT LA SALVARE PE NOMENCLATOR
     function matchLocalitateAutentica(judet, textIntrodus) {
       if (!textIntrodus || !textIntrodus.trim()) return textIntrodus || "-";
 
@@ -663,7 +661,7 @@
       return gasit;
     }
 
-    // 1. ÎNCĂRCAREa AUTOMATĂ A PROFILULUI DIN BAZA DE DATE VIA MAKE
+    // 1. ÎNCĂRCAREA AUTOMATĂ A PROFILULUI DIN BAZA DE DATE (AICI ERA PROBLEMA REPARATĂ)
     async function loadUserProfileFromDatabase() {
       if (!currentUserSession || !currentUserSession.id) return;
 
@@ -704,6 +702,7 @@
               document.getElementById("grupActivitateValue").textContent = numeGrup;
               document.getElementById("activitatePreferataValue").textContent = displayAct;
 
+              // AICI ESTE FIX-ul: Setăm selectul de grup ȘI apelăm funcția de activități trimițând activitatea salvată (rawAct)
               if (codGrup) {
                 document.getElementById("grupActivitate").value = codGrup;
                 updateActivitiesDropdown(codGrup, rawAct);
@@ -712,7 +711,6 @@
                 updateActivitiesDropdown("", "");
               }
 
-              // Prereluare și afișare disponibilitate săptămânală din baza de date
               const dbDays = [
                 data.Luni || data.luni,
                 data.Marti || data.marti,
@@ -792,14 +790,12 @@
     const weekStart = getStartOfWeekISO();
     const dayNames = ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminică"];
 
-    // Array global cu cele 7 date calendaristice ISO ale săptămânii curente
     let dateSaptamana = [];
 
     function initCalendar() {
       const daysContainer = document.getElementById("days");
       daysContainer.innerHTML = "";
 
-      // Populăm array-ul cu datele exacte ale săptămânii curente
       dateSaptamana = [];
       for (let i = 0; i < 7; i++) {
         const d = new Date(weekStart);
