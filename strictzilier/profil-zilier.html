@@ -355,8 +355,8 @@
               </div>
             </div>
 
-            <!-- SECTIUNE MINOR 16-18 ANI -->
-            <div class="pt-5 border-t border-slate-100">
+            <!-- SECTIUNE MINOR 16-18 ANI (ASCUNSĂ) -->
+            <div class="hidden pt-5 border-t border-slate-100">
               <h2 class="text-base font-bold text-slate-900 mb-3">Minor 16–18 ani</h2>
               <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div>
@@ -738,7 +738,6 @@
       if (d.Email) document.getElementById("email").value = d.Email;
 
       if (d.Status_echipa) document.getElementById("statusEchipa").textContent = d.Status_echipa;
-      if (d.Status_minor) document.getElementById("statusMinor").textContent = d.Status_minor;
 
       // Gestionare nivel cont pentru activarea/dezactivarea butonului Formează o echipă
       const nivelCont = parseInt(d.Nivel_cont, 10) || 1;
