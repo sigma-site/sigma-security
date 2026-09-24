@@ -696,44 +696,21 @@
               if (zonaPreferataReal !== "-") document.getElementById("zonaPreferata").value = zonaPreferataReal;
 
               const codGrup = data.Cod_grup_activitate || data.cod_grup_activitate || "";
-              const numeGrup = data.Denumire_grup_activitate || data.denumire_grup_activitate || (codGrup ? NUME_GRUPE[codGrup] : "-");
-              
-              let rawAct = data.Activitate_preferata || data.activitate_preferata || "";
-              let displayAct = (rawAct === "ALL" || !rawAct) ? "Toate activitățile din grupa aleasă" : rawAct;
+      const numeGrup = data.Denumire_grup_activitate || data.denumire_grup_activitate || (codGrup ? NUME_GRUPE[codGrup] : "-");
+      
+      let rawAct = data.Activitate_preferata || data.activitate_preferata || "";
+      let displayAct = (rawAct === "ALL" || !rawAct) ? "Toate activitățile din grupa aleasă" : rawAct;
 
-              document.getElementById("grupActivitateValue").textContent = numeGrup;
-              document.getElementById("activitatePreferataValue").textContent = displayAct;
+      document.getElementById("grupActivitateValue").textContent = numeGrup;
+      document.getElementById("activitatePreferataValue").textContent = displayAct;
 
-              if (codGrup) {
-                document.getElementById("grupActivitate").value = codGrup;
-                updateActivitiesDropdown(codGrup, rawAct);
-              } else {
-                document.getElementById("grupActivitate").value = "";
-                updateActivitiesDropdown("", "");
-              }
-
-              // Prereluare și afișare disponibilitate săptămânală din baza de date
-              const dbDays = [
-                data.Luni || data.luni,
-                data.Marti || data.marti,
-                data.Miercuri || data.miercuri,
-                data.Joi || data.joi,
-                data.Vineri || data.vineri,
-                data.Sambata || data.sambata,
-                data.Duminica || data.duminica
-              ];
-
-              const loadedIndices = [];
-              dbDays.forEach((val, index) => {
-                if (val && typeof val === "string" && val.trim().toUpperCase().startsWith("DA")) {
-                  loadedIndices.push(index);
-                }
-              });
-
-              if (loadedIndices.length > 0) {
-                localStorage.setItem("strictzilier_availability", JSON.stringify(loadedIndices));
-                initCalendar();
-              }
+      if (codGrup) {
+        document.getElementById("grupActivitate").value = codGrup;
+        updateActivitiesDropdown(codGrup, rawAct);
+      } else {
+        document.getElementById("grupActivitate").value = "";
+        updateActivitiesDropdown("", "");
+      }
             }
           }
         } else {
@@ -747,6 +724,7 @@
           document.getElementById("judet").value = "Bacau";
           document.getElementById("zonaPreferata").value = "Bacau";
           
+          // Fără GA001 forțat: setăm gol pentru a nu suprascrie baza de date la salvare
           document.getElementById("grupActivitate").value = "";
           updateActivitiesDropdown("", "");
         }
@@ -789,13 +767,14 @@
       return monday;
     }
 
-    const weekStart = getStartOfWeekISO();
+        const weekStart = getStartOfWeekISO();
     const dayNames = ["Luni", "Marți", "Miercuri", "Joi", "Vineri", "Sâmbătă", "Duminică"];
 
     // Array global cu cele 7 date calendaristice ISO ale săptămânii curente
+    // Ex: ["2026-09-07", "2026-09-08", ..., "2026-09-13"]
     let dateSaptamana = [];
 
-    function initCalendar() {
+        function initCalendar() {
       const daysContainer = document.getElementById("days");
       daysContainer.innerHTML = "";
 
@@ -862,12 +841,12 @@
 
       updateCalendarStatus(selectedIndices.length);
 
-      const availabilityPayload = {
+           const availabilityPayload = {
         ID_zilier: currentUserSession ? currentUserSession.id : null,
         Data_inceput_saptamana: weekStart.toISOString().split('T')[0],
         Luni:     selectedIndices.includes(0) ? `DA ${dateSaptamana[0]}` : `NU ${dateSaptamana[0]}`,
         Marti:    selectedIndices.includes(1) ? `DA ${dateSaptamana[1]}` : `NU ${dateSaptamana[1]}`,
-        Miercuri: selectedIndices.includes(2) ? `DA ${dateSaptamana[2]}` : `NU ${dateSapatamana[2]}`,
+        Miercuri: selectedIndices.includes(2) ? `DA ${dateSaptamana[2]}` : `NU ${dateSaptamana[2]}`,
         Joi:      selectedIndices.includes(3) ? `DA ${dateSaptamana[3]}` : `NU ${dateSaptamana[3]}`,
         Vineri:   selectedIndices.includes(4) ? `DA ${dateSaptamana[4]}` : `NU ${dateSaptamana[4]}`,
         Sambata:  selectedIndices.includes(5) ? `DA ${dateSaptamana[5]}` : `NU ${dateSaptamana[5]}`,
