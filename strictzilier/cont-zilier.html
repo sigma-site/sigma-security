@@ -92,7 +92,7 @@
               Aceste informații sunt preluate din contul tău și ajută Agentul să-ți găsească de lucru. Le poți modifica oricând.
             </p>
 
-            <!-- AFIȘARE VALORI DIN BAZĂ -->
+            <!-- AFIȘARE VALORI DIN BAZĂ (ANTET) -->
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
               <div class="p-3.5 bg-slate-50 rounded-xl border border-slate-200/80">
                 <span class="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Județ</span>
@@ -175,27 +175,27 @@
                 </div>
                 <div class="sm:col-span-2 relative">
                   <label for="zonaPreferata" class="block text-xs font-bold text-slate-700 mb-1">Orașul sau Comuna</label>
-                  <input type="text" id="zonaPreferata" autocomplete="off" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Scrie orașul sau comuna (ex: Targu Ocna, Sascut)...">
+                  <input type="text" id="zonaPreferata" autocomplete="off" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none" placeholder="Scrie orașul sau comuna...">
                   
                   <!-- Casetă de sugestii Autocomplete -->
                   <div id="locSuggestions" class="hidden absolute left-0 right-0 top-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto z-50 divide-y divide-slate-100 text-xs"></div>
                 </div>
               </div>
 
-              <!-- CASETE ACTIVITĂȚI -->
+              <!-- CASETE ACTIVITĂȚI (CELE DOUĂ FERESTRE DE JOS) -->
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
                 <div>
                   <label for="grupActivitate" class="block text-xs font-bold text-slate-700 mb-1">Grup Activitate</label>
                   <select id="grupActivitate" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
-                    <option value="" disabled selected>-- Alege grupul de activitate (opțional) --</option>
-                    <option value="GA001"> Agricultură, horticultură și comerț agricol</option>
-                    <option value="GA002"> Silvicultură, pescuit și creșterea animalelor</option>
-                    <option value="GA003"> Peisagistică, spații verzi și gestionarea deșeurilor</option>
-                    <option value="GA004"> Natură, biodiversitate și agrement în aer liber</option>
-                    <option value="GA005"> Alimentație, ospitalitate și cazare</option>
-                    <option value="GA006"> Evenimente, spectacole și comunicare</option>
-                    <option value="GA007"> Sport și agrement</option>
-                    <option value="GA008"> Cercetare și studii de piață</option>
+                    <option value="" disabled selected>-- Alege grupul de activitate --</option>
+                    <option value="GA001">Agricultură, horticultură și comerț agricol</option>
+                    <option value="GA002">Silvicultură, pescuit și creșterea animalelor</option>
+                    <option value="GA003">Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                    <option value="GA004">Natură, biodiversitate și agrement în aer liber</option>
+                    <option value="GA005">Alimentație, ospitalitate și cazare</option>
+                    <option value="GA006">Evenimente, spectacole și comunicare</option>
+                    <option value="GA007">Sport și agrement</option>
+                    <option value="GA008">Cercetare și studii de piață</option>
                   </select>
                 </div>
                 <div>
@@ -450,17 +450,15 @@
     input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); sendTextMessage(); } });
   </script>
 
-  <!-- 1. ÎNCĂRCARE NOMENCLATOR EXTERN DIN ACELAȘI FOLDER/GITHUB -->
+  <!-- NOMENCLATOR EXTERN -->
   <script src="nomenclator-romania.js"></script>
 
-  <!-- 2. SCRIPT LOGICĂ BAZĂ DE DATE, ACTIVITĂȚI & WEBHOOKS -->
+  <!-- SCRIPT LOGICĂ BAZĂ DE DATE, ACTIVITĂȚI & WEBHOOKS -->
   <script>
-    // WEBHOOKS MAKE.COM
     const WEBHOOK_INCARCA_PROFIL = "https://hook.eu1.make.com/5hvlnq2yjkoqm5442907w0kpurgfsn0w";
     const WEBHOOK_SALVEAZA_DISPONIBILITATE = "https://hook.eu1.make.com/g1jq2tkvpsnf068dxms8wub92rvsl4pp";
     const WEBHOOK_SALVEAZA_PREFERINTE = "https://hook.eu1.make.com/zc0h8xunug9ellveej2iaxjvakfz1mjr";
 
-    // NOMENCLATOR ACTIVITĂȚI PE GRUPE
     const ACTIVITATI_PE_GRUPE = {
       "GA001": [
         "Toate activitățile din grupa aleasă",
@@ -537,7 +535,6 @@
 
     let currentUserSession = null;
 
-    // Obiect global pentru stocarea sigură a datelor din baza de date
     let dbProfileData = {
       grup: "",
       activitate: "",
@@ -545,7 +542,6 @@
       zona: ""
     };
 
-    // CURĂȚARE DIACRITICE ȘI UNIFORMIZARE
     function stripDiacritics(str) {
       if (!str) return "";
       return str
@@ -590,13 +586,9 @@
       initCalendar();
       initAutocomplete();
       
-      const initialGrup = document.getElementById("grupActivitate").value || "GA001";
-      updateActivitiesDropdown(initialGrup);
-
-      loadUserProfileFromDatabase();
+      await loadUserProfileFromDatabase();
     });
 
-    // AUTOCOMPLETE SI SUGGESTIONS PENTRU ORAȘ/COMUNĂ
     function initAutocomplete() {
       const judetSelect = document.getElementById("judet");
       const zonaInput = document.getElementById("zonaPreferata");
@@ -648,7 +640,6 @@
       });
     }
 
-    // MATCHING AUTOMAT LA SALVARE PE NOMENCLATOR
     function matchLocalitateAutentica(judet, textIntrodus) {
       if (!textIntrodus || !textIntrodus.trim()) return textIntrodus || "-";
 
@@ -669,7 +660,7 @@
       return gasit;
     }
 
-    // 1. ÎNCĂRCAREA AUTOMATĂ A PROFILULUI DIN BAZA DE DATE VIA MAKE
+    // ÎNCĂRCARE PROFIL ȘI POPULARE EXPLICITĂ PENTRU CELE DOUĂ FERESTRE DE ACTIVITĂȚI
     async function loadUserProfileFromDatabase() {
       if (!currentUserSession || !currentUserSession.id) return;
 
@@ -692,8 +683,8 @@
               document.getElementById("progress-percent").textContent = `${pct}%`;
               document.getElementById("progress-bar").style.width = `${pct}%`;
 
-              const judetReal = stripDiacritics(data.Judet || data.judet || "-");
-              const zonaPreferataReal = stripDiacritics(data.Zona_preferata || data.zona_preferata || data.localitate || "-");
+              const judetReal = data.Judet || data.judet || "-";
+              const zonaPreferataReal = data.Zona_preferata || data.zona_preferata || data.localitate || "-";
 
               document.getElementById("judetValue").textContent = judetReal;
               document.getElementById("zonaPreferataValue").textContent = zonaPreferataReal;
@@ -701,27 +692,31 @@
               if (judetReal !== "-") document.getElementById("judet").value = judetReal;
               if (zonaPreferataReal !== "-") document.getElementById("zonaPreferata").value = zonaPreferataReal;
 
-              // Salvăm datele în obiectul global
-              dbProfileData.grup = data.Cod_grup_activitate || data.cod_grup_activitate || "";
-              dbProfileData.activitate = data.Activitate_preferata || data.activitate_preferata || "ALL";
+              // Preluăm valorile pentru activități din baza de date
+              const codGrupBaza = data.Cod_grup_activitate || data.cod_grup_activitate || "";
+              const activitateBaza = data.Activitate_preferata || data.activitate_preferata || "ALL";
+
+              dbProfileData.grup = codGrupBaza;
+              dbProfileData.activitate = activitateBaza;
               dbProfileData.judet = judetReal;
               dbProfileData.zona = zonaPreferataReal;
 
-              const numeGrup = data.Denumire_grup_activitate || data.denumire_grup_activitate || (dbProfileData.grup ? NUME_GRUPE[dbProfileData.grup] : "-");
-              let displayAct = (dbProfileData.activitate === "ALL" || !dbProfileData.activitate) ? "Toate activitățile din grupa aleasă" : dbProfileData.activitate;
+              const numeGrup = data.Denumire_grup_activitate || data.denumire_grup_activitate || (codGrupBaza ? NUME_GRUPE[codGrupBaza] : "-");
+              let displayAct = (activitateBaza === "ALL" || !activitateBaza) ? "Toate activitățile din grupa aleasă" : activitateBaza;
 
+              // Afișăm în cardurile de sus (antet)
               document.getElementById("grupActivitateValue").textContent = numeGrup;
               document.getElementById("activitatePreferataValue").textContent = displayAct;
 
-              if (dbProfileData.grup) {
-                document.getElementById("grupActivitate").value = dbProfileData.grup;
-                updateActivitiesDropdown(dbProfileData.grup, dbProfileData.activitate);
+              // SETĂM EXPLICIT CELE DOUĂ FERESTRE DE JOS (FORMULAR EDITARE) CU VALORILE DIN BAZĂ
+              if (codGrupBaza) {
+                document.getElementById("grupActivitate").value = codGrupBaza;
+                updateActivitiesDropdown(codGrupBaza, activitateBaza);
               } else {
                 document.getElementById("grupActivitate").value = "";
                 updateActivitiesDropdown("", "");
               }
 
-              // Disponibilitate săptămânală
               const dbDays = [
                 data.Luni || data.luni,
                 data.Marti || data.marti,
@@ -751,7 +746,6 @@
       }
     }
 
-    // 2. ACTUALIZARE DINAMICĂ A LISTEI DE ACTIVITĂȚI PREFERATE
     function updateActivitiesDropdown(codGrup, selectedAct = null) {
       const actSelect = document.getElementById("activitatePreferata");
       actSelect.innerHTML = "";
@@ -764,6 +758,7 @@
         opt.value = val;
         opt.textContent = act;
         
+        // Verificăm potrivirea exactă pentru a selecta opțiunea corectă în fereastra de jos
         if (selectedAct && (val === selectedAct || act === selectedAct)) {
           opt.selected = true;
         }
@@ -775,7 +770,6 @@
       updateActivitiesDropdown(e.target.value);
     });
 
-    // 3. LOGICĂ CALENDAR DISPONIBILITATE
     function getStartOfWeekISO(d = new Date()) {
       const date = new Date(d);
       const day = date.getDay();
@@ -858,7 +852,7 @@
         ID_zilier: currentUserSession ? currentUserSession.id : null,
         Data_inceput_saptamana: weekStart.toISOString().split('T')[0],
         Luni:     selectedIndices.includes(0) ? `DA ${dateSaptamana[0]}` : `NU ${dateSaptamana[0]}`,
-        Marti:    selectedIndices.includes(1) ? `DA ${dateSaptamana[1]}` : `NU ${dateSapptamana ? dateSaptamana[1] : dateSaptamana[1]}`,
+        Marti:    selectedIndices.includes(1) ? `DA ${dateSaptamana[1]}` : `NU ${dateSaptamana[1]}`,
         Miercuri: selectedIndices.includes(2) ? `DA ${dateSaptamana[2]}` : `NU ${dateSaptamana[2]}`,
         Joi:      selectedIndices.includes(3) ? `DA ${dateSaptamana[3]}` : `NU ${dateSaptamana[3]}`,
         Vineri:   selectedIndices.includes(4) ? `DA ${dateSaptamana[4]}` : `NU ${dateSaptamana[4]}`,
@@ -889,14 +883,16 @@
       status.textContent = `Ai selectat ${count} ${count === 1 ? "zi disponibilă" : "zile disponibile"} în această săptămână.`;
     }
 
-    // 4. LOGICĂ EDITARE ȘI SALVARE PREFERINȚE
     const editButton = document.getElementById("editPreferences");
     const editArea = document.getElementById("editArea");
     const cancelButton = document.getElementById("cancelPreferences");
     const saveButton = document.getElementById("savePreferences");
 
     editButton.addEventListener("click", () => {
-      // Sincronizăm formularul de editare cu datele salvate în baza de date
+      // Când se apasă butonul de editare, ne asigurăm că ferestrele de activități au valorile curente din memorie
+      if (dbProfileData.judet) document.getElementById("judet").value = dbProfileData.judet;
+      if (dbProfileData.zona) document.getElementById("zonaPreferata").value = dbProfileData.zona;
+
       const targetGrup = dbProfileData.grup || "GA001";
       const targetAct = dbProfileData.activitate || "ALL";
 
@@ -923,7 +919,6 @@
       const numeGrupVal = NUME_GRUPE[codGrupVal] || codGrupVal;
       const activitatePreferataVal = document.getElementById("activitatePreferata").value;
 
-      // Actualizăm starea globală
       dbProfileData.grup = codGrupVal;
       dbProfileData.activitate = activitatePreferataVal;
       dbProfileData.judet = judetVal;
