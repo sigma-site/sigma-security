@@ -188,14 +188,14 @@
                   <label for="grupActivitate" class="block text-xs font-bold text-slate-700 mb-1">Grup Activitate</label>
                   <select id="grupActivitate" class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
                     <option value="" disabled selected>-- Alege grupul de activitate --</option>
-                    <option value="GA001">Agricultură, horticultură și comerț agricol</option>
-                    <option value="GA002">Silvicultură, pescuit și creșterea animalelor</option>
-                    <option value="GA003">Peisagistică, spații verzi și gestionarea deșeurilor</option>
-                    <option value="GA004">Natură, biodiversitate și agrement în aer liber</option>
-                    <option value="GA005">Alimentație, ospitalitate și cazare</option>
-                    <option value="GA006">Evenimente, spectacole și comunicare</option>
-                    <option value="GA007">Sport și agrement</option>
-                    <option value="GA008">Cercetare și studii de piață</option>
+                    <option value="Agricultură, horticultură și comerț agricol">Agricultură, horticultură și comerț agricol</option>
+                    <option value="Silvicultură, pescuit și creșterea animalelor">Silvicultură, pescuit și creșterea animalelor</option>
+                    <option value="Peisagistică, spații verzi și gestionarea deșeurilor">Peisagistică, spații verzi și gestionarea deșeurilor</option>
+                    <option value="Natură, biodiversitate și agrement în aer liber">Natură, biodiversitate și agrement în aer liber</option>
+                    <option value="Alimentație, ospitalitate și cazare">Alimentație, ospitalitate și cazare</option>
+                    <option value="Evenimente, spectacole și comunicare">Evenimente, spectacole și comunicare</option>
+                    <option value="Sport și agrement">Sport și agrement</option>
+                    <option value="Cercetare și studii de piață">Cercetare și studii de piață</option>
                   </select>
                 </div>
                 <div>
@@ -459,8 +459,9 @@
     const WEBHOOK_SALVEAZA_DISPONIBILITATE = "https://hook.eu1.make.com/g1jq2tkvpsnf068dxms8wub92rvsl4pp";
     const WEBHOOK_SALVEAZA_PREFERINTE = "https://hook.eu1.make.com/zc0h8xunug9ellveej2iaxjvakfz1mjr";
 
+    // Cheile folosesc exact denumirile text ale grupurilor (fără coduri)
     const ACTIVITATI_PE_GRUPE = {
-      "GA001": [
+      "Agricultură, horticultură și comerț agricol": [
         "Toate activitățile din grupa aleasă",
         "Agricultură, vânătoare și servicii anexe",
         "Creșterea materialului săditor",
@@ -470,13 +471,13 @@
         "Activități ale pepinierelor (cu excepția pepinierelor forestiere)",
         "Comerţ cu ridicata al produselor agricole brute şi al animalelor vii"
       ],
-      "GA002": [
+      "Silvicultură, pescuit și creșterea animalelor": [
         "Toate activitățile din grupa aleasă",
         "Silvicultură, cu excepția exploatărilor forestiere",
         "Pescuit și acvacultură",
         "Creșterea și reproducția animalelor semidomesticite și a altor animale"
       ],
-      "GA003": [
+      "Peisagistică, spații verzi și gestionarea deșeurilor": [
         "Toate activitățile din grupa aleasă",
         "Activități de întreținere peisagistică cu excepția facilității de locuit particulare",
         "Plantarea, îngrijirea și întreținerea de parcuri și grădini",
@@ -484,13 +485,13 @@
         "Colectarea, tratarea şi eliminarea deşeurilor nepericuloase",
         "Recuperarea materialelor"
       ],
-      "GA004": [
+      "Natură, biodiversitate și agrement în aer liber": [
         "Toate activitățile din grupa aleasă",
         "Activități ale grădinilor zoologice",
         "Activități ale grădinilor botanice",
         "Activități ale rezervațiilor naturale"
       ],
-      "GA005": [
+      "Alimentație, ospitalitate și cazare": [
         "Toate activitățile din grupa aleasă",
         "Activități de alimentație (catering) pentru evenimente",
         "Restaurante",
@@ -499,7 +500,7 @@
         "Tabere de copii organizate de Ministerul Tineretului și Sportului",
         "Facilități de cazare pentru vacanțe și perioade de scurtă durată – cabane"
       ],
-      "GA006": [
+      "Evenimente, spectacole și comunicare": [
         "Toate activitățile din grupa aleasă",
         "Activități de organizare a expozițiilor, târgurilor și congreselor",
         "Publicitate",
@@ -507,12 +508,12 @@
         "Activități-suport pentru interpretarea artistică – spectacole",
         "Activități de gestionare a sălilor de spectacole"
       ],
-      "GA007": [
+      "Sport și agrement": [
         "Toate activitățile din grupa aleasă",
         "Activități ale bazelor sportive",
         "Activități ale cluburilor sportive"
       ],
-      "GA008": [
+      "Cercetare și studii de piață": [
         "Toate activitățile din grupa aleasă",
         "Activități de cercetare-dezvoltare în științe sociale și umaniste (săpături arheologice)",
         "Activități de studiere a pieței",
@@ -520,17 +521,6 @@
         "Activităţi de cercetare-dezvoltare în biotehnologie",
         "Activităţi de cercetare-dezvoltare în alte ştiinţe naturale şi inginerie"
       ]
-    };
-
-    const NUME_GRUPE = {
-      "GA001": "Agricultură, horticultură și comerț agricol",
-      "GA002": "Silvicultură, pescuit și creșterea animalelor",
-      "GA003": "Peisagistică, spații verzi și gestionarea deșeurilor",
-      "GA004": "Natură, biodiversitate și agrement în aer liber",
-      "GA005": "Alimentație, ospitalitate și cazare",
-      "GA006": "Evenimente, spectacole și comunicare",
-      "GA007": "Sport și agrement",
-      "GA008": "Cercetare și studii de piață"
     };
 
     let currentUserSession = null;
@@ -660,7 +650,7 @@
       return gasit;
     }
 
-    // ÎNCĂRCARE PROFIL ȘI POPULARE EXPLICITĂ PENTRU CELE DOUĂ FERESTRE DE ACTIVITĂȚI
+    // ÎNCĂRCARE PROFIL ȘI POPULARE BAZATĂ EXCLUSIV PE DENUMIRI TEXT
     async function loadUserProfileFromDatabase() {
       if (!currentUserSession || !currentUserSession.id) return;
 
@@ -692,26 +682,25 @@
               if (judetReal !== "-") document.getElementById("judet").value = judetReal;
               if (zonaPreferataReal !== "-") document.getElementById("zonaPreferata").value = zonaPreferataReal;
 
-              // Preluăm valorile pentru activități din baza de date
-              const codGrupBaza = data.Cod_grup_activitate || data.cod_grup_activitate || "";
-              const activitateBaza = data.Activitate_preferata || data.activitate_preferata || "ALL";
+              // Preluăm direct denumirile text venite din scenariu
+              const denumireGrupBaza = data.Denumire_grup_activitate || data.denumire_grup_activitate || "";
+              const activitateBaza = data.Activitate_preferata || data.activitate_preferata || "Toate activitățile din grupa aleasă";
 
-              dbProfileData.grup = codGrupBaza;
+              dbProfileData.grup = denumireGrupBaza;
               dbProfileData.activitate = activitateBaza;
               dbProfileData.judet = judetReal;
               dbProfileData.zona = zonaPreferataReal;
 
-              const numeGrup = data.Denumire_grup_activitate || data.denumire_grup_activitate || (codGrupBaza ? NUME_GRUPE[codGrupBaza] : "-");
-              let displayAct = (activitateBaza === "ALL" || !activitateBaza) ? "Toate activitățile din grupa aleasă" : activitateBaza;
+              let displayAct = (!activitateBaza || activitateBaza === "ALL") ? "Toate activitățile din grupa aleasă" : activitateBaza;
 
               // Afișăm în cardurile de sus (antet)
-              document.getElementById("grupActivitateValue").textContent = numeGrup;
+              document.getElementById("grupActivitateValue").textContent = denumireGrupBaza || "-";
               document.getElementById("activitatePreferataValue").textContent = displayAct;
 
-              // SETĂM EXPLICIT CELE DOUĂ FERESTRE DE JOS (FORMULAR EDITARE) CU VALORILE DIN BAZĂ
-              if (codGrupBaza) {
-                document.getElementById("grupActivitate").value = codGrupBaza;
-                updateActivitiesDropdown(codGrupBaza, activitateBaza);
+              // SETĂM EXPLICIT CELE DOUĂ FERESTRE DE JOS CU DENUMIRILE TEXT DIN BAZĂ
+              if (denumireGrupBaza) {
+                document.getElementById("grupActivitate").value = denumireGrupBaza;
+                updateActivitiesDropdown(denumireGrupBaza, activitateBaza);
               } else {
                 document.getElementById("grupActivitate").value = "";
                 updateActivitiesDropdown("", "");
@@ -746,20 +735,19 @@
       }
     }
 
-    function updateActivitiesDropdown(codGrup, selectedAct = null) {
+    function updateActivitiesDropdown(denumireGrup, selectedAct = null) {
       const actSelect = document.getElementById("activitatePreferata");
       actSelect.innerHTML = "";
 
-      const lista = ACTIVITATI_PE_GRUPE[codGrup] || ["Toate activitățile din grupa aleasă"];
+      const lista = ACTIVITATI_PE_GRUPE[denumireGrup] || ["Toate activitățile din grupa aleasă"];
       
       lista.forEach(act => {
         const opt = document.createElement("option");
-        const val = (act === "Toate activitățile din grupa aleasă") ? "ALL" : act;
-        opt.value = val;
+        opt.value = act;
         opt.textContent = act;
         
-        // Verificăm potrivirea exactă pentru a selecta opțiunea corectă în fereastra de jos
-        if (selectedAct && (val === selectedAct || act === selectedAct)) {
+        // Verificăm potrivirea exactă a textului pentru a selecta opțiunea corectă în fereastra de jos
+        if (selectedAct && (act === selectedAct || (selectedAct === "ALL" && act === "Toate activitățile din grupa aleasă"))) {
           opt.selected = true;
         }
         actSelect.appendChild(opt);
@@ -889,12 +877,11 @@
     const saveButton = document.getElementById("savePreferences");
 
     editButton.addEventListener("click", () => {
-      // Când se apasă butonul de editare, ne asigurăm că ferestrele de activități au valorile curente din memorie
       if (dbProfileData.judet) document.getElementById("judet").value = dbProfileData.judet;
       if (dbProfileData.zona) document.getElementById("zonaPreferata").value = dbProfileData.zona;
 
-      const targetGrup = dbProfileData.grup || "GA001";
-      const targetAct = dbProfileData.activitate || "ALL";
+      const targetGrup = dbProfileData.grup || "Agricultură, horticultură și comerț agricol";
+      const targetAct = dbProfileData.activitate || "Toate activitățile din grupa aleasă";
 
       document.getElementById("grupActivitate").value = targetGrup;
       updateActivitiesDropdown(targetGrup, targetAct);
@@ -915,19 +902,18 @@
       const judetVal = stripDiacritics(judetRaw);
       const zonaPreferataVal = matchLocalitateAutentica(judetVal, zonaRaw);
 
-      const codGrupVal = document.getElementById("grupActivitate").value;
-      const numeGrupVal = NUME_GRUPE[codGrupVal] || codGrupVal;
+      const denumireGrupVal = document.getElementById("grupActivitate").value;
       const activitatePreferataVal = document.getElementById("activitatePreferata").value;
 
-      dbProfileData.grup = codGrupVal;
+      dbProfileData.grup = denumireGrupVal;
       dbProfileData.activitate = activitatePreferataVal;
       dbProfileData.judet = judetVal;
       dbProfileData.zona = zonaPreferataVal;
 
       document.getElementById("judetValue").textContent = judetVal;
       document.getElementById("zonaPreferataValue").textContent = zonaPreferataVal;
-      document.getElementById("grupActivitateValue").textContent = numeGrupVal;
-      document.getElementById("activitatePreferataValue").textContent = activitatePreferataVal === "ALL" ? "Toate activitățile din grupa aleasă" : activitatePreferataVal;
+      document.getElementById("grupActivitateValue").textContent = denumireGrupVal;
+      document.getElementById("activitatePreferataValue").textContent = activitatePreferataVal;
 
       editArea.classList.add("hidden");
       editButton.classList.remove("hidden");
@@ -936,8 +922,7 @@
         ID_zilier: currentUserSession ? currentUserSession.id : null,
         Judet: judetVal,
         Zona_preferata: zonaPreferataVal,
-        Cod_grup_activitate: codGrupVal,
-        Denumire_grup_activitate: numeGrupVal,
+        Denumire_grup_activitate: denumireGrupVal,
         Activitate_preferata: activitatePreferataVal
       };
 
