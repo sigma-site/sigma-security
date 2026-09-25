@@ -858,7 +858,7 @@
         ID_zilier: currentUserSession ? currentUserSession.id : null,
         Data_inceput_saptamana: weekStart.toISOString().split('T')[0],
         Luni:     selectedIndices.includes(0) ? `DA ${dateSaptamana[0]}` : `NU ${dateSaptamana[0]}`,
-        Marti:    selectedIndices.includes(1) ? `DA ${dateSaptamana[1]}` : `NU ${dateSaptamana[1]}`,
+        Marti:    selectedIndices.includes(1) ? `DA ${dateSaptamana[1]}` : `NU ${dateSapptamana ? dateSaptamana[1] : dateSaptamana[1]}`,
         Miercuri: selectedIndices.includes(2) ? `DA ${dateSaptamana[2]}` : `NU ${dateSaptamana[2]}`,
         Joi:      selectedIndices.includes(3) ? `DA ${dateSaptamana[3]}` : `NU ${dateSaptamana[3]}`,
         Vineri:   selectedIndices.includes(4) ? `DA ${dateSaptamana[4]}` : `NU ${dateSaptamana[4]}`,
