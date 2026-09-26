@@ -926,20 +926,14 @@
         Activitate_preferata: activitatePreferataVal
       };
 
-            clearTimeout(window._saveAvailabilityTimeout);
-      window._saveAvailabilityTimeout = setTimeout(async () => {
-        try {
-          if (!WEBHOOK_SALVEAZA_DISPONIBILITATE.includes("SOT_AICI")) {
-            await fetch(WEBHOOK_SALVEAZA_DISPONIBILITATE, {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(availabilityPayload)
-            });
-          }
-        } catch (err) {
-          console.error("Eroare la salvarea disponibilității:", err);
+      try {
+        if (!WEBHOOK_SALVEAZA_PREFERINTE.includes("SOT_AICI")) {
+          await fetch(WEBHOOK_SALVEAZA_PREFERINTE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(preferencesPayload)
+          });
         }
-      }, 800);
       } catch (err) {
         console.error("Eroare la salvarea preferințelor:", err);
       }
