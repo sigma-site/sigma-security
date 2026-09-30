@@ -118,9 +118,11 @@
 
         <section class="bg-white p-5 sm:p-7 rounded-2xl shadow-sm border border-slate-200">
 
+          <div id="backButtonSlot"></div>
+
           <div class="flex items-center justify-between mb-1">
 
-            <h1 class="text-2xl font-black text-slate-900 tracking-tight">
+            <h1 id="pageTitle" class="text-2xl font-black text-slate-900 tracking-tight">
               Date pentru statul de plată
             </h1>
 
@@ -131,7 +133,7 @@
 
           </div>
 
-          <p class="text-xs font-medium text-slate-500 mb-6 leading-relaxed">
+          <p id="mesajMotivare" class="text-xs font-medium text-slate-500 mb-6 leading-relaxed">
             Ai fost selectat pentru o lucrare! Pentru primirea ofertei de muncă,
             fotografiază actul de identitate de pe care au fost preluate datele de mai jos.
           </p>
@@ -211,7 +213,7 @@
           <!-- BLOC FOTOGRAFIERE ACT -->
           <!-- ========================================= -->
 
-          <div class="p-5 border-2 border-dashed border-amber-300 rounded-2xl bg-amber-50/40 space-y-4">
+          <div id="blocFotografiere" class="p-5 border-2 border-dashed border-amber-300 rounded-2xl bg-amber-50/40 space-y-4">
 
             <div>
 
@@ -964,7 +966,67 @@
 
       if (!currentZilierId) {
 
-        currentZilierId = "Z100020";
+        document.getElementById("loadingBadge").classList.add("hidden");
+
+        alert("Link invalid sau expirat. Te rugăm să accesezi pagina din contul tău.");
+
+        return;
+
+      }
+
+
+      /*
+       * Text și buton de revenire, în funcție de sursa din care
+       * a fost lansată pagina (echipa sau job). Dacă parametrul
+       * lipsește sau are altă valoare, rămâne varianta implicită.
+       */
+
+      const sursa =
+        urlParams.get("sursa");
+
+      const texteSursa = {
+
+        job: {
+          titlu: "Date pentru statul de plată",
+          mesaj: "Ai fost selectat pentru o lucrare! Pentru primirea ofertei de muncă, " +
+                 "fotografiază actul de identitate de pe care au fost preluate datele de mai jos."
+        },
+
+        echipa: {
+          titlu: "Date pentru activarea echipei",
+          mesaj: "Pentru a putea forma o echipă, confirmă-ți identitatea " +
+                 "fotografiind actul de identitate de mai jos."
+        },
+
+        default: {
+          titlu: "Verificare identitate",
+          mesaj: "Pentru a fi luat/luată în calcul la selecțiile viitoare, " +
+                 "confirmă-ți identitatea fotografiind actul de identitate de mai jos."
+        }
+
+      };
+
+      const t =
+        texteSursa[sursa] || texteSursa.default;
+
+      document.getElementById("pageTitle").textContent = t.titlu;
+
+      document.querySelector("title").textContent = t.titlu + " - STRICTZILIER.ro";
+
+      document.getElementById("mesajMotivare").textContent = t.mesaj;
+
+      if (sursa === "echipa") {
+
+        const backLink = document.createElement("a");
+
+        backLink.href = "https://sigmasecurity.ro/strictzilier/profil-zilier.html";
+
+        backLink.textContent = "← Înapoi la profil";
+
+        backLink.className =
+          "text-xs font-bold text-blue-700 hover:underline mb-4 inline-block";
+
+        document.getElementById("backButtonSlot").appendChild(backLink);
 
       }
 
@@ -1050,6 +1112,30 @@
 
       document.getElementById("displaySerieNumar").textContent =
         d.Serie_si_numar || "-";
+
+
+      /*
+       * Dacă identitatea a fost deja confirmată (nivel 3), nu mai
+       * cerem o nouă fotografie.
+       */
+
+      if (String(d.Nivel_cont) === "3") {
+
+        document.getElementById("blocFotografiere").classList.add("hidden");
+
+        const successBox = document.getElementById("success");
+
+        successBox.classList.remove("hidden");
+
+        successBox.classList.add("bg-emerald-50", "border", "border-emerald-300", "text-emerald-800");
+
+        document.getElementById("successTitle").textContent =
+          "✓ Ești deja verificat";
+
+        document.getElementById("successMessage").textContent =
+          "Identitatea ta a fost deja confirmată. Nu mai este nevoie de o nouă fotografie.";
+
+      }
 
     }
 
