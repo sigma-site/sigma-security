@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Calitate OCR - STRICTZILIER.ro</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-100 min-h-screen flex items-center justify-center p-4 font-sans">
+
+  <div class="max-w-md w-full bg-white p-6 rounded-2xl shadow-lg border border-slate-200 space-y-4">
+
+    <div class="border-b border-slate-100 pb-3">
+      <h1 class="text-lg font-black text-slate-900">Test Calitate OCR</h1>
+      <p class="text-xs text-slate-500 font-medium mt-0.5">
+        Trimite o poză de act direct către scenariul de test, fără să treacă prin
+        ZILIERI, Drive sau vreun ID_zilier. Util doar pentru compararea rapidă a
+        rezultatelor OCR pe poze diferite.
+      </p>
+    </div>
+
+    <div>
+      <label for="webhookUrl" class="block text-xs font-bold text-slate-700 mb-1">URL Webhook (Test OCR)</label>
+      <input type="text" id="webhookUrl" placeholder="https://hook.eu1.make.com/..."
+             class="w-full h-10 px-3 bg-white border border-slate-300 rounded-lg text-xs font-bold focus:ring-2 focus:ring-amber-500 outline-none">
+    </div>
+
+    <div>
+      <label for="fotoInput" class="block text-xs font-bold text-slate-700 mb-1">Poză act de identitate</label>
+      <input type="file" id="fotoInput" accept="image/*"
+             class="w-full text-xs file:mr-3 file:py-2 file:px-3 file:rounded-lg file:border-0 file:bg-amber-500 file:text-white file:font-bold file:text-xs">
+    </div>
+
+    <button id="btnTrimite" type="button" onclick="trimiteFoto()"
+            class="w-full h-11 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-xl transition shadow-sm">
+      TRIMITE SPRE OCR
+    </button>
+
+    <div id="statusTest" class="hidden p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 leading-relaxed whitespace-pre-wrap break-words"></div>
+
+  </div>
+
+  <script>
+    async function trimiteFoto() {
+      const webhookUrl = document.getElementById("webhookUrl").value.trim();
+      const fotoInput = document.getElementById("fotoInput");
+      const statusDiv = document.getElementById("statusTest");
+      const btn = document.getElementById("btnTrimite");
+
+      if (!webhookUrl) {
+        alert("Pune URL-ul webhook-ului de test!");
+        return;
+      }
+
+      if (!fotoInput.files || fotoInput.files.length === 0) {
+        alert("Alege o poză!");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "SE PROCESEAZĂ...";
+      statusDiv.classList.remove("hidden");
+      statusDiv.textContent = "Se trimite poza și se așteaptă răspunsul OCR...";
+
+      const formData = new FormData();
+      formData.append("foto_ci", fotoInput.files[0], fotoInput.files[0].name);
+
+      try {
+        const res = await fetch(webhookUrl, {
+          method: "POST",
+          body: formData
+        });
+
+        const text = await res.text();
+
+        try {
+          const json = JSON.parse(text);
+          statusDiv.textContent = JSON.stringify(json, null, 2);
+        } catch (e) {
+          statusDiv.textContent = text;
+        }
+
+      } catch (err) {
+        statusDiv.textContent = "Eroare la trimitere: " + err.message;
+      } finally {
+        btn.disabled = false;
+        btn.textContent = "TRIMITE SPRE OCR";
+      }
+    }
+  </script>
+
+</body>
+</html>
